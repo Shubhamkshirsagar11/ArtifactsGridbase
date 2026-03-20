@@ -7,6 +7,7 @@ import TEAdminSettings from './components/te-admin-settings'
 import TECalculator from './components/te-calculator'
 import WorkScheduleSplit from './components/work-schedule-split-ot'
 import LUMSummary from './components/lumpsum-pnl-prototype'
+import UnitPriceCalculator from './components/unitprice-pnl-prototype'
 import './App.css'
 
 const PAGES = [
@@ -18,10 +19,11 @@ const PAGES = [
   { key: 'te-calculator', label: 'T&E Calculator', component: TECalculator },
   { key: 'work-schedule', label: 'Work Schedule', component: WorkScheduleSplit },
   {key: 'lum-summary', label: 'LUM Summary', component: LUMSummary},
+  {key: 'unit-price-calculator', label: 'Unit Price Calculator', component: UnitPriceCalculator},
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('lum-summary')
+  const [activePage, setActivePage] = useState('bid-estimates')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
