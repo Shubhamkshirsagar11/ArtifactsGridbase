@@ -9,6 +9,7 @@ import WorkScheduleSplit from './components/work-schedule-split-ot'
 import LUMSummary from './components/lumpsum-pnl-prototype'
 import UnitPriceCalculator from './components/unitprice-pnl-prototype'
 import './App.css'
+import SubsidiaryAccessManager from './components/subsidiary-access-manager-prototype'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -20,10 +21,11 @@ const PAGES = [
   { key: 'work-schedule', label: 'Work Schedule', component: WorkScheduleSplit },
   {key: 'lum-summary', label: 'LUM Summary', component: LUMSummary},
   {key: 'unit-price-calculator', label: 'Unit Price Calculator', component: UnitPriceCalculator},
+  {key: 'subsidiary-access-manager', label: 'Subsidiary Access Manager', component: SubsidiaryAccessManager},
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('bid-estimates')
+  const [activePage, setActivePage] = useState('subsidiary-access-manager')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
