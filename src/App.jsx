@@ -10,6 +10,9 @@ import LUMSummary from './components/lumpsum-pnl-prototype'
 import UnitPriceCalculator from './components/unitprice-pnl-prototype'
 import './App.css'
 import SubsidiaryAccessManager from './components/subsidiary-access-manager-prototype'
+import GridbaseSidebar from './components/GridbaseSidebar'
+import Settings from './components/settings'
+import UnionManagement from './components/Unions_Agreements_Detail'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -22,10 +25,14 @@ const PAGES = [
   {key: 'lum-summary', label: 'LUM Summary', component: LUMSummary},
   {key: 'unit-price-calculator', label: 'Unit Price Calculator', component: UnitPriceCalculator},
   {key: 'subsidiary-access-manager', label: 'Subsidiary Access Manager', component: SubsidiaryAccessManager},
+  {key: 'gridbase-sidebar', label: 'Gridbase Sidebar', component: GridbaseSidebar},
+  {key: 'settings', label: 'Settings', component: Settings},
+  {key: 'union-management', label: 'Union Management', component: UnionManagement},
+
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('subsidiary-access-manager')
+  const [activePage, setActivePage] = useState('union-management')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
