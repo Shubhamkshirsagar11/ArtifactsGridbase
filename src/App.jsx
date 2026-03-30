@@ -13,6 +13,10 @@ import SubsidiaryAccessManager from './components/subsidiary-access-manager-prot
 import GridbaseSidebar from './components/GridbaseSidebar'
 import Settings from './components/settings'
 import UnionManagement from './components/Unions_Agreements_Detail'
+import ProjectLanding from './components/projects-landing'
+import WorkOrder from './components/work-order-detail-a2260d99.jsx'
+import ContractSetupWizard from './components/contract-setup-wizard'
+
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -28,11 +32,13 @@ const PAGES = [
   {key: 'gridbase-sidebar', label: 'Gridbase Sidebar', component: GridbaseSidebar},
   {key: 'settings', label: 'Settings', component: Settings},
   {key: 'union-management', label: 'Union Management', component: UnionManagement},
-
+  {key: 'project-landing' , label: 'Project Landing', component: ProjectLanding},
+  {key: 'work-order' , label: 'Work Order', component: WorkOrder},
+  {key: 'contract-setup-wizard', label: 'Contract Setup Wizard', component: ContractSetupWizard}
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('union-management')
+  const [activePage, setActivePage] = useState('work-order')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
