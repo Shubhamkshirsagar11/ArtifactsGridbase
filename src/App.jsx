@@ -16,7 +16,8 @@ import UnionManagement from './components/Unions_Agreements_Detail'
 import ProjectLanding from './components/projects-landing'
 import WorkOrder from './components/work-order-detail-a2260d99.jsx'
 import ContractSetupWizard from './components/contract-setup-wizard'
-
+import OrgSwitcher from './components/org-switcher'
+import JobSetupWizard from './components/job-setup-wizard'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -34,11 +35,13 @@ const PAGES = [
   {key: 'union-management', label: 'Union Management', component: UnionManagement},
   {key: 'project-landing' , label: 'Project Landing', component: ProjectLanding},
   {key: 'work-order' , label: 'Work Order', component: WorkOrder},
-  {key: 'contract-setup-wizard', label: 'Contract Setup Wizard', component: ContractSetupWizard}
+  {key: 'contract-setup-wizard', label: 'Contract Setup Wizard', component: ContractSetupWizard},
+  {key: 'org-switcher', label: 'Org Switcher', component: OrgSwitcher},
+  {key: 'job-setup-wizard', label: 'Job Setup Wizard', component: JobSetupWizard}
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('work-order')
+  const [activePage, setActivePage] = useState('job-setup-wizard')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
