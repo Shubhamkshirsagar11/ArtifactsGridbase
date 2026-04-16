@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState, useRef, useEffect, Fragment } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   ChevronRight,
   ChevronLeft,
@@ -608,11 +607,15 @@ function RadioGroup({ value, onChange, options }: any) {
 //  QTY STEPPER (touch-friendly for iPad/field use)
 // ═══════════════════════════════════════════════════════════════
 
-// Global CSS injection — guaranteed to hide native number input spin buttons regardless of Tailwind JIT
-const NUMBER_INPUT_STYLE_ID = "gridbase-no-spinners";
-if (typeof document !== "undefined" && !document.getElementById(NUMBER_INPUT_STYLE_ID)) {
-  const style = document.createElement("style");
-  style.id = NUMBER_INPUT_STYLE_ID;
+// Global CSS injection — number-input spinners + CU table row dividers (idempotent: always overwrites)
+const GRIDBASE_STYLE_ID = "gridbase-global-styles";
+if (typeof document !== "undefined") {
+  let style = document.getElementById(GRIDBASE_STYLE_ID) as HTMLStyleElement | null;
+  if (!style) {
+    style = document.createElement("style");
+    style.id = GRIDBASE_STYLE_ID;
+    document.head.appendChild(style);
+  }
   style.textContent = `
     input[type="number"].no-spin::-webkit-inner-spin-button,
     input[type="number"].no-spin::-webkit-outer-spin-button {
@@ -623,8 +626,28 @@ if (typeof document !== "undefined" && !document.getElementById(NUMBER_INPUT_STY
       -moz-appearance: textfield;
       appearance: textfield;
     }
+    /* CU table — header bottom stroke, footer top stroke, row dividers; all applied to <th>/<td> since <tr> borders don't render with border-collapse:separate */
+    table.cu-table > thead > tr > th {
+      border-bottom: 1px solid #E5E7EB;
+    }
+    table.cu-table > tfoot > tr > td {
+      border-top: 1px solid #E5E7EB;
+    }
+    tr.cu-row-divider > td {
+      border-bottom: 1px solid #E5E7EB;
+    }
+    tr.cu-row-divider:last-child > td {
+      border-bottom: 0;
+    }
+    /* Child cavity row — top + bottom borders on its cell */
+    tr.cu-cavity-row > td {
+      border-top: 1px solid #E5E7EB;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    tr.cu-cavity-row:last-child > td {
+      border-bottom: 0;
+    }
   `;
-  document.head.appendChild(style);
 }
 
 function QtyStepper({ value, onChange, min = 0, placeholder = "0" }: { value: string; onChange: (v: string) => void; min?: number; placeholder?: string }) {
@@ -1777,11 +1800,11 @@ function JobDetail({ job, onBack, onViewWO }: any) {
   const [newPersonFirstName, setNewPersonFirstName] = useState("");
   const [newPersonLastName, setNewPersonLastName] = useState("");
   const MOCK_AVAILABLE_USERS = [
-    { name: "Alex Johnson", defaultRole: "Lineman", initials: "AJ" },
-    { name: "Priya Patel", defaultRole: "Operator", initials: "PP" },
-    { name: "Tomás Vega", defaultRole: "Groundman", initials: "TV" },
-    { name: "Rachel Kim", defaultRole: "Foreman", initials: "RK" },
-    { name: "Jackson Wells", defaultRole: "Lineman", initials: "JW" },
+    { name: "Alex Johnson", defaultRole: "Field", initials: "AJ" },
+    { name: "Priya Patel", defaultRole: "Field", initials: "PP" },
+    { name: "Tomás Vega", defaultRole: "Field", initials: "TV" },
+    { name: "Rachel Kim", defaultRole: "Field", initials: "RK" },
+    { name: "Jackson Wells", defaultRole: "Field", initials: "JW" },
   ];
   const [showAddEquipmentModal, setShowAddEquipmentModal] = useState(false);
   const [newAssetId, setNewAssetId] = useState("");
@@ -2226,7 +2249,7 @@ function JobDetail({ job, onBack, onViewWO }: any) {
                 {/* Solid primary Add button */}
                 <button
                   onClick={() => { setWoForm({ ...EMPTY_WO_FORM }); setShowAddWO(true); }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                  className="bg-orange-500 hover:bg-orange-600 text-white shadow-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
                 >
                   <Plus size={16} /> Add Work Order
                 </button>
@@ -2234,20 +2257,20 @@ function JobDetail({ job, onBack, onViewWO }: any) {
             </div>
 
             {/* WO Table */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-visible">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-200">
-                    {isColVisible("id") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">WO #</th>}
-                    {isColVisible("station") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Station / Location</th>}
-                    {isColVisible("region") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Region</th>}
-                    {isColVisible("serviceCenter") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Service Center</th>}
-                    {isColVisible("priority") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Priority</th>}
-                    {isColVisible("status") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Status</th>}
-                    {isColVisible("crew") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Crew</th>}
-                    {isColVisible("cus") && <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5">CUs</th>}
-                    {isColVisible("risDate") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">RIS Date</th>}
-                    {isColVisible("activity") && <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5">Activity</th>}
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    {isColVisible("id") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">WO #</th>}
+                    {isColVisible("station") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Station / Location</th>}
+                    {isColVisible("region") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Region</th>}
+                    {isColVisible("serviceCenter") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Service Center</th>}
+                    {isColVisible("priority") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Priority</th>}
+                    {isColVisible("status") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Status</th>}
+                    {isColVisible("crew") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Crew</th>}
+                    {isColVisible("cus") && <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">CUs</th>}
+                    {isColVisible("risDate") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">RIS Date</th>}
+                    {isColVisible("activity") && <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Activity</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -3030,21 +3053,21 @@ function JobDetail({ job, onBack, onViewWO }: any) {
           </div>
 
           {/* Production Ledger Table — full audit metadata per row */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-visible">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
             <table className="w-full" style={{ borderCollapse: "separate", borderSpacing: 0 }}>
               <thead>
-                <tr className="border-b border-gray-200 bg-gray-50/50">
-                  {visibleProductionCols.includes("logId") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 90 }}>Log ID</th>}
-                  {visibleProductionCols.includes("logDate") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 110 }}>Log Date</th>}
-                  {visibleProductionCols.includes("workOrder") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 110 }}>Work Order</th>}
-                  {visibleProductionCols.includes("crew") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 150 }}>Crew</th>}
-                  {visibleProductionCols.includes("cuCode") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 90 }}>CU Code</th>}
-                  {visibleProductionCols.includes("description") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Description</th>}
-                  {visibleProductionCols.includes("function") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 90 }}>Function</th>}
-                  {visibleProductionCols.includes("unit") && <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 60 }}>Unit</th>}
-                  {visibleProductionCols.includes("qty") && <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 70 }}>Qty</th>}
-                  {visibleProductionCols.includes("unitPrice") && <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 100 }}>Unit Price</th>}
-                  {visibleProductionCols.includes("earned") && <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 110 }}>Earned $</th>}
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  {visibleProductionCols.includes("logId") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 90 }}>Log ID</th>}
+                  {visibleProductionCols.includes("logDate") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 110 }}>Log Date</th>}
+                  {visibleProductionCols.includes("workOrder") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 110 }}>Work Order</th>}
+                  {visibleProductionCols.includes("crew") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 150 }}>Crew</th>}
+                  {visibleProductionCols.includes("cuCode") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 90 }}>CU Code</th>}
+                  {visibleProductionCols.includes("description") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Description</th>}
+                  {visibleProductionCols.includes("function") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 90 }}>Function</th>}
+                  {visibleProductionCols.includes("unit") && <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 60 }}>Unit</th>}
+                  {visibleProductionCols.includes("qty") && <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 70 }}>Qty</th>}
+                  {visibleProductionCols.includes("unitPrice") && <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 100 }}>Unit Price</th>}
+                  {visibleProductionCols.includes("earned") && <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50" style={{ width: 110 }}>Earned $</th>}
                 </tr>
               </thead>
               <tbody>
@@ -3143,7 +3166,7 @@ function JobDetail({ job, onBack, onViewWO }: any) {
                     const isCollapsed = collapsedProductionGroups.has(group.name);
                     const groupTitle = `${productionGroupLabel[productionGroupBy]}: ${group.name}`;
                     return (
-                      <Fragment key={group.name}>
+                      <React.Fragment key={group.name}>
                         <tr
                           onClick={() => toggleProductionGroup(group.name)}
                           className="bg-gray-50 border-y border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors"
@@ -3164,7 +3187,7 @@ function JobDetail({ job, onBack, onViewWO }: any) {
                           </td>
                         </tr>
                         {!isCollapsed && group.items.map(renderProductionRow)}
-                      </Fragment>
+                      </React.Fragment>
                     );
                   });
                 })()}
@@ -3525,30 +3548,102 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
   const [woTab, setWoTab] = useState("units");
   const [cuRows, setCuRows] = useState(() => {
     const planned = (WO_CU_WORKSHEETS[wo.id] || []).map((r: any, i: number) => {
-      // Mock: simulate ~25% of completed qty was logged this week; seed a demo note + redline on first two rows with progress
-      const weekQty = r.completedQty > 0 ? Math.max(0, Math.min(r.completedQty, Math.round(r.completedQty * 0.25) || (i % 3 === 0 ? 1 : 0))) : 0;
+      // Seed one log event per row for any pre-existing completed qty (represents prior logging)
+      // ~25% of the qty is flagged as "this week" for mock demo; the rest is backdated
+      const thisWeekPortion = r.completedQty > 0 ? Math.max(0, Math.min(r.completedQty, Math.round(r.completedQty * 0.25) || (i % 3 === 0 ? 1 : 0))) : 0;
+      const priorPortion = r.completedQty - thisWeekPortion;
       const seedNote = i === 2 ? "Hit solid rock at 4 ft during excavation. Switched to jackhammer." : "";
       const seedRedline = i === 5 ? "Utility request — transformer upsize required" : "";
+      const events: any[] = [];
+      const now = new Date();
+      if (priorPortion > 0) {
+        // Older event (2 weeks ago)
+        const older = new Date(now); older.setDate(older.getDate() - 14);
+        events.push({
+          id: `evt-${i}-prior`,
+          timestamp: older.toISOString(),
+          loggedBy: "Carlos Rivera (Foreman)",
+          qty: priorPortion,
+          note: seedNote || "",
+        });
+      }
+      if (thisWeekPortion > 0) {
+        // Recent event (2 days ago)
+        const recent = new Date(now); recent.setDate(recent.getDate() - 2);
+        events.push({
+          id: `evt-${i}-week`,
+          timestamp: recent.toISOString(),
+          loggedBy: "Carlos Rivera (Foreman)",
+          qty: thisWeekPortion,
+          note: priorPortion === 0 ? (seedNote || "") : "",
+        });
+      }
       return {
         cuCode: r.cuCode,
         function: r.function,
         originalPlannedQty: r.originalPlannedQty,
         plannedQty: r.plannedQty,
-        completedQty: r.completedQty,
-        lastCompletedDate: r.lastCompletedDate,
-        prevCompletedQty: r.completedQty,
         id: `plan-${i}`,
         source: "planned" as const,
         redLineNote: seedRedline || (r.originalPlannedQty !== r.plannedQty ? "Field adjustment from paper WO" : ""),
         redLineStatus: r.originalPlannedQty !== r.plannedQty ? "approved" : null,
         group: r.group || null,
-        notes: r.notes,
-        weekQty,
-        fieldNote: seedNote,
+        events,
       };
     });
     return planned;
   });
+  // Tracks which parent rows have their execution history expanded; empty set = all collapsed by default
+  const [expandedCuRows, setExpandedCuRows] = useState<Set<string>>(new Set());
+  const toggleCuRowCollapse = (rowId: string) => {
+    setExpandedCuRows((prev) => {
+      const next = new Set(prev);
+      if (next.has(rowId)) next.delete(rowId);
+      else next.add(rowId);
+      return next;
+    });
+  };
+  // Derived — sum event qty
+  const getRowTotalQty = (row: any): number =>
+    (row.events || []).reduce((s: number, e: any) => s + (e.qty || 0), 0);
+  const getRowWeekQty = (row: any): number => {
+    const now = new Date();
+    const day = now.getDay();
+    const diffToMon = day === 0 ? -6 : 1 - day;
+    const weekStart = new Date(now);
+    weekStart.setDate(now.getDate() + diffToMon);
+    weekStart.setHours(0, 0, 0, 0);
+    const weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 7);
+    return (row.events || [])
+      .filter((e: any) => {
+        const d = new Date(e.timestamp);
+        return d >= weekStart && d < weekEnd;
+      })
+      .reduce((s: number, e: any) => s + (e.qty || 0), 0);
+  };
+  // Event mutators — append-only pattern
+  const appendEvent = (rowId: string, qty: number, note: string = "") => {
+    const evt = {
+      id: `evt-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      timestamp: new Date().toISOString(),
+      loggedBy: `${MOCK_AUTH_USER.fullName} (${MOCK_AUTH_USER.role})`,
+      qty,
+      note,
+    };
+    setCuRows((prev: any) => prev.map((r: any) => r.id === rowId ? { ...r, events: [...(r.events || []), evt] } : r));
+    return evt;
+  };
+  const deleteEvent = (rowId: string, eventId: string) => {
+    setCuRows((prev: any) => prev.map((r: any) =>
+      r.id === rowId ? { ...r, events: (r.events || []).filter((e: any) => e.id !== eventId) } : r
+    ));
+  };
+  const updateEventNote = (rowId: string, eventId: string, note: string) => {
+    setCuRows((prev: any) => prev.map((r: any) =>
+      r.id === rowId ? { ...r, events: (r.events || []).map((e: any) => e.id === eventId ? { ...e, note } : e) } : r
+    ));
+  };
   const [showAddCU, setShowAddCU] = useState(false);
   const [cuSearch, setCuSearch] = useState("");
   const [stagedCUs, setStagedCUs] = useState<any[]>([]);
@@ -3622,6 +3717,20 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
   const [redlineDeviationType, setRedlineDeviationType] = useState<"net_new" | "qty_change">("qty_change");
   const [noteModalRow, setNoteModalRow] = useState<any>(null);
   const [noteText, setNoteText] = useState("");
+  const [noteEventTarget, setNoteEventTarget] = useState<{ rowId: string; eventId: string } | null>(null);
+  const [deleteEventConfirm, setDeleteEventConfirm] = useState<{ rowId: string; eventId: string; qty: number; cuCode: string } | null>(null);
+  const openEventNoteModal = (rowId: string, eventId: string) => {
+    const row = cuRows.find((r: any) => r.id === rowId);
+    const evt = row?.events?.find((e: any) => e.id === eventId);
+    setNoteEventTarget({ rowId, eventId });
+    setNoteText(evt?.note || "");
+  };
+  const handleEventNoteSave = () => {
+    if (!noteEventTarget) return;
+    updateEventNote(noteEventTarget.rowId, noteEventTarget.eventId, noteText.trim());
+    setNoteEventTarget(null);
+    setNoteText("");
+  };
   const [addCUIntent, setAddCUIntent] = useState<"planned" | "completed">("planned");
   const [addCUGroup, setAddCUGroup] = useState("");
   const [addCUPlannedQty, setAddCUPlannedQty] = useState("1");
@@ -3683,62 +3792,28 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
     return d >= weekStart && d < weekEnd;
   };
 
-  // Log Work save — handles both incremental "add" and absolute "edit" modes
+  // Log Work save — append-only: creates a new timestamped event on the parent row
   const handleLogWorkSave = () => {
     if (!logWorkRow) return;
     const qtyValue = parseInt(logWorkQty) || 0;
-    if (qtyValue < 0) return;
-    const today = new Date().toISOString().split("T")[0];
-    const todayInWeek = isInCurrentWeek(today);
-    const currentRow = cuRows.find((r: any) => r.id === logWorkRow.id) || logWorkRow;
-    const oldTotal = currentRow.completedQty;
-
-    // Compute new total based on mode
-    const newTotal = logWorkMode === "add" ? oldTotal + qtyValue : qtyValue;
-    const delta = newTotal - oldTotal;
-
-    // In "add" mode, zero-qty is a no-op
-    if (logWorkMode === "add" && qtyValue === 0) {
+    if (qtyValue <= 0) {
       setLogWorkRow(null); setLogWorkQty(""); setLogWorkDate("");
       return;
     }
 
-    setCuRows((prev: any) => prev.map((r: any) => {
-      if (r.id !== logWorkRow.id) return r;
-      const currentWeekQty = r.weekQty || 0;
-      // Only adjust weekQty if the log date (today) is in current week
-      const nextWeekQty = todayInWeek ? Math.max(0, currentWeekQty + delta) : currentWeekQty;
-      return {
-        ...r,
-        prevCompletedQty: r.completedQty,
-        completedQty: newTotal,
-        lastCompletedDate: today,
-        weekQty: nextWeekQty,
-      };
-    }));
+    appendEvent(logWorkRow.id, qtyValue);
 
-    // Append activity log entry
+    // Append to activity log
     const now = new Date();
     const timeStr = "Today, " + now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-    if (logWorkMode === "add") {
-      setActivityLog((prev: any) => [...prev, {
-        id: `act-${Date.now()}`,
-        time: timeStr,
-        type: "unit_add",
-        title: "Quantity Logged",
-        user: `${MOCK_AUTH_USER.fullName} (${MOCK_AUTH_USER.role})`,
-        detail: `${logWorkRow.cuCode} (+${qtyValue} unit${qtyValue !== 1 ? "s" : ""}). New total: ${newTotal}`,
-      }]);
-    } else if (delta !== 0) {
-      setActivityLog((prev: any) => [...prev, {
-        id: `act-${Date.now()}`,
-        time: timeStr,
-        type: "note",
-        title: "Total Qty Corrected",
-        user: `${MOCK_AUTH_USER.fullName} (${MOCK_AUTH_USER.role})`,
-        detail: `${logWorkRow.cuCode} total adjusted from ${oldTotal} to ${newTotal}`,
-      }]);
-    }
+    setActivityLog((prev: any) => [...prev, {
+      id: `act-${Date.now()}`,
+      time: timeStr,
+      type: "unit_add",
+      title: "Work Logged",
+      user: `${MOCK_AUTH_USER.fullName} (${MOCK_AUTH_USER.role})`,
+      detail: `${logWorkRow.cuCode} (+${qtyValue} unit${qtyValue !== 1 ? "s" : ""})`,
+    }]);
 
     setLogWorkRow(null);
     setLogWorkQty("");
@@ -3772,11 +3847,12 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
   };
 
   // Open Edit Total Qty modal (absolute — pre-filled with current total; used to correct typos)
+  // Legacy helper — kept for reference but no longer wired to any UI
   const openEditCompletion = (row: any) => {
     const currentRow = cuRows.find((r: any) => r.id === row.id) || row;
     setLogWorkRow(row);
-    setLogWorkQty(String(currentRow.completedQty));
-    setLogWorkDate(row.lastCompletedDate || new Date().toISOString().split("T")[0]);
+    setLogWorkQty(String(getRowTotalQty(currentRow)));
+    setLogWorkDate(new Date().toISOString().split("T")[0]);
     setLogWorkMode("edit");
   };
 
@@ -3796,7 +3872,7 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
     if (!redlineModalRow) return;
     const paperQty = redlineDeviationType === "net_new" ? 0 : (parseInt(redlinePaperQty) || 0);
     const currentRow = cuRows.find((r: any) => r.id === redlineModalRow.id) || redlineModalRow;
-    const variance = currentRow.completedQty - paperQty;
+    const variance = getRowTotalQty(currentRow) - paperQty;
     if (variance === 0) return; // No variance — nothing to redline
     if (!redlineReason.trim()) return;
 
@@ -3870,31 +3946,60 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
   };
 
   // Build row data from staged units
-  const buildRowsFromStaged = (reasonNote: string = "") => {
-    const today = new Date().toISOString().split("T")[0];
-    return stagedCUs.map((staged: any) => {
-      const plannedQty = staged.qty || 0;
-      const completedQty = parseInt(staged.completedQty) || 0;
-      const completedDate = completedQty > 0 ? (staged.completedDate || today) : null;
-      // Detect passive redline: completed > planned, or planned===0 with completed>0
-      const isRedline = (plannedQty === 0 && completedQty > 0) || (completedQty > plannedQty);
-      // If redline: effective planned = max(completed, planned) so the row makes sense
-      const effectivePlanned = isRedline ? Math.max(completedQty, plannedQty) : plannedQty;
-      return {
-        cuCode: staged.code,
-        function: staged.function,
-        originalPlannedQty: plannedQty,
-        plannedQty: effectivePlanned,
-        completedQty,
-        lastCompletedDate: completedDate,
-        prevCompletedQty: 0,
-        notes: "",
-        id: `added-${Date.now()}-${staged.stagedId}`,
-        source: "planned" as const,
-        redLineNote: isRedline ? reasonNote : "",
-        redLineStatus: isRedline ? "approved" : null,
-        group: staged.group || null,
-      };
+  // Commit staged CUs as events — reuses existing parent rows when possible (append-only)
+  const commitStagedAsEvents = (reasonNote: string = "") => {
+    const nowIso = new Date().toISOString();
+    setCuRows((prev: any) => {
+      const next = [...prev];
+      stagedCUs.forEach((staged: any) => {
+        const plannedQty = staged.qty || 0;
+        const completedQty = parseInt(staged.completedQty) || 0;
+        const isRedline = (plannedQty === 0 && completedQty > 0) || (completedQty > plannedQty);
+        const effectivePlanned = isRedline ? Math.max(completedQty, plannedQty) : plannedQty;
+
+        // Find existing parent with matching cuCode + function + group
+        const existingIdx = next.findIndex((r: any) =>
+          r.cuCode === staged.code &&
+          r.function === staged.function &&
+          (r.group || null) === (staged.group || null)
+        );
+
+        const newEvent = completedQty > 0 ? {
+          id: `evt-${Date.now()}-${staged.stagedId}`,
+          timestamp: nowIso,
+          loggedBy: `${MOCK_AUTH_USER.fullName} (${MOCK_AUTH_USER.role})`,
+          qty: completedQty,
+          note: "",
+        } : null;
+
+        if (existingIdx >= 0) {
+          // Append event to existing parent
+          const existing = next[existingIdx];
+          next[existingIdx] = {
+            ...existing,
+            events: newEvent ? [...(existing.events || []), newEvent] : (existing.events || []),
+            // Keep any prior redline intact; new staged redline replaces only if explicitly set
+            redLineNote: isRedline ? reasonNote : existing.redLineNote,
+            redLineStatus: isRedline ? "approved" : existing.redLineStatus,
+            plannedQty: isRedline ? effectivePlanned : existing.plannedQty,
+          };
+        } else {
+          // Create new parent row with the event
+          next.push({
+            cuCode: staged.code,
+            function: staged.function,
+            originalPlannedQty: plannedQty,
+            plannedQty: effectivePlanned,
+            id: `added-${Date.now()}-${staged.stagedId}`,
+            source: "planned" as const,
+            redLineNote: isRedline ? reasonNote : "",
+            redLineStatus: isRedline ? "approved" : null,
+            group: staged.group || null,
+            events: newEvent ? [newEvent] : [],
+          });
+        }
+      });
+      return next;
     });
   };
 
@@ -3913,17 +4018,15 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
       setPassiveRedlinePrompt({ pendingRows: [], reason: "" });
       return;
     }
-    // No redlines — commit directly
-    const newRows = buildRowsFromStaged();
-    setCuRows((prev: any) => [...prev, ...newRows]);
+    // No redlines — commit directly (append-only: each staged unit → new event on parent)
+    commitStagedAsEvents();
     setStagedCUs([]);
     setShowAddCU(false);
   };
 
   const confirmPassiveRedline = () => {
     if (!passiveRedlinePrompt || !passiveRedlinePrompt.reason.trim()) return;
-    const newRows = buildRowsFromStaged(passiveRedlinePrompt.reason.trim());
-    setCuRows((prev: any) => [...prev, ...newRows]);
+    commitStagedAsEvents(passiveRedlinePrompt.reason.trim());
     setStagedCUs([]);
     setShowAddCU(false);
     setPassiveRedlinePrompt(null);
@@ -3957,15 +4060,15 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
       ...row,
       unitPrice: price,
       plannedValue: price * row.plannedQty,
-      completedValue: price * row.completedQty,
+      completedValue: price * getRowTotalQty(row),
     };
   });
   const totalPlannedValue = costRows.reduce((s: number, r: any) => s + r.plannedValue, 0);
   const totalCompletedValue = costRows.reduce((s: number, r: any) => s + r.completedValue, 0);
   const totalPlannedQty = cuRows.reduce((s: number, r: any) => s + r.plannedQty, 0);
-  const totalCompletedQty = cuRows.reduce((s: number, r: any) => s + r.completedQty, 0);
-  const completedLines = cuRows.filter((r: any) => r.plannedQty > 0 && r.completedQty >= r.plannedQty).length;
-  const remainingLines = cuRows.filter((r: any) => r.plannedQty > 0 && r.completedQty < r.plannedQty).length;
+  const totalCompletedQty = cuRows.reduce((s: number, r: any) => s + getRowTotalQty(r), 0);
+  const completedLines = cuRows.filter((r: any) => r.plannedQty > 0 && getRowTotalQty(r) >= r.plannedQty).length;
+  const remainingLines = cuRows.filter((r: any) => r.plannedQty > 0 && getRowTotalQty(r) < r.plannedQty).length;
   const redLineCount = cuRows.filter((r: any) => r.originalPlannedQty !== r.plannedQty).length;
   const pctComplete = totalPlannedQty > 0 ? Math.round((totalCompletedQty / totalPlannedQty) * 100) : 0;
 
@@ -3979,156 +4082,217 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
       const matches = row.cuCode.toLowerCase().includes(q) || desc.toLowerCase().includes(q);
       if (!matches) return false;
     }
-    if (cuFilter === "complete") return row.plannedQty > 0 && row.completedQty >= row.plannedQty;
-    if (cuFilter === "remaining") return row.plannedQty === 0 || row.completedQty < row.plannedQty;
+    if (cuFilter === "complete") return row.plannedQty > 0 && getRowTotalQty(row) >= row.plannedQty;
+    if (cuFilter === "remaining") return row.plannedQty === 0 || getRowTotalQty(row) < row.plannedQty;
     if (cuFilter === "redline") return row.originalPlannedQty !== row.plannedQty;
     return true;
   });
 
-  // Render a single CU row (6 columns: CU Details, Function, Total Qty, Qty This Week, Redlines & Notes, Actions)
+  // Format an event timestamp for child row display
+  const formatEventTime = (iso: string) => {
+    const d = new Date(iso);
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) + ", " + d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  };
+
+  // Render a single CU parent row + optional child event rows (7 columns: chevron, CU, Function, Total Qty, Qty This Week, Redlines, Actions)
   const renderCURow = (row: any) => {
     const cu = CU_LIBRARY.find((c) => c.code === row.cuCode);
     const hasGroups = cuRows.some((r: any) => r.group);
     const isLocked = woStatus === "submitted";
+    const totalQty = getRowTotalQty(row);
+    const weekQty = getRowWeekQty(row);
+    const events = (row.events || []).slice().sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    const isExpanded = expandedCuRows.has(row.id);
+    const hasEvents = events.length > 0;
 
-    // Exception-based redline: triggered explicitly via Redline modal (presence of redLineNote)
+    // Exception-based redline
     const hasRedline = !!(row.redLineNote && row.redLineNote.length > 0);
-    const redlineDelta = hasRedline ? (row.completedQty - row.plannedQty) : 0;
-    const hasNote = !!(row.fieldNote && row.fieldNote.length > 0);
-    const weekQty = row.weekQty || 0;
+    const redlineDelta = hasRedline ? (totalQty - row.plannedQty) : 0;
 
-    // Truncate note for inline preview
-    const notePreview = hasNote ? (row.fieldNote.length > 22 ? `${row.fieldNote.substring(0, 22)}...` : row.fieldNote) : "";
+    // Stop propagation handler for actions cell so clicks don't collapse/expand the row
+    const stopPropagate = (e: any) => e.stopPropagation();
 
     return (
-      <tr key={row.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-        {/* CU Details */}
-        <td className="px-3 py-3" style={hasGroups ? { paddingLeft: 32 } : undefined}>
-          <span className="text-xs font-semibold font-mono text-gray-800">{row.cuCode}</span>
-          <div className="text-sm text-gray-500">{cu?.desc || row.cuCode}</div>
-        </td>
-        {/* Function */}
-        <td className="px-3 py-3">
-          <span className="text-[11px] font-medium px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">{row.function}</span>
-        </td>
-        {/* Total Qty */}
-        <td className="px-3 py-3 text-right tabular-nums">
-          <span className={`text-sm font-semibold ${row.completedQty > 0 ? "text-gray-900" : "text-gray-300"}`}>
-            {row.completedQty.toLocaleString()}
-          </span>
-        </td>
-        {/* Qty This Week — flat green text */}
-        <td className="px-3 py-3 text-right tabular-nums">
-          {weekQty > 0 ? (
-            <span className="text-sm font-medium text-green-700">
-              +{weekQty.toLocaleString()}
+      <React.Fragment key={row.id}>
+        {/* ── Parent Row — entire row is clickable to toggle expand/collapse ── */}
+        <tr
+          onClick={hasEvents ? () => toggleCuRowCollapse(row.id) : undefined}
+          className={`cu-row-divider bg-white hover:bg-gray-50 transition-colors ${hasEvents ? "cursor-pointer" : ""}`}
+        >
+          {/* Chevron */}
+          <td className="px-2 py-3" style={{ width: 32 }}>
+            {hasEvents ? (
+              <div
+                className="w-6 h-6 flex items-center justify-center rounded text-gray-400"
+                title={isExpanded ? "Collapse log" : "Expand log"}
+              >
+                <ChevronDown size={16} style={{ transition: "transform 0.15s", transform: isExpanded ? "rotate(0deg)" : "rotate(-90deg)" }} />
+              </div>
+            ) : (
+              <span className="w-6 h-6 inline-block" />
+            )}
+          </td>
+          {/* CU Details */}
+          <td className="px-3 py-3" style={hasGroups ? { paddingLeft: 32 } : undefined}>
+            <span className="text-xs font-semibold font-mono text-gray-800">{row.cuCode}</span>
+            <div className="text-sm text-gray-500">{cu?.desc || row.cuCode}</div>
+          </td>
+          {/* Function */}
+          <td className="px-3 py-3">
+            <span className="text-[11px] font-medium px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">{row.function}</span>
+          </td>
+          {/* Total Qty — derived from events */}
+          <td className="px-3 py-3 text-right tabular-nums">
+            <span className={`text-sm font-semibold ${totalQty > 0 ? "text-gray-900" : "text-gray-300"}`}>
+              {totalQty.toLocaleString()}
             </span>
-          ) : (
-            <span className="text-gray-300 text-sm">—</span>
-          )}
-        </td>
-        {/* Redlines & Notes */}
-        <td className="px-3 py-3" style={{ whiteSpace: "nowrap" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-            {hasRedline && (
-              <span
-                style={{ fontSize: 10, fontWeight: 500, padding: "2px 8px", borderRadius: 9999, background: "#FFF7ED", color: "#C2410C", border: "1px solid #FED7AA" }}
-                title={`Paper WO: ${row.plannedQty} → Actual: ${row.completedQty}. ${row.redLineNote}`}
-              >
-                {redlineDelta > 0 ? `▲ +${redlineDelta}` : redlineDelta < 0 ? `▼ ${redlineDelta}` : "▲"} Redlined
+          </td>
+          {/* Qty This Week — derived from events in current week */}
+          <td className="px-3 py-3 text-right tabular-nums">
+            {weekQty > 0 ? (
+              <span className="text-sm font-medium text-green-700">
+                +{weekQty.toLocaleString()}
               </span>
-            )}
-            {hasNote && (
-              <button
-                onClick={() => openNoteModal(row)}
-                title={row.fieldNote}
-                style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: 0, background: "none", border: "none", color: "#2563EB", fontSize: 12, cursor: "pointer", textDecoration: "none", fontWeight: 500 }}
-                onMouseEnter={(e) => { (e.currentTarget).style.textDecoration = "underline"; }}
-                onMouseLeave={(e) => { (e.currentTarget).style.textDecoration = "none"; }}
-              >
-                <MessageSquare size={12} />
-                <span>"{notePreview}"</span>
-              </button>
-            )}
-            {!hasRedline && !hasNote && (
+            ) : (
               <span className="text-gray-300 text-sm">—</span>
             )}
-          </div>
-        </td>
-        {/* Actions — Edit Qty (outline) + Redline (red outline) + ⋮ overflow */}
-        <td className="px-3 py-3">
-          <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end" }}>
-            {isLocked ? (
-              <span style={{ fontSize: 11, color: "#9CA3AF", fontStyle: "italic" }}>Locked</span>
-            ) : (
-              <>
-                {/* Button 1: + Add Qty (primary incremental action) */}
-                <button
-                  onClick={() => openLogWork(row)}
-                  style={{ padding: "6px 12px", fontSize: 11, fontWeight: 600, borderRadius: 6, border: "none", background: "#111827", color: "#fff", cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 4, transition: "all 0.1s" }}
-                  onMouseEnter={(e) => { (e.currentTarget).style.background = "#1F2937"; }}
-                  onMouseLeave={(e) => { (e.currentTarget).style.background = "#111827"; }}
-                >
-                  <Plus size={12} />
-                  Add Qty
-                </button>
-                {/* Button 2: Redline (red outline) */}
-                <button
-                  onClick={() => openRedlineShortcut(row)}
-                  style={{ padding: "6px 12px", fontSize: 11, fontWeight: 600, borderRadius: 6, border: "1px solid #FECACA", background: "#fff", color: "#DC2626", cursor: "pointer", whiteSpace: "nowrap", display: "flex", alignItems: "center", gap: 4, transition: "all 0.1s" }}
-                  onMouseEnter={(e) => { (e.currentTarget).style.background = "#FEF2F2"; (e.currentTarget).style.borderColor = "#F87171"; }}
-                  onMouseLeave={(e) => { (e.currentTarget).style.background = "#fff"; (e.currentTarget).style.borderColor = "#FECACA"; }}
-                >
-                  <Pencil size={12} />
-                  Redline
-                </button>
-                {/* ⋮ Overflow menu */}
-                <div style={{ position: "relative" }}>
-                  <button
-                    onClick={() => setEllipsisMenuRow(ellipsisMenuRow === row.id ? null : row.id)}
-                    style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, border: "1px solid #E5E7EB", background: ellipsisMenuRow === row.id ? "#F3F4F6" : "#fff", color: "#9CA3AF", cursor: "pointer", flexShrink: 0, transition: "all 0.1s" }}
-                  >
-                    <MoreVertical size={14} />
-                  </button>
-                  {ellipsisMenuRow === row.id && (
-                    <div
-                      style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "#fff", border: "1px solid #E5E7EB", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", zIndex: 60, width: 220, overflow: "visible" }}
+          </td>
+          {/* Notes & Redlines — redline badge + aggregate note count from children */}
+          <td className="px-3 py-3" style={{ whiteSpace: "nowrap" }}>
+            {(() => {
+              const noteCount = (row.events || []).filter((e: any) => e.note && e.note.trim().length > 0).length;
+              if (!hasRedline && noteCount === 0) {
+                return <span className="text-gray-300 text-sm">—</span>;
+              }
+              return (
+                <div className="flex items-center gap-2 flex-wrap">
+                  {hasRedline && (
+                    <span
+                      style={{ fontSize: 10, fontWeight: 500, padding: "2px 8px", borderRadius: 9999, background: "#FFF7ED", color: "#C2410C", border: "1px solid #FED7AA" }}
+                      title={`Paper WO: ${row.plannedQty} → Actual: ${totalQty}. ${row.redLineNote}`}
                     >
-                      <button
-                        onClick={() => { setEllipsisMenuRow(null); openEditCompletion(row); }}
-                        style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 14px", fontSize: 13, fontWeight: 500, color: "#374151", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
-                        onMouseEnter={(e) => { (e.currentTarget).style.background = "#F3F4F6"; }}
-                        onMouseLeave={(e) => { (e.currentTarget).style.background = "none"; }}
-                      >
-                        <Pencil size={14} style={{ color: "#6B7280" }} />
-                        Edit Total Qty
-                      </button>
-                      <button
-                        onClick={() => { setEllipsisMenuRow(null); openNoteModal(row); }}
-                        style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 14px", fontSize: 13, fontWeight: 500, color: "#374151", background: "none", border: "none", cursor: "pointer", textAlign: "left", borderTop: "1px solid #F3F4F6" }}
-                        onMouseEnter={(e) => { (e.currentTarget).style.background = "#F3F4F6"; }}
-                        onMouseLeave={(e) => { (e.currentTarget).style.background = "none"; }}
-                      >
-                        <MessageSquare size={14} style={{ color: "#6B7280" }} />
-                        {hasNote ? "Edit Note" : "Add Note"}
-                      </button>
-                      <button
-                        onClick={() => { setEllipsisMenuRow(null); setDeleteConfirmModal(row); }}
-                        style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 14px", fontSize: 13, fontWeight: 500, color: "#DC2626", background: "none", border: "none", cursor: "pointer", textAlign: "left", borderTop: "1px solid #F3F4F6" }}
-                        onMouseEnter={(e) => { (e.currentTarget).style.background = "#FEF2F2"; }}
-                        onMouseLeave={(e) => { (e.currentTarget).style.background = "none"; }}
-                      >
-                        <Trash2 size={14} style={{ color: "#DC2626" }} />
-                        Delete Unit
-                      </button>
-                    </div>
+                      {redlineDelta > 0 ? `▲ +${redlineDelta}` : redlineDelta < 0 ? `▼ ${redlineDelta}` : "▲"} Redlined
+                    </span>
+                  )}
+                  {noteCount > 0 && (
+                    <span className="text-gray-500 text-sm inline-flex items-center gap-1" title={`${noteCount} note${noteCount !== 1 ? "s" : ""} in execution log`}>
+                      <MessageSquare size={12} className="text-gray-400" />
+                      {noteCount} {noteCount === 1 ? "Note" : "Notes"}
+                    </span>
                   )}
                 </div>
-              </>
-            )}
-          </div>
-        </td>
-      </tr>
+              );
+            })()}
+          </td>
+          {/* Actions — stopPropagation so buttons don't trigger row expand */}
+          <td className="px-3 py-3" onClick={stopPropagate}>
+            <div style={{ display: "flex", alignItems: "center", gap: 4, justifyContent: "flex-end" }}>
+              {isLocked ? (
+                <span style={{ fontSize: 11, color: "#9CA3AF", fontStyle: "italic" }}>Locked</span>
+              ) : (
+                <>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); openRedlineShortcut(row); }}
+                    title="Redline"
+                    style={{ width: 32, height: 32, borderRadius: 6, border: "1px solid #FECACA", background: "#fff", color: "#DC2626", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.1s" }}
+                    onMouseEnter={(e) => { (e.currentTarget).style.background = "#FEF2F2"; (e.currentTarget).style.borderColor = "#F87171"; }}
+                    onMouseLeave={(e) => { (e.currentTarget).style.background = "#fff"; (e.currentTarget).style.borderColor = "#FECACA"; }}
+                  >
+                    <Pencil size={14} />
+                  </button>
+                  <div style={{ position: "relative" }}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setEllipsisMenuRow(ellipsisMenuRow === row.id ? null : row.id); }}
+                      style={{ width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 6, border: "1px solid #E5E7EB", background: ellipsisMenuRow === row.id ? "#F3F4F6" : "#fff", color: "#9CA3AF", cursor: "pointer", flexShrink: 0, transition: "all 0.1s" }}
+                    >
+                      <MoreVertical size={14} />
+                    </button>
+                    {ellipsisMenuRow === row.id && (
+                      <div
+                        style={{ position: "absolute", right: 0, top: "100%", marginTop: 4, background: "#fff", border: "1px solid #E5E7EB", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.12)", zIndex: 60, width: 220, overflow: "visible" }}
+                      >
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setEllipsisMenuRow(null); setDeleteConfirmModal(row); }}
+                          style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "10px 14px", fontSize: 13, fontWeight: 500, color: "#DC2626", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                          onMouseEnter={(e) => { (e.currentTarget).style.background = "#FEF2F2"; }}
+                          onMouseLeave={(e) => { (e.currentTarget).style.background = "none"; }}
+                        >
+                          <Trash2 size={14} style={{ color: "#DC2626" }} />
+                          Remove Unit from WO
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </td>
+        </tr>
+        {/* ── Child Events — "Cavity": recessed gray container with hard border separators ── */}
+        {hasEvents && isExpanded && (
+          <tr className="cu-cavity-row bg-gray-50 shadow-inner">
+            <td colSpan={7} className="p-0" onClick={stopPropagate}>
+              <div className="divide-y divide-gray-200">
+                {events.map((evt: any) => (
+                  <div
+                    key={evt.id}
+                    className="flex items-center py-3"
+                  >
+                    {/* Col 1: chevron spacer — w-12 matches parent */}
+                    <div className="w-12 flex-shrink-0 px-2"></div>
+                    {/* Cols 2+3: CU + Function combined (flex-1 in child naturally absorbs parent's CU flex + Function w-24) */}
+                    <div className="flex-1 min-w-0 px-3">
+                      <div className="text-xs text-gray-700 tabular-nums whitespace-nowrap">{formatEventTime(evt.timestamp)}</div>
+                      <div className="text-[11px] text-gray-500 truncate">{evt.loggedBy}</div>
+                    </div>
+                    {/* Col 4: Total Qty spacer — w-24 matches parent */}
+                    <div className="w-24 flex-shrink-0 px-3"></div>
+                    {/* Col 5: Qty This Week — w-32 holds +Qty, right-aligned */}
+                    <div className="w-32 flex-shrink-0 px-3 text-right">
+                      <span className="text-sm font-semibold text-green-700 whitespace-nowrap">+{evt.qty.toLocaleString()}</span>
+                    </div>
+                    {/* Col 6: Notes & Redlines — w-52 holds the inline note */}
+                    <div className="w-52 flex-shrink-0 px-3">
+                      {evt.note ? (
+                        <div className="text-[11px] text-gray-600 italic truncate" title={evt.note}>
+                          <MessageSquare size={10} className="inline mr-1 text-gray-400" />
+                          <span>{evt.note.length > 22 ? evt.note.slice(0, 22) + "…" : evt.note}</span>
+                        </div>
+                      ) : (
+                        <span className="text-gray-300 text-xs">—</span>
+                      )}
+                    </div>
+                    {/* Col 7: Actions — w-40 matches parent */}
+                    <div className="w-40 flex-shrink-0 px-3">
+                      {!isLocked && (
+                        <div className="flex items-center gap-1 justify-end">
+                          <button
+                            onClick={(e) => { e.stopPropagation(); openEventNoteModal(row.id, evt.id); }}
+                            title={evt.note ? "Edit note" : "Add note"}
+                            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                          >
+                            <MessageSquare size={13} />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeleteEventConfirm({ rowId: row.id, eventId: evt.id, qty: evt.qty, cuCode: row.cuCode });
+                            }}
+                            title="Delete event"
+                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </td>
+          </tr>
+        )}
+      </React.Fragment>
     );
   };
 
@@ -4216,9 +4380,9 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
               {woStatus !== "submitted" && (
                 <button
                   onClick={() => { setSignOffModal(true); setSignOffInitials(""); }}
-                  className="flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-colors"
+                  className="flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium text-orange-600 bg-white border border-orange-500 hover:bg-orange-50 rounded-lg shadow-sm transition-colors"
                 >
-                  <SendHorizontal size={14} /> Submit Completed Work Order
+                  <Upload size={14} /> Mark Complete
                 </button>
               )}
               <button
@@ -4397,30 +4561,31 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
               {woStatus !== "submitted" && (
                 <button
                   onClick={() => setShowAddCU(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors flex-shrink-0"
+                  className="bg-orange-500 hover:bg-orange-600 text-white shadow-sm font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors flex-shrink-0"
                 >
                   <Plus size={16} /> Add Compatible Units
                 </button>
               )}
             </div>
 
-            {/* CU Table — overflow-visible so ⋮ dropdown menus can render above the container */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-visible">
-              <table className="w-full" style={{ borderCollapse: "separate", borderSpacing: 0 }}>
+            {/* CU Table — framed SaaS pattern: stroke + rounded + clipped corners */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <table className="cu-table w-full table-fixed" style={{ borderCollapse: "separate", borderSpacing: 0 }}>
                 <thead>
-                  <tr className="border-b border-gray-200 bg-gray-50/50">
-                    <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: "26%" }}>CU</th>
-                    <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 80 }}>Function</th>
-                    <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 80 }}>Total Qty</th>
-                    <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 100, whiteSpace: "nowrap" }}>Qty This Week</th>
-                    <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 240, whiteSpace: "nowrap" }}>Redlines & Notes</th>
-                    <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5" style={{ width: 220 }}>Actions</th>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="w-12 px-2 py-3 bg-gray-50"></th>
+                    <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">CU</th>
+                    <th className="w-24 text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Function</th>
+                    <th className="w-24 text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Total Qty</th>
+                    <th className="w-32 text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50 whitespace-nowrap">Qty This Week</th>
+                    <th className="w-52 text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50 whitespace-nowrap">Notes & Redlines</th>
+                    <th className="w-40 text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredCUs.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-3 py-10 text-center">
+                      <td colSpan={7} className="px-3 py-10 text-center">
                         {searchQuery.trim() ? (
                           <>
                             <div className="text-sm text-gray-500">No units found matching "{searchQuery}"</div>
@@ -4462,24 +4627,24 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
                     return groups.map((group) => {
                       const isCollapsed = collapsedGroups.has(group.name);
                       const groupTarget = group.rows.reduce((s: number, r: any) => s + r.plannedQty, 0);
-                      const groupCompleted = group.rows.reduce((s: number, r: any) => s + r.completedQty, 0);
+                      const groupCompleted = group.rows.reduce((s: number, r: any) => s + getRowTotalQty(r), 0);
                       const groupPlannedVal = group.rows.reduce((s: number, r: any) => {
                         const cu = CU_LIBRARY.find((c) => c.code === r.cuCode);
                         return s + (cu?.unitPrice || 0) * r.plannedQty;
                       }, 0);
                       const groupEarnedVal = group.rows.reduce((s: number, r: any) => {
                         const cu = CU_LIBRARY.find((c) => c.code === r.cuCode);
-                        return s + (cu?.unitPrice || 0) * r.completedQty;
+                        return s + (cu?.unitPrice || 0) * getRowTotalQty(r);
                       }, 0);
-                      const groupAllComplete = group.rows.every((r: any) => r.plannedQty > 0 && r.completedQty >= r.plannedQty);
-                      const groupHasProgress = group.rows.some((r: any) => r.completedQty > 0);
+                      const groupAllComplete = group.rows.every((r: any) => r.plannedQty > 0 && getRowTotalQty(r) >= r.plannedQty);
+                      const groupHasProgress = group.rows.some((r: any) => getRowTotalQty(r) > 0);
                       return (
-                        <Fragment key={group.name}>
+                        <React.Fragment key={group.name}>
                           <tr
                             onClick={() => toggleGroup(group.name)}
                             style={{ cursor: "pointer", background: "#F9FAFB", borderBottom: "1px solid #E5E7EB" }}
                           >
-                            <td colSpan={6} style={{ padding: "8px 12px" }}>
+                            <td colSpan={7} style={{ padding: "8px 12px" }}>
                               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                                 <ChevronDown size={18} style={{ color: "#6B7280", transition: "transform 0.15s", transform: isCollapsed ? "rotate(-90deg)" : "rotate(0deg)", flexShrink: 0 }} />
                                 <span style={{ fontSize: 13, fontWeight: 600, color: "#374151" }}>{group.name}</span>
@@ -4490,7 +4655,7 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
                             </td>
                           </tr>
                           {!isCollapsed && group.rows.map((row: any) => renderCURow(row))}
-                        </Fragment>
+                        </React.Fragment>
                       );
                     });
                   })()}
@@ -4498,9 +4663,10 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
                 {filteredCUs.length > 0 && (
                   <tfoot>
                     <tr className="border-t border-gray-200 bg-gray-50/50">
+                      <td className="px-3 py-2.5"></td>
                       <td colSpan={2} className="px-3 py-2.5 text-xs font-medium text-gray-500">{filteredCUs.length} line items</td>
-                      <td className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 tabular-nums">{filteredCUs.reduce((s: number, r: any) => s + r.completedQty, 0).toLocaleString()}</td>
-                      <td className="px-3 py-2.5 text-right text-xs font-medium text-emerald-600 tabular-nums">{filteredCUs.reduce((s: number, r: any) => s + (r.weekQty || 0), 0).toLocaleString()}</td>
+                      <td className="px-3 py-2.5 text-right text-xs font-medium text-gray-500 tabular-nums">{filteredCUs.reduce((s: number, r: any) => s + getRowTotalQty(r), 0).toLocaleString()}</td>
+                      <td className="px-3 py-2.5 text-right text-xs font-medium text-emerald-600 tabular-nums">{filteredCUs.reduce((s: number, r: any) => s + getRowWeekQty(r), 0).toLocaleString()}</td>
                       <td className="px-3 py-2.5"></td>
                       <td className="px-3 py-2.5"></td>
                     </tr>
@@ -4671,14 +4837,11 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
                           {isStaged ? <Check size={12} /> : <Plus size={12} />}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                             <span style={{ fontSize: 12, fontWeight: 600, color: "#2563EB", fontFamily: "ui-monospace, monospace" }}>{cu.code}</span>
-                            <span style={{ fontSize: 13, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cu.desc}</span>
-                          </div>
-                          <div style={{ display: "flex", gap: 8, marginTop: 2 }}>
-                            <span style={{ fontSize: 11, color: "#9CA3AF" }}>{cu.unit}</span>
                             {onWO && <span style={{ fontSize: 10, fontWeight: 600, color: "#9CA3AF", background: "#F3F4F6", padding: "1px 5px", borderRadius: 3 }}>ON WO</span>}
                           </div>
+                          <div style={{ fontSize: 13, color: "#111827", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cu.desc}</div>
                         </div>
                       </div>
                     );
@@ -4918,57 +5081,25 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
         )}
 
         {/* ═══════ MODAL A: Log Completed Work (Execution Only) ═══════ */}
-        {/* ═══════ MODAL: Log New Work (add) / Correct Total Quantity (edit) ═══════ */}
+        {/* ═══════ MODAL: Log Work (append-only event) ═══════ */}
         {logWorkRow && !redLineCU && !redlineModalRow && (() => {
-          const currentRow = cuRows.find((r: any) => r.id === logWorkRow.id) || logWorkRow;
           const qtyValue = parseInt(logWorkQty) || 0;
-          const isAddMode = logWorkMode === "add";
-          const newTotal = isAddMode ? currentRow.completedQty + qtyValue : qtyValue;
-          const canSave = isAddMode
-            ? qtyValue > 0
-            : (qtyValue !== currentRow.completedQty && qtyValue >= 0);
-          const modalTitle = isAddMode ? "Add Quantity" : "Correct Total Quantity";
-          const stepperLabel = isAddMode ? "Quantity to Add" : "Total Quantity";
+          const canSave = qtyValue > 0;
           return (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ background: "#fff", borderRadius: 14, width: 440, overflow: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }}>
+            <div style={{ background: "#fff", borderRadius: 14, width: 420, overflow: "auto", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }}>
               {/* Header */}
               <div style={{ padding: "18px 22px", borderBottom: "1px solid #E5E7EB" }}>
-                <div style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>{modalTitle}</div>
+                <div style={{ fontSize: 16, fontWeight: 600, color: "#111827" }}>Log Work</div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
                   <span style={{ fontSize: 12, fontWeight: 600, color: "#2563EB", fontFamily: "ui-monospace, monospace" }}>{logWorkRow.cuCode}</span>
                   <span style={{ fontSize: 13, color: "#6B7280" }}>{CU_LIBRARY.find((c: any) => c.code === logWorkRow.cuCode)?.desc || logWorkRow.cuCode}</span>
                 </div>
               </div>
-              {/* Body */}
-              <div style={{ padding: "24px 22px" }}>
-                {/* Stepper — centered */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: "#374151", marginBottom: 10, textAlign: "center" }}>{stepperLabel}</label>
-                  <QtyStepper value={logWorkQty} onChange={setLogWorkQty} min={0} placeholder="0" />
-                </div>
-
-                {/* Math summary — inline equation, separated by a top border */}
-                {isAddMode ? (
-                  <div className="border-t pt-3 mt-4 flex items-center justify-center gap-2 text-sm text-gray-500 flex-wrap">
-                    <span>Current:</span>
-                    <span className="tabular-nums text-gray-700">{currentRow.completedQty.toLocaleString()}</span>
-                    <span className="text-gray-400">+</span>
-                    <span>Added:</span>
-                    <span className="tabular-nums text-gray-700">{qtyValue.toLocaleString()}</span>
-                    <span className="text-gray-400">=</span>
-                    <span className="font-bold text-gray-900">New Total:</span>
-                    <span className="font-bold text-gray-900 tabular-nums">{newTotal.toLocaleString()}</span>
-                  </div>
-                ) : (
-                  <div className="border-t pt-3 mt-4 flex items-center justify-center gap-2 text-sm text-gray-500 flex-wrap">
-                    <span>Current:</span>
-                    <span className="tabular-nums text-gray-700">{currentRow.completedQty.toLocaleString()}</span>
-                    <span className="text-gray-400">➔</span>
-                    <span className="font-bold text-gray-900">New Total:</span>
-                    <span className={`font-bold tabular-nums ${qtyValue !== currentRow.completedQty ? "text-gray-900" : "text-gray-400"}`}>{qtyValue.toLocaleString()}</span>
-                  </div>
-                )}
+              {/* Body — single stepper, no math */}
+              <div style={{ padding: "28px 22px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: "#374151", marginBottom: 12, textAlign: "center" }}>Quantity Completed</label>
+                <QtyStepper value={logWorkQty} onChange={setLogWorkQty} min={0} placeholder="0" />
               </div>
               {/* Footer */}
               <div style={{ padding: "14px 22px", borderTop: "1px solid #E5E7EB", display: "flex", gap: 8, justifyContent: "flex-end" }}>
@@ -4987,7 +5118,7 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
         {/* ═══════ MODAL B: Log Scope Change (Baseline Redline — no execution) ═══════ */}
         {redlineModalRow && !logWorkRow && (() => {
           const currentRow = cuRows.find((r: any) => r.id === redlineModalRow.id) || redlineModalRow;
-          const loggedQty = currentRow.completedQty || 0;
+          const loggedQty = getRowTotalQty(currentRow);
           const paperVal = redlineDeviationType === "net_new" ? 0 : (parseInt(redlinePaperQty) || 0);
           const variance = loggedQty - paperVal;
           const hasVariance = variance !== 0;
@@ -5040,11 +5171,14 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
                   })}
                 </div>
 
-                {/* Qty on Paper WO stepper — only shown for Quantity Change */}
+                {/* Qty on Paper WO stepper — centered under the 'Quantity Change' segment */}
                 {redlineDeviationType === "qty_change" && (
-                  <div style={{ marginBottom: 18 }}>
-                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 8 }}>Qty on Paper WO</label>
-                    <QtyStepper value={redlinePaperQty} onChange={setRedlinePaperQty} min={0} />
+                  <div style={{ marginBottom: 18, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+                    <div></div>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <label style={{ fontSize: 11, fontWeight: 600, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 8 }}>Qty on Paper WO</label>
+                      <QtyStepper value={redlinePaperQty} onChange={setRedlinePaperQty} min={0} />
+                    </div>
                   </div>
                 )}
 
@@ -5091,7 +5225,67 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
           );
         })()}
 
-        {/* ═══════ MODAL: Add / Edit Note ═══════ */}
+        {/* ═══════ MODAL: Event Note (attached to child event) ═══════ */}
+        {noteEventTarget && (() => {
+          const row = cuRows.find((r: any) => r.id === noteEventTarget.rowId);
+          const evt = row?.events?.find((e: any) => e.id === noteEventTarget.eventId);
+          if (!evt) return null;
+          return (
+            <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}
+              onClick={() => { setNoteEventTarget(null); setNoteText(""); }}
+            >
+              <div style={{ background: "#fff", borderRadius: 14, width: 460, boxShadow: "0 20px 60px rgba(0,0,0,0.2)", overflow: "hidden" }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div style={{ padding: "16px 20px", borderBottom: "1px solid #E5E7EB", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 6, background: "#F3F4F6", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <MessageSquare size={14} style={{ color: "#6B7280" }} />
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#111827", margin: 0 }}>{evt.note ? "Edit Event Note" : "Add Event Note"}</h3>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
+                        <span style={{ fontSize: 11, fontWeight: 600, color: "#2563EB", fontFamily: "ui-monospace, monospace" }}>{row?.cuCode}</span>
+                        <span style={{ fontSize: 11, color: "#9CA3AF" }}>· +{evt.qty} · {formatEventTime(evt.timestamp)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button onClick={() => { setNoteEventTarget(null); setNoteText(""); }} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, color: "#9CA3AF", padding: 4 }}>×</button>
+                </div>
+                <div style={{ padding: "18px 20px" }}>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 500, color: "#374151", marginBottom: 6 }}>Field Note</label>
+                  <textarea
+                    value={noteText}
+                    onChange={(e) => setNoteText(e.target.value)}
+                    placeholder="Describe anything notable about this specific log event..."
+                    autoFocus
+                    style={{ width: "100%", padding: "10px 12px", border: "1px solid #E5E7EB", borderRadius: 8, fontSize: 13, outline: "none", resize: "none", minHeight: 100, background: "#fff" }}
+                  />
+                </div>
+                <div style={{ padding: "14px 20px", borderTop: "1px solid #E5E7EB", display: "flex", gap: 8, justifyContent: "space-between", alignItems: "center" }}>
+                  <div>
+                    {evt.note && (
+                      <button
+                        onClick={() => { updateEventNote(noteEventTarget.rowId, noteEventTarget.eventId, ""); setNoteEventTarget(null); setNoteText(""); }}
+                        style={{ padding: "8px 14px", fontSize: 12, fontWeight: 500, borderRadius: 8, border: "none", background: "none", color: "#DC2626", cursor: "pointer" }}
+                      >Remove Note</button>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button onClick={() => { setNoteEventTarget(null); setNoteText(""); }}
+                      style={{ padding: "8px 16px", fontSize: 13, fontWeight: 500, borderRadius: 8, border: "1px solid #E5E7EB", background: "#fff", color: "#374151", cursor: "pointer" }}
+                    >Cancel</button>
+                    <button onClick={handleEventNoteSave} disabled={!noteText.trim()}
+                      style={{ padding: "8px 20px", fontSize: 13, fontWeight: 600, borderRadius: 8, border: "none", cursor: noteText.trim() ? "pointer" : "not-allowed", background: noteText.trim() ? "#111827" : "#D1D5DB", color: "#fff" }}
+                    >Save Note</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* ═══════ MODAL: Legacy parent-level note (kept for compat, no UI entry points) ═══════ */}
         {noteModalRow && (
           <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}
             onClick={() => { setNoteModalRow(null); setNoteText(""); }}
@@ -5144,6 +5338,40 @@ function WODetail({ wo, job, onBack }: { wo: any; job: any; onBack: () => void }
                     style={{ padding: "8px 20px", fontSize: 13, fontWeight: 600, borderRadius: 8, border: "none", cursor: noteText.trim() ? "pointer" : "not-allowed", background: noteText.trim() ? "#111827" : "#D1D5DB", color: "#fff" }}
                   >Save Note</button>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ═══════ MODAL: Delete Child Event Confirmation ═══════ */}
+        {deleteEventConfirm && (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 120, display: "flex", alignItems: "center", justifyContent: "center" }}
+            onClick={() => setDeleteEventConfirm(null)}
+          >
+            <div style={{ background: "#fff", borderRadius: 14, width: 420, boxShadow: "0 20px 60px rgba(0,0,0,0.2)", overflow: "hidden" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div style={{ padding: "24px 24px 16px", textAlign: "center" }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#FEF2F2", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px" }}>
+                  <Trash2 size={22} style={{ color: "#DC2626" }} />
+                </div>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color: "#111827", margin: "0 0 8px" }}>Delete Log Entry?</h3>
+                <p style={{ fontSize: 13, color: "#6B7280", margin: 0, lineHeight: 1.5 }}>
+                  This will permanently delete the log entry of <strong style={{ color: "#111827" }}>+{deleteEventConfirm.qty}</strong> on <strong style={{ color: "#2563EB", fontFamily: "ui-monospace, monospace" }}>{deleteEventConfirm.cuCode}</strong>. This action cannot be undone.
+                </p>
+              </div>
+              <div style={{ padding: "16px 24px 20px", display: "flex", gap: 10, justifyContent: "center" }}>
+                <button
+                  onClick={() => setDeleteEventConfirm(null)}
+                  style={{ padding: "10px 24px", fontSize: 13, fontWeight: 500, borderRadius: 8, border: "1px solid #E5E7EB", background: "#fff", color: "#374151", cursor: "pointer", flex: 1 }}
+                >Cancel</button>
+                <button
+                  onClick={() => {
+                    deleteEvent(deleteEventConfirm.rowId, deleteEventConfirm.eventId);
+                    setDeleteEventConfirm(null);
+                  }}
+                  style={{ padding: "10px 24px", fontSize: 13, fontWeight: 600, borderRadius: 8, border: "none", background: "#DC2626", color: "#fff", cursor: "pointer", flex: 1 }}
+                >Delete</button>
               </div>
             </div>
           </div>
@@ -5421,7 +5649,7 @@ function JobsTable({ jobs, onCreateJob, onViewJob }: any) {
           </div>
           <button
             onClick={onCreateJob}
-            className="flex items-center gap-1.5 px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-800 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 shadow-sm transition-colors"
           >
             <Plus size={16} /> Create Job
           </button>
@@ -5453,17 +5681,17 @@ function JobsTable({ jobs, onCreateJob, onViewJob }: any) {
         </div>
 
         {/* Table */}
-        <div className="bg-white border border-gray-200 rounded-xl overflow-visible">
+        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-200">
-                <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Job</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Utility</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Work Type</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Location</th>
-                <th className="text-left text-xs font-medium text-gray-500 px-3 py-2.5">Status</th>
-                <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5">CUs</th>
-                <th className="text-right text-xs font-medium text-gray-500 px-3 py-2.5">WOs</th>
+              <tr className="bg-gray-50 border-b border-gray-200">
+                <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Job</th>
+                <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Utility</th>
+                <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Work Type</th>
+                <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Location</th>
+                <th className="text-left text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">Status</th>
+                <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">CUs</th>
+                <th className="text-right text-xs font-medium text-gray-900 px-3 py-3 bg-gray-50">WOs</th>
               </tr>
             </thead>
             <tbody>
