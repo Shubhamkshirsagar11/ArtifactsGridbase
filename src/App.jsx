@@ -17,7 +17,8 @@ import ProjectLanding from './components/projects-landing'
 import WorkOrder from './components/work-order-detail-a2260d99.jsx'
 import ContractSetupWizard from './components/contract-setup-wizard'
 import OrgSwitcher from './components/org-switcher'
-import JobSetupWizard from './components/job-setup-wizard'
+import JobSetupWizard from './components/docs/bluesky-jobs/job-setup-wizard.js'
+import CrewEquipment from './components/docs/bluesky-jobs/crew-equipment'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -37,11 +38,12 @@ const PAGES = [
   {key: 'work-order' , label: 'Work Order', component: WorkOrder},
   {key: 'contract-setup-wizard', label: 'Contract Setup Wizard', component: ContractSetupWizard},
   {key: 'org-switcher', label: 'Org Switcher', component: OrgSwitcher},
-  {key: 'job-setup-wizard', label: 'Job Setup Wizard', component: JobSetupWizard}
+  {key: 'job-setup-wizard', label: 'Job Setup Wizard', component: JobSetupWizard},
+  {key: 'crew-equipment', label: 'Crew Equipment', component: CrewEquipment}
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('job-setup-wizard')
+  const [activePage, setActivePage] = useState('crew-equipment')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
