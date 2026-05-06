@@ -19,6 +19,7 @@ import ContractSetupWizard from './components/contract-setup-wizard'
 import OrgSwitcher from './components/org-switcher'
 import JobSetupWizard from './components/docs/bluesky-jobs/job-setup-wizard.js'
 import CrewEquipment from './components/docs/bluesky-jobs/crew-equipment'
+import RedlineModalExample from './components/docs/bluesky-jobs/RedlineModal'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -39,11 +40,12 @@ const PAGES = [
   {key: 'contract-setup-wizard', label: 'Contract Setup Wizard', component: ContractSetupWizard},
   {key: 'org-switcher', label: 'Org Switcher', component: OrgSwitcher},
   {key: 'job-setup-wizard', label: 'Job Setup Wizard', component: JobSetupWizard},
-  {key: 'crew-equipment', label: 'Crew Equipment', component: CrewEquipment}
+  {key: 'crew-equipment', label: 'Crew Equipment', component: CrewEquipment},
+  {key: 'redline-modal', label: 'Redline Modal', component: RedlineModalExample}
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('crew-equipment')
+  const [activePage, setActivePage] = useState('redline-modal')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
