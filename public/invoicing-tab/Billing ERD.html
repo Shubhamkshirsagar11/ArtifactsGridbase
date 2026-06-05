@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Billing ERD · Gridbase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { background: #F6F7F8; margin:0; }
+  body { font-family: 'Inter', system-ui, sans-serif; color:#0B0F13; -webkit-font-smoothing:antialiased; }
+  .tabular { font-variant-numeric: tabular-nums; }
+  .page { max-width:1540px; margin:0 auto; padding:40px 32px 80px; }
+
+  /* Node card chrome */
+  .node { background:white; border:1px solid #E5E7EB; border-radius:12px; box-shadow:0 1px 2px 0 rgba(15,23,42,.04); }
+  .node-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#9CA3AF; padding:10px 14px 6px; display:flex; align-items:center; gap:6px; }
+  .node-name { font-size:15px; font-weight:600; color:#111827; padding:0 14px 10px; }
+  .node-sub { font-size:11.5px; font-weight:500; color:#6B7280; padding:0 14px 12px; line-height:1.45; }
+  .field-row { display:grid; grid-template-columns: 22px 1fr auto; gap:8px; align-items:center; padding:7px 14px; border-top:1px solid #F3F4F6; font-size:12px; }
+  .field-row .key { font-size:9.5px; font-weight:700; color:#9CA3AF; text-align:center; letter-spacing:.04em; }
+  .field-row .name { color:#374151; font-weight:500; }
+  .field-row .type { font-family: 'JetBrains Mono', monospace; font-size:10.5px; color:#9CA3AF; }
+  .field-row.highlight { background:#FFF4ED; }
+  .field-row.highlight .name { color:#B33E12; }
+  .field-row.derived .name { color:#6B7280; font-style:italic; }
+  .field-row.derived .key { color:#FF884C; }
+  .group-h { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#6B7280; padding:6px 14px 4px; background:#F9FAFB; border-top:1px solid #F3F4F6; }
+  .col-label { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#9CA3AF; margin-bottom:14px; }
+
+  .callout { background:#FFFCF7; border:1px solid rgba(217,148,69,.32); border-radius:12px; padding:12px 14px; }
+  .callout-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#B33E12; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .callout-body { font-size:12.5px; color:#374151; line-height:1.55; }
+  .callout-body ul { margin:8px 0 0; padding-left:14px; }
+  .callout-body li { padding:3px 0; font-size:11.5px; color:#4B5563; line-height:1.5; }
+
+  /* Audit pill */
+  .pill { display:inline-block; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.06em; padding:1.5px 6px; border-radius:9999px; vertical-align:1px; margin-left:6px; }
+  .pill-snap { background:#EEF2FF; color:#4338CA; border:1px solid #C7D2FE; }
+  .pill-soon { background:#F3F4F6; color:#6B7280; border:1px solid #E5E7EB; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- Page header -->
+<header style="margin-bottom:32px;">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">Data Architecture · Billing Tab · v2</div>
+      <h1 style="font-size:30px;font-weight:700;letter-spacing:-.02em;color:#111827;line-height:1.1;margin:0 0 8px;">Billing data flow</h1>
+      <p style="font-size:14px;color:#6B7280;max-width:820px;line-height:1.5;margin:0;">From the field crew's production log to the Invoiced and Accrued ledgers, gated by company-, job-, and contract-level configuration. Arrows show how each entity feeds the next; orange-tinted fields are the rule inputs that shape every transition. Indigo <span class="pill pill-snap">snapshot</span> badges flag values copied at write time so historical records aren't disturbed when rate sheets or unit prices change later.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#9CA3AF;">
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFF4ED;border:1px solid #FFC7A2;vertical-align:-1px;margin-right:6px;"></span>Rule input</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#F3F4F6;border:1px solid #E5E7EB;vertical-align:-1px;margin-right:6px;"></span>System record</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:white;border:1px dashed #9CA3AF;vertical-align:-1px;margin-right:6px;"></span>Derived field</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- 4-column ERD grid -->
+<!-- ============================================================ -->
+<div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:36px; margin-bottom:8px;">
+  <div class="col-label">1 · Configuration</div>
+  <div class="col-label">2 · Field production</div>
+  <div class="col-label">3 · Work order pipeline</div>
+  <div class="col-label">4 · Ledger output</div>
+</div>
+
+<div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:36px; align-items:start;">
+
+  <!-- ============================================================ -->
+  <!-- COLUMN 1 — CONFIGURATION -->
+  <!-- ============================================================ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- Company -->
+    <div class="node">
+      <div class="node-title">Company</div>
+      <div class="node-name">PowerGrid Services</div>
+      <div class="node-sub">Set in Admin → Settings → Accounting. One source of truth for every job in the tenant.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">operational_week_ends_on</span><span class="type">dow</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">fiscal_month_close_method</span> <span class="pill pill-soon">soon</span><span class="type">enum</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">accounting_provider</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">enforce_close_lock</span> <span class="pill pill-soon">soon</span><span class="type">bool</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">lock_delay_days</span> <span class="pill pill-soon">soon</span><span class="type">int</span></div>
+    </div>
+
+    <!-- Job -->
+    <div class="node">
+      <div class="node-title">Job</div>
+      <div class="node-name">Wiregrass EMC Distribution</div>
+      <div class="node-sub">Top-level container. Each Job hosts exactly one active Contract that governs how its work orders are billed.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">company_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">contract_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">name</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">status</span><span class="type">enum</span></div>
+    </div>
+
+    <!-- Contract -->
+    <div class="node">
+      <div class="node-title">Contract</div>
+      <div class="node-name">Wiregrass 2026 (Unit-Price)</div>
+      <div class="node-sub">Set in Contract Wizard → Billing &amp; Terms. Drives every billing decision downstream.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">contract_type</span><span class="type">enum</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">billing_trigger</span><span class="type">enum</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">threshold_amount</span> <span class="pill pill-soon">soon</span><span class="type">decimal?</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">eligibility_basis</span><span class="type">enum</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">invoicing_cadence</span><span class="type">enum</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">billing_cycle_anchor</span><span class="type">jsonb?</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">payment_terms</span><span class="type">enum</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">retainage_pct</span><span class="type">decimal</span></div>
+    </div>
+
+    <!-- User -->
+    <div class="node">
+      <div class="node-title">User</div>
+      <div class="node-name">Biller / Admin / Owner</div>
+      <div class="node-sub">Stamped on every ledger action so the audit trail names a human.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">name</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">role</span><span class="type">enum</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- COLUMN 2 — FIELD PRODUCTION -->
+  <!-- ============================================================ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- CU Library -->
+    <div class="node">
+      <div class="node-title">CU Library (rate sheet)</div>
+      <div class="node-name">Reference catalog</div>
+      <div class="node-sub">Master catalog of construction units. Per-contract overrides live in CU_Contract_Override (1-to-many on contract).</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">cu_code</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">contract_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">description</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">unit_price</span><span class="type">decimal</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">unit_of_measure</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">default_function</span><span class="type">enum</span></div>
+    </div>
+
+    <!-- Crew -->
+    <div class="node">
+      <div class="node-title">Crew</div>
+      <div class="node-name">Field team</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">name</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">foreman_user_id</span><span class="type">uuid</span></div>
+    </div>
+
+    <!-- Production log -->
+    <div class="node">
+      <div class="node-title">Production log line</div>
+      <div class="node-name">One row per logged CU event</div>
+      <div class="node-sub">The atomic unit of earned revenue. Snapshot fields are copied from the CU Library at write time so historical line totals stay stable when rate sheets change.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">work_order_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">cu_code</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">crew_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">function</span><span class="type">enum</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">qty</span><span class="type">decimal</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">unit_price_snapshot</span> <span class="pill pill-snap">snapshot</span><span class="type">decimal</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">description_snapshot</span> <span class="pill pill-snap">snapshot</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">billable</span><span class="type">bool</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">logged_at</span><span class="type">date</span></div>
+      <div class="field-row derived"><span class="key">∑</span><span class="name">extended_amount</span><span class="type">qty × price</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- COLUMN 3 — WORK ORDER PIPELINE -->
+  <!-- ============================================================ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- Work order -->
+    <div class="node">
+      <div class="node-title">Work order</div>
+      <div class="node-name">Unit of billing</div>
+      <div class="node-sub">Crew opens, logs against, and eventually completes a WO. Its <span class="tabular">status</span> + <span class="tabular">completed_at</span> are the routing keys for the Billing tab.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">job_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">wo_number</span><span class="type">string</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">status</span><span class="type">enum</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">completed_at</span><span class="type">date?</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">location</span><span class="type">string</span></div>
+      <div class="field-row derived"><span class="key">∑</span><span class="name">total</span><span class="type">sum(lines.ext)</span></div>
+    </div>
+
+    <!-- Routing rules callout -->
+    <div class="callout">
+      <div class="callout-title">Routing rules (computed view)</div>
+      <div class="callout-body">
+        A WO appears in one of three Billing tab buckets at any moment:
+        <ul>
+          <li><b>Ready to Invoice</b> ← <span class="tabular">status = Complete</span> AND <span class="tabular">completed_at ≤ cutoff</span> AND not yet invoiced</li>
+          <li><b>WIP · This Week</b> ← <span class="tabular">status = In Progress</span> AND has un-accrued earned lines in the current open week</li>
+          <li><b>WIP · Ready to accrue</b> ← any un-accrued earned lines whose <span class="tabular">logged_at</span> ≤ last closed week-end (rolling backlog; includes In-Progress WOs and Complete WOs that finished after a back period's close)</li>
+        </ul>
+        Mark as invoiced / accrued are the two write actions that move records into the column 4 ledgers.
+      </div>
+    </div>
+
+    <!-- Derived period -->
+    <div class="node">
+      <div class="node-title">Period (derived)</div>
+      <div class="node-name">Sun–Sat week buckets</div>
+      <div class="node-sub">Not a stored entity. Computed on the fly from <span class="tabular">Company.operational_week_ends_on</span> + a date. Every line's <span class="tabular">logged_at</span> resolves to exactly one weekly bucket.</div>
+      <div class="field-row derived"><span class="key">∂</span><span class="name">start_date</span><span class="type">date</span></div>
+      <div class="field-row derived"><span class="key">∂</span><span class="name">end_date</span><span class="type">date</span></div>
+      <div class="field-row derived"><span class="key">∂</span><span class="name">is_open</span><span class="type">end ≥ today</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- COLUMN 4 — LEDGER OUTPUT -->
+  <!-- ============================================================ -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- Invoice record -->
+    <div class="node">
+      <div class="node-title">Invoice record</div>
+      <div class="node-name">Invoiced section · 1 per WO event</div>
+      <div class="node-sub">Created when the biller clicks "Mark as invoiced". Snapshots the WO's lines so historical invoices stay correct even if production data is later edited upstream.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">work_order_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">marked_by_user_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">total</span><span class="type">decimal</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">completed_at_snapshot</span> <span class="pill pill-snap">snapshot</span><span class="type">date</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">invoiced_on</span><span class="type">date</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">marked_at</span><span class="type">timestamp</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">period_end</span> <span class="type">date?</span></div>
+      <div class="field-row"><span class="key">→</span><span class="name">lines_snapshot [ ]</span> <span class="pill pill-snap">snapshot</span><span class="type">[]line</span></div>
+      <div class="field-row"><span class="key">→</span><span class="name">reverses_accruals [ ]</span><span class="type">[]uuid</span></div>
+    </div>
+
+    <!-- Accrual entry -->
+    <div class="node">
+      <div class="node-title">Accrual entry</div>
+      <div class="node-name">Accrued ledger · split per week</div>
+      <div class="node-sub">Mark as accrued emits N entries — one per natural Sun–Sat bucket spanned by the rolled-up earned value. Each books to its native GL period.</div>
+      <div class="field-row"><span class="key">PK</span><span class="name">id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">work_order_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">marked_by_user_id</span><span class="type">uuid</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">amount</span><span class="type">decimal</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">accrued_on</span><span class="type">date</span></div>
+      <div class="field-row highlight"><span class="key"></span><span class="name">accrued_through</span><span class="type">date</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">bucket_label</span><span class="type">string</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">marked_at</span><span class="type">timestamp</span></div>
+      <div class="field-row"><span class="key">FK</span><span class="name">reversed_by_invoice_id</span><span class="type">uuid?</span></div>
+      <div class="field-row"><span class="key"></span><span class="name">reversed_on</span><span class="type">date?</span></div>
+      <div class="field-row"><span class="key">→</span><span class="name">source_line_ids [ ]</span><span class="type">[]uuid</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Flow paths legend -->
+<!-- ============================================================ -->
+<section style="margin-top:48px; max-width:1040px;">
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF; margin-bottom:14px;">Flow paths</div>
+  <div style="display:flex;flex-direction:column;gap:14px;">
+
+    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:flex-start;">
+      <div style="margin-top:1px;width:24px;height:24px;border-radius:12px;background:#FFF4ED;color:#B33E12;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:1px solid #FFC7A2;">1</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#111827;">Job → Contract → CU Library hydrate the production form</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.5;">When a crew opens a work order to log units, the WO's <span class="tabular">job_id → contract_id</span> chain resolves to a CU Library. The library's unit_price and description are <b>snapshotted</b> onto each new line at log time. Future price changes don't disturb history.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:flex-start;">
+      <div style="margin-top:1px;width:24px;height:24px;border-radius:12px;background:#FFF4ED;color:#B33E12;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:1px solid #FFC7A2;">2</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#111827;">Production lines roll up into their parent work order</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.5;">WO.lines is the inverse of <span class="tabular">work_order_id</span> FKs. WO.total is the sum of all billable extended_amounts. Each line carries an immutable <span class="tabular">logged_at</span> that decides which period it belongs to.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:flex-start;">
+      <div style="margin-top:1px;width:24px;height:24px;border-radius:12px;background:#FFF4ED;color:#B33E12;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:1px solid #FFC7A2;">3</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#111827;">WO status + contract rules + period filter route a WO to a bucket</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.5;">For <span class="tabular">billing_trigger = per-WO completion</span> (the v1 default): a Complete WO with <span class="tabular">completed_at ≤ cutoff</span> appears in Ready to Invoice. An In-Progress WO with un-accrued earned lines in any closed week appears in WIP · Ready to accrue. A Complete WO that finished after a back period's close but had earned lines inside it also surfaces under Ready to accrue until its accruals are stamped.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:flex-start;">
+      <div style="margin-top:1px;width:24px;height:24px;border-radius:12px;background:#FFF4ED;color:#B33E12;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:1px solid #FFC7A2;">4</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#111827;">Mark as accrued splits earned value into per-week entries</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.5;">Company-level <span class="tabular">operational_week_ends_on</span> defines the bucket boundary. Each billable un-accrued line in the WO's "Ready to accrue" view groups into its natural Sun–Sat week; one Accrual entry per week is emitted with <span class="tabular">accrued_through</span> set to that week's end. <span class="tabular">source_line_ids[]</span> preserves which lines composed each entry so accounting can drill into the audit trail.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:flex-start;">
+      <div style="margin-top:1px;width:24px;height:24px;border-radius:12px;background:#FFF4ED;color:#B33E12;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:1px solid #FFC7A2;">5</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#111827;">Mark as invoiced auto-reverses every open accrual for that WO</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.5;">The new Invoice record's <span class="tabular">reverses_accruals[]</span> is populated with every Accrual entry where <span class="tabular">work_order_id</span> matches AND <span class="tabular">reversed_by_invoice_id IS NULL</span>. Those accruals get their reversal fields stamped at the same time (<span class="tabular">reversed_by_invoice_id = invoice.id</span>, <span class="tabular">reversed_on = today</span>). Net accrued on the books drops; the ledger row stays for audit.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:flex-start;">
+      <div style="margin-top:1px;width:24px;height:24px;border-radius:12px;background:#FFF4ED;color:#B33E12;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:1px solid #FFC7A2;">6</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#111827;">All period filtering descends from one company setting</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:2px;line-height:1.5;">"This week" toggles on Invoiced and Accrued resolve their window from <span class="tabular">Company.operational_week_ends_on</span> + today. Ready-to-Invoice cutoffs resolve the same way. Period itself is not stored — it's a derived view.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- Audit / what-to-watch-for section -->
+<!-- ============================================================ -->
+<section style="margin-top:48px; max-width:1040px;">
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF; margin-bottom:14px;">Invariants &amp; edge cases the schema must hold</div>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+
+    <div class="node" style="padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">Net accrued = Σ(accruals where reversed IS NULL)</div>
+      <div style="font-size:12px;color:#6B7280;line-height:1.5;">The "Net accrued on the books" footer on the Accrued ledger is computed from un-reversed entries only. Reversed entries stay visible (grayed) for audit but don't count toward the open balance.</div>
+    </div>
+
+    <div class="node" style="padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">Lines snapshot is immutable on invoice / accrual write</div>
+      <div style="font-size:12px;color:#6B7280;line-height:1.5;">Invoice.lines_snapshot and Accrual.source_line_ids preserve the line state at the moment the action fired. Editing a production log line after the fact must not alter past invoices or accruals — only the live WO total.</div>
+    </div>
+
+    <div class="node" style="padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">Same WO can have multiple accruals but at most one invoice</div>
+      <div style="font-size:12px;color:#6B7280;line-height:1.5;">Per the v1 per-WO billing model, each WO invoices exactly once and that event reverses all open accruals. If billing_trigger ever becomes "partial / progress" (currently Coming Soon), the Invoice → WO relationship widens to many-to-one and the reversal logic gets a period scope.</div>
+    </div>
+
+    <div class="node" style="padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">WIP earned for a period = Σ(lines in period) − Σ(open accruals in period)</div>
+      <div style="font-size:12px;color:#6B7280;line-height:1.5;">After a WO has been accrued for a given week, the WIP row's "Earned this period" must net out the prior accrual so the biller doesn't double-stamp. Once an accrual is reversed by an invoice, the underlying lines become available to re-accrue (relevant only if the invoice itself is later voided).</div>
+    </div>
+
+    <div class="node" style="padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">Closed-period writes are still allowed in v1</div>
+      <div style="font-size:12px;color:#6B7280;line-height:1.5;">Company.enforce_close_lock is display-only for launch (the Period Closed badge is informational). Field crews can still log to closed periods until the toggle ships; the rolling backlog model assumes this.</div>
+    </div>
+
+    <div class="node" style="padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:6px;">Currency, time zone, and DOW math live on Company</div>
+      <div style="font-size:12px;color:#6B7280;line-height:1.5;">Every "what week is this?" computation must read <span class="tabular">Company.operational_week_ends_on</span> + the company TZ. Hardcoding Sun–Sat anywhere in product code will break for tenants that flip to Mon–Sun.</div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+</body>
+</html>

@@ -20,6 +20,7 @@ import OrgSwitcher from './components/org-switcher'
 import JobSetupWizard from './components/docs/bluesky-jobs/job-setup-wizard.js'
 import CrewEquipment from './components/docs/bluesky-jobs/crew-equipment'
 import RedlineModalExample from './components/docs/bluesky-jobs/RedlineModal'
+import InvoicingTab from './components/InvoicingTab'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -41,11 +42,12 @@ const PAGES = [
   {key: 'org-switcher', label: 'Org Switcher', component: OrgSwitcher},
   {key: 'job-setup-wizard', label: 'Job Setup Wizard', component: JobSetupWizard},
   {key: 'crew-equipment', label: 'Crew Equipment', component: CrewEquipment},
-  {key: 'redline-modal', label: 'Redline Modal', component: RedlineModalExample}
+  {key: 'redline-modal', label: 'Redline Modal', component: RedlineModalExample},
+  {key: 'invoicing-tab', label: 'Invoicing Tab', component: InvoicingTab}
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('redline-modal')
+  const [activePage, setActivePage] = useState('invoicing-tab')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (

@@ -1,690 +1,610 @@
-/**
- * RedlineModal.tsx
- * ---------------------------------------------------------------------------
- * Modal for creating, editing, and removing a redline on a Compatible Unit.
- *
- * Conceptual model (see schema design doc for full context):
- *   - A redline is a CU-level record reconciling planned qty vs. logged qty.
- *   - One redline per CU. Re-opening this modal edits the existing one.
- *   - The deviation type (net_new / qty_up / qty_down) is DERIVED from
- *     plannedQty and totalQty. It is not a user-selected value.
- *   - Variance = totalQty − plannedQty. When variance hits 0, the redline
- *     is meaningless and the parent should not allow Save (this component
- *     enforces that by disabling the button).
- *   - This component is presentational. It does not write to the database.
- *     The parent owns persistence via onSave, onRemove, and onClose.
- *
- * Styling: inline style objects, no external dependencies. Drop in anywhere;
- * adapt to your styling system (Tailwind / CSS modules / styled-components)
- * as needed. Color tokens are defined as constants at the top.
- * ---------------------------------------------------------------------------
- */
+// Variation B — Multi-function selection with inline (non-stacking) QTY.
+//
+// Each Compatible Unit row supports:
+//  - Multi-select function checkboxes (Install / Retire / Transfer)
+//  - One QTY stepper per function, side-by-side (never stacks)
+//  - Disabled function state with reason text (e.g. "No price configured")
+//  - Stepping QTY below 1 auto-unchecks the function
+//  - Same CU can be added multiple times for different Work Points
+//
+// Self-contained: no external component imports.
 
-import React, { useEffect, useState, type CSSProperties } from "react";
+import React, { useState, useCallback } from "react";
 
-// ============================================================================
-// Types
-// ============================================================================
+/* ──────────────────────────  Types  ────────────────────────── */
 
-export type CUFunction = "Install" | "Remove" | "Transfer";
+type FunctionId = "install" | "retire" | "transfer";
 
-export type CompatibleUnit = {
+interface FunctionDef {
+  id: FunctionId;
+  label: string;
+}
+
+interface LibraryEntry {
   id: string;
   code: string;
-  function: CUFunction;
-};
-
-/**
- * The currently-active redline on a CU, if any. Pass `undefined` when no
- * redline exists (the modal opens in "create" mode).
- */
-export type ExistingRedline = {
-  plannedQty: number;
-  reason: string;
-};
-
-/**
- * Payload passed to `onSave`. The deviation type is derived on the backend
- * from plannedQty and the current total logged qty; no need to send it.
- */
-export type RedlinePayload = {
-  plannedQty: number;
-  reason: string;
-};
-
-export type RedlineModalProps = {
-  open: boolean;
-  cu: CompatibleUnit;
-  /** Sum of qty_delta across non-deleted work_log_entries for this CU. */
-  totalQty: number;
-  /** If present, the modal opens in "edit" mode and pre-fills the form. */
-  existingRedline?: ExistingRedline;
-  onClose: () => void;
-  /** Called when the user saves. Should write to redline_events + UPDATE compatible_units in one txn. */
-  onSave: (payload: RedlinePayload) => void | Promise<void>;
-  /** Called when the user clicks "Remove redline." Should write a 'removed' event + clear redline columns. */
-  onRemove?: () => void | Promise<void>;
-};
-
-type VarianceState = "none" | "net_new" | "qty_up" | "qty_down";
-
-// ============================================================================
-// Derivation helpers
-// ============================================================================
-
-export function computeVarianceState(plannedQty: number, totalQty: number): VarianceState {
-  const variance = totalQty - plannedQty;
-  if (variance === 0) return "none";
-  if (plannedQty === 0) return "net_new";
-  return variance > 0 ? "qty_up" : "qty_down";
+  desc: string;
+  onWO?: boolean;
+  /** Reasons keyed by function id for which the function is unavailable. */
+  disabledFunctions?: Partial<Record<FunctionId, string>>;
 }
 
-function formatVariance(v: number): string {
-  if (v === 0) return "0";
-  return v > 0 ? `+${v}` : `${v}`;
+interface CompletedRow {
+  /** Unique per row — multiple rows can share the same `cuId`. */
+  instanceId: string;
+  cuId: string;
+  code: string;
+  desc: string;
+  disabledFunctions: Partial<Record<FunctionId, string>>;
+  /** Map of selected function id → qty. Absent key = unchecked. */
+  selected: Partial<Record<FunctionId, number>>;
+  workPoint?: string;
+  pole?: string;
 }
 
-const VARIANCE_CONFIG: Record<VarianceState, { label: string; caption: string; tone: "up" | "down" | "neutral" }> = {
-  net_new: { label: "NET NEW", caption: "Wasn't on the WO at all", tone: "up" },
-  qty_up: { label: "↑ QTY UP", caption: "More performed than WO called for", tone: "up" },
-  qty_down: { label: "↓ QTY DOWN", caption: "Less performed than WO called for", tone: "down" },
-  none: { label: "NO VARIANCE", caption: "WO matches logged quantity — no redline needed", tone: "neutral" },
-};
+/* ──────────────────────────  Data  ────────────────────────── */
 
-// ============================================================================
-// Color tokens (override or replace with your design system)
-// ============================================================================
+const FUNCTIONS: FunctionDef[] = [
+  { id: "install", label: "Install-Default" },
+  { id: "retire", label: "Retire-Default" },
+  { id: "transfer", label: "Transfer-Default" },
+];
 
-const C = {
-  text: "#1a1a1a",
-  textSecondary: "#555",
-  textTertiary: "#888",
-  border: "rgba(0,0,0,0.14)",
-  borderLight: "rgba(0,0,0,0.08)",
-  surface: "#ffffff",
-  surfaceMuted: "#F8F8F6",
-  blue: "#185FA5",
-  green: "#3B6D11",
-  red: "#791F1F",
-  redLight: "#FCEBEB",
-  orange: "#E76F51",
-  orangeHover: "#D85A30",
-  orangeText: "#854F0B",
-  orangeBorder: "#BA7517",
-  orangeLight: "#FAEEDA",
-};
+const LIBRARY: LibraryEntry[] = [
+  { id: "lib-fretire", code: '"F" Retire All ( Unscrew / Cut / Drive 18" below surface )', desc: '"F" Retire All ( Unscrew / Cut / Drive 18" bel...', onWO: false },
+  { id: "lib-23strcu", code: "2-3 Str. Cu", desc: "2-3 Str. Cu", onWO: true },
+  { id: "lib-2way", code: "2-Way Feed Sign", desc: "2-Way Feed Sign", onWO: true,
+    disabledFunctions: { transfer: "No price configured" } },
+  { id: "lib-30wood", code: "30' Wood Pole and Less", desc: "30' Wood Pole and Less", onWO: false },
+  { id: "lib-35wood", code: "35' Wood Pole", desc: "35' Wood Pole", onWO: true },
+  { id: "lib-40conc", code: "40' Concrete Pole", desc: "40' Concrete Pole", onWO: true },
+  { id: "lib-40wood", code: "40' Wood Pole", desc: "40' Wood Pole", onWO: true },
+];
 
-// ============================================================================
-// Reusable style fragments
-// ============================================================================
+/* ──────────────────────────  Root  ────────────────────────── */
 
-const styles = {
-  overlay: {
-    position: "fixed" as const,
-    inset: 0,
-    background: "rgba(0,0,0,0.4)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 100,
-  } satisfies CSSProperties,
+export default function VariationB(): JSX.Element {
+  const [completed, setCompleted] = useState<CompletedRow[]>([
+    {
+      instanceId: "i1",
+      cuId: "lib-2way",
+      code: "2-Way Feed Sign",
+      desc: "2-Way Feed Sign",
+      disabledFunctions: { transfer: "No price configured" },
+      selected: { install: 1 },
+    },
+    {
+      instanceId: "i2",
+      cuId: "lib-30wood",
+      code: "30' Wood Pole and Less",
+      desc: "30' Wood Pole and Less",
+      disabledFunctions: {},
+      selected: { install: 1, retire: 2 },
+    },
+  ]);
 
-  modal: {
-    background: C.surface,
-    borderRadius: 12,
-    padding: 24,
-    width: "90%",
-    maxWidth: 540,
-    maxHeight: "90vh",
-    overflowY: "auto" as const,
-    boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", sans-serif',
-    color: C.text,
-  } satisfies CSSProperties,
+  const toggleFn = useCallback((cuIdx: number, fnId: FunctionId) => {
+    setCompleted((prev) =>
+      prev.map((row, i) => {
+        if (i !== cuIdx) return row;
+        const next = { ...row.selected };
+        if (fnId in next) delete next[fnId];
+        else next[fnId] = 1;
+        return { ...row, selected: next };
+      })
+    );
+  }, []);
 
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4,
-  } satisfies CSSProperties,
+  const setQty = useCallback((cuIdx: number, fnId: FunctionId, qty: number) => {
+    setCompleted((prev) =>
+      prev.map((row, i) => {
+        if (i !== cuIdx) return row;
+        // Auto-uncheck the function if user steps below 1.
+        if (qty < 1) {
+          const next = { ...row.selected };
+          delete next[fnId];
+          return { ...row, selected: next };
+        }
+        return { ...row, selected: { ...row.selected, [fnId]: qty } };
+      })
+    );
+  }, []);
 
-  title: {
-    fontSize: 17,
-    fontWeight: 600,
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-  } satisfies CSSProperties,
+  const removeRow = useCallback((cuIdx: number) => {
+    setCompleted((prev) => prev.filter((_, i) => i !== cuIdx));
+  }, []);
 
-  closeBtn: {
-    border: "none",
-    background: "transparent",
-    fontSize: 22,
-    cursor: "pointer",
-    color: C.textTertiary,
-    lineHeight: 1,
-    padding: 4,
-  } satisfies CSSProperties,
+  // Library click ALWAYS adds a new instance (no dedupe).
+  const addFromLibrary = useCallback((lib: LibraryEntry) => {
+    setCompleted((prev) => [
+      ...prev,
+      {
+        instanceId: "i" + (Date.now() + Math.random()),
+        cuId: lib.id,
+        code: lib.code,
+        desc: lib.desc,
+        disabledFunctions: lib.disabledFunctions ?? {},
+        selected: { install: 1 },
+      },
+    ]);
+  }, []);
 
-  subtitle: {
-    fontFamily: '"SF Mono", Menlo, Consolas, monospace',
-    fontSize: 13,
-    color: C.blue,
-    marginBottom: 12,
-  } satisfies CSSProperties,
-
-  info: {
-    fontSize: 13,
-    color: C.textSecondary,
-    marginBottom: 18,
-  } satisfies CSSProperties,
-
-  editBanner: {
-    background: C.orangeLight,
-    border: "1px solid rgba(232, 111, 81, 0.3)",
-    borderRadius: 8,
-    padding: "10px 12px",
-    marginBottom: 16,
-    fontSize: 12,
-    color: C.orangeText,
-    lineHeight: 1.5,
-  } satisfies CSSProperties,
-
-  bannerTitle: {
-    fontWeight: 600,
-    marginBottom: 2,
-  } satisfies CSSProperties,
-
-  removeLink: {
-    color: C.red,
-    fontWeight: 500,
-    cursor: "pointer",
-    textDecoration: "underline",
-    background: "none",
-    border: "none",
-    padding: 0,
-    fontSize: "inherit",
-    fontFamily: "inherit",
-  } satisfies CSSProperties,
-
-  variancePanel: (tone: "up" | "down" | "neutral"): CSSProperties => ({
-    border: "1px solid",
-    borderColor:
-      tone === "up"
-        ? "rgba(232, 111, 81, 0.25)"
-        : tone === "down"
-        ? "rgba(224, 75, 74, 0.25)"
-        : C.borderLight,
-    borderRadius: 8,
-    marginBottom: 8,
-    overflow: "hidden",
-    background:
-      tone === "up" ? C.orangeLight : tone === "down" ? C.redLight : C.surfaceMuted,
-  }),
-
-  varianceGrid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    padding: "18px 0 16px",
-    position: "relative" as const,
-  } satisfies CSSProperties,
-
-  varianceDivider: {
-    position: "absolute" as const,
-    left: "50%",
-    top: 16,
-    bottom: 16,
-    width: 1,
-    background: "rgba(0,0,0,0.08)",
-    transform: "translateX(-50%)",
-  } satisfies CSSProperties,
-
-  varianceArrow: {
-    position: "absolute" as const,
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 28,
-    height: 28,
-    borderRadius: "50%",
-    background: C.surface,
-    border: "1px solid rgba(0,0,0,0.12)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: C.orange,
-    fontSize: 14,
-    zIndex: 1,
-  } satisfies CSSProperties,
-
-  varianceSide: {
-    textAlign: "center" as const,
-    padding: "0 16px",
-  } satisfies CSSProperties,
-
-  varianceSideLabel: {
-    fontSize: 11,
-    fontWeight: 600,
-    color: C.textSecondary,
-    textTransform: "uppercase" as const,
-    letterSpacing: "0.08em",
-    marginBottom: 10,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-  } satisfies CSSProperties,
-
-  varianceNumber: (editable: boolean, tone: "up" | "down" | "neutral"): CSSProperties => ({
-    fontSize: 56,
-    fontWeight: 700,
-    lineHeight: 1,
-    marginBottom: 14,
-    fontFeatureSettings: '"tnum"',
-    color:
-      editable && tone === "up"
-        ? C.orangeHover
-        : editable && tone === "down"
-        ? C.red
-        : C.text,
-  }),
-
-  stepperGroup: {
-    display: "inline-flex",
-    gap: 6,
-  } satisfies CSSProperties,
-
-  stepperBtn: {
-    width: 36,
-    height: 32,
-    border: "1px solid rgba(0,0,0,0.15)",
-    background: C.surface,
-    borderRadius: 6,
-    cursor: "pointer",
-    fontSize: 16,
-    color: C.text,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "inherit",
-  } satisfies CSSProperties,
-
-  readonlyLabel: {
-    fontSize: 11,
-    color: C.textTertiary,
-    fontStyle: "italic" as const,
-    height: 32,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  } satisfies CSSProperties,
-
-  varianceFooter: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "9px 14px",
-    borderTop: "1px solid rgba(0,0,0,0.06)",
-  } satisfies CSSProperties,
-
-  variancePill: (tone: "up" | "down" | "neutral"): CSSProperties => ({
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 4,
-    padding: "4px 12px",
-    borderRadius: 999,
-    fontSize: 11,
-    fontWeight: 700,
-    letterSpacing: "0.06em",
-    background: "rgba(255,255,255,0.7)",
-    color:
-      tone === "up" ? C.orangeHover : tone === "down" ? C.red : C.textTertiary,
-    border:
-      tone === "up"
-        ? "1px solid rgba(232, 111, 81, 0.4)"
-        : tone === "down"
-        ? "1px solid rgba(121, 31, 31, 0.3)"
-        : `1px solid ${C.border}`,
-  }),
-
-  varianceAmount: (tone: "up" | "down" | "neutral"): CSSProperties => ({
-    fontSize: 18,
-    fontWeight: 700,
-    marginLeft: 8,
-    fontFeatureSettings: '"tnum"',
-    color:
-      tone === "up" ? C.orangeHover : tone === "down" ? C.red : C.textTertiary,
-  }),
-
-  varianceCaption: {
-    fontSize: 12,
-    color: C.textSecondary,
-    margin: "0 0 18px",
-  } satisfies CSSProperties,
-
-  formLabel: (error: boolean): CSSProperties => ({
-    display: "block",
-    fontSize: 13,
-    fontWeight: 600,
-    marginBottom: 6,
-    color: error ? C.orangeHover : C.text,
-  }),
-
-  textarea: (error: boolean): CSSProperties => ({
-    width: "100%",
-    padding: "10px 12px",
-    border: error ? `1px solid ${C.orangeBorder}` : "1px solid rgba(0,0,0,0.14)",
-    outline: "none",
-    borderRadius: 8,
-    fontFamily: "inherit",
-    fontSize: 13,
-    background: C.surface,
-    minHeight: 64,
-    resize: "vertical" as const,
-    boxSizing: "border-box" as const,
-  }),
-
-  footer: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    gap: 8,
-    paddingTop: 16,
-    borderTop: "1px solid rgba(0,0,0,0.08)",
-    marginTop: 16,
-  } satisfies CSSProperties,
-
-  footerLeft: {
-    flex: 1,
-  } satisfies CSSProperties,
-
-  btn: (variant: "default" | "primary" | "ghost-danger" = "default", disabled = false): CSSProperties => ({
-    padding: "8px 16px",
-    fontSize: 13,
-    fontWeight: 500,
-    fontFamily: "inherit",
-    border:
-      variant === "primary"
-        ? `1px solid ${C.orange}`
-        : variant === "ghost-danger"
-        ? "1px solid transparent"
-        : "1px solid rgba(0,0,0,0.14)",
-    background:
-      variant === "primary"
-        ? C.orange
-        : variant === "ghost-danger"
-        ? "transparent"
-        : C.surface,
-    color:
-      variant === "primary"
-        ? "#fff"
-        : variant === "ghost-danger"
-        ? C.red
-        : C.text,
-    borderRadius: 8,
-    cursor: disabled ? "not-allowed" : "pointer",
-    opacity: disabled ? 0.5 : 1,
-  }),
-};
-
-// ============================================================================
-// Lock icon
-// ============================================================================
-
-const LockIcon = () => (
-  <svg width={10} height={11} viewBox="0 0 10 11" fill="currentColor" aria-hidden="true" style={{ opacity: 0.6 }}>
-    <path d="M5 0a3 3 0 00-3 3v1H1.5a.5.5 0 00-.5.5v6a.5.5 0 00.5.5h7a.5.5 0 00.5-.5v-6a.5.5 0 00-.5-.5H8V3a3 3 0 00-3-3zm-2 4V3a2 2 0 014 0v1H3z" />
-  </svg>
-);
-
-// ============================================================================
-// Component
-// ============================================================================
-
-export function RedlineModal({
-  open,
-  cu,
-  totalQty,
-  existingRedline,
-  onClose,
-  onSave,
-  onRemove,
-}: RedlineModalProps) {
-  const isEdit = !!existingRedline;
-
-  const [plannedQty, setPlannedQty] = useState<number>(existingRedline?.plannedQty ?? 0);
-  const [reason, setReason] = useState<string>(existingRedline?.reason ?? "");
-  const [reasonError, setReasonError] = useState<boolean>(false);
-  const [saving, setSaving] = useState<boolean>(false);
-
-  // Reset local state every time the modal opens for a new CU/redline.
-  useEffect(() => {
-    if (!open) return;
-    setPlannedQty(existingRedline?.plannedQty ?? 0);
-    setReason(existingRedline?.reason ?? "");
-    setReasonError(false);
-    setSaving(false);
-  }, [open, cu.id, existingRedline?.plannedQty, existingRedline?.reason]);
-
-  // Close on Escape.
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  const variance = totalQty - plannedQty;
-  const state = computeVarianceState(plannedQty, totalQty);
-  const cfg = VARIANCE_CONFIG[state];
-  const canSave = variance !== 0;
-
-  const bumpPlanned = (delta: number) => setPlannedQty((q) => Math.max(0, q + delta));
-
-  async function handleSave() {
-    if (!reason.trim()) {
-      setReasonError(true);
-      return;
-    }
-    if (variance === 0) return;
-    setSaving(true);
-    try {
-      await onSave({ plannedQty, reason: reason.trim() });
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleRemove() {
-    if (!onRemove) return;
-    if (!window.confirm("Remove this redline? The audit trail will be preserved.")) return;
-    setSaving(true);
-    try {
-      await onRemove();
-    } finally {
-      setSaving(false);
-    }
-  }
+  const instanceCounts = completed.reduce<Record<string, number>>((acc, r) => {
+    acc[r.cuId] = (acc[r.cuId] || 0) + 1;
+    return acc;
+  }, {});
 
   return (
-    <div
-      style={styles.overlay}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div style={styles.modal} role="dialog" aria-modal="true" aria-labelledby="redline-modal-title">
-        <div style={styles.header}>
-          <div id="redline-modal-title" style={styles.title}>
-            ✎ {isEdit ? "Edit Redline" : "Log Scope Change"}
+    <div style={{
+      width: "100%", height: "100%", boxSizing: "border-box",
+      background: "#fff", display: "flex", flexDirection: "column",
+      fontFamily: '"Inter Tight", -apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+    }}>
+      <Header completedCount={completed.length} />
+      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
+        <LibraryPane
+          library={LIBRARY}
+          instanceCounts={instanceCounts}
+          onAdd={addFromLibrary}
+        />
+        <CompletedPane
+          completed={completed}
+          onToggleFn={toggleFn}
+          onSetQty={setQty}
+          onRemove={removeRow}
+        />
+      </div>
+      <FooterBar completed={completed} />
+    </div>
+  );
+}
+
+/* ──────────────────────────  Header  ────────────────────────── */
+
+function Header({ completedCount }: { completedCount: number }): JSX.Element {
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      padding: "16px 24px", borderBottom: "1px solid #ececea", background: "#fff",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <button style={{
+          display: "inline-flex", alignItems: "center", gap: 8,
+          padding: "8px 12px", borderRadius: 8, border: "1px solid #ececea",
+          background: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 500,
+          color: "#1a1816",
+        }}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10 4l-4 4 4 4" />
+          </svg>
+          Back to WO
+        </button>
+        <div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#1a1816", letterSpacing: -0.2 }}>
+            Add Compatible Units
           </div>
-          <button style={styles.closeBtn} onClick={onClose} aria-label="Close">
-            ×
-          </button>
-        </div>
-
-        <div style={styles.subtitle}>
-          {cu.code} <span style={{ color: C.textTertiary }}>{cu.function}</span>
-        </div>
-
-        <div style={styles.info}>
-          This will not change the Total Quantity logged — quantities are only adjusted via the Log Work action.
-        </div>
-
-        {isEdit && (
-          <div style={styles.editBanner}>
-            <div style={styles.bannerTitle}>This CU already has a redline</div>
-            <div>
-              Editing updates the existing redline. Changes to planned qty add an audit entry; reason-only edits do
-              not.{" "}
-              {onRemove && (
-                <button style={styles.removeLink} onClick={handleRemove} disabled={saving}>
-                  Remove redline
-                </button>
-              )}
-            </div>
+          <div style={{ fontSize: 12, color: "#75716c", marginTop: 2 }}>
+            CU Library · 445 units
           </div>
-        )}
+        </div>
+      </div>
+      <div style={{ fontSize: 13, color: "#1a1816", fontWeight: 500 }}>
+        {completedCount} units completed
+      </div>
+    </div>
+  );
+}
 
-        <div style={styles.variancePanel(cfg.tone)}>
-          <div style={styles.varianceGrid}>
-            <div style={styles.varianceDivider} />
+/* ──────────────────────────  Library  ────────────────────────── */
 
-            <div style={styles.varianceSide}>
-              <div style={styles.varianceSideLabel}>Original Scope</div>
-              <div style={styles.varianceNumber(true, cfg.tone)}>{plannedQty}</div>
-              <div style={styles.stepperGroup}>
-                <button style={styles.stepperBtn} onClick={() => bumpPlanned(-1)} aria-label="Decrease">
-                  −
-                </button>
-                <button style={styles.stepperBtn} onClick={() => bumpPlanned(1)} aria-label="Increase">
-                  +
-                </button>
-              </div>
-            </div>
+interface LibraryPaneProps {
+  library: LibraryEntry[];
+  instanceCounts: Record<string, number>;
+  onAdd: (lib: LibraryEntry) => void;
+}
 
-            <div style={styles.varianceSide}>
-              <div style={styles.varianceSideLabel}>
-                <LockIcon />
-                <span>Currently Logged</span>
-              </div>
-              <div style={styles.varianceNumber(false, cfg.tone)}>{totalQty}</div>
-              <div style={styles.readonlyLabel}>read only</div>
-            </div>
-
-            <div style={styles.varianceArrow}>→</div>
-          </div>
-
-          <div style={styles.varianceFooter}>
-            <span style={styles.variancePill(cfg.tone)}>{cfg.label}</span>
-            <span>
-              <span style={{ fontSize: 11, fontWeight: 600, color: C.textSecondary, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-                Variance
+function LibraryPane({ library, instanceCounts, onAdd }: LibraryPaneProps): JSX.Element {
+  return (
+    <div style={{
+      width: 320, borderRight: "1px solid #ececea", background: "#fff",
+      display: "flex", flexDirection: "column", minHeight: 0,
+    }}>
+      <div style={{ padding: 16, borderBottom: "1px solid #f3f2ef" }}>
+        <div style={{
+          display: "flex", alignItems: "center", gap: 8,
+          padding: "8px 12px", borderRadius: 8, border: "1px solid #ececea",
+          background: "#fafaf9",
+        }}>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#bdb9b3" strokeWidth="1.6" strokeLinecap="round">
+            <circle cx="7" cy="7" r="4.5" />
+            <path d="M14 14l-3.5-3.5" />
+          </svg>
+          <span style={{ fontSize: 13, color: "#bdb9b3" }}>Search by CU code or description...</span>
+        </div>
+      </div>
+      <div style={{ overflow: "auto", flex: 1 }}>
+        {library.map((lib) => {
+          const count = instanceCounts[lib.id] || 0;
+          return (
+            <button
+              key={lib.id}
+              onClick={() => onAdd(lib)}
+              style={{
+                display: "flex", gap: 10, padding: "10px 16px", width: "100%",
+                borderTop: "none", borderLeft: "none", borderRight: "none",
+                borderBottom: "1px solid #f3f2ef",
+                background: count > 0 ? "#f0faf3" : "#fff",
+                alignItems: "flex-start", textAlign: "left", cursor: "pointer",
+                font: "inherit",
+              }}
+            >
+              <span style={{
+                width: 22, height: 22, borderRadius: 5, flexShrink: 0,
+                border: "1px solid #ececea", background: "#fff",
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                color: "#75716c", marginTop: 1,
+              }}>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <path d="M6 2v8M2 6h8" />
+                </svg>
               </span>
-              <span style={styles.varianceAmount(cfg.tone)}>{formatVariance(variance)}</span>
-            </span>
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                  <span style={{
+                    color: "#2563eb", fontWeight: 600, fontSize: 13,
+                    fontFamily: '"JetBrains Mono", ui-monospace, monospace',
+                    letterSpacing: -0.2,
+                  }}>
+                    {lib.code}
+                  </span>
+                  {lib.onWO && (
+                    <span style={{
+                      fontSize: 10, fontWeight: 600, padding: "1px 6px",
+                      borderRadius: 4, background: "#ececea", color: "#75716c",
+                      letterSpacing: 0.4,
+                    }}>ON WO</span>
+                  )}
+                  {count > 0 && (
+                    <span style={{
+                      fontSize: 10, fontWeight: 700, padding: "1px 6px",
+                      borderRadius: 999, background: "#1f9148", color: "#fff",
+                      letterSpacing: 0.2,
+                    }}>×{count} added</span>
+                  )}
+                </div>
+                <div style={{
+                  fontSize: 13, color: "#1a1816", marginTop: 2,
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                }}>
+                  {lib.desc}
+                </div>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────  Completed Pane  ────────────────────────── */
+
+interface CompletedPaneProps {
+  completed: CompletedRow[];
+  onToggleFn: (cuIdx: number, fnId: FunctionId) => void;
+  onSetQty: (cuIdx: number, fnId: FunctionId, qty: number) => void;
+  onRemove: (cuIdx: number) => void;
+}
+
+function CompletedPane({ completed, onToggleFn, onSetQty, onRemove }: CompletedPaneProps): JSX.Element {
+  return (
+    <div style={{
+      flex: 1, background: "#fafaf9",
+      display: "flex", flexDirection: "column", minHeight: 0,
+    }}>
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "16px 20px",
+      }}>
+        <div style={{
+          fontSize: 11, fontWeight: 600, color: "#75716c", letterSpacing: 0.6,
+          textTransform: "uppercase",
+        }}>
+          Completed Units ({completed.length})
+        </div>
+        <button style={{
+          background: "transparent", border: "none", cursor: "pointer",
+          color: "#dc2626", fontSize: 13, fontWeight: 500, font: "inherit",
+        }}>
+          Clear all
+        </button>
+      </div>
+      <div style={{ flex: 1, overflow: "auto", padding: "0 20px 20px" }}>
+        {completed.map((row, idx) => (
+          <CompletedCard
+            key={row.instanceId}
+            row={row}
+            onToggleFn={(fnId) => onToggleFn(idx, fnId)}
+            onSetQty={(fnId, qty) => onSetQty(idx, fnId, qty)}
+            onRemove={() => onRemove(idx)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+interface CompletedCardProps {
+  row: CompletedRow;
+  onToggleFn: (fnId: FunctionId) => void;
+  onSetQty: (fnId: FunctionId, qty: number) => void;
+  onRemove: () => void;
+}
+
+function CompletedCard({ row, onToggleFn, onSetQty, onRemove }: CompletedCardProps): JSX.Element {
+  return (
+    <div style={{
+      background: "#fff", border: "1px solid #ececea", borderRadius: 10,
+      marginBottom: 12,
+    }}>
+      {/* Title row */}
+      <div style={{ padding: "14px 18px 10px", display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{
+          color: "#2563eb", fontWeight: 600, fontSize: 15,
+          fontFamily: '"JetBrains Mono", ui-monospace, monospace',
+          letterSpacing: -0.2,
+        }}>
+          {row.code}
+        </span>
+        <span style={{ color: "#75716c", fontSize: 14 }}>{row.desc}</span>
+        <button
+          onClick={onRemove}
+          style={{
+            marginLeft: "auto", width: 28, height: 28, borderRadius: 6,
+            border: "1px solid #ececea", background: "#fff", cursor: "pointer",
+            color: "#75716c",
+            display: "inline-flex", alignItems: "center", justifyContent: "center",
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M3 3l6 6M9 3l-6 6" />
+          </svg>
+        </button>
+      </div>
+
+      <div style={{ height: 1, background: "#f3f2ef" }} />
+
+      {/* Form: FUNCTION+QTY combined into one block, then WP / Pole */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "minmax(560px, 1.7fr) minmax(170px, 1fr) minmax(170px, 1fr)",
+        gap: 24, padding: "14px 18px 18px", alignItems: "start",
+      }}>
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+            <FieldLabel>Function & Qty Completed</FieldLabel>
+            <span style={{ fontSize: 11, color: "#bdb9b3" }}>tick to log</span>
+          </div>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${FUNCTIONS.length}, minmax(0, 1fr))`,
+            gap: 8,
+            border: "1px solid #ececea", borderRadius: 10, padding: 8,
+            background: "#fafaf9",
+          }}>
+            {FUNCTIONS.map((fn) => {
+              const disabledReason = row.disabledFunctions?.[fn.id];
+              const checked = fn.id in row.selected;
+              const qty = row.selected[fn.id] ?? 0;
+              return (
+                <FunctionQtyCell
+                  key={fn.id}
+                  label={fn.label}
+                  checked={checked}
+                  disabled={!!disabledReason}
+                  disabledReason={disabledReason}
+                  qty={qty}
+                  onToggle={() => { if (!disabledReason) onToggleFn(fn.id); }}
+                  onQty={(v) => onSetQty(fn.id, v)}
+                />
+              );
+            })}
           </div>
         </div>
-
-        <div style={styles.varianceCaption}>{cfg.caption}</div>
 
         <div>
-          <label htmlFor="redline-reason" style={styles.formLabel(reasonError)}>
-            Redline Reason *
-          </label>
-          <textarea
-            id="redline-reason"
-            style={styles.textarea(reasonError)}
-            placeholder="Document why there was a change in scope..."
-            value={reason}
-            onChange={(e) => {
-              setReason(e.target.value);
-              if (reasonError) setReasonError(false);
-            }}
-          />
+          <FieldLabel required>Work Point</FieldLabel>
+          <SelectInput placeholder="Type or select..." />
         </div>
-
-        <div style={styles.footer}>
-          <div style={styles.footerLeft}>
-            {isEdit && onRemove && (
-              <button style={styles.btn("ghost-danger")} onClick={handleRemove} disabled={saving}>
-                Remove redline
-              </button>
-            )}
-          </div>
-          <button style={styles.btn("default")} onClick={onClose} disabled={saving}>
-            Cancel
-          </button>
-          <button
-            style={styles.btn("primary", !canSave || saving)}
-            onClick={handleSave}
-            disabled={!canSave || saving}
-          >
-            {saving ? "Saving…" : isEdit ? "Save Changes" : "Save Redline"}
-          </button>
+        <div>
+          <FieldLabel required>Pole #</FieldLabel>
+          <SelectInput placeholder="Type or select..." />
         </div>
       </div>
     </div>
   );
 }
 
-// ============================================================================
-// Example usage (delete this section before integrating)
-// ============================================================================
+/* ──────────────────────────  Sub-components  ────────────────────────── */
 
-/**
- * Minimal example showing how a parent uses RedlineModal. The parent owns
- * data fetching and persistence; the modal is purely presentational.
- *
- * In a real app:
- *   - `cu` and `totalQty` come from your data layer (React Query / RTK / etc.)
- *   - `existingRedline` is the current redline columns from compatible_units
- *   - `onSave` POSTs to your API which writes redline_events + UPDATE compatible_units
- *   - `onRemove` POSTs to your API which writes a 'removed' redline_event + clears columns
- */
-export function RedlineModalExample() {
-  const [open, setOpen] = useState(false);
-  const [redline, setRedline] = useState<ExistingRedline | undefined>(undefined);
-
-  const cu: CompatibleUnit = {
-    id: "a4b91d-...-mock",
-    code: "cu-code-1",
-    function: "Install",
-  };
-
-  const totalQty = 9; // would come from SUM(qty_delta) in your backend
-
+function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }): JSX.Element {
   return (
-    <div style={{ padding: 24 }}>
-      <button onClick={() => setOpen(true)}>Open redline modal</button>
-
-      <RedlineModal
-        open={open}
-        cu={cu}
-        totalQty={totalQty}
-        existingRedline={redline}
-        onClose={() => setOpen(false)}
-        onSave={async (payload) => {
-          // POST to API: writes redline_events + UPDATE compatible_units
-          await new Promise((r) => setTimeout(r, 300));
-          setRedline(payload);
-          setOpen(false);
-        }}
-        onRemove={async () => {
-          // POST to API: writes 'removed' redline_event + clears redline columns
-          await new Promise((r) => setTimeout(r, 300));
-          setRedline(undefined);
-          setOpen(false);
-        }}
-      />
+    <div style={{
+      fontSize: 11, fontWeight: 600, color: "#75716c", letterSpacing: 0.6,
+      textTransform: "uppercase", marginBottom: 8,
+    }}>
+      {children}
+      {required && <span style={{ color: "#dc2626", marginLeft: 4 }}>*</span>}
     </div>
   );
 }
 
-export default RedlineModalExample;
+interface FunctionQtyCellProps {
+  label: string;
+  checked: boolean;
+  disabled: boolean;
+  disabledReason?: string;
+  qty: number;
+  onToggle: () => void;
+  onQty: (v: number) => void;
+}
+
+function FunctionQtyCell({
+  label, checked, disabled, disabledReason, qty, onToggle, onQty,
+}: FunctionQtyCellProps): JSX.Element {
+  const bg = disabled ? "#f3f2ef" : checked ? "#eff5ff" : "#fff";
+  const border = disabled ? "#ececea" : checked ? "#2563eb" : "#ececea";
+  const labelColor = disabled ? "#bdb9b3" : checked ? "#1d4ed8" : "#1a1816";
+
+  return (
+    <div style={{
+      border: "1px solid " + border, borderRadius: 8, background: bg,
+      padding: "8px 10px", opacity: disabled ? 0.85 : 1,
+      display: "flex", flexDirection: "column", gap: 8, minWidth: 0,
+    }}>
+      <button
+        onClick={onToggle}
+        disabled={disabled}
+        style={{
+          display: "flex", alignItems: "center", gap: 8,
+          background: "transparent", border: "none", padding: 0,
+          cursor: disabled ? "not-allowed" : "pointer", textAlign: "left",
+          fontSize: 13, fontWeight: 500, color: labelColor, font: "inherit",
+          textDecoration: disabled ? "line-through" : "none",
+          textDecorationColor: "#d8d4cf",
+          minWidth: 0, width: "100%",
+        }}
+      >
+        <Checkbox checked={checked} disabled={disabled} />
+        <span style={{
+          whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+        }}>{label}</span>
+      </button>
+
+      {disabled ? (
+        <div style={{
+          height: 30, display: "flex", alignItems: "center",
+          fontSize: 12, color: "#bdb9b3", fontStyle: "italic", gap: 4,
+        }}>
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6">
+            <circle cx="6" cy="6" r="4.5" />
+            <path d="M6 4v2.5M6 8.5v.1" strokeLinecap="round" />
+          </svg>
+          {disabledReason}
+        </div>
+      ) : (
+        <QtyStepperInline
+          value={qty}
+          dim={!checked}
+          onChange={(v) => { if (checked) onQty(v); }}
+        />
+      )}
+    </div>
+  );
+}
+
+function Checkbox({ checked, disabled }: { checked: boolean; disabled: boolean }): JSX.Element {
+  const border = disabled ? "#e8e6e2" : checked ? "#2563eb" : "#bdb9b3";
+  const bg = disabled ? "#f3f2ef" : checked ? "#2563eb" : "#fff";
+  return (
+    <span style={{
+      width: 14, height: 14, borderRadius: 3, border: "1.5px solid " + border,
+      background: bg,
+      display: "inline-flex", alignItems: "center", justifyContent: "center",
+      flexShrink: 0,
+    }}>
+      {checked && (
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 5.2L4.2 7.4 8 3" />
+        </svg>
+      )}
+    </span>
+  );
+}
+
+function QtyStepperInline({
+  value, dim, onChange,
+}: { value: number; dim: boolean; onChange: (v: number) => void }): JSX.Element {
+  return (
+    <div style={{
+      display: "inline-flex", alignSelf: "stretch", alignItems: "stretch",
+      border: "1px solid #ececea", borderRadius: 6, overflow: "hidden",
+      background: "#fff", height: 30, opacity: dim ? 0.45 : 1,
+    }}>
+      <button onClick={() => onChange(value - 1)} disabled={dim} style={qtyBtnStyle}>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <path d="M2 5h6" />
+        </svg>
+      </button>
+      <div style={{
+        flex: 1, textAlign: "center",
+        fontSize: 13, fontWeight: 700, color: "#1d4ed8",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        borderLeft: "1px solid #f3f2ef", borderRight: "1px solid #f3f2ef",
+        minWidth: 0,
+      }}>
+        {value}
+      </div>
+      <button onClick={() => onChange(value + 1)} disabled={dim} style={qtyBtnStyle}>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+          <path d="M5 2v6M2 5h6" />
+        </svg>
+      </button>
+    </div>
+  );
+}
+
+const qtyBtnStyle: React.CSSProperties = {
+  width: 26, background: "#fff", border: "none", cursor: "pointer",
+  color: "#75716c",
+  display: "inline-flex", alignItems: "center", justifyContent: "center",
+};
+
+function SelectInput({ placeholder }: { placeholder: string }): JSX.Element {
+  return (
+    <div style={{
+      padding: "8px 12px", borderRadius: 8, border: "1px solid #ececea",
+      background: "#fff", fontSize: 13, color: "#bdb9b3",
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+    }}>
+      <span>{placeholder}</span>
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2.5 4l2.5 2.5L7.5 4" />
+      </svg>
+    </div>
+  );
+}
+
+/* ──────────────────────────  Footer  ────────────────────────── */
+
+function FooterBar({ completed }: { completed: CompletedRow[] }): JSX.Element {
+  const totalQty = completed.reduce(
+    (s, r) => s + Object.values(r.selected).reduce((a, b) => a + (b ?? 0), 0),
+    0
+  );
+  const missingFn = completed.some((r) => Object.keys(r.selected).length === 0);
+
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      padding: "12px 20px", borderTop: "1px solid #ececea", background: "#fff",
+    }}>
+      <div style={{ fontSize: 13, color: "#1a1816" }}>
+        <b>{completed.length} units completed</b>
+        {missingFn && (
+          <span style={{ color: "#dc2626", marginLeft: 8 }}>
+            — select function for each
+          </span>
+        )}
+      </div>
+      <button style={{
+        padding: "10px 16px", borderRadius: 8, border: "none",
+        background: missingFn ? "#fed7aa" : "#ea580c",
+        color: missingFn ? "#9a3412" : "#fff",
+        fontSize: 13, fontWeight: 600, cursor: "pointer", font: "inherit",
+      }}>
+        Add {totalQty} Units to WO
+      </button>
+    </div>
+  );
+}
