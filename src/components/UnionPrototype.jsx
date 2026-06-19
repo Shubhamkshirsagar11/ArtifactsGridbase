@@ -1,7 +1,7 @@
 export default function UnionPrototype() {
   return (
     <iframe
-      src="http://localhost:5002/"
+      src="/union-prototype/index.html"
       title="Union Prototype"
       style={{
         width: '100%',
