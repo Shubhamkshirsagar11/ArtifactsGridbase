@@ -22,6 +22,7 @@ import CrewEquipment from './components/docs/bluesky-jobs/crew-equipment'
 import RedlineModalExample from './components/docs/bluesky-jobs/RedlineModal'
 import InvoicingTab from './components/InvoicingTab'
 import NestedTableGrouping from './components/NestedTableGrouping'
+import UnionPrototype from './components/UnionPrototype'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -45,7 +46,8 @@ const PAGES = [
   {key: 'crew-equipment', label: 'Crew Equipment', component: CrewEquipment},
   {key: 'redline-modal', label: 'Redline Modal', component: RedlineModalExample},
   {key: 'invoicing-tab', label: 'Invoicing Tab', component: InvoicingTab},
-  {key: 'nested-table-grouping', label: 'Nested Table Grouping', component: NestedTableGrouping}
+  {key: 'nested-table-grouping', label: 'Nested Table Grouping', component: NestedTableGrouping},
+  {key: 'union-prototype', label: 'Union Prototype', component: UnionPrototype}
 ]
 
 function App() {
