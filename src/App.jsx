@@ -23,6 +23,8 @@ import RedlineModalExample from './components/docs/bluesky-jobs/RedlineModal'
 import InvoicingTab from './components/InvoicingTab'
 import NestedTableGrouping from './components/NestedTableGrouping'
 import UnionPrototype from './components/UnionPrototype'
+import TERateBookWizard1 from './components/TERateBookWizard1'
+import TERateBookWizard2 from './components/TERateBookWizard2'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -47,7 +49,9 @@ const PAGES = [
   {key: 'redline-modal', label: 'Redline Modal', component: RedlineModalExample},
   {key: 'invoicing-tab', label: 'Invoicing Tab', component: InvoicingTab},
   {key: 'nested-table-grouping', label: 'Nested Table Grouping', component: NestedTableGrouping},
-  {key: 'union-prototype', label: 'Union Prototype', component: UnionPrototype}
+  {key: 'union-prototype', label: 'Union Prototype', component: UnionPrototype},
+  {key: 'te-rate-book-wizard-1', label: 'T&E Rate Book Wizard (1)', component: TERateBookWizard1},
+  {key: 'te-rate-book-wizard-2', label: 'T&E Rate Book Wizard (2)', component: TERateBookWizard2}
 ]
 
 function App() {
