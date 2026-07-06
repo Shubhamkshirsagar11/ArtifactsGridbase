@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<template id="__bundler_thumbnail" data-bg-color="#FFFFFF">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FFFFFF"/>
+    <rect x="360" y="240" width="480" height="320" rx="24" fill="#FFF7ED" stroke="#FED7AA" stroke-width="6"/>
+    <text x="600" y="440" text-anchor="middle" font-family="sans-serif" font-size="180" font-weight="700" font-style="italic" fill="#F0670F">X</text>
+  </svg>
+</template>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html,body{margin:0;padding:0;background:#FFFFFF;}
+    *{box-sizing:border-box;}
+    input,select,button{font-family:inherit;}
+    input:focus,select:focus{outline:2px solid #FDBA74;outline-offset:0;}
+    @keyframes gbFadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes gbSlideIn{from{transform:translateX(24px);opacity:0}to{transform:translateX(0);opacity:1}}
+    @keyframes gbToastIn{from{transform:translate(-50%,12px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+    .gb-tip{position:relative;}
+    .gb-tip .gb-tip-bubble{position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(2px);opacity:0;pointer-events:none;transition:opacity .12s ease, transform .12s ease;z-index:80;background:#0F172A;color:#F8FAFC;font-size:12px;font-weight:500;line-height:1.45;border-radius:8px;padding:8px 11px;width:max-content;max-width:240px;text-align:left;box-shadow:0 8px 24px rgba(15,23,42,0.22);white-space:normal;}
+    .gb-tip .gb-tip-bubble::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#0F172A;}
+    .gb-tip:hover .gb-tip-bubble{opacity:1;transform:translateX(-50%) translateY(0);}
+    .gb-tip-below .gb-tip-bubble{bottom:auto;top:calc(100% + 9px);transform:translateX(-50%) translateY(-2px);}
+    .gb-tip-below .gb-tip-bubble::after{top:auto;bottom:100%;border-top-color:transparent;border-bottom-color:#0F172A;}
+    .gb-tip-below:hover .gb-tip-bubble{transform:translateX(-50%) translateY(0);}
+  </style>
+</helmet>
+
+<div data-screen-label="Job Detail — Settings" style="display:flex; align-items:stretch; min-height:100vh; font-family:'Inter',system-ui,-apple-system,sans-serif; color:#0F172A; background:#FFFFFF; font-size:14px;" onClick="{{ closeMenus }}">
+
+  <!-- ============ APP SIDEBAR ============ -->
+  <sc-if value="{{ showSidebar }}" hint-placeholder-val="{{ true }}">
+  <div style="width:248px; flex:0 0 248px; border-right:1px solid #EEF1F4; background:#FCFCFD; display:flex; flex-direction:column; padding:0;">
+    <div style="display:flex; align-items:center; gap:10px; padding:16px 16px 12px 16px;">
+      <div style="width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; color:#F0670F; font-style:italic; letter-spacing:-1px;">X</div>
+      <div style="flex:1; min-width:0;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="font-weight:700; font-size:16px; color:#1E293B;">Gridbase</span>
+          <span style="font-size:10px; font-weight:600; color:#94A3B8; background:#F1F5F9; border-radius:5px; padding:2px 6px;">Beta</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:#64748B; margin-top:1px;">
+          <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">PowerGrid Distributi...</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1; overflow-y:auto; padding:8px 12px 12px 12px; display:flex; flex-direction:column; gap:2px;">
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">STORM</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <sc-for list="{{ navStorm }}" as="nv" hint-placeholder-count="5">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;">{{ nv.icon }}</span>{{ nv.label }}</div>
+      </sc-for>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">BLUESKY</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#F0670F; font-weight:600; background:#FFF7ED;"><span style="display:flex;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F0670F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg></span>Jobs</div>
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span>Unit Libraries</div>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">DATA</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <sc-for list="{{ navData }}" as="nv" hint-placeholder-count="3">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;">{{ nv.icon }}</span><span style="flex:1;">{{ nv.label }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></div>
+      </sc-for>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">TOOLS</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <sc-for list="{{ navTools }}" as="nv" hint-placeholder-count="2">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;">{{ nv.icon }}</span>{{ nv.label }}</div>
+      </sc-for>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">SETTINGS</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>Settings</div>
+    </div>
+
+    <div style="border-top:1px solid #EEF1F4; padding:14px 16px; display:flex; align-items:center; gap:10px;">
+      <div style="width:34px; height:34px; border-radius:50%; background:#F1F5F9; color:#475569; font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center;">BG</div>
+      <div>
+        <div style="font-weight:600; font-size:13px; color:#1E293B;">Ben Glatt</div>
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#64748B;">Owner <span style="font-size:10px; font-weight:600; color:#64748B; background:#F1F5F9; border-radius:5px; padding:1px 6px;">CDT</span></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MAIN ============ -->
+  <div style="flex:1; min-width:0; display:flex; flex-direction:column;">
+    <!-- Breadcrumb -->
+    <div style="display:flex; align-items:center; gap:8px; padding:18px 32px 0 32px; font-size:14px; color:#94A3B8;">
+      <span>Bluesky</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+      <span>Jobs</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+      <span style="color:#334155; font-weight:500;">CHELCO Distribution 2026</span>
+    </div>
+
+    <!-- Title -->
+    <div style="display:flex; align-items:center; gap:14px; padding:22px 32px 0 32px;">
+      <h1 style="margin:0; font-size:28px; font-weight:700; letter-spacing:-0.02em; color:#0F172A;">CHELCO Distribution 2026</h1>
+      <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:#059669; background:#ECFDF5; border:1px solid #D1FAE5; border-radius:999px; padding:3px 10px;"><span style="width:6px; height:6px; border-radius:50%; background:#10B981;"></span>Active</span>
+      <span style="flex:1;"></span>
+      <button style="width:34px; height:34px; border:1px solid #E2E8F0; background:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+    </div>
+
+    <!-- Tab bar -->
+    <div style="display:flex; align-items:center; gap:28px; padding:14px 32px 0 32px; border-bottom:1px solid #EEF1F4;">
+      <sc-for list="{{ pageTabs }}" as="tb" hint-placeholder-count="5">
+        <div style="padding:0 2px 12px 2px; font-size:14.5px; font-weight:{{ tb.weight }}; color:{{ tb.color }}; border-bottom:2px solid {{ tb.underline }}; margin-bottom:-1px; cursor:default; white-space:nowrap;">{{ tb.label }}</div>
+      </sc-for>
+    </div>
+
+    <!-- ============ TAB CONTENT ============ -->
+
+    <sc-if value="{{ editorOpen }}" hint-placeholder-val="{{ false }}">
+      <!-- ======== TEMPLATE EDITOR ======== -->
+      <div style="flex:1; overflow-y:auto; background:#FCFCFD;">
+        <div style="max-width:960px; margin:0 auto; padding:24px 32px 64px 32px; animation:gbFadeIn 0.18s ease;">
+
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+            <button onClick="{{ closeEditor }}" style="display:flex; align-items:center; gap:6px; border:none; background:none; padding:6px 8px 6px 0; color:#64748B; font-size:13px; font-weight:500; cursor:pointer;" style-hover="color:#0F172A;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>Work Order Templates</button>
+            <span style="flex:1;"></span>
+            <button onClick="{{ closeEditor }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+            <button onClick="{{ saveEditor }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">{{ editorSaveLabel }}</button>
+          </div>
+
+          <h2 style="margin:0 0 4px 0; font-size:20px; font-weight:700; color:#0F172A;">{{ editorTitle }}</h2>
+          <p style="margin:0 0 20px 0; color:#64748B; font-size:14px;">Pick which of this job's fields appear on the work order, then set up how compatible units are organized within it.</p>
+
+          <!-- Template name -->
+          <div style="background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:18px 20px; margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">Template name</label>
+            <input value="{{ editorName }}" onChange="{{ onEditorName }}" placeholder="e.g. CHELCO Standard" style="border:1px solid {{ editorNameBorder }}; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A; max-width:420px;">
+            <sc-if value="{{ editorNameHasError }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:12.5px; color:#DC2626;">{{ editorNameError }}</span>
+            </sc-if>
+            <span style="font-size:12.5px; color:#94A3B8;">Shown when selecting a template for a new work order.</span>
+          </div>
+
+          <!-- Work Order Fields card -->
+          <div style="background:#fff; border:1px solid #E2E8F0; border-radius:12px; margin-bottom:20px;">
+            <div style="display:flex; align-items:baseline; gap:10px; padding:16px 20px; background:#F8FAFC; border-bottom:1px solid #EEF1F4; border-radius:12px 12px 0 0;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="align-self:center;"><path d="M9 4h6"></path><path d="M12 4v16"></path><path d="M9 20h6"></path><path d="M4 9h4"></path><path d="M16 9h4"></path></svg>
+              <span style="font-size:16px; font-weight:700; color:#0F172A;">Work Order Fields</span>
+              <span style="font-size:14px; color:#94A3B8;">— job fields shown on each work order header</span>
+            </div>
+            <div style="padding:18px 20px; display:flex; flex-direction:column; gap:12px;">
+              <!-- WO # always included -->
+              <div style="display:flex; align-items:center; gap:10px; border:1.5px dashed #E2E8F0; background:#FCFCFD; border-radius:10px; padding:13px 16px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg>
+                <span style="font-size:15px; font-weight:600; color:#94A3B8;">WO #</span>
+                <span style="flex:1;"></span>
+                <span style="font-size:13px; color:#94A3B8;">always included</span>
+              </div>
+
+              <!-- Field rows -->
+              <sc-for list="{{ editorFields }}" as="f" hint-placeholder-count="3">
+                <div style="border:1px solid #E2E8F0; border-radius:10px; padding:12px 14px; display:flex; flex-direction:column; gap:0;">
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <sc-if value="{{ f.editing }}" hint-placeholder-val="{{ false }}">
+                      <input value="{{ f.name }}" onChange="{{ f.onNameChange }}" onBlur="{{ f.stopEdit }}" onKeyDown="{{ f.onKey }}" autoFocus="{{ true }}" style="border:1px solid #FDBA74; border-radius:7px; padding:5px 9px; font-size:13.5px; font-weight:600; color:#0F172A; width:200px;">
+                    </sc-if>
+                    <sc-if value="{{ f.notEditing }}" hint-placeholder-val="{{ true }}">
+                      <span style="font-size:14px; font-weight:600; color:#0F172A;">{{ f.name }}</span>
+                    </sc-if>
+                    <button onClick="{{ f.onRename }}" class="gb-tip" style="border:none; background:none; padding:3px; cursor:{{ f.pencilCursor }}; color:{{ f.pencilColor }}; display:flex;" style-hover="color:{{ f.pencilHover }};"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg><span class="gb-tip-bubble">{{ f.renameTip }}</span></button>
+                    <sc-if value="{{ f.shared }}" hint-placeholder-val="{{ false }}">
+                      <span class="gb-tip" style="font-size:10.5px; font-weight:600; color:#475569; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:5px; padding:2px 7px; cursor:default;">Shared<span class="gb-tip-bubble">{{ f.sharedTip }}</span></span>
+                    </sc-if>
+                    <span style="flex:1;"></span>
+                    <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:#64748B; background:#F8FAFC; border:1px solid #EEF1F4; border-radius:6px; padding:4px 10px;">{{ f.typeIcon }}{{ f.type }}</span>
+                    <div onClick="{{ f.onReq }}" class="gb-tip" style="display:flex; align-items:center; gap:7px; cursor:pointer; user-select:none;">
+                      <span style="width:19px; height:19px; border-radius:5px; border:1.5px solid {{ f.reqBorder }}; background:{{ f.reqBg }}; display:flex; align-items:center; justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ f.reqCheckOpacity }};"><path d="M20 6L9 17l-5-5"></path></svg></span>
+                      <span style="font-size:14px; color:#475569;">Req</span>
+                      <span class="gb-tip-bubble">Enforced when creating new work orders. Existing work orders are not affected.</span>
+                    </div>
+                    <button onClick="{{ f.onRemove }}" title="Remove from this template" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#DC2626;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path></svg></button>
+                  </div>
+                  <sc-if value="{{ f.isDropdown }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-top:1px solid #F1F5F9; margin-top:12px; padding-top:12px; display:flex; flex-direction:column; gap:8px;">
+                      <div style="display:flex; align-items:center; gap:8px;">
+                        <span style="font-size:13.5px; font-weight:600; color:#334155;">Dropdown Options</span>
+                        <sc-if value="{{ f.sharedOptions }}" hint-placeholder-val="{{ false }}">
+                          <span class="gb-tip" style="font-size:10.5px; font-weight:600; color:#475569; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:5px; padding:2px 7px; cursor:default;">Shared<span class="gb-tip-bubble">Option changes apply everywhere this field is used, including filters.</span></span>
+                        </sc-if>
+                      </div>
+                      <sc-for list="{{ f.optionRows }}" as="op" hint-placeholder-count="2">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <input value="{{ op.value }}" onChange="{{ op.onChange }}" placeholder="Option" style="border:1px solid #E2E8F0; border-radius:7px; padding:6px 10px; font-size:13.5px; color:#0F172A; width:260px;">
+                          <button onClick="{{ op.onRemove }}" style="border:none; background:none; padding:4px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#DC2626;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+                        </div>
+                      </sc-for>
+                      <button onClick="{{ f.onAddOption }}" style="border:none; background:none; padding:2px 0; cursor:pointer; color:#64748B; font-size:13.5px; display:flex; align-items:center; gap:6px; width:fit-content;" style-hover="color:#0F172A;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add option</button>
+                      <sc-if value="{{ f.optionsEmpty }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:13px; color:#DC2626;">Dropdown fields require at least one option.</span>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+
+              <!-- Add field picker -->
+              <div style="position:relative;">
+                <button onClick="{{ toggleFieldsPicker }}" style="border:none; background:none; padding:2px 0; cursor:pointer; color:#475569; font-size:14.5px; display:flex; align-items:center; gap:8px; width:fit-content; font-weight:500;" style-hover="color:#0F172A;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add field</button>
+                <sc-if value="{{ fieldsPickerOpen }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ stopProp }}" style="position:absolute; top:calc(100% + 8px); left:0; z-index:60; background:#fff; border:1px solid #E2E8F0; border-radius:12px; box-shadow:0 12px 32px rgba(15,23,42,0.14); width:360px; padding:6px; animation:gbFadeIn 0.12s ease;">
+                    <div style="padding:7px 10px 5px 10px; font-size:11px; font-weight:600; letter-spacing:0.07em; color:#94A3B8;">WORK ORDER FIELDS</div>
+                    <sc-for list="{{ woPickerItems }}" as="pi" hint-placeholder-count="3">
+                      <div onClick="{{ pi.onSelect }}" style="display:flex; align-items:flex-start; gap:10px; padding:7px 10px; border-radius:8px; cursor:pointer;" style-hover="background:#F8FAFC;">
+                        <span style="display:flex; color:#64748B; padding-top:2px;">{{ pi.icon }}</span>
+                        <span style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+                          <span style="font-size:13.5px; font-weight:600; color:#0F172A; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ pi.name }}</span>
+                          <span style="font-size:11.5px; color:#94A3B8;">{{ pi.hint }}</span>
+                        </span>
+                      </div>
+                    </sc-for>
+                    <sc-if value="{{ woPickerEmpty }}" hint-placeholder-val="{{ false }}">
+                      <div style="padding:8px 10px; font-size:13px; color:#94A3B8;">All of this job's work order fields are already in this template.</div>
+                    </sc-if>
+                    <div style="border-top:1px solid #EEF1F4; margin-top:6px; padding-top:6px;">
+                      <sc-if value="{{ createClosed }}" hint-placeholder-val="{{ true }}">
+                        <div onClick="{{ openCreate }}" style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; cursor:pointer; font-size:13.5px; font-weight:600; color:#475569;" style-hover="background:#F8FAFC; color:#0F172A;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Create new field…</div>
+                      </sc-if>
+                      <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ false }}">
+                        <div style="padding:8px 10px 6px 10px; display:flex; flex-direction:column; gap:9px;">
+                          <span style="font-size:12px; font-weight:600; color:#64748B;">New job field</span>
+                          <input value="{{ createName }}" onChange="{{ onCreateName }}" placeholder="Field name" style="border:1px solid {{ createInputBorder }}; border-radius:8px; padding:8px 11px; font-size:13.5px; color:#0F172A;">
+                          <sc-if value="{{ dupExactOpen }}" hint-placeholder-val="{{ false }}">
+                            <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:8px; padding:9px 11px; font-size:12.5px; color:#B91C1C; line-height:1.5;">
+                              {{ dupExactMsg }} <sc-if value="{{ dupExactReusable }}" hint-placeholder-val="{{ false }}"><button onClick="{{ reuseExact }}" style="border:none; background:none; padding:0; cursor:pointer; color:#B91C1C; font-size:12.5px; font-weight:700; text-decoration:underline; text-underline-offset:2px;">Reuse it</button></sc-if>
+                            </div>
+                          </sc-if>
+                          <sc-if value="{{ dupOpen }}" hint-placeholder-val="{{ false }}">
+                            <div style="background:#FFF7ED; border:1px solid #FED7AA; border-radius:8px; padding:9px 11px; font-size:12.5px; color:#9A3412; line-height:1.5;">
+                              A field named "{{ dupName }}" already exists on this job — <button onClick="{{ reuseDup }}" style="border:none; background:none; padding:0; cursor:pointer; color:#C2410C; font-size:12.5px; font-weight:700; text-decoration:underline; text-underline-offset:2px;">Reuse it instead?</button>
+                            </div>
+                          </sc-if>
+                          <div style="display:flex; align-items:center; gap:10px;">
+                            <select value="{{ createType }}" onChange="{{ onCreateType }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:8px 9px; font-size:13.5px; color:#0F172A; background:#fff; flex:1; cursor:pointer;">
+                              <option value="Text">Text</option>
+                              <option value="Number">Number</option>
+                              <option value="Date">Date</option>
+                              <option value="Dropdown">Dropdown</option>
+                              <option value="Checkbox">Checkbox</option>
+                            </select>
+                            <sc-if value="{{ createReqVisible }}" hint-placeholder-val="{{ true }}">
+                              <div onClick="{{ onCreateReq }}" style="display:flex; align-items:center; gap:7px; cursor:pointer; user-select:none;">
+                                <span style="width:18px; height:18px; border-radius:5px; border:1.5px solid {{ createReqBorder }}; background:{{ createReqBg }}; display:flex; align-items:center; justify-content:center;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ createReqOpacity }};"><path d="M20 6L9 17l-5-5"></path></svg></span>
+                                <span style="font-size:13px; color:#475569;">Req</span>
+                              </div>
+                            </sc-if>
+                          </div>
+                          <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; padding-bottom:2px;">
+                            <sc-if value="{{ dupExactOpen }}" hint-placeholder-val="{{ false }}">
+                              <button style="border:none; background:#F1F5F9; color:#94A3B8; font-size:12.5px; font-weight:600; border-radius:7px; padding:7px 13px; cursor:not-allowed;">Create field</button>
+                            </sc-if>
+                            <sc-if value="{{ dupOpen }}" hint-placeholder-val="{{ false }}">
+                              <button onClick="{{ createField }}" style="border:none; background:none; padding:0; cursor:pointer; color:#94A3B8; font-size:12.5px; text-decoration:underline; text-underline-offset:2px;" style-hover="color:#64748B;">create anyway</button>
+                            </sc-if>
+                            <sc-if value="{{ dupClosed }}" hint-placeholder-val="{{ true }}">
+                              <button onClick="{{ createField }}" style="border:none; background:#F0670F; color:#fff; font-size:12.5px; font-weight:600; border-radius:7px; padding:7px 13px; cursor:pointer;" style-hover="background:#DE5A05;">Create field</button>
+                            </sc-if>
+                          </div>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+
+          <!-- CU Organization card -->
+          <div style="background:#fff; border:1px solid #E2E8F0; border-radius:12px;">
+            <div style="display:flex; align-items:baseline; gap:10px; padding:16px 20px; background:#F8FAFC; border-radius:12px 12px 0 0;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="align-self:center;"><path d="M12 2L2 7l10 5 10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+              <span style="font-size:16px; font-weight:700; color:#0F172A;">CU Organization</span>
+              <span style="font-size:14px; color:#94A3B8;">— how compatible units are grouped within each work order</span>
+            </div>
+
+            <sc-for list="{{ groupBlocks }}" as="g" hint-placeholder-count="2">
+              <div style="border-top:1.5px dashed #FBD8A5;">
+                <div style="display:flex; align-items:center; gap:10px; padding:14px 20px; background:{{ g.headerBg }};">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F0670F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                  <span style="font-size:15.5px; font-weight:700; color:#0F172A;">{{ g.title }}</span>
+                  <span style="font-size:13.5px; color:#94A3B8;">{{ g.subtitle }}</span>
+                  <span style="flex:1;"></span>
+                  <button onClick="{{ g.onRemove }}" style="border:none; background:none; padding:4px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#0F172A;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+                </div>
+                <div style="padding:16px 20px 18px {{ g.indent }}; background:{{ g.bodyBg }}; display:flex; flex-direction:column; gap:12px;">
+                  <sc-for list="{{ g.fields }}" as="gf" hint-placeholder-count="1">
+                    <div style="display:flex; align-items:center; gap:10px; background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:12px 14px;">
+                      <sc-if value="{{ gf.editing }}" hint-placeholder-val="{{ false }}">
+                        <input value="{{ gf.name }}" onChange="{{ gf.onNameChange }}" onBlur="{{ gf.stopEdit }}" onKeyDown="{{ gf.onKey }}" autoFocus="{{ true }}" style="border:1px solid #FDBA74; border-radius:7px; padding:5px 9px; font-size:13.5px; font-weight:600; color:#0F172A; width:200px;">
+                      </sc-if>
+                      <sc-if value="{{ gf.notEditing }}" hint-placeholder-val="{{ true }}">
+                        <span style="font-size:14px; font-weight:600; color:#0F172A;">{{ gf.name }}</span>
+                      </sc-if>
+                      <button onClick="{{ gf.onRename }}" class="gb-tip" style="border:none; background:none; padding:3px; cursor:{{ gf.pencilCursor }}; color:{{ gf.pencilColor }}; display:flex;" style-hover="color:{{ gf.pencilHover }};"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"></path></svg><span class="gb-tip-bubble">{{ gf.renameTip }}</span></button>
+                      <sc-if value="{{ gf.shared }}" hint-placeholder-val="{{ false }}">
+                        <span class="gb-tip" style="font-size:10.5px; font-weight:600; color:#475569; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:5px; padding:2px 7px; cursor:default;">Shared<span class="gb-tip-bubble">{{ gf.sharedTip }}</span></span>
+                      </sc-if>
+                      <span style="flex:1;"></span>
+                      <span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:#64748B; background:#F8FAFC; border:1px solid #EEF1F4; border-radius:6px; padding:4px 10px;">{{ gf.typeIcon }}{{ gf.type }}</span>
+                      <button onClick="{{ gf.onRemove }}" title="Remove from this template" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#DC2626;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path></svg></button>
+                    </div>
+                  </sc-for>
+                  <div style="position:relative;">
+                    <button onClick="{{ g.onTogglePicker }}" style="border:none; background:none; padding:2px 0; cursor:pointer; color:#475569; font-size:14px; display:flex; align-items:center; gap:8px; width:fit-content; font-weight:500;" style-hover="color:#0F172A;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add field</button>
+                    <sc-if value="{{ g.pickerOpen }}" hint-placeholder-val="{{ false }}">
+                      <div onClick="{{ stopProp }}" style="position:absolute; top:calc(100% + 8px); left:0; z-index:60; background:#fff; border:1px solid #E2E8F0; border-radius:12px; box-shadow:0 12px 32px rgba(15,23,42,0.14); width:360px; padding:6px; animation:gbFadeIn 0.12s ease;">
+                        <div style="padding:7px 10px 5px 10px; font-size:11px; font-weight:600; letter-spacing:0.07em; color:#94A3B8;">CU GROUPING FIELDS</div>
+                        <sc-for list="{{ cuPickerItems }}" as="pi" hint-placeholder-count="3">
+                          <div onClick="{{ pi.onSelect }}" style="display:flex; align-items:flex-start; gap:10px; padding:7px 10px; border-radius:8px; cursor:pointer;" style-hover="background:#F8FAFC;">
+                            <span style="display:flex; color:#64748B; padding-top:2px;">{{ pi.icon }}</span>
+                            <span style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+                              <span style="font-size:13.5px; font-weight:600; color:#0F172A; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ pi.name }}</span>
+                              <span style="font-size:11.5px; color:#94A3B8;">{{ pi.hint }}</span>
+                            </span>
+                          </div>
+                        </sc-for>
+                        <sc-if value="{{ cuPickerEmpty }}" hint-placeholder-val="{{ false }}">
+                          <div style="padding:8px 10px; font-size:13px; color:#94A3B8;">All of this job's grouping fields are already in this template.</div>
+                        </sc-if>
+                        <div style="border-top:1px solid #EEF1F4; margin-top:6px; padding-top:6px;">
+                          <sc-if value="{{ createClosed }}" hint-placeholder-val="{{ true }}">
+                            <div onClick="{{ openCreate }}" style="display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; cursor:pointer; font-size:13.5px; font-weight:600; color:#475569;" style-hover="background:#F8FAFC; color:#0F172A;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Create new field…</div>
+                          </sc-if>
+                          <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ false }}">
+                            <div style="padding:8px 10px 6px 10px; display:flex; flex-direction:column; gap:9px;">
+                              <span style="font-size:12px; font-weight:600; color:#64748B;">New job field</span>
+                              <input value="{{ createName }}" onChange="{{ onCreateName }}" placeholder="Field name" style="border:1px solid {{ createInputBorder }}; border-radius:8px; padding:8px 11px; font-size:13.5px; color:#0F172A;">
+                              <sc-if value="{{ dupExactOpen }}" hint-placeholder-val="{{ false }}">
+                                <div style="background:#FEF2F2; border:1px solid #FECACA; border-radius:8px; padding:9px 11px; font-size:12.5px; color:#B91C1C; line-height:1.5;">
+                                  {{ dupExactMsg }} <sc-if value="{{ dupExactReusable }}" hint-placeholder-val="{{ false }}"><button onClick="{{ reuseExact }}" style="border:none; background:none; padding:0; cursor:pointer; color:#B91C1C; font-size:12.5px; font-weight:700; text-decoration:underline; text-underline-offset:2px;">Reuse it</button></sc-if>
+                                </div>
+                              </sc-if>
+                              <sc-if value="{{ dupOpen }}" hint-placeholder-val="{{ false }}">
+                                <div style="background:#FFF7ED; border:1px solid #FED7AA; border-radius:8px; padding:9px 11px; font-size:12.5px; color:#9A3412; line-height:1.5;">
+                                  A field named "{{ dupName }}" already exists on this job — <button onClick="{{ reuseDup }}" style="border:none; background:none; padding:0; cursor:pointer; color:#C2410C; font-size:12.5px; font-weight:700; text-decoration:underline; text-underline-offset:2px;">Reuse it instead?</button>
+                                </div>
+                              </sc-if>
+                              <div style="display:flex; align-items:center; gap:10px;">
+                                <select value="{{ createType }}" onChange="{{ onCreateType }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:8px 9px; font-size:13.5px; color:#0F172A; background:#fff; flex:1; cursor:pointer;">
+                                  <option value="Text">Text</option>
+                                  <option value="Number">Number</option>
+                                </select>
+                              </div>
+                              <div style="display:flex; justify-content:flex-end; align-items:center; gap:12px; padding-bottom:2px;">
+                                <sc-if value="{{ dupExactOpen }}" hint-placeholder-val="{{ false }}">
+                                  <button style="border:none; background:#F1F5F9; color:#94A3B8; font-size:12.5px; font-weight:600; border-radius:7px; padding:7px 13px; cursor:not-allowed;">Create field</button>
+                                </sc-if>
+                                <sc-if value="{{ dupOpen }}" hint-placeholder-val="{{ false }}">
+                                  <button onClick="{{ createField }}" style="border:none; background:none; padding:0; cursor:pointer; color:#94A3B8; font-size:12.5px; text-decoration:underline; text-underline-offset:2px;" style-hover="color:#64748B;">create anyway</button>
+                                </sc-if>
+                                <sc-if value="{{ dupClosed }}" hint-placeholder-val="{{ true }}">
+                                  <button onClick="{{ createField }}" style="border:none; background:#F0670F; color:#fff; font-size:12.5px; font-weight:600; border-radius:7px; padding:7px 13px; cursor:pointer;" style-hover="background:#DE5A05;">Create field</button>
+                                </sc-if>
+                              </div>
+                            </div>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ showAddGroupRow }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ addGroupLevel }}" style="display:flex; align-items:center; gap:12px; padding:16px 20px 16px {{ addGroupIndent }}; border-top:1px solid #EEF1F4; cursor:pointer;" style-hover="background:#FFFBF5;">
+                <span style="width:26px; height:26px; border:1.5px dashed #CBD5E1; border-radius:7px; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
+                <span style="font-size:15.5px; font-weight:600; color:#334155;">{{ addGroupLabel }}</span>
+                <span style="font-size:13.5px; color:#94A3B8;">{{ addGroupHint }}</span>
+              </div>
+            </sc-if>
+
+            <div style="display:flex; align-items:center; gap:10px; padding:15px 20px; border-top:1px solid #EEF1F4; background:#F8FAFC; border-radius:0 0 12px 12px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1"></rect></svg>
+              <span style="font-size:15.5px; font-weight:700; color:#334155;">CU Line Items</span>
+              <span style="font-size:13.5px; color:#94A3B8;">— compatible units logged here</span>
+            </div>
+          </div>
+
+          <!-- Document preview -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:18px 20px; margin-top:20px;">
+            <div style="font-size:11.5px; font-weight:600; letter-spacing:0.08em; color:#94A3B8; margin-bottom:14px;">DOCUMENT PREVIEW</div>
+            <div style="background:#fff; border:1px solid #E2E8F0; border-radius:10px; overflow:hidden;">
+              <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px 24px; padding:13px 18px; background:#FCFCFD; border-bottom:1px solid #EEF1F4;">
+                <span style="font-size:13.5px;"><span style="font-weight:700; color:#334155;">WO #:</span> <span style="color:#B6C0CE;">13046629</span></span>
+                <sc-for list="{{ previewHeaderFields }}" as="phf" hint-placeholder-count="2">
+                  <span style="font-size:13.5px;"><span style="font-weight:700; color:#334155;">{{ phf.name }}:</span> <span style="display:inline-block; width:52px; border-bottom:1px solid #CBD5E1; height:12px; vertical-align:baseline;"></span></span>
+                </sc-for>
+              </div>
+              <sc-if value="{{ previewHasGroups }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ previewGroups }}" as="pg" hint-placeholder-count="2">
+                  <div style="border-top:1px solid #EEF1F4;">
+                    <div style="padding:12px 18px 10px 18px; border-bottom:1px solid #F5F7FA; display:flex; flex-wrap:wrap; gap:4px 22px;">
+                      <sc-for list="{{ pg.pairs }}" as="pp" hint-placeholder-count="1">
+                        <span style="font-size:13.5px;"><span style="font-weight:700; color:#334155;">{{ pp.name }}:</span> <span style="color:#B6C0CE;">{{ pp.value }}</span></span>
+                      </sc-for>
+                    </div>
+                    <sc-for list="{{ pg.subs }}" as="ps" hint-placeholder-count="1">
+                      <div style="padding:0 18px 10px 34px;">
+                        <sc-if value="{{ ps.hasLabel }}" hint-placeholder-val="{{ true }}">
+                          <div style="padding:10px 0 6px 0; display:flex; flex-wrap:wrap; gap:4px 20px;">
+                            <sc-for list="{{ ps.pairs }}" as="sp" hint-placeholder-count="1">
+                              <span style="font-size:13px;"><span style="font-weight:700; color:#475569;">{{ sp.name }}:</span> <span style="color:#B6C0CE;">{{ sp.value }}</span></span>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                        <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:6px 0; border-bottom:1px solid #F1F5F9; font-size:12.5px; color:#94A3B8;">
+                          <span>Function</span><span>Qty</span><span>CU Code</span><span>Description</span>
+                        </div>
+                        <sc-for list="{{ ps.rows }}" as="pr" hint-placeholder-count="1">
+                          <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:7px 0; font-size:12.5px; color:#C3CCD8;">
+                            <span>{{ pr.fn }}</span><span>{{ pr.qty }}</span><span>{{ pr.code }}</span><span>{{ pr.desc }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ previewNoGroups }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:4px 18px 12px 18px;">
+                  <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:8px 0 6px 0; border-bottom:1px solid #F1F5F9; font-size:12.5px; color:#94A3B8;">
+                    <span>Function</span><span>Qty</span><span>CU Code</span><span>Description</span>
+                  </div>
+                  <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:7px 0; font-size:12.5px; color:#C3CCD8;">
+                    <span>Install</span><span>1</span><span>NEUT-CONN</span><span>Neutral connection</span>
+                  </div>
+                  <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:7px 0; font-size:12.5px; color:#C3CCD8;">
+                    <span>Install</span><span>1</span><span>PREP-POLE</span><span>Prepare pole</span>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ editorClosed }}" hint-placeholder-val="{{ true }}">
+      <!-- ======== SETTINGS TAB (nav + section) ======== -->
+      <div style="flex:1; display:flex; align-items:stretch; min-height:0;">
+
+        <!-- Section nav (wide) -->
+        <sc-if value="{{ showSectionRail }}" hint-placeholder-val="{{ true }}">
+          <div style="width:240px; flex:0 0 240px; padding:24px 16px 24px 32px; display:flex; flex-direction:column; gap:2px;">
+            <sc-for list="{{ sectionNav }}" as="sn" hint-placeholder-count="4">
+              <div onClick="{{ sn.onSelect }}" style="padding:8px 12px; border-radius:8px; font-size:13.5px; font-weight:{{ sn.weight }}; color:{{ sn.color }}; background:{{ sn.bg }}; cursor:pointer; white-space:nowrap;" style-hover="color:#0F172A;">{{ sn.label }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- Section content -->
+        <div style="flex:1; min-width:0; overflow-y:auto; padding:24px 32px 64px {{ contentPadLeft }};">
+
+          <!-- Section dropdown (narrow) -->
+          <sc-if value="{{ showSectionDropdown }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-bottom:20px;">
+              <select value="{{ activeSection }}" onChange="{{ onSectionDropdown }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; font-weight:600; color:#0F172A; background:#fff; width:100%; max-width:340px; cursor:pointer;">
+                <option value="general">General</option>
+                <option value="libraries">Unit Libraries</option>
+                <option value="templates">Work Order Templates</option>
+                <option value="invoicing">Billing Rules</option>
+                <option value="delays">Dashboard &amp; Layout</option>
+              </select>
+            </div>
+          </sc-if>
+
+          <!-- ==== Work Order Templates section ==== -->
+          <sc-if value="{{ isTemplatesSection }}" hint-placeholder-val="{{ true }}">
+            <div style="animation:gbFadeIn 0.18s ease;">
+              <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:20px;">
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:8px; margin:0 0 4px 0;">
+                    <h2 style="margin:0; font-size:19px; font-weight:700; color:#0F172A;">Work Order Templates</h2>
+                    <span class="gb-tip gb-tip-below" style="display:flex; color:#94A3B8; cursor:default;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span class="gb-tip-bubble">Every work order is created from one template — when more than one is active, you choose which to use when creating the work order.</span></span>
+                  </div>
+                  <p style="margin:0; color:#64748B; font-size:13.5px; max-width:560px;">Each template defines the fields and CU grouping a work order form uses.</p>
+                </div>
+                <sc-if value="{{ usesWorkOrders }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ openNewTemplate }}" style="display:flex; align-items:center; gap:7px; border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:9px 16px; cursor:pointer; white-space:nowrap;" style-hover="background:#DE5A05;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>New Template</button>
+                </sc-if>
+              </div>
+
+              <sc-if value="{{ usesWorkOrders }}" hint-placeholder-val="{{ true }}">
+                <!-- Template table -->
+                <div style="border:1px solid #E2E8F0; border-radius:12px; overflow:visible; background:#fff;">
+                  <div style="display:grid; grid-template-columns:minmax(150px,2fr) 92px 88px minmax(84px,1fr) minmax(84px,1fr) 36px; gap:10px; align-items:center; padding:11px 16px; border-bottom:1px solid #EEF1F4; font-size:12.5px; font-weight:500; color:#64748B;">
+                    <span>Template</span><span>Status</span><span style="text-align:right;">Work orders</span>
+                    <span style="display:flex; align-items:center; gap:5px;">First used<span class="gb-tip gb-tip-below" style="display:flex; color:#B6C0CE; cursor:default;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span class="gb-tip-bubble">Date the first work order was created from this template.</span></span></span>
+                    <span style="display:flex; align-items:center; gap:5px;">Last used<span class="gb-tip gb-tip-below" style="display:flex; color:#B6C0CE; cursor:default;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span class="gb-tip-bubble">Date the most recent work order was created from this template.</span></span></span>
+                    <span></span>
+                  </div>
+                  <sc-for list="{{ templateRows }}" as="t" hint-placeholder-count="3">
+                    <div style="display:grid; grid-template-columns:minmax(150px,2fr) 92px 88px minmax(84px,1fr) minmax(84px,1fr) 36px; gap:10px; align-items:center; padding:15px 16px; border-bottom:1px solid #F5F7FA; position:relative;" style-hover="background:#FCFCFD;">
+                      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+                        <span onClick="{{ t.onEdit }}" style="font-size:14px; font-weight:600; color:{{ t.nameColor }}; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" style-hover="color:#F0670F;">{{ t.name }}</span>
+                        <sc-if value="{{ t.isDefault }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:10.5px; font-weight:600; letter-spacing:0.03em; color:#C2410C; background:#FFF7ED; border:1px solid #FED7AA; border-radius:5px; padding:2px 7px;">Default</span>
+                        </sc-if>
+                      </div>
+                      <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:{{ t.pillColor }}; background:{{ t.pillBg }}; border-radius:999px; padding:3px 10px; width:fit-content;"><span style="width:6px; height:6px; border-radius:50%; background:{{ t.pillDot }};"></span>{{ t.statusLabel }}</span>
+                      <span style="text-align:right; font-size:14px; color:#334155; font-variant-numeric:tabular-nums;">{{ t.woCount }}</span>
+                      <span style="font-size:13.5px; color:#64748B;">{{ t.firstUsed }}</span>
+                      <span style="font-size:13.5px; color:#64748B;">{{ t.lastUsed }}</span>
+                      <div style="position:relative; display:flex; justify-content:flex-end;">
+                        <button onClick="{{ t.onKebab }}" style="width:30px; height:30px; border:none; background:{{ t.kebabBg }}; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#64748B;" style-hover="background:#F1F5F9;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="12" cy="19" r="1.7"></circle></svg></button>
+                        <sc-if value="{{ t.menuOpen }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:absolute; top:34px; right:0; z-index:40; background:#fff; border:1px solid #E2E8F0; border-radius:10px; box-shadow:0 8px 24px rgba(15,23,42,0.10); padding:5px; min-width:170px; animation:gbFadeIn 0.12s ease;">
+                            <sc-for list="{{ t.menuItems }}" as="mi" hint-placeholder-count="4">
+                              <div onClick="{{ mi.onClick }}" title="{{ mi.tooltip }}" style="padding:8px 11px; border-radius:7px; font-size:13.5px; color:{{ mi.color }}; cursor:{{ mi.cursor }}; white-space:nowrap;" style-hover="background:{{ mi.hoverBg }};">{{ mi.label }}</div>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <div style="display:flex; align-items:center; padding:11px 16px; font-size:12.5px; color:#94A3B8;">
+                    <span>{{ templateCountLabel }}</span>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ noWorkOrders }}" hint-placeholder-val="{{ false }}">
+                <!-- Empty state -->
+                <div style="border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 32px; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;">
+                  <span style="width:44px; height:44px; border-radius:10px; background:#F8FAFC; border:1px solid #EEF1F4; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span>
+                  <span style="font-size:15.5px; font-weight:600; color:#0F172A;">This job doesn't use work orders</span>
+                  <span style="font-size:13.5px; color:#64748B; max-width:420px;">Production on this job is logged directly against unit libraries, so there are no work order forms to configure. Turn on work orders in General settings to create templates.</span>
+                  <button onClick="{{ goToGeneral }}" style="margin-top:8px; border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13px; font-weight:500; border-radius:8px; padding:8px 15px; cursor:pointer;" style-hover="background:#F8FAFC;">Go to General settings</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- ==== Unit Libraries section ==== -->
+          <sc-if value="{{ isLibrariesSection }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:gbFadeIn 0.18s ease;">
+              <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:20px;">
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:8px; margin:0 0 4px 0;">
+                    <h2 style="margin:0; font-size:19px; font-weight:700; color:#0F172A;">Unit Libraries</h2>
+                    <span class="gb-tip gb-tip-below" style="display:flex; color:#94A3B8; cursor:default;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><span class="gb-tip-bubble">Each work order binds one library at creation and keeps its pricing forever — changing this set never affects already-logged work.</span></span>
+                  </div>
+                  <p style="margin:0; color:#64748B; font-size:13.5px; max-width:560px;">Manage which of the contract's libraries this job uses.</p>
+                </div>
+                <div style="position:relative;">
+                  <button onClick="{{ toggleLibPicker }}" style="display:flex; align-items:center; gap:7px; border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:9px 16px; cursor:pointer; white-space:nowrap;" style-hover="background:#DE5A05;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add Library</button>
+                  <sc-if value="{{ libPickerOpen }}" hint-placeholder-val="{{ false }}">
+                    <div onClick="{{ stopProp }}" style="position:absolute; top:calc(100% + 8px); right:0; z-index:60; background:#fff; border:1px solid #E2E8F0; border-radius:12px; box-shadow:0 12px 32px rgba(15,23,42,0.14); width:380px; padding:6px; animation:gbFadeIn 0.12s ease;">
+                      <div style="padding:7px 10px 5px 10px; font-size:11px; font-weight:600; letter-spacing:0.07em; color:#94A3B8;">CONTRACT LIBRARIES NOT ON THIS JOB</div>
+                      <sc-for list="{{ availableLibs }}" as="al" hint-placeholder-count="1">
+                        <div onClick="{{ al.onSelect }}" style="display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:8px; cursor:pointer;" style-hover="background:#F8FAFC;">
+                          <span style="font-size:10px; font-weight:700; color:#64748B; background:#F1F5F9; border:1px solid #E2E8F0; border-radius:5px; padding:2px 6px; margin-top:2px;">{{ al.typeLabel }}</span>
+                          <span style="display:flex; flex-direction:column; gap:1px; min-width:0;">
+                            <span style="font-size:13.5px; font-weight:600; color:#0F172A;">{{ al.name }}</span>
+                            <span style="font-size:11.5px; color:#94A3B8;">{{ al.effective }} · {{ al.hint }}</span>
+                          </span>
+                        </div>
+                      </sc-for>
+                      <sc-if value="{{ libPickerEmpty }}" hint-placeholder-val="{{ false }}">
+                        <div style="padding:10px 10px 8px 10px; display:flex; flex-direction:column; gap:6px;">
+                          <span style="font-size:13px; color:#64748B; line-height:1.5;">All of this contract's libraries are already on this job. To add a new library, attach it to the contract first.</span>
+                          <a href="#" onClick="{{ stopProp }}" style="font-size:12.5px; font-weight:600; color:#F0670F; text-decoration:none;">Manage contract libraries →</a>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+
+              <sc-for list="{{ libGroups }}" as="lg" hint-placeholder-count="2">
+                <div style="margin-bottom:24px;">
+                  <div style="font-size:11.5px; font-weight:600; letter-spacing:0.07em; color:#94A3B8;">{{ lg.label }}</div>
+                  <sc-if value="{{ lg.hasDesc }}" hint-placeholder-val="{{ false }}">
+                    <div style="font-size:12.5px; color:#94A3B8; margin-top:2px;">{{ lg.desc }}</div>
+                  </sc-if>
+                  <div style="height:8px;"></div>
+                  <sc-if value="{{ lg.banner }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex; align-items:center; gap:9px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:9px 13px; font-size:13px; color:#1D4ED8; margin-bottom:8px;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                      {{ lg.bannerText }}
+                    </div>
+                  </sc-if>
+                  <div style="border:1px solid #E2E8F0; border-radius:12px; overflow:visible; background:#fff;">
+                    <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) 92px 90px minmax(90px,1fr) 36px; gap:10px; align-items:center; padding:11px 16px; border-bottom:1px solid #EEF1F4; font-size:12.5px; font-weight:500; color:#64748B;">
+                      <span>Library</span><span>Status</span><span style="text-align:right;">Work orders</span><span>Added</span><span></span>
+                    </div>
+                    <sc-for list="{{ lg.rows }}" as="lr" hint-placeholder-count="2">
+                      <div style="border-bottom:1px solid #F5F7FA;">
+                      <div style="display:grid; grid-template-columns:minmax(180px,2.2fr) 92px 90px minmax(90px,1fr) 36px; gap:10px; align-items:center; padding:13px 16px; position:relative;" style-hover="background:#FCFCFD;">
+                        <div style="display:flex; flex-direction:column; gap:2px; min-width:0;">
+                          <div style="display:flex; align-items:center; gap:5px; min-width:0;">
+                            <sc-if value="{{ lr.expandable }}" hint-placeholder-val="{{ false }}">
+                              <button onClick="{{ lr.onToggleExpand }}" style="border:none; background:none; padding:2px; margin-left:-4px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#334155;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ lr.chevronRot }}; transition:transform 0.15s ease;"><path d="M9 18l6-6-6-6"></path></svg></button>
+                            </sc-if>
+                            <span style="font-size:14px; font-weight:600; color:{{ lr.nameColor }}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ lr.name }}</span>
+                          </div>
+                          <span style="font-size:12px; color:{{ lr.rangeColor }};">{{ lr.rangeText }}</span>
+                        </div>
+                        <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:{{ lr.pillColor }}; background:{{ lr.pillBg }}; border-radius:999px; padding:3px 10px; width:fit-content;"><span style="width:6px; height:6px; border-radius:50%; background:{{ lr.pillDot }};"></span>{{ lr.statusLabel }}</span>
+                        <span style="text-align:right; font-size:14px; color:#334155; font-variant-numeric:tabular-nums;">{{ lr.wo }}</span>
+                        <span style="font-size:13.5px; color:#64748B;">{{ lr.added }}</span>
+                        <div style="position:relative; display:flex; justify-content:flex-end;">
+                          <button onClick="{{ lr.onKebab }}" style="width:30px; height:30px; border:none; background:{{ lr.kebabBg }}; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#64748B;" style-hover="background:#F1F5F9;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="12" cy="19" r="1.7"></circle></svg></button>
+                          <sc-if value="{{ lr.menuOpen }}" hint-placeholder-val="{{ false }}">
+                            <div style="position:absolute; top:34px; right:0; z-index:40; background:#fff; border:1px solid #E2E8F0; border-radius:10px; box-shadow:0 8px 24px rgba(15,23,42,0.10); padding:5px; min-width:170px; animation:gbFadeIn 0.12s ease;">
+                              <sc-for list="{{ lr.menuItems }}" as="lmi" hint-placeholder-count="3">
+                                <div onClick="{{ lmi.onClick }}" title="{{ lmi.tooltip }}" style="padding:8px 11px; border-radius:7px; font-size:13.5px; color:{{ lmi.color }}; cursor:{{ lmi.cursor }}; white-space:nowrap;" style-hover="background:{{ lmi.hoverBg }};">{{ lmi.label }}</div>
+                              </sc-for>
+                            </div>
+                          </sc-if>
+                        </div>
+                      </div>
+                      <sc-if value="{{ lr.expanded }}" hint-placeholder-val="{{ false }}">
+                        <div style="padding: 0 16px 14px 38px;">
+                          <div style="background:#FCFCFD; border:1px solid #EEF1F4; border-radius:8px; padding:8px; display:flex; flex-direction:column; gap:2px;">
+                            <sc-for list="{{ lr.periods }}" as="pd" hint-placeholder-count="2">
+                              <div style="display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:6px; background:{{ pd.bg }};">
+                                <span style="font-size:13px; color:#334155;">{{ pd.range }}</span>
+                                <span style="font-size:10.5px; font-weight:600; color:{{ pd.tagColor }}; background:{{ pd.tagBg }}; border-radius:5px; padding:2px 7px;">{{ pd.tag }}</span>
+                              </div>
+                            </sc-for>
+                            <div style="padding:8px 10px 4px 10px; font-size:12px; color:#94A3B8;">Rates resolve by work date. <a href="#" onClick="{{ stopProp }}" style="color:#64748B; font-weight:500; text-decoration:none;">Manage periods in the Unit Libraries module →</a></div>
+                          </div>
+                        </div>
+                      </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+
+              <div style="display:flex; justify-content:flex-end;">
+                <button onClick="{{ openEditWo }}" style="border:none; background:none; padding:0; cursor:pointer; color:#94A3B8; font-size:12.5px; font-weight:500; text-decoration:underline; text-underline-offset:3px;" style-hover="color:#F0670F;">Preview: edit work order panel</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ==== Placeholder sections ==== -->
+          <sc-if value="{{ isPlaceholderSection }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:gbFadeIn 0.18s ease;">
+              <h2 style="margin:0 0 4px 0; font-size:19px; font-weight:700; color:#0F172A;">{{ placeholderTitle }}</h2>
+              <p style="margin:0 0 20px 0; color:#64748B; font-size:13.5px;">{{ placeholderDesc }}</p>
+              <div style="border:1.5px dashed #E2E8F0; border-radius:12px; background:#FCFCFD; padding:44px 32px; display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center;">
+                <span style="font-size:14.5px; font-weight:600; color:#64748B;">Not configured yet</span>
+                <span style="font-size:13px; color:#94A3B8;">{{ placeholderHint }}</span>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ============ DEACTIVATE CONFIRM DIALOG ============ -->
+  <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeConfirm }}">
+      <div style="background:#fff; border-radius:14px; width:440px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="display:flex; align-items:flex-start; gap:14px;">
+          <span style="width:38px; height:38px; flex:0 0 38px; border-radius:10px; background:#FEF2F2; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></span>
+          <div style="flex:1;">
+            <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:6px;">Deactivate "{{ confirmName }}"?</div>
+            <div style="font-size:13.5px; color:#64748B; line-height:1.55;">Existing work orders created from this template are unaffected. It will no longer be selectable for new work orders.</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:22px;">
+          <button onClick="{{ closeConfirm }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ confirmDeactivate }}" style="border:none; background:#DC2626; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#B91C1C;">Deactivate</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ RENAME TEMPLATE DIALOG ============ -->
+  <sc-if value="{{ renameOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeRename }}">
+      <div style="background:#fff; border-radius:14px; width:420px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:14px;">Rename template</div>
+        <input value="{{ renameValue }}" onChange="{{ onRenameChange }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A; width:100%;">
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button onClick="{{ closeRename }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ saveRename }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">Save</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ ADD WORK ORDER PANEL ============ -->
+  <sc-if value="{{ addWoOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; justify-content:flex-end; animation:gbFadeIn 0.15s ease;" onClick="{{ closeAddWoPanel }}">
+      <div style="background:#fff; width:420px; max-width:calc(100vw - 40px); height:100%; box-shadow:-12px 0 40px rgba(15,23,42,0.18); display:flex; flex-direction:column; animation:gbSlideIn 0.2s ease;" onClick="{{ stopProp }}">
+        <div style="display:flex; flex-direction:column; gap:8px; padding:16px 22px; border-bottom:1px solid #EEF1F4;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:16px; font-weight:700; color:#0F172A;">Add Work Order</span>
+            <span style="flex:1;"></span>
+            <button onClick="{{ closeAddWoPanel }}" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#0F172A;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+          </div>
+          <sc-if value="{{ multipleActiveTemplates }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12.5px; font-weight:500; color:#64748B; white-space:nowrap;">WO Template:</span>
+            <select value="{{ addWoTemplateId }}" onChange="{{ onAddWoTemplate }}" style="border:1px solid #E2E8F0; border-radius:7px; padding:6px 10px; font-size:13px; font-weight:500; color:#334155; background:#F8FAFC; cursor:pointer; width:fit-content; max-width:100%;">
+              <sc-for list="{{ activeTemplateOptions }}" as="ao" hint-placeholder-count="2">
+                <option value="{{ ao.id }}">{{ ao.label }}</option>
+              </sc-for>
+            </select>
+            </div>
+          </sc-if>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12.5px; font-weight:500; color:#64748B; white-space:nowrap;">Pricing Library:</span>
+            <sc-if value="{{ addWoMultipleLibs }}" hint-placeholder-val="{{ true }}">
+              <select value="{{ addWoLibId }}" onChange="{{ onAddWoLib }}" style="border:1px solid #E2E8F0; border-radius:7px; padding:6px 10px; font-size:13px; font-weight:500; color:#334155; background:#F8FAFC; cursor:pointer; width:fit-content; max-width:100%;">
+                <sc-for list="{{ addWoLibOptions }}" as="lo" hint-placeholder-count="2">
+                  <option value="{{ lo.id }}">{{ lo.label }}</option>
+                </sc-for>
+              </select>
+            </sc-if>
+            <sc-if value="{{ addWoSingleLib }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:13px; font-weight:500; color:#334155;">{{ addWoLibName }}</span>
+            </sc-if>
+          </div>
+          <sc-if value="{{ addWoHasTe }}" hint-placeholder-val="{{ true }}">
+            <div style="font-size:12px; color:#94A3B8;">{{ addWoTeLine }}</div>
+          </sc-if>
+        </div>
+        <div style="flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">WO #</label>
+            <input placeholder="e.g. 029245" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+          </div>
+          <sc-for list="{{ addWoFields }}" as="wf" hint-placeholder-count="3">
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-size:13px; font-weight:600; color:#334155;">{{ wf.name }} <span style="color:#DC2626; font-weight:500;">{{ wf.reqMark }}</span></label>
+              <input placeholder="{{ wf.placeholder }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; padding:16px 22px; border-top:1px solid #EEF1F4;">
+          <button onClick="{{ closeAddWoPanel }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ closeAddWoPanel }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">Create Work Order</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ ARCHIVE LIBRARY CONFIRM DIALOG ============ -->
+  <sc-if value="{{ archiveOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:120; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeArchive }}">
+      <div style="background:#fff; border-radius:14px; width:460px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:8px;">Archive "{{ archiveName }}"?</div>
+        <div style="font-size:13.5px; color:#64748B; line-height:1.55;">Existing work orders bound to this library keep their units and pricing. It will no longer be selectable for new work orders.</div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:22px;">
+          <button onClick="{{ closeArchive }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ confirmArchive }}" style="border:none; background:#DC2626; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#B91C1C;">Archive</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ SET T&E INACTIVE CONFIRM DIALOG ============ -->
+  <sc-if value="{{ teConfirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:120; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeTeConfirm }}">
+      <div style="background:#fff; border-radius:14px; width:440px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:8px;">Set "{{ teConfirmName }}" inactive?</div>
+        <div style="font-size:13.5px; color:#64748B; line-height:1.55;">New work orders will not have a T&amp;E tab. Existing work orders are unaffected.</div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:22px;">
+          <button onClick="{{ closeTeConfirm }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ confirmTeInactive }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">Set Inactive</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ EDIT WORK ORDER PANEL ============ -->
+  <sc-if value="{{ editWoOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; justify-content:flex-end; animation:gbFadeIn 0.15s ease;" onClick="{{ closeEditWo }}">
+      <div style="background:#fff; width:420px; max-width:calc(100vw - 40px); height:100%; box-shadow:-12px 0 40px rgba(15,23,42,0.18); display:flex; flex-direction:column; animation:gbSlideIn 0.2s ease;" onClick="{{ stopProp }}">
+        <div style="display:flex; flex-direction:column; gap:2px; padding:16px 22px; border-bottom:1px solid #EEF1F4;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:16px; font-weight:700; color:#0F172A;">Edit Work Order</span>
+            <span style="flex:1;"></span>
+            <button onClick="{{ closeEditWo }}" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#0F172A;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+          </div>
+          <span style="font-size:12.5px; color:#64748B;">WO-028114</span>
+        </div>
+        <div style="flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">WO Number</label>
+            <input defaultValue="028114" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">Feeder ID</label>
+            <input defaultValue="FDR-2214" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">Substation</label>
+            <select defaultValue="Bluewater Bay" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A; background:#fff; cursor:pointer;">
+              <option value="Bluewater Bay">Bluewater Bay</option>
+              <option value="DeFuniak Springs">DeFuniak Springs</option>
+              <option value="Freeport">Freeport</option>
+            </select>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">RIS Date</label>
+            <input defaultValue="03/14/2026" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px; position:relative;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">Pricing Library</label>
+            <button onClick="{{ toggleEditWoLibMenu }}" style="display:flex; align-items:center; justify-content:space-between; gap:10px; border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A; background:#fff; cursor:pointer; text-align:left;">
+              <span>{{ editWoLibName }}</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <sc-if value="{{ editWoLibMenuOpen }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ stopProp }}" style="position:absolute; top:calc(100% + 4px); left:0; right:0; z-index:60; background:#fff; border:1px solid #E2E8F0; border-radius:10px; box-shadow:0 12px 32px rgba(15,23,42,0.14); padding:5px; animation:gbFadeIn 0.12s ease;">
+                <sc-for list="{{ editWoLibItems }}" as="lo" hint-placeholder-count="3">
+                  <div onClick="{{ lo.onClick }}" class="{{ lo.cls }}" style="display:flex; align-items:center; gap:8px; padding:8px 11px; border-radius:7px; font-size:13.5px; color:{{ lo.color }}; cursor:{{ lo.cursor }};" style-hover="background:{{ lo.hoverBg }};">
+                    <span style="flex:1;">{{ lo.label }}</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F0670F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ lo.checkOpacity }};"><path d="M20 6L9 17l-5-5"></path></svg>
+                    <sc-if value="{{ lo.hasTip }}" hint-placeholder-val="{{ false }}">
+                      <span class="gb-tip-bubble">A work order with logged units can only switch to a library with a matching configuration — same functions, conditions, regions, and columns.</span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ editWoChanged }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:8px; padding:10px 13px; font-size:12.5px; color:#475569; line-height:1.5; margin-top:4px;">{{ editWoInfoText }}</div>
+              <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:10px 13px; font-size:12.5px; color:#92400E; line-height:1.5;">{{ editWoAmberText }}</div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; padding:16px 22px; border-top:1px solid #EEF1F4;">
+          <button onClick="{{ closeEditWo }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ saveEditWo }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ POST-SAVE LIBRARY BANNER MOCK ============ -->
+  <sc-if value="{{ switchDoneOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:120; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeSwitchDone }}">
+      <div style="background:#fff; border-radius:14px; width:500px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:6px;">Library switched</div>
+        <div style="font-size:13px; color:#64748B; margin-bottom:14px;">This banner will appear on the work order:</div>
+        <div style="display:flex; align-items:flex-start; gap:9px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:10px 13px; font-size:13px; color:#92400E; line-height:1.5;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto; margin-top:2px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          <span>{{ switchDoneBanner }}</span>
+        </div>
+        <div style="display:flex; justify-content:flex-end; margin-top:22px;">
+          <button onClick="{{ closeSwitchDone }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Close</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ TOAST ============ -->
+  <sc-if value="{{ toastOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; bottom:28px; left:50%; transform:translateX(-50%); z-index:200; background:#0F172A; color:#F8FAFC; font-size:13px; font-weight:500; border-radius:10px; padding:11px 18px; box-shadow:0 12px 32px rgba(15,23,42,0.30); animation:gbToastIn 0.2s ease; white-space:nowrap; display:flex; align-items:center; gap:14px;">
+      <span>{{ toastText }}</span>
+      <sc-if value="{{ toastHasUndo }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ onToastUndo }}" style="border:none; background:none; padding:0; cursor:pointer; color:#FDBA74; font-size:13px; font-weight:700;" style-hover="color:#FED7AA;">Undo</button>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ============ REMOVE FIELD CONFIRM DIALOG ============ -->
+  <sc-if value="{{ removeConfirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:120; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeRemoveConfirm }}">
+      <div style="background:#fff; border-radius:14px; width:460px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:8px;">Remove "{{ removeConfirmName }}" from this template?</div>
+        <div style="font-size:13.5px; color:#64748B; line-height:1.55;">{{ removeConfirmBody }}</div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:22px;">
+          <button onClick="{{ closeRemoveConfirm }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ confirmRemove }}" style="border:none; background:#DC2626; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#B91C1C;">Remove</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;jobUsesWorkOrders&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Edge states&quot;}, &quot;forceNarrowLayout&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = {
+    vw: 1280,
+    activeSection: 'templates',
+    openMenu: null,
+    templates: [
+      { id: 1, name: 'CHELCO Standard', isDefault: true, active: true, woCount: 34, firstUsed: 'Feb 12, 2026', lastUsed: 'Jul 1, 2026' },
+      { id: 2, name: 'Pike Engineering', isDefault: false, active: true, woCount: 12, firstUsed: 'Apr 3, 2026', lastUsed: 'Jun 27, 2026' },
+      { id: 3, name: 'Legacy Import (2025)', isDefault: false, active: false, woCount: 0, firstUsed: '—', lastUsed: '—' },
+    ],
+    // job-level field registry: fields are owned by the JOB, in two SEPARATE pools.
+    // pool 'wo' = work order header fields; pool 'cu' = CU grouping fields. Fields never move between pools.
+    // hasData = the field has values on logged work orders (locks renaming, gates removal confirm)
+    jobFields: [
+      // WO header pool
+      { id: 'feeder', name: 'Feeder ID', type: 'Text', pool: 'wo', options: [], hasData: true, dataCount: 12 },
+      { id: 'ris', name: 'RIS Date', type: 'Date', pool: 'wo', options: [], hasData: true, dataCount: 31 },
+      { id: 'priority', name: 'Priority', type: 'Dropdown', pool: 'wo', options: ['High', 'Medium', 'Low'], hasData: false, dataCount: 0 },
+      { id: 'substation', name: 'Substation', type: 'Dropdown', pool: 'wo', options: ['Bluewater Bay', 'DeFuniak Springs', 'Freeport'], hasData: true, dataCount: 34 },
+      { id: 'staking', name: 'Staking Sheet #', type: 'Text', pool: 'wo', options: [], hasData: true, dataCount: 27 },
+      { id: 'circuit', name: 'Circuit ID', type: 'Text', pool: 'wo', options: [], hasData: true, dataCount: 12 },
+      { id: 'rcd', name: 'Required Completion Date', type: 'Date', pool: 'wo', options: [], hasData: true, dataCount: 12 },
+      { id: 'pikejob', name: 'Pike Job #', type: 'Text', pool: 'wo', options: [], hasData: true, dataCount: 12 },
+      { id: 'designeng', name: 'Design Engineer', type: 'Dropdown', pool: 'wo', options: ['M. Cantrell', 'R. Okafor', 'S. Bridges'], hasData: true, dataCount: 9 },
+      // CU grouping pool (Text/Number only)
+      { id: 'station', name: 'Station #', type: 'Text', pool: 'cu', options: [], hasData: true, dataCount: 46 },
+      { id: 'span', name: 'Span #', type: 'Text', pool: 'cu', options: [], hasData: true, dataCount: 12 },
+      { id: 'pole', name: 'Pole #', type: 'Text', pool: 'cu', options: [], hasData: false, dataCount: 0 },
+      { id: 'workloc', name: 'Work Location', type: 'Text', pool: 'cu', options: [], hasData: false, dataCount: 0 },
+    ],
+    // per-template selections of job fields
+    configs: {
+      1: { fields: [{ id: 'feeder', req: true }, { id: 'substation', req: true }, { id: 'staking', req: false }, { id: 'ris', req: false }, { id: 'priority', req: false }], groups: [['station']] },
+      2: { fields: [{ id: 'circuit', req: true }, { id: 'pikejob', req: true }, { id: 'designeng', req: false }, { id: 'rcd', req: true }, { id: 'priority', req: false }], groups: [['station'], ['span']] },
+      3: { fields: [], groups: [] },
+    },
+    removeConfirm: null,
+    // unit libraries attached to this job (from the contract)
+    libraries: [
+      { id: 'cu26', name: 'CHELCO Units 2026', type: 'cu', status: 'active', wo: 41, effective: 'Jan 1, 2026 – Dec 31, 2026', added: 'Feb 12, 2026' },
+      { id: 'cu27', name: 'CHELCO Units 2027', type: 'cu', status: 'active', wo: 0, effective: 'Jan 1, 2027 – Dec 31, 2027', added: 'Dec 18, 2026' },
+      { id: 'cu25', name: 'CHELCO Units 2025', type: 'cu', status: 'archived', wo: 28, effective: 'Jan 1, 2025 – Dec 31, 2025', added: 'Jan 9, 2025' },
+      { id: 'light26', name: 'CHELCO Lighting Units 2026', type: 'cu', status: 'active', wo: 0, effective: 'Jan 1, 2026 – Dec 31, 2026', added: 'Jul 3, 2026' },
+      { id: 'te26', name: 'CHELCO T&E Rates', type: 'te', status: 'active', wo: 6, effective: 'Jan 1, 2026 – Dec 31, 2026', added: 'Feb 12, 2026' },
+    ],
+    // contract libraries not yet on this job
+    contractAvail: [],
+    libPickerOpen: false,
+    teExpanded: false,
+    archiveLib: null,
+    teConfirm: null,
+    editWoOpen: false,
+    editWoLibId: 'cu26',
+    editWoLibMenu: false,
+    switchDone: false,
+    // dialogs
+    confirmId: null,
+    renameId: null,
+    renameValue: '',
+    inlineEditId: null,
+    addWoOpen: false,
+    addWoTemplateId: 1,
+    addWoLibId: null,
+    toast: null,
+    // editor
+    editorOpen: false,
+    editorTemplateId: null,
+    editorName: '',
+    editorFields: [],   // [{id, req}]
+    groupLevels: [],    // [{ids:[fieldId]}]
+    picker: null,       // 'fields' | 'g0' | 'g1'
+    createOpen: false,
+    createName: '',
+    createType: 'Text',
+    createReq: false,
+  };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+    this.setState({ vw: window.innerWidth });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._onResize);
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+  }
+
+  fieldById(id) { return this.state.jobFields.find(f => f.id === id); }
+
+  // template names (from saved configs) using a given field, excluding one template
+  usedByNames(fieldId, excludeId) {
+    return this.state.templates
+      .filter(t => t.id !== excludeId)
+      .filter(t => {
+        const c = this.state.configs[t.id];
+        if (!c) return false;
+        return c.fields.some(f => f.id === fieldId) || c.groups.some(g => g.includes(fieldId));
+      })
+      .map(t => t.name);
+  }
+
+  // libraries with zero bound work orders can be removed from the job entirely (nothing to protect)
+  removeLibrary(id) {
+    const lib = this.state.libraries.find(l => l.id === id);
+    if (!lib) return;
+    const idx = this.state.libraries.indexOf(lib);
+    this.setState({
+      libraries: this.state.libraries.filter(l => l.id !== id),
+      contractAvail: [...this.state.contractAvail, { id: lib.id, name: lib.name, type: lib.type, effective: lib.effective, hint: 'attached to contract' }],
+      openMenu: null,
+    });
+    this.showToast('Removed ' + lib.name + ' from this job', () => {
+      this.setState(st => {
+        const libs = [...st.libraries];
+        libs.splice(Math.min(idx, libs.length), 0, lib);
+        return { libraries: libs, contractAvail: st.contractAvail.filter(x => x.id !== id), toast: null };
+      });
+    });
+  }
+
+  showToast(msg, undo) {
+    if (this._toastTimer) clearTimeout(this._toastTimer);
+    this.setState({ toast: { text: msg, undo: undo || null } });
+    this._toastTimer = setTimeout(() => this.setState({ toast: null }), 5000);
+  }
+
+  openEditor(t) {
+    const c = t ? this.state.configs[t.id] : null;
+    // snapshot the job field registry — the editor is transactional; Cancel restores this
+    this._jfSnap = JSON.parse(JSON.stringify(this.state.jobFields));
+    this.setState({
+      editorOpen: true,
+      editorTemplateId: t ? t.id : null,
+      editorName: t ? t.name : '',
+      editorNameError: null,
+      editorFields: c ? c.fields.map(f => ({ ...f })) : [],
+      groupLevels: c ? c.groups.map(g => ({ ids: [...g] })) : [],
+      picker: null, createOpen: false, createName: '', createType: 'Text', createReq: false,
+      inlineEditId: null,
+      openMenu: null,
+    });
+  }
+
+  cancelEditor() {
+    // discard everything staged this session: renames, option edits, new fields
+    this.setState({
+      jobFields: this._jfSnap ? JSON.parse(JSON.stringify(this._jfSnap)) : this.state.jobFields,
+      editorOpen: false, picker: null, createOpen: false, editorNameError: null, inlineEditId: null,
+    });
+  }
+
+  saveEditor() {
+    const s = this.state;
+    const name = s.editorName.trim();
+    if (!name) { this.setState({ editorNameError: 'Template name is required' }); return; }
+    const clash = s.templates.find(t => t.id !== s.editorTemplateId && t.name.trim().toLowerCase() === name.toLowerCase());
+    if (clash) { this.setState({ editorNameError: 'A template with this name already exists on this job.' }); return; }
+    // empty grouping levels don't survive Save
+    const config = { fields: s.editorFields.map(f => ({ ...f })), groups: s.groupLevels.filter(g => g.ids.length > 0).map(g => [...g.ids]) };
+    if (s.editorTemplateId != null) {
+      this.setState({
+        templates: s.templates.map(t => t.id === s.editorTemplateId ? { ...t, name } : t),
+        configs: { ...s.configs, [s.editorTemplateId]: config },
+        editorOpen: false, editorNameError: null,
+      });
+    } else {
+      const id = Math.max(...s.templates.map(t => t.id)) + 1;
+      this.setState({
+        templates: [...s.templates, { id, name, isDefault: false, active: false, woCount: 0, firstUsed: '—', lastUsed: '—' }],
+        configs: { ...s.configs, [id]: config },
+        editorOpen: false, editorNameError: null,
+      });
+      this.showToast('Template created as inactive — activate it when you\u2019re ready.');
+    }
+  }
+
+  setDefault(id) {
+    this.setState({ templates: this.state.templates.map(t => ({ ...t, isDefault: t.id === id })), openMenu: null });
+  }
+
+  doDeactivate() {
+    const id = this.state.confirmId;
+    this.setState({
+      templates: this.state.templates.map(t => t.id === id ? { ...t, active: false } : t),
+      confirmId: null,
+    });
+  }
+
+  updateJobField(id, patch) {
+    this.setState({ jobFields: this.state.jobFields.map(f => f.id === id ? { ...f, ...patch } : f) });
+  }
+
+  // add a field to whatever picker context is open.
+  // reused fields ALWAYS land not-required; only the create-new flow passes req explicitly.
+  addToContext(fieldId, req) {
+    const s = this.state;
+    const reset = { picker: null, createOpen: false, createName: '', createReq: false, createType: 'Text' };
+    if (s.picker === 'fields') {
+      this.setState({ editorFields: [...s.editorFields, { id: fieldId, req: req === true }], ...reset });
+    } else if (s.picker && s.picker.startsWith('g')) {
+      const gi = Number(s.picker.slice(1));
+      this.setState({ groupLevels: s.groupLevels.map((g, j) => j === gi ? { ids: [...g.ids, fieldId] } : g), ...reset });
+    }
+  }
+
+  createNewField() {
+    const s = this.state;
+    const name = s.createName.trim();
+    if (!name) return;
+    // exact duplicates (case-insensitive, across BOTH pools) are blocked entirely
+    if (s.jobFields.some(f => f.name.trim().toLowerCase() === name.toLowerCase())) return;
+    const id = 'jf_' + Date.now();
+    const pool = s.picker === 'fields' ? 'wo' : 'cu';
+    this.setState({ jobFields: [...s.jobFields, { id, name, type: s.createType, pool, options: [], hasData: false, dataCount: 0 }] }, () => this.addToContext(id, s.picker === 'fields' ? this.state.createReq : false));
+  }
+
+  renderVals() {
+    const s = this.state;
+    const usesWorkOrders = this.props.jobUsesWorkOrders ?? true;
+    const forceNarrow = this.props.forceNarrowLayout ?? false;
+    const vw = forceNarrow ? 820 : s.vw;
+    const showSidebar = vw >= 1080;
+    const showSectionRail = vw >= 880;
+
+    const icon = (paths, size) => React.createElement('svg', { width: size || 16, height: size || 16, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: paths } });
+    const typeIcons = {
+      Text: '<path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/>',
+      Number: '<path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3L8 21"/><path d="M16 3l-2 18"/>',
+      Date: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
+      Dropdown: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M9 10l3 3 3-3"/>',
+      Checkbox: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 12l2 2 4-4"/>',
+    };
+    const typeIcon = (t) => icon(typeIcons[t] || typeIcons.Text, 13);
+
+    const navStorm = [
+      { label: 'Events', icon: icon('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>') },
+      { label: 'Roster', icon: icon('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h4"/><path d="M15 12h4"/><path d="M6 16h12"/>') },
+      { label: 'Invoice', icon: icon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/>') },
+      { label: 'Timesheet', icon: icon('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>') },
+      { label: 'Tickets', icon: icon('<path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1a2 2 0 0 0 0 4v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1a2 2 0 0 0 0-4z"/><path d="M13 7v10"/>') },
+    ];
+    const navData = [
+      { label: 'Unions', icon: icon('<path d="M3 21h18"/><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/>') },
+      { label: 'Organizations', icon: icon('<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1.5"/><path d="M13.5 8H15"/><path d="M9 12h1.5"/><path d="M13.5 12H15"/><path d="M10 21v-4h4v4"/>') },
+      { label: 'Equipment', icon: icon('<path d="M10 17h4V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/>') },
+    ];
+    const navTools = [
+      { label: 'Calculators', icon: icon('<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 6h6"/><path d="M9 11h.01"/><path d="M12 11h.01"/><path d="M15 11h.01"/><path d="M9 15h.01"/><path d="M12 15h.01"/><path d="M15 15h.01"/><path d="M9 19h.01"/><path d="M12 19h.01"/><path d="M15 19h.01"/>') },
+      { label: 'Bid Estimates', icon: icon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 14l2 2 4-4"/>') },
+    ];
+
+    const pageTabs = ['Overview', 'Crew & Equipment', 'Production Log', 'Billing', 'Settings'].map(label => {
+      const active = label === 'Settings';
+      return { label, weight: active ? 600 : 500, color: active ? '#0F172A' : '#64748B', underline: active ? '#0F172A' : 'transparent' };
+    });
+
+    const sections = [
+      { id: 'general', label: 'General' },
+      { id: 'libraries', label: 'Unit Libraries' },
+      { id: 'templates', label: 'Work Order Templates' },
+      { id: 'invoicing', label: 'Billing Rules' },
+      { id: 'delays', label: 'Dashboard & Layout' },
+    ];
+    const sectionNav = sections.map(sec => {
+      const active = s.activeSection === sec.id;
+      return { label: sec.label, weight: active ? 600 : 500, color: active ? '#0F172A' : '#64748B', bg: active ? '#F1F5F9' : 'transparent', onSelect: () => this.setState({ activeSection: sec.id }) };
+    });
+
+    const placeholders = {
+      general: { title: 'General', desc: 'Job identity, work order numbering, and defaults.', hint: 'General job settings will appear here once configured.' },
+      invoicing: { title: 'Billing Rules', desc: 'How production converts to invoice line items.', hint: 'Billing rules will appear here once configured.' },
+      delays: { title: 'Dashboard & Layout', desc: 'Customize the KPI cards and layout of the Work Order page — which cards show, their order, and date ranges.', hint: 'Dashboard configuration will appear here once set up.' },
+    };
+    const ph = placeholders[s.activeSection];
+
+    // ----- template rows -----
+    const templateRows = s.templates.map(t => {
+      const item = (o) => ({ tooltip: '', cursor: 'pointer', hoverBg: '#F8FAFC', ...o });
+      const menuItems = [
+        item({ label: 'Edit', color: '#334155', onClick: (e) => { e.stopPropagation(); this.openEditor(t); } }),
+        item({ label: 'Rename', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ renameId: t.id, renameValue: t.name, openMenu: null }); } }),
+      ];
+      if (t.active) menuItems.push(item({ label: 'Preview form', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ addWoOpen: true, addWoTemplateId: t.id, openMenu: null }); } }));
+      if (t.active && !t.isDefault) menuItems.push(item({ label: 'Set as Default', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setDefault(t.id); } }));
+      if (t.active && t.isDefault) menuItems.push(item({ label: 'Deactivate', color: '#CBD5E1', cursor: 'not-allowed', hoverBg: 'transparent', tooltip: 'Set another template as default first', onClick: (e) => e.stopPropagation() }));
+      else if (t.active) menuItems.push(item({ label: 'Deactivate', color: '#DC2626', onClick: (e) => { e.stopPropagation(); this.setState({ confirmId: t.id, openMenu: null }); } }));
+      else menuItems.push(item({ label: 'Activate', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ templates: s.templates.map(x => x.id === t.id ? { ...x, active: true } : x), openMenu: null }); } }));
+      return {
+        ...t,
+        nameColor: t.active ? '#0F172A' : '#94A3B8',
+        statusLabel: t.active ? 'Active' : 'Inactive',
+        pillColor: t.active ? '#059669' : '#64748B',
+        pillBg: t.active ? '#ECFDF5' : '#F1F5F9',
+        pillDot: t.active ? '#10B981' : '#94A3B8',
+        menuOpen: s.openMenu === t.id,
+        kebabBg: s.openMenu === t.id ? '#F1F5F9' : 'transparent',
+        menuItems,
+        onEdit: () => this.openEditor(t),
+        onKebab: (e) => { e.stopPropagation(); this.setState({ openMenu: s.openMenu === t.id ? null : t.id }); },
+      };
+    });
+
+    // ----- editor: field rows -----
+    const curId = s.editorTemplateId;
+    const curTpl = s.templates.find(t => t.id === curId);
+    const tplWoCount = curTpl ? curTpl.woCount : 0; // remove-confirm counts are template-scoped
+    const editorFields = s.editorFields.map((ef, i) => {
+      const jf = this.fieldById(ef.id) || { name: '?', type: 'Text', options: [] };
+      const others = this.usedByNames(ef.id, curId);
+      const canRename = !jf.hasData;
+      const editing = s.inlineEditId === ef.id;
+      return {
+        name: jf.name,
+        type: jf.type,
+        typeIcon: typeIcon(jf.type),
+        shared: others.length > 0,
+        sharedTip: 'Also used in: ' + others.join(', '),
+        editing,
+        notEditing: !editing,
+        renameTip: canRename ? 'Rename field' : 'This field has logged data. Create a new field and remove this one from the template instead.',
+        pencilCursor: canRename ? 'pointer' : 'not-allowed',
+        pencilColor: canRename ? '#CBD5E1' : '#E7ECF2',
+        pencilHover: canRename ? '#64748B' : '#E7ECF2',
+        onNameChange: (e) => this.updateJobField(ef.id, { name: e.target.value }),
+        stopEdit: () => this.setState({ inlineEditId: null }),
+        onKey: (e) => { if (e.key === 'Enter' || e.key === 'Escape') this.setState({ inlineEditId: null }); },
+        isDropdown: jf.type === 'Dropdown',
+        sharedOptions: jf.type === 'Dropdown' && others.length > 0,
+        optionsEmpty: jf.type === 'Dropdown' && jf.options.length === 0,
+        reqBg: ef.req ? '#0F172A' : '#fff',
+        reqBorder: ef.req ? '#0F172A' : '#CBD5E1',
+        reqCheckOpacity: ef.req ? 1 : 0,
+        onReq: () => this.setState({ editorFields: s.editorFields.map((x, j) => j === i ? { ...x, req: !x.req } : x) }),
+        onRename: () => { if (canRename) this.setState({ inlineEditId: editing ? null : ef.id }); },
+        onRemove: () => {
+          const entry = s.editorFields[i];
+          const doRemove = () => {
+            this.setState(st => ({ editorFields: st.editorFields.filter(x => x !== entry), removeConfirm: null }));
+            this.showToast('Removed ' + jf.name + ' from this template', () => {
+              this.setState(st => {
+                const arr = st.editorFields.filter(x => x !== entry);
+                arr.splice(Math.min(i, arr.length), 0, entry);
+                return { editorFields: arr, toast: null };
+              });
+            });
+          };
+          if (jf.hasData && tplWoCount > 0) this.setState({ removeConfirm: { name: jf.name, count: tplWoCount, onConfirm: doRemove } });
+          else doRemove();
+        },
+        onAddOption: () => this.updateJobField(ef.id, { options: [...jf.options, ''] }),
+        optionRows: jf.options.map((op, oi) => ({
+          value: op,
+          onChange: (e) => this.updateJobField(ef.id, { options: jf.options.map((x, k) => k === oi ? e.target.value : x) }),
+          onRemove: () => this.updateJobField(ef.id, { options: jf.options.filter((_, k) => k !== oi) }),
+        })),
+      };
+    });
+
+    // ids already used anywhere in this template
+    const usedInTemplate = new Set([...s.editorFields.map(f => f.id), ...s.groupLevels.flatMap(g => g.ids)]);
+    const mkPickerItems = (pool) => s.jobFields.filter(f => f.pool === pool && !usedInTemplate.has(f.id)).map(f => {
+      const users = this.usedByNames(f.id, curId);
+      return {
+        name: f.name,
+        icon: typeIcon(f.type),
+        hint: users.length === 0 ? 'not used yet' : 'used in ' + (users.length > 1 ? users.join(', ') : users[0]),
+        onSelect: (e) => { e.stopPropagation(); this.addToContext(f.id); },
+      };
+    });
+    const woPickerItems = mkPickerItems('wo');
+    const cuPickerItems = mkPickerItems('cu');
+
+    // duplicate-name guard — two tiers, checked across BOTH pools:
+    // exact (case-insensitive) match anywhere on the job = blocked; near match (same pool) = suggestion
+    const ctxPool = s.picker === 'fields' ? 'wo' : 'cu';
+    const lc = (x) => x.trim().toLowerCase();
+    const norm = (x) => lc(x).replace(/s$/, '');
+    const typed = s.createName.trim();
+    const exactField = typed ? s.jobFields.find(f => lc(f.name) === lc(typed)) : null;
+    const exactSamePool = exactField && exactField.pool === ctxPool;
+    const exactReusable = !!(exactField && exactSamePool && !usedInTemplate.has(exactField.id));
+    const otherPoolLabel = exactField && exactField.pool === 'cu' ? 'a CU grouping field' : 'a work order field';
+    const dupExactMsg = exactField
+      ? (exactSamePool
+        ? 'A field named "' + exactField.name + '" already exists on this job.'
+        : 'A field named "' + exactField.name + '" already exists on this job as ' + otherPoolLabel + ' \u2014 field names must be unique across the job.')
+      : '';
+    const nearField = (!exactField && typed && typed.length >= 3)
+      ? s.jobFields.find(f => f.pool === ctxPool && (norm(f.name) === norm(typed) || lc(f.name).startsWith(lc(typed))))
+      : null;
+    const dupAvailable = nearField && !usedInTemplate.has(nearField.id) ? nearField : null;
+    const dupExactOpen = s.createOpen && !!exactField;
+    const dupOpen = s.createOpen && !exactField && !!dupAvailable;
+
+    // ----- grouping levels -----
+    const groupBlocks = s.groupLevels.map((g, gi) => {
+      const primary = gi === 0;
+      return {
+        title: primary ? 'Primary Grouping Level' : 'Sub-group Level',
+        subtitle: primary ? 'Primary grouping — e.g., by work location or address' : 'Nested within each group above — e.g., by pole or span',
+        headerBg: primary ? '#FFFBF2' : '#FFFDF7',
+        bodyBg: primary ? '#FFFEFB' : '#FFFEFC',
+        indent: primary ? '20px' : '44px',
+        pickerOpen: s.picker === 'g' + gi,
+        onTogglePicker: (e) => { e.stopPropagation(); this.setState({ picker: s.picker === 'g' + gi ? null : 'g' + gi, createOpen: false, createName: '' }); },
+        fields: g.ids.map((fid, fi) => {
+          const jf = this.fieldById(fid) || { name: '?', type: 'Text' };
+          const others = this.usedByNames(fid, curId);
+          const canRename = !jf.hasData;
+          const editing = s.inlineEditId === fid;
+          return {
+            name: jf.name,
+            type: jf.type,
+            typeIcon: typeIcon(jf.type),
+            shared: others.length > 0,
+            sharedTip: 'Also used in: ' + others.join(', '),
+            editing,
+            notEditing: !editing,
+            renameTip: canRename ? 'Rename field' : 'This field has logged data. Create a new field and remove this one from the template instead.',
+            pencilCursor: canRename ? 'pointer' : 'not-allowed',
+            pencilColor: canRename ? '#CBD5E1' : '#E7ECF2',
+            pencilHover: canRename ? '#64748B' : '#E7ECF2',
+            onNameChange: (e) => this.updateJobField(fid, { name: e.target.value }),
+            stopEdit: () => this.setState({ inlineEditId: null }),
+            onKey: (e) => { if (e.key === 'Enter' || e.key === 'Escape') this.setState({ inlineEditId: null }); },
+            onRename: () => { if (canRename) this.setState({ inlineEditId: editing ? null : fid }); },
+            onRemove: () => {
+              const doRemove = () => {
+                this.setState(st => ({ groupLevels: st.groupLevels.map((x, j) => j !== gi ? x : { ids: x.ids.filter(id => id !== fid) }), removeConfirm: null }));
+                this.showToast('Removed ' + jf.name + ' from this template', () => {
+                  this.setState(st => ({
+                    groupLevels: st.groupLevels.map((x, j) => {
+                      if (j !== gi) return x;
+                      const ids = x.ids.filter(id => id !== fid);
+                      ids.splice(Math.min(fi, ids.length), 0, fid);
+                      return { ids };
+                    }),
+                    toast: null,
+                  }));
+                });
+              };
+              if (jf.hasData && tplWoCount > 0) this.setState({ removeConfirm: { name: jf.name, count: tplWoCount, onConfirm: doRemove } });
+              else doRemove();
+            },
+          };
+        }),
+        onRemove: () => this.setState({ groupLevels: s.groupLevels.filter((_, j) => j !== gi), picker: null }),
+      };
+    });
+
+    // ----- document preview -----
+    const nameOf = (fid, fallback) => { const jf = this.fieldById(fid); return jf ? jf.name : fallback; };
+    // empty grouping levels are ignored by the preview (and dropped on Save)
+    const previewLevels = s.groupLevels.filter(g => g.ids.length > 0);
+    const previewGroups = (() => {
+      if (previewLevels.length === 0) return [];
+      const sampleVals = {
+        'Station #': ['48923N36298', '48923N36305'],
+        'Work Location': ['Bluewater Bay Fdr 12', 'DeFuniak Springs Fdr 3'],
+        'Pole #': ['P-1042', 'P-1108'],
+        'Span #': ['100', '200'],
+      };
+      const val = (name, idx) => (sampleVals[name] || ['100', '200'])[idx % 2];
+      const pairsFor = (ids, idx) => ids.length
+        ? ids.map(fid => { const n = nameOf(fid, 'Group'); return { name: n, value: val(n, idx) }; })
+        : [{ name: 'Group', value: val('', idx) }];
+      const l0 = previewLevels[0].ids;
+      const l1 = previewLevels[1] ? previewLevels[1].ids : null;
+      const rowA = { fn: 'Install', qty: '1', code: 'NEUT-CONN', desc: 'Neutral connection' };
+      const rowB = { fn: 'Install', qty: '1', code: 'PREP-POLE', desc: 'Prepare pole' };
+      const mkSubs = (first) => l1
+        ? (first
+          ? [{ hasLabel: true, pairs: pairsFor(l1, 0), rows: [rowA] }, { hasLabel: true, pairs: pairsFor(l1, 1), rows: [rowB] }]
+          : [{ hasLabel: true, pairs: pairsFor(l1, 0), rows: [rowA] }])
+        : [{ hasLabel: false, pairs: [], rows: first ? [rowA, rowB] : [rowA] }];
+      return [
+        { pairs: pairsFor(l0, 0), subs: mkSubs(true) },
+        { pairs: pairsFor(l0, 1), subs: mkSubs(false) },
+      ];
+    })();
+
+    // ----- add WO panel -----
+    const activeTemplates = s.templates.filter(t => t.active);
+    const defaultTemplate = s.templates.find(t => t.isDefault) || activeTemplates[0];
+    const addWoPlaceholders = { 'Feeder ID': 'e.g. FDR-2214', 'Substation': 'Select substation', 'Staking Sheet #': 'e.g. SS-1048', 'RIS Date': 'mm/dd/yyyy', 'Circuit ID': 'e.g. CKT-40218', 'Pike Job #': 'e.g. PK-26-114', 'Design Engineer': 'Select engineer', 'Required Completion Date': 'mm/dd/yyyy' };
+    const selectedConfig = this.state.configs[s.addWoTemplateId] || { fields: [] };
+    const addWoFields = selectedConfig.fields.map(f => {
+      const jf = this.fieldById(f.id) || { name: '?' };
+      return { name: jf.name, reqMark: f.req ? '*' : '', placeholder: addWoPlaceholders[jf.name] || '' };
+    });
+
+    // ----- unit libraries -----
+    const activeCuCount = s.libraries.filter(l => l.type === 'cu' && l.status === 'active').length;
+    const activeTeCount = s.libraries.filter(l => l.type === 'te' && l.status === 'active').length;
+    const setLibStatus = (id, status) => this.setState({ libraries: this.state.libraries.map(l => l.id === id ? { ...l, status } : l), openMenu: null });
+    const libItem = (o) => ({ tooltip: '', cursor: 'pointer', hoverBg: '#F8FAFC', ...o });
+    const libRow = (l) => {
+      const isLastActiveCu = l.type === 'cu' && l.status === 'active' && activeCuCount === 1;
+      const guardTip = 'At least one active Units library is required.';
+      const menuItems = [];
+      if (l.status === 'active') {
+        if (isLastActiveCu) menuItems.push(libItem({ label: 'Set Inactive', color: '#CBD5E1', cursor: 'not-allowed', hoverBg: 'transparent', tooltip: guardTip, onClick: (e) => e.stopPropagation() }));
+        else if (l.type === 'te' && activeTeCount === 1) menuItems.push(libItem({ label: 'Set Inactive', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ teConfirm: { id: l.id, name: l.name }, openMenu: null }); } }));
+        else menuItems.push(libItem({ label: 'Set Inactive', color: '#334155', onClick: (e) => { e.stopPropagation(); setLibStatus(l.id, 'inactive'); } }));
+      }
+      if (l.status === 'inactive') menuItems.push(libItem({ label: 'Set Active', color: '#334155', onClick: (e) => { e.stopPropagation(); setLibStatus(l.id, 'active'); } }));
+      if (l.status !== 'archived') {
+        if (isLastActiveCu) menuItems.push(libItem({ label: 'Archive', color: '#CBD5E1', cursor: 'not-allowed', hoverBg: 'transparent', tooltip: guardTip, onClick: (e) => e.stopPropagation() }));
+        else menuItems.push(libItem({ label: 'Archive', color: '#DC2626', onClick: (e) => { e.stopPropagation(); if (l.wo > 0) this.setState({ archiveLib: { id: l.id, name: l.name }, openMenu: null }); else setLibStatus(l.id, 'archived'); } }));
+      }
+      if (l.wo === 0) menuItems.push(libItem({ label: 'Remove from Job', color: '#DC2626', onClick: (e) => { e.stopPropagation(); this.removeLibrary(l.id); } }));
+      menuItems.push(libItem({ label: 'View Library', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ openMenu: null }); } }));
+      const archived = l.status === 'archived';
+      const pill = l.status === 'active'
+        ? { label: 'Active', color: '#059669', bg: '#ECFDF5', dot: '#10B981' }
+        : (l.status === 'inactive'
+          ? { label: 'Inactive', color: '#64748B', bg: '#F1F5F9', dot: '#94A3B8' }
+          : { label: 'Archived', color: '#94A3B8', bg: '#F8FAFC', dot: '#CBD5E1' });
+      const isTe = l.type === 'te';
+      return {
+        ...l,
+        nameColor: archived ? '#94A3B8' : '#0F172A',
+        rangeColor: archived ? '#CBD5E1' : '#94A3B8',
+        // T&E: one library per contract with effective-dated rate periods inside
+        rangeText: isTe ? '2 rate periods · current: Jan 1 – Dec 31, 2026' : l.effective,
+        expandable: isTe,
+        expanded: isTe && s.teExpanded,
+        chevronRot: isTe && s.teExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+        onToggleExpand: (e) => { e.stopPropagation(); this.setState({ teExpanded: !s.teExpanded }); },
+        periods: isTe ? [
+          { range: 'Jan 1, 2026 – Dec 31, 2026', tag: 'current', bg: '#F8FAFC', tagColor: '#059669', tagBg: '#ECFDF5' },
+          { range: 'Jan 1, 2027 – Dec 31, 2027', tag: 'upcoming', bg: 'transparent', tagColor: '#64748B', tagBg: '#F1F5F9' },
+        ] : [],
+        statusLabel: pill.label, pillColor: pill.color, pillBg: pill.bg, pillDot: pill.dot,
+        menuOpen: s.openMenu === 'lib:' + l.id,
+        kebabBg: s.openMenu === 'lib:' + l.id ? '#F1F5F9' : 'transparent',
+        menuItems,
+        onKebab: (e) => { e.stopPropagation(); this.setState({ openMenu: s.openMenu === 'lib:' + l.id ? null : 'lib:' + l.id }); },
+      };
+    };
+    const libGroups = [
+      { label: 'UNITS (CU)', desc: '', hasDesc: false, banner: activeCuCount > 1, bannerText: activeCuCount + ' active Units libraries — new work orders will ask the creator to choose.', rows: s.libraries.filter(l => l.type === 'cu').map(libRow) },
+      { label: 'T&E RATE SHEET', desc: 'One rate sheet per contract — annual rate changes are added as new periods, not new libraries.', hasDesc: true, banner: false, bannerText: '', rows: s.libraries.filter(l => l.type === 'te').map(libRow) },
+    ];
+    const activeTeLib = s.libraries.find(l => l.type === 'te' && l.status === 'active');
+    const availableLibs = s.contractAvail.map(a => ({
+      ...a,
+      typeLabel: a.type === 'cu' ? 'CU' : 'T&E',
+      onSelect: (e) => {
+        e.stopPropagation();
+        this.setState({
+          libraries: [...this.state.libraries, { id: a.id, name: a.name, type: a.type, status: 'inactive', wo: 0, effective: a.effective, added: 'Jul 3, 2026' }],
+          contractAvail: this.state.contractAvail.filter(x => x.id !== a.id),
+          libPickerOpen: false,
+        });
+        this.showToast('Library added as inactive \u2014 activate it when you\u2019re ready.');
+      },
+    }));
+    // pricing library on the Add Work Order panel — any active Units library, no guards at creation
+    const activeCuLibs = s.libraries.filter(l => l.type === 'cu' && l.status === 'active');
+    const addWoLib = activeCuLibs.find(l => l.id === s.addWoLibId) || activeCuLibs[0] || null;
+
+    // Edit Work Order panel — pricing library is a normal field, guarded once work is logged.
+    // WO-028114 is bound to CHELCO Units 2026; Lighting differs in configuration so it's non-selectable.
+    const editWoLibs = [
+      { id: 'cu26', label: 'CHELCO Units 2026', disabled: false },
+      { id: 'cu27', label: 'CHELCO Units 2027', disabled: false },
+      { id: 'light26', label: 'CHELCO Lighting Units 2026 — configuration differs', disabled: true },
+    ];
+    const editWoLib = editWoLibs.find(l => l.id === s.editWoLibId) || editWoLibs[0];
+    const editWoChanged = editWoLib.id !== 'cu26';
+
+    const confirmTemplate = s.templates.find(t => t.id === s.confirmId);
+
+    return {
+      showSidebar, showSectionRail,
+      showSectionDropdown: !showSectionRail,
+      contentPadLeft: showSectionRail ? '16px' : '32px',
+      navStorm, navData, navTools, pageTabs,
+      closeMenus: () => { if (s.openMenu != null || s.picker != null || s.libPickerOpen || s.editWoLibMenu) this.setState({ openMenu: null, picker: null, createOpen: false, createName: '', libPickerOpen: false, editWoLibMenu: false }); },
+      stopProp: (e) => e.stopPropagation(),
+      sectionNav,
+      activeSection: s.activeSection,
+      onSectionDropdown: (e) => this.setState({ activeSection: e.target.value }),
+      isTemplatesSection: s.activeSection === 'templates',
+      isLibrariesSection: s.activeSection === 'libraries',
+      isPlaceholderSection: s.activeSection !== 'templates' && s.activeSection !== 'libraries',
+      // unit libraries
+      libGroups,
+      availableLibs,
+      libPickerEmpty: availableLibs.length === 0,
+      libPickerOpen: s.libPickerOpen,
+      toggleLibPicker: (e) => { e.stopPropagation(); this.setState({ libPickerOpen: !s.libPickerOpen, openMenu: null }); },
+      archiveOpen: s.archiveLib != null,
+      archiveName: s.archiveLib ? s.archiveLib.name : '',
+      closeArchive: () => this.setState({ archiveLib: null }),
+      confirmArchive: () => { setLibStatus(s.archiveLib.id, 'archived'); this.setState({ archiveLib: null }); },
+      // edit work order panel
+      editWoOpen: s.editWoOpen,
+      openEditWo: () => this.setState({ editWoOpen: true, editWoLibId: 'cu26', editWoLibMenu: false }),
+      closeEditWo: () => this.setState({ editWoOpen: false, editWoLibMenu: false }),
+      editWoLibName: editWoLib.label,
+      editWoLibMenuOpen: s.editWoLibMenu,
+      toggleEditWoLibMenu: (e) => { e.stopPropagation(); this.setState({ editWoLibMenu: !s.editWoLibMenu }); },
+      editWoLibItems: editWoLibs.map(l => ({
+        label: l.label,
+        selected: l.id === editWoLib.id,
+        checkOpacity: l.id === editWoLib.id ? 1 : 0,
+        color: l.disabled ? '#CBD5E1' : '#334155',
+        cursor: l.disabled ? 'not-allowed' : 'pointer',
+        hoverBg: l.disabled ? 'transparent' : '#F8FAFC',
+        cls: l.disabled ? 'gb-tip' : '',
+        hasTip: l.disabled,
+        onClick: (e) => { e.stopPropagation(); if (!l.disabled) this.setState({ editWoLibId: l.id, editWoLibMenu: false }); },
+      })),
+      editWoChanged,
+      editWoInfoText: 'Units already logged keep their current pricing \u2014 this never reprices existing rows. Units added after Save will price from ' + editWoLib.label + '.',
+      editWoAmberText: '\u2139 2 unit codes logged on this work order aren\u2019t in ' + editWoLib.label + ' \u2014 you won\u2019t be able to add new rows of those units. Already-logged units are unaffected.',
+      saveEditWo: () => this.setState({ editWoOpen: false, editWoLibMenu: false, switchDone: editWoChanged }),
+      // post-save banner mock
+      switchDoneOpen: s.switchDone,
+      closeSwitchDone: () => this.setState({ switchDone: false }),
+      switchDoneBanner: 'Rows logged before Jan 3, 2027 use CHELCO Units 2026 pricing. Newer rows use CHELCO Units 2027.',
+      // last-active T&E deactivation confirm
+      teConfirmOpen: s.teConfirm != null,
+      teConfirmName: s.teConfirm ? s.teConfirm.name : '',
+      closeTeConfirm: () => this.setState({ teConfirm: null }),
+      confirmTeInactive: () => { setLibStatus(s.teConfirm.id, 'inactive'); this.setState({ teConfirm: null }); },
+      placeholderTitle: ph ? ph.title : '',
+      placeholderDesc: ph ? ph.desc : '',
+      placeholderHint: ph ? ph.hint : '',
+      goToGeneral: () => this.setState({ activeSection: 'general' }),
+      usesWorkOrders,
+      noWorkOrders: !usesWorkOrders,
+      templateRows,
+      templateCountLabel: s.templates.length + ' templates · ' + activeTemplates.length + ' active',
+      openNewTemplate: () => this.openEditor(null),
+      confirmOpen: s.confirmId != null,
+      confirmName: confirmTemplate ? confirmTemplate.name : '',
+      closeConfirm: () => this.setState({ confirmId: null }),
+      confirmDeactivate: () => this.doDeactivate(),
+      renameOpen: s.renameId != null,
+      renameValue: s.renameValue,
+      onRenameChange: (e) => this.setState({ renameValue: e.target.value }),
+      closeRename: () => this.setState({ renameId: null }),
+      saveRename: () => this.setState({ templates: s.templates.map(t => t.id === s.renameId ? { ...t, name: s.renameValue || t.name } : t), renameId: null }),
+      // add WO panel
+      addWoOpen: s.addWoOpen,
+      openAddWoPanel: () => this.setState({ addWoOpen: true, addWoTemplateId: defaultTemplate ? defaultTemplate.id : 1 }),
+      closeAddWoPanel: () => this.setState({ addWoOpen: false }),
+      multipleActiveTemplates: activeTemplates.length > 1,
+      activeTemplateOptions: activeTemplates.map(t => ({ id: t.id, label: t.name + (t.isDefault ? ' (Default)' : '') })),
+      addWoTemplateId: s.addWoTemplateId,
+      onAddWoTemplate: (e) => this.setState({ addWoTemplateId: Number(e.target.value) }),
+      addWoLibOptions: activeCuLibs.map(l => ({ id: l.id, label: l.name })),
+      addWoLibId: addWoLib ? addWoLib.id : '',
+      addWoLibName: addWoLib ? addWoLib.name : '',
+      addWoMultipleLibs: activeCuLibs.length > 1,
+      addWoSingleLib: activeCuLibs.length === 1,
+      onAddWoLib: (e) => this.setState({ addWoLibId: e.target.value }),
+      addWoHasTe: !!activeTeLib,
+      addWoTeLine: activeTeLib ? ('T&E Rates: ' + activeTeLib.name + ' · rates apply by work date') : '',
+      addWoFields,
+      // editor
+      editorOpen: s.editorOpen,
+      editorClosed: !s.editorOpen,
+      editorTitle: s.editorTemplateId != null ? 'Edit Template' : 'New Template',
+      editorSaveLabel: s.editorTemplateId != null ? 'Save Changes' : 'Create Template',
+      editorName: s.editorName,
+      onEditorName: (e) => this.setState({ editorName: e.target.value, editorNameError: null }),
+      editorNameError: s.editorNameError || '',
+      editorNameHasError: !!s.editorNameError,
+      editorNameBorder: s.editorNameError ? '#DC2626' : '#E2E8F0',
+      closeEditor: () => this.cancelEditor(),
+      saveEditor: () => this.saveEditor(),
+      editorFields,
+      // pickers (two separate pools)
+      woPickerItems,
+      woPickerEmpty: woPickerItems.length === 0,
+      cuPickerItems,
+      cuPickerEmpty: cuPickerItems.length === 0,
+      fieldsPickerOpen: s.picker === 'fields',
+      toggleFieldsPicker: (e) => { e.stopPropagation(); this.setState({ picker: s.picker === 'fields' ? null : 'fields', createOpen: false, createName: '' }); },
+      createOpen: s.createOpen,
+      createClosed: !s.createOpen,
+      openCreate: (e) => { e.stopPropagation(); this.setState({ createOpen: true, createName: '', createReq: false, createType: 'Text' }); },
+      createName: s.createName,
+      onCreateName: (e) => this.setState({ createName: e.target.value }),
+      createType: s.createType,
+      onCreateType: (e) => this.setState({ createType: e.target.value }),
+      createReqVisible: s.picker === 'fields',
+      onCreateReq: () => this.setState({ createReq: !s.createReq }),
+      createReqBg: s.createReq ? '#0F172A' : '#fff',
+      createReqBorder: s.createReq ? '#0F172A' : '#CBD5E1',
+      createReqOpacity: s.createReq ? 1 : 0,
+      dupOpen,
+      dupClosed: !dupOpen && !dupExactOpen,
+      dupName: dupAvailable ? dupAvailable.name : '',
+      reuseDup: (e) => { e.stopPropagation(); if (dupAvailable) this.addToContext(dupAvailable.id); },
+      dupExactOpen,
+      dupExactMsg,
+      dupExactReusable: dupExactOpen && exactReusable,
+      reuseExact: (e) => { e.stopPropagation(); if (exactReusable) this.addToContext(exactField.id); },
+      createInputBorder: dupExactOpen ? '#DC2626' : '#E2E8F0',
+      createField: (e) => { e.stopPropagation(); this.createNewField(); },
+      // groups
+      groupBlocks,
+      showAddGroupRow: s.groupLevels.length < 2,
+      addGroupLabel: s.groupLevels.length === 0 ? 'Add a grouping level' : 'Add a sub-group level',
+      addGroupHint: s.groupLevels.length === 0 ? '— organize CUs into groups (e.g., by work location, address)' : '— nest within each group (e.g., by pole, span)',
+      addGroupIndent: s.groupLevels.length === 0 ? '20px' : '44px',
+      addGroupLevel: () => this.setState({ groupLevels: [...s.groupLevels, { ids: [] }] }),
+      // preview
+      previewHeaderFields: s.editorFields.map(f => ({ name: nameOf(f.id, '?') })),
+      previewHasGroups: previewLevels.length > 0,
+      previewNoGroups: previewLevels.length === 0,
+      previewGroups,
+      // remove confirmation
+      removeConfirmOpen: s.removeConfirm != null,
+      removeConfirmName: s.removeConfirm ? s.removeConfirm.name : '',
+      removeConfirmBody: s.removeConfirm ? (s.removeConfirm.count + ' work orders have values for this field. Their values stay in the Production Log and Billing, but the field will no longer appear on the work order form.') : '',
+      closeRemoveConfirm: () => this.setState({ removeConfirm: null }),
+      confirmRemove: () => { if (s.removeConfirm) s.removeConfirm.onConfirm(); },
+      // toast
+      toastOpen: s.toast != null,
+      toastText: s.toast ? s.toast.text : '',
+      toastHasUndo: !!(s.toast && s.toast.undo),
+      onToastUndo: () => { if (s.toast && s.toast.undo) s.toast.undo(); },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html,body{margin:0;padding:0;background:#FFFFFF;}
+    *{box-sizing:border-box;}
+    input,select,button{font-family:inherit;}
+    input:focus,select:focus{outline:2px solid #FDBA74;outline-offset:0;}
+    @keyframes gbFadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes gbSlideIn{from{transform:translateX(24px);opacity:0}to{transform:translateX(0);opacity:1}}
+  </style>
+</helmet>
+
+<div data-screen-label="Job Detail — Settings" style="display:flex; align-items:stretch; min-height:100vh; font-family:'Inter',system-ui,-apple-system,sans-serif; color:#0F172A; background:#FFFFFF; font-size:14px;" onClick="{{ closeMenus }}">
+
+  <!-- ============ APP SIDEBAR ============ -->
+  <sc-if value="{{ showSidebar }}" hint-placeholder-val="{{ true }}">
+  <div style="width:248px; flex:0 0 248px; border-right:1px solid #EEF1F4; background:#FCFCFD; display:flex; flex-direction:column; padding:0;">
+    <div style="display:flex; align-items:center; gap:10px; padding:16px 16px 12px 16px;">
+      <div style="width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; color:#F0670F; font-style:italic; letter-spacing:-1px;">X</div>
+      <div style="flex:1; min-width:0;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="font-weight:700; font-size:16px; color:#1E293B;">Gridbase</span>
+          <span style="font-size:10px; font-weight:600; color:#94A3B8; background:#F1F5F9; border-radius:5px; padding:2px 6px;">Beta</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:#64748B; margin-top:1px;">
+          <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">PowerGrid Distributi...</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1; overflow-y:auto; padding:8px 12px 12px 12px; display:flex; flex-direction:column; gap:2px;">
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">STORM</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <sc-for list="{{ navStorm }}" as="nv" hint-placeholder-count="5">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;">{{ nv.icon }}</span>{{ nv.label }}</div>
+      </sc-for>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">BLUESKY</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#F0670F; font-weight:600; background:#FFF7ED;"><span style="display:flex;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F0670F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg></span>Jobs</div>
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></span>Unit Libraries</div>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">DATA</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <sc-for list="{{ navData }}" as="nv" hint-placeholder-count="3">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;">{{ nv.icon }}</span><span style="flex:1;">{{ nv.label }}</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></div>
+      </sc-for>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">TOOLS</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <sc-for list="{{ navTools }}" as="nv" hint-placeholder-count="2">
+        <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;">{{ nv.icon }}</span>{{ nv.label }}</div>
+      </sc-for>
+
+      <div style="display:flex; align-items:center; gap:8px; padding:14px 8px 6px 8px;"><span style="font-size:11px; font-weight:600; letter-spacing:0.08em; color:#94A3B8;">SETTINGS</span><span style="flex:1; height:1px; background:#EEF1F4;"></span></div>
+      <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; color:#475569; font-weight:500;" style-hover="background:#F1F5F9;"><span style="display:flex; color:#64748B;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>Settings</div>
+    </div>
+
+    <div style="border-top:1px solid #EEF1F4; padding:14px 16px; display:flex; align-items:center; gap:10px;">
+      <div style="width:34px; height:34px; border-radius:50%; background:#F1F5F9; color:#475569; font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center;">BG</div>
+      <div>
+        <div style="font-weight:600; font-size:13px; color:#1E293B;">Ben Glatt</div>
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:#64748B;">Owner <span style="font-size:10px; font-weight:600; color:#64748B; background:#F1F5F9; border-radius:5px; padding:1px 6px;">CDT</span></div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MAIN ============ -->
+  <div style="flex:1; min-width:0; display:flex; flex-direction:column;">
+    <!-- Breadcrumb -->
+    <div style="display:flex; align-items:center; gap:8px; padding:18px 32px 0 32px; font-size:14px; color:#94A3B8;">
+      <span>Bluesky</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+      <span>Jobs</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
+      <span style="color:#334155; font-weight:500;">CHELCO Distribution 2026</span>
+    </div>
+
+    <!-- Title -->
+    <div style="display:flex; align-items:center; gap:14px; padding:22px 32px 0 32px;">
+      <h1 style="margin:0; font-size:28px; font-weight:700; letter-spacing:-0.02em; color:#0F172A;">CHELCO Distribution 2026</h1>
+      <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:#059669; background:#ECFDF5; border:1px solid #D1FAE5; border-radius:999px; padding:3px 10px;"><span style="width:6px; height:6px; border-radius:50%; background:#10B981;"></span>Active</span>
+      <span style="flex:1;"></span>
+      <button style="width:34px; height:34px; border:1px solid #E2E8F0; background:#fff; border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+    </div>
+
+    <!-- Tab bar -->
+    <div style="display:flex; align-items:center; gap:28px; padding:14px 32px 0 32px; border-bottom:1px solid #EEF1F4;">
+      <sc-for list="{{ pageTabs }}" as="tb" hint-placeholder-count="5">
+        <div style="padding:0 2px 12px 2px; font-size:14.5px; font-weight:{{ tb.weight }}; color:{{ tb.color }}; border-bottom:2px solid {{ tb.underline }}; margin-bottom:-1px; cursor:default; white-space:nowrap;">{{ tb.label }}</div>
+      </sc-for>
+    </div>
+
+    <!-- ============ TAB CONTENT ============ -->
+
+    <sc-if value="{{ editorOpen }}" hint-placeholder-val="{{ false }}">
+      <!-- ======== TEMPLATE EDITOR ======== -->
+      <div style="flex:1; overflow-y:auto; background:#FCFCFD;">
+        <div style="max-width:960px; margin:0 auto; padding:24px 32px 64px 32px; animation:gbFadeIn 0.18s ease;">
+
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+            <button onClick="{{ closeEditor }}" style="display:flex; align-items:center; gap:6px; border:none; background:none; padding:6px 8px 6px 0; color:#64748B; font-size:13px; font-weight:500; cursor:pointer;" style-hover="color:#0F172A;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>Work Order Templates</button>
+            <span style="flex:1;"></span>
+            <button onClick="{{ closeEditor }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+            <button onClick="{{ saveEditor }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">{{ editorSaveLabel }}</button>
+          </div>
+
+          <h2 style="margin:0 0 4px 0; font-size:20px; font-weight:700; color:#0F172A;">{{ editorTitle }}</h2>
+          <p style="margin:0 0 20px 0; color:#64748B; font-size:14px;">Define the fields on each work order, then set up how compatible units are organized within it.</p>
+
+          <!-- Template name -->
+          <div style="background:#fff; border:1px solid #E2E8F0; border-radius:12px; padding:18px 20px; margin-bottom:20px; display:flex; flex-direction:column; gap:8px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">Template name</label>
+            <input value="{{ editorName }}" onChange="{{ onEditorName }}" placeholder="e.g. CHELCO Standard" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A; max-width:420px;">
+            <span style="font-size:12.5px; color:#94A3B8;">Shown when selecting a template for a new work order.</span>
+          </div>
+
+          <!-- Work Order Fields card -->
+          <div style="background:#fff; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden; margin-bottom:20px;">
+            <div style="display:flex; align-items:baseline; gap:10px; padding:16px 20px; background:#F8FAFC; border-bottom:1px solid #EEF1F4;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="align-self:center;"><path d="M9 4h6"></path><path d="M12 4v16"></path><path d="M9 20h6"></path><path d="M4 9h4"></path><path d="M16 9h4"></path></svg>
+              <span style="font-size:16px; font-weight:700; color:#0F172A;">Work Order Fields</span>
+              <span style="font-size:14px; color:#94A3B8;">— data captured on each work order header</span>
+            </div>
+            <div style="padding:18px 20px; display:flex; flex-direction:column; gap:12px;">
+              <!-- WO # always included -->
+              <div style="display:flex; align-items:center; gap:10px; border:1.5px dashed #E2E8F0; background:#FCFCFD; border-radius:10px; padding:13px 16px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg>
+                <span style="font-size:15px; font-weight:600; color:#94A3B8;">WO #</span>
+                <span style="flex:1;"></span>
+                <span style="font-size:13px; color:#94A3B8;">always included</span>
+              </div>
+
+              <!-- Field rows -->
+              <sc-for list="{{ editorFields }}" as="f" hint-placeholder-count="3">
+                <div style="border:1px solid #E2E8F0; border-radius:10px; padding:12px 14px; display:flex; flex-direction:column; gap:0;">
+                  <div style="display:flex; align-items:center; gap:12px;">
+                    <input value="{{ f.name }}" onChange="{{ f.onName }}" placeholder="Field name" style="flex:1; min-width:0; border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+                    <select value="{{ f.type }}" onChange="{{ f.onType }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 10px; font-size:14px; color:#0F172A; background:#fff; width:130px; cursor:pointer;">
+                      <option value="Text">Text</option>
+                      <option value="Number">Number</option>
+                      <option value="Date">Date</option>
+                      <option value="Dropdown">Dropdown</option>
+                      <option value="Checkbox">Checkbox</option>
+                    </select>
+                    <div onClick="{{ f.onReq }}" style="display:flex; align-items:center; gap:7px; cursor:pointer; user-select:none;">
+                      <span style="width:19px; height:19px; border-radius:5px; border:1.5px solid {{ f.reqBorder }}; background:{{ f.reqBg }}; display:flex; align-items:center; justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" style="opacity:{{ f.reqCheckOpacity }};"><path d="M20 6L9 17l-5-5"></path></svg></span>
+                      <span style="font-size:14px; color:#475569;">Req</span>
+                    </div>
+                    <button onClick="{{ f.onDelete }}" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#DC2626;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg></button>
+                  </div>
+                  <sc-if value="{{ f.isDropdown }}" hint-placeholder-val="{{ false }}">
+                    <div style="border-top:1px solid #F1F5F9; margin-top:12px; padding-top:12px; display:flex; flex-direction:column; gap:8px;">
+                      <span style="font-size:13.5px; font-weight:600; color:#334155;">Dropdown Options</span>
+                      <sc-for list="{{ f.optionRows }}" as="op" hint-placeholder-count="2">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <input value="{{ op.value }}" onChange="{{ op.onChange }}" placeholder="Option" style="border:1px solid #E2E8F0; border-radius:7px; padding:6px 10px; font-size:13.5px; color:#0F172A; width:260px;">
+                          <button onClick="{{ op.onRemove }}" style="border:none; background:none; padding:4px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#DC2626;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+                        </div>
+                      </sc-for>
+                      <button onClick="{{ f.onAddOption }}" style="border:none; background:none; padding:2px 0; cursor:pointer; color:#64748B; font-size:13.5px; display:flex; align-items:center; gap:6px; width:fit-content;" style-hover="color:#0F172A;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add option</button>
+                      <sc-if value="{{ f.optionsEmpty }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-size:13px; color:#DC2626;">Dropdown fields require at least one option.</span>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+
+              <!-- Suggestion chips -->
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                <sc-for list="{{ fieldChips }}" as="ch" hint-placeholder-count="4">
+                  <button onClick="{{ ch.onAdd }}" style="display:flex; align-items:center; gap:6px; border:1px solid #E2E8F0; background:#F8FAFC; border-radius:8px; padding:7px 13px; font-size:13.5px; color:#475569; cursor:pointer;" style-hover="background:#F1F5F9; border-color:#CBD5E1;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>{{ ch.label }}</button>
+                </sc-for>
+              </div>
+              <button onClick="{{ addBlankField }}" style="border:none; background:none; padding:2px 0; cursor:pointer; color:#475569; font-size:14.5px; display:flex; align-items:center; gap:8px; width:fit-content; font-weight:500;" style-hover="color:#0F172A;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add field</button>
+            </div>
+          </div>
+
+          <!-- CU Organization card -->
+          <div style="background:#fff; border:1px solid #E2E8F0; border-radius:12px; overflow:hidden;">
+            <div style="display:flex; align-items:baseline; gap:10px; padding:16px 20px; background:#F8FAFC;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#334155" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="align-self:center;"><path d="M12 2L2 7l10 5 10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+              <span style="font-size:16px; font-weight:700; color:#0F172A;">CU Organization</span>
+              <span style="font-size:14px; color:#94A3B8;">— how compatible units are grouped within each work order</span>
+            </div>
+
+            <sc-for list="{{ groupBlocks }}" as="g" hint-placeholder-count="2">
+              <div style="border-top:1.5px dashed #FBD8A5;">
+                <div style="display:flex; align-items:center; gap:10px; padding:14px 20px; background:{{ g.headerBg }};">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F0670F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                  <span style="font-size:15.5px; font-weight:700; color:#0F172A;">{{ g.title }}</span>
+                  <span style="font-size:13.5px; color:#94A3B8;">{{ g.subtitle }}</span>
+                  <span style="flex:1;"></span>
+                  <button onClick="{{ g.onRemove }}" style="border:none; background:none; padding:4px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#0F172A;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+                </div>
+                <div style="padding:16px 20px 18px {{ g.indent }}; background:{{ g.bodyBg }}; display:flex; flex-direction:column; gap:12px;">
+                  <sc-for list="{{ g.fields }}" as="gf" hint-placeholder-count="1">
+                    <div style="display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #E2E8F0; border-radius:10px; padding:12px 14px;">
+                      <input value="{{ gf.name }}" onChange="{{ gf.onName }}" placeholder="Field name" style="flex:1; min-width:0; max-width:300px; border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+                      <select value="{{ gf.type }}" onChange="{{ gf.onType }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 10px; font-size:14px; color:#0F172A; background:#fff; width:130px; cursor:pointer;">
+                        <option value="Text">Text</option>
+                        <option value="Number">Number</option>
+                        <option value="Date">Date</option>
+                      </select>
+                      <button onClick="{{ gf.onDelete }}" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#DC2626;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path></svg></button>
+                      <span style="flex:1;"></span>
+                    </div>
+                  </sc-for>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <sc-for list="{{ g.chips }}" as="gc" hint-placeholder-count="4">
+                      <button onClick="{{ gc.onAdd }}" style="display:flex; align-items:center; gap:6px; border:1px solid #E2E8F0; background:#fff; border-radius:8px; padding:7px 13px; font-size:13.5px; color:#475569; cursor:pointer;" style-hover="background:#F8FAFC; border-color:#CBD5E1;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>{{ gc.label }}</button>
+                    </sc-for>
+                  </div>
+                  <button onClick="{{ g.onAddField }}" style="border:none; background:none; padding:2px 0; cursor:pointer; color:#475569; font-size:14px; display:flex; align-items:center; gap:8px; width:fit-content; font-weight:500;" style-hover="color:#0F172A;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add field</button>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ showAddGroupRow }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ addGroupLevel }}" style="display:flex; align-items:center; gap:12px; padding:16px 20px 16px {{ addGroupIndent }}; border-top:1px solid #EEF1F4; cursor:pointer;" style-hover="background:#FFFBF5;">
+                <span style="width:26px; height:26px; border:1.5px dashed #CBD5E1; border-radius:7px; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg></span>
+                <span style="font-size:15.5px; font-weight:600; color:#334155;">{{ addGroupLabel }}</span>
+                <span style="font-size:13.5px; color:#94A3B8;">{{ addGroupHint }}</span>
+              </div>
+            </sc-if>
+
+            <div style="display:flex; align-items:center; gap:10px; padding:15px 20px; border-top:1px solid #EEF1F4; background:#F8FAFC;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1"></rect></svg>
+              <span style="font-size:15.5px; font-weight:700; color:#334155;">CU Line Items</span>
+              <span style="font-size:13.5px; color:#94A3B8;">— compatible units logged here</span>
+            </div>
+          </div>
+
+          <!-- Document preview -->
+          <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:12px; padding:18px 20px; margin-top:20px;">
+            <div style="font-size:11.5px; font-weight:600; letter-spacing:0.08em; color:#94A3B8; margin-bottom:14px;">DOCUMENT PREVIEW</div>
+            <div style="background:#fff; border:1px solid #E2E8F0; border-radius:10px; overflow:hidden;">
+              <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px 24px; padding:13px 18px; background:#FCFCFD; border-bottom:1px solid #EEF1F4;">
+                <span style="font-size:13.5px;"><span style="font-weight:700; color:#334155;">WO #:</span> <span style="color:#B6C0CE;">13046629</span></span>
+                <sc-for list="{{ previewHeaderFields }}" as="phf" hint-placeholder-count="2">
+                  <span style="font-size:13.5px;"><span style="font-weight:700; color:#334155;">{{ phf.name }}:</span> <span style="display:inline-block; width:52px; border-bottom:1px solid #CBD5E1; height:12px; vertical-align:baseline;"></span></span>
+                </sc-for>
+              </div>
+              <sc-if value="{{ previewHasGroups }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ previewGroups }}" as="pg" hint-placeholder-count="2">
+                  <div style="border-top:1px solid #EEF1F4;">
+                    <div style="padding:12px 18px 10px 18px; font-size:13.5px; border-bottom:1px solid #F5F7FA;"><span style="font-weight:700; color:#334155;">{{ pg.label }}:</span> <span style="color:#B6C0CE;">{{ pg.value }}</span></div>
+                    <sc-for list="{{ pg.subs }}" as="ps" hint-placeholder-count="1">
+                      <div style="padding:0 18px 10px 34px;">
+                        <sc-if value="{{ ps.hasLabel }}" hint-placeholder-val="{{ true }}">
+                          <div style="padding:10px 0 6px 0; font-size:13px;"><span style="font-weight:700; color:#475569;">{{ ps.label }}:</span> <span style="color:#B6C0CE;">{{ ps.value }}</span></div>
+                        </sc-if>
+                        <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:6px 0; border-bottom:1px solid #F1F5F9; font-size:12.5px; color:#94A3B8;">
+                          <span>Function</span><span>Qty</span><span>CU Code</span><span>Description</span>
+                        </div>
+                        <sc-for list="{{ ps.rows }}" as="pr" hint-placeholder-count="1">
+                          <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:7px 0; font-size:12.5px; color:#C3CCD8;">
+                            <span>{{ pr.fn }}</span><span>{{ pr.qty }}</span><span>{{ pr.code }}</span><span>{{ pr.desc }}</span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ previewNoGroups }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:4px 18px 12px 18px;">
+                  <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:8px 0 6px 0; border-bottom:1px solid #F1F5F9; font-size:12.5px; color:#94A3B8;">
+                    <span>Function</span><span>Qty</span><span>CU Code</span><span>Description</span>
+                  </div>
+                  <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:7px 0; font-size:12.5px; color:#C3CCD8;">
+                    <span>Install</span><span>1</span><span>NEUT-CONN</span><span>Neutral connection</span>
+                  </div>
+                  <div style="display:grid; grid-template-columns:1.2fr 0.6fr 1.2fr 2fr; gap:8px; padding:7px 0; font-size:12.5px; color:#C3CCD8;">
+                    <span>Install</span><span>1</span><span>PREP-POLE</span><span>Prepare pole</span>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ editorClosed }}" hint-placeholder-val="{{ true }}">
+      <!-- ======== SETTINGS TAB (nav + section) ======== -->
+      <div style="flex:1; display:flex; align-items:stretch; min-height:0;">
+
+        <!-- Section nav (wide) -->
+        <sc-if value="{{ showSectionRail }}" hint-placeholder-val="{{ true }}">
+          <div style="width:240px; flex:0 0 240px; padding:24px 16px 24px 32px; display:flex; flex-direction:column; gap:2px;">
+            <sc-for list="{{ sectionNav }}" as="sn" hint-placeholder-count="4">
+              <div onClick="{{ sn.onSelect }}" style="padding:8px 12px; border-radius:8px; font-size:13.5px; font-weight:{{ sn.weight }}; color:{{ sn.color }}; background:{{ sn.bg }}; cursor:pointer; white-space:nowrap;" style-hover="color:#0F172A;">{{ sn.label }}</div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- Section content -->
+        <div style="flex:1; min-width:0; overflow-y:auto; padding:24px 32px 64px {{ contentPadLeft }};">
+
+          <!-- Section dropdown (narrow) -->
+          <sc-if value="{{ showSectionDropdown }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-bottom:20px;">
+              <select value="{{ activeSection }}" onChange="{{ onSectionDropdown }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; font-weight:600; color:#0F172A; background:#fff; width:100%; max-width:340px; cursor:pointer;">
+                <option value="general">General</option>
+                <option value="templates">Work Order Templates</option>
+                <option value="invoicing">Invoicing Rules</option>
+                <option value="delays">Delays &amp; Exceptions</option>
+              </select>
+            </div>
+          </sc-if>
+
+          <!-- ==== Work Order Templates section ==== -->
+          <sc-if value="{{ isTemplatesSection }}" hint-placeholder-val="{{ true }}">
+            <div style="animation:gbFadeIn 0.18s ease;">
+              <div style="display:flex; align-items:flex-start; gap:16px; margin-bottom:20px;">
+                <div style="flex:1; min-width:0;">
+                  <h2 style="margin:0 0 4px 0; font-size:19px; font-weight:700; color:#0F172A;">Work Order Templates</h2>
+                  <p style="margin:0; color:#64748B; font-size:13.5px; max-width:560px;">Each template defines the fields and CU grouping a work order form uses. Jobs with multiple engineering firms can hold one template per firm.</p>
+                </div>
+                <sc-if value="{{ usesWorkOrders }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ openNewTemplate }}" style="display:flex; align-items:center; gap:7px; border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:9px 16px; cursor:pointer; white-space:nowrap;" style-hover="background:#DE5A05;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>New Template</button>
+                </sc-if>
+              </div>
+
+              <sc-if value="{{ usesWorkOrders }}" hint-placeholder-val="{{ true }}">
+                <!-- Template table -->
+                <div style="border:1px solid #E2E8F0; border-radius:12px; overflow:visible; background:#fff;">
+                  <div style="display:grid; grid-template-columns:minmax(150px,2fr) 92px 88px minmax(84px,1fr) minmax(84px,1fr) 36px; gap:10px; align-items:center; padding:11px 16px; border-bottom:1px solid #EEF1F4; font-size:12.5px; font-weight:500; color:#64748B;">
+                    <span>Template</span><span>Status</span><span style="text-align:right;">Work orders</span><span>First used</span><span>Last used</span><span></span>
+                  </div>
+                  <sc-for list="{{ templateRows }}" as="t" hint-placeholder-count="3">
+                    <div style="display:grid; grid-template-columns:minmax(150px,2fr) 92px 88px minmax(84px,1fr) minmax(84px,1fr) 36px; gap:10px; align-items:center; padding:15px 16px; border-bottom:1px solid #F5F7FA; position:relative;" style-hover="background:#FCFCFD;">
+                      <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+                        <span onClick="{{ t.onEdit }}" style="font-size:14px; font-weight:600; color:{{ t.nameColor }}; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" style-hover="color:#F0670F;">{{ t.name }}</span>
+                        <sc-if value="{{ t.isDefault }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:10.5px; font-weight:600; letter-spacing:0.03em; color:#C2410C; background:#FFF7ED; border:1px solid #FED7AA; border-radius:5px; padding:2px 7px;">Default</span>
+                        </sc-if>
+                      </div>
+                      <span style="display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; color:{{ t.pillColor }}; background:{{ t.pillBg }}; border-radius:999px; padding:3px 10px; width:fit-content;"><span style="width:6px; height:6px; border-radius:50%; background:{{ t.pillDot }};"></span>{{ t.statusLabel }}</span>
+                      <span style="text-align:right; font-size:14px; color:#334155; font-variant-numeric:tabular-nums;">{{ t.woCount }}</span>
+                      <span style="font-size:13.5px; color:#64748B;">{{ t.firstUsed }}</span>
+                      <span style="font-size:13.5px; color:#64748B;">{{ t.lastUsed }}</span>
+                      <div style="position:relative; display:flex; justify-content:flex-end;">
+                        <button onClick="{{ t.onKebab }}" style="width:30px; height:30px; border:none; background:{{ t.kebabBg }}; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#64748B;" style-hover="background:#F1F5F9;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="12" cy="19" r="1.7"></circle></svg></button>
+                        <sc-if value="{{ t.menuOpen }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:absolute; top:34px; right:0; z-index:40; background:#fff; border:1px solid #E2E8F0; border-radius:10px; box-shadow:0 8px 24px rgba(15,23,42,0.10); padding:5px; min-width:170px; animation:gbFadeIn 0.12s ease;">
+                            <sc-for list="{{ t.menuItems }}" as="mi" hint-placeholder-count="4">
+                              <div onClick="{{ mi.onClick }}" title="{{ mi.tooltip }}" style="padding:8px 11px; border-radius:7px; font-size:13.5px; color:{{ mi.color }}; cursor:{{ mi.cursor }}; white-space:nowrap;" style-hover="background:{{ mi.hoverBg }};">{{ mi.label }}</div>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <div style="display:flex; align-items:center; justify-content:space-between; padding:11px 20px; font-size:12.5px; color:#94A3B8;">
+                    <span>{{ templateCountLabel }}</span>
+                    <button onClick="{{ openAddWoPanel }}" style="border:none; background:none; padding:0; cursor:pointer; color:#64748B; font-size:12.5px; font-weight:500; text-decoration:underline; text-underline-offset:3px;" style-hover="color:#F0670F;">Preview: Add Work Order panel</button>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ noWorkOrders }}" hint-placeholder-val="{{ false }}">
+                <!-- Empty state -->
+                <div style="border:1px solid #E2E8F0; border-radius:12px; background:#fff; padding:56px 32px; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;">
+                  <span style="width:44px; height:44px; border-radius:10px; background:#F8FAFC; border:1px solid #EEF1F4; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></span>
+                  <span style="font-size:15.5px; font-weight:600; color:#0F172A;">This job doesn't use work orders</span>
+                  <span style="font-size:13.5px; color:#64748B; max-width:420px;">Production on this job is logged directly against unit libraries, so there are no work order forms to configure. Turn on work orders in General settings to create templates.</span>
+                  <button onClick="{{ goToGeneral }}" style="margin-top:8px; border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13px; font-weight:500; border-radius:8px; padding:8px 15px; cursor:pointer;" style-hover="background:#F8FAFC;">Go to General settings</button>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- ==== Placeholder sections ==== -->
+          <sc-if value="{{ isPlaceholderSection }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:gbFadeIn 0.18s ease;">
+              <h2 style="margin:0 0 4px 0; font-size:19px; font-weight:700; color:#0F172A;">{{ placeholderTitle }}</h2>
+              <p style="margin:0 0 20px 0; color:#64748B; font-size:13.5px;">{{ placeholderDesc }}</p>
+              <div style="border:1.5px dashed #E2E8F0; border-radius:12px; background:#FCFCFD; padding:44px 32px; display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center;">
+                <span style="font-size:14.5px; font-weight:600; color:#64748B;">Not configured yet</span>
+                <span style="font-size:13px; color:#94A3B8;">{{ placeholderHint }}</span>
+              </div>
+            </div>
+          </sc-if>
+
+        </div>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ============ DEACTIVATE CONFIRM DIALOG ============ -->
+  <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeConfirm }}">
+      <div style="background:#fff; border-radius:14px; width:440px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="display:flex; align-items:flex-start; gap:14px;">
+          <span style="width:38px; height:38px; flex:0 0 38px; border-radius:10px; background:#FEF2F2; display:flex; align-items:center; justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg></span>
+          <div style="flex:1;">
+            <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:6px;">Deactivate "{{ confirmName }}"?</div>
+            <div style="font-size:13.5px; color:#64748B; line-height:1.55;">Existing work orders created from this template are unaffected. It will no longer be selectable for new work orders.</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:22px;">
+          <button onClick="{{ closeConfirm }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ confirmDeactivate }}" style="border:none; background:#DC2626; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#B91C1C;">Deactivate</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ RENAME DIALOG ============ -->
+  <sc-if value="{{ renameOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; align-items:center; justify-content:center; animation:gbFadeIn 0.15s ease;" onClick="{{ closeRename }}">
+      <div style="background:#fff; border-radius:14px; width:420px; max-width:calc(100vw - 48px); padding:24px; box-shadow:0 20px 50px rgba(15,23,42,0.25);" onClick="{{ stopProp }}">
+        <div style="font-size:15.5px; font-weight:700; color:#0F172A; margin-bottom:14px;">Rename template</div>
+        <input value="{{ renameValue }}" onChange="{{ onRenameChange }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A; width:100%;">
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button onClick="{{ closeRename }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ saveRename }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">Save</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ ADD WORK ORDER PANEL (bonus) ============ -->
+  <sc-if value="{{ addWoOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:100; background:rgba(15,23,42,0.40); display:flex; justify-content:flex-end; animation:gbFadeIn 0.15s ease;" onClick="{{ closeAddWoPanel }}">
+      <div style="background:#fff; width:420px; max-width:calc(100vw - 40px); height:100%; box-shadow:-12px 0 40px rgba(15,23,42,0.18); display:flex; flex-direction:column; animation:gbSlideIn 0.2s ease;" onClick="{{ stopProp }}">
+        <div style="display:flex; flex-direction:column; gap:8px; padding:16px 22px; border-bottom:1px solid #EEF1F4;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:16px; font-weight:700; color:#0F172A;">Add Work Order</span>
+            <span style="flex:1;"></span>
+            <button onClick="{{ closeAddWoPanel }}" style="border:none; background:none; padding:6px; cursor:pointer; color:#94A3B8; display:flex;" style-hover="color:#0F172A;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg></button>
+          </div>
+          <sc-if value="{{ multipleActiveTemplates }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:12.5px; font-weight:500; color:#64748B; white-space:nowrap;">WO Template:</span>
+            <select value="{{ addWoTemplateId }}" onChange="{{ onAddWoTemplate }}" style="border:1px solid #E2E8F0; border-radius:7px; padding:6px 10px; font-size:13px; font-weight:500; color:#334155; background:#F8FAFC; cursor:pointer; width:fit-content; max-width:100%;">
+              <sc-for list="{{ activeTemplateOptions }}" as="ao" hint-placeholder-count="2">
+                <option value="{{ ao.id }}">{{ ao.label }}</option>
+              </sc-for>
+            </select>
+            </div>
+          </sc-if>
+        </div>
+        <div style="flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:16px;">
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <label style="font-size:13px; font-weight:600; color:#334155;">WO #</label>
+            <input placeholder="e.g. 029245" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+          </div>
+          <sc-for list="{{ addWoFields }}" as="wf" hint-placeholder-count="3">
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-size:13px; font-weight:600; color:#334155;">{{ wf.name }} <span style="color:#DC2626; font-weight:500;">{{ wf.reqMark }}</span></label>
+              <input placeholder="{{ wf.placeholder }}" style="border:1px solid #E2E8F0; border-radius:8px; padding:9px 12px; font-size:14px; color:#0F172A;">
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:10px; padding:16px 22px; border-top:1px solid #EEF1F4;">
+          <button onClick="{{ closeAddWoPanel }}" style="border:1px solid #E2E8F0; background:#fff; color:#334155; font-size:13.5px; font-weight:500; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#F8FAFC;">Cancel</button>
+          <button onClick="{{ closeAddWoPanel }}" style="border:none; background:#F0670F; color:#fff; font-size:13.5px; font-weight:600; border-radius:8px; padding:8px 16px; cursor:pointer;" style-hover="background:#DE5A05;">Create Work Order</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;jobUsesWorkOrders&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Edge states&quot;}, &quot;forceNarrowLayout&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Layout&quot;}}">
+class Component extends DCLogic {
+  state = {
+    vw: 1280,
+    activeSection: 'templates',
+    openMenu: null,
+    // template list data
+    templates: [
+      { id: 1, name: 'CHELCO Standard', isDefault: true, active: true, woCount: 34, firstUsed: 'Feb 12, 2026', lastUsed: 'Jul 1, 2026' },
+      { id: 2, name: 'Pike Engineering', isDefault: false, active: true, woCount: 12, firstUsed: 'Apr 3, 2026', lastUsed: 'Jun 27, 2026' },
+      { id: 3, name: 'Legacy Import (2025)', isDefault: false, active: false, woCount: 0, firstUsed: '—', lastUsed: '—' },
+    ],
+    // dialogs
+    confirmId: null,
+    renameId: null,
+    renameValue: '',
+    addWoOpen: false,
+    addWoTemplateId: 1,
+    // editor
+    editorOpen: false,
+    editorTemplateId: null, // null = creating new
+    editorName: '',
+    editorFields: [],
+    groupLevels: [],
+  };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+    this.setState({ vw: window.innerWidth });
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this._onResize); }
+
+  // ----- editor config helpers -----
+  chelcoFields() {
+    return [
+      { name: 'Feeder ID', type: 'Text', req: true, options: [] },
+      { name: 'Substation', type: 'Dropdown', req: true, options: ['Bluewater Bay', 'DeFuniak Springs', 'Freeport'] },
+      { name: 'Staking Sheet #', type: 'Text', req: false, options: [] },
+      { name: 'RIS Date', type: 'Date', req: false, options: [] },
+    ];
+  }
+  pikeFields() {
+    return [
+      { name: 'Circuit ID', type: 'Text', req: true, options: [] },
+      { name: 'Pike Job #', type: 'Text', req: true, options: [] },
+      { name: 'Design Engineer', type: 'Dropdown', req: false, options: ['M. Cantrell', 'R. Okafor', 'S. Bridges'] },
+      { name: 'Required Completion Date', type: 'Date', req: true, options: [] },
+    ];
+  }
+  chelcoGroups() {
+    return [
+      { fields: [{ name: 'Work Location', type: 'Text' }] },
+      { fields: [{ name: 'Work Point', type: 'Text' }] },
+    ];
+  }
+
+  openEditor(t) {
+    this.setState({
+      editorOpen: true,
+      editorTemplateId: t ? t.id : null,
+      editorName: t ? t.name : '',
+      editorFields: t ? this.chelcoFields() : [],
+      groupLevels: t ? this.chelcoGroups() : [],
+      openMenu: null,
+    });
+  }
+
+  saveEditor() {
+    const { editorTemplateId, editorName, templates } = this.state;
+    if (editorTemplateId != null) {
+      this.setState({
+        templates: templates.map(t => t.id === editorTemplateId ? { ...t, name: editorName || t.name } : t),
+        editorOpen: false,
+      });
+    } else {
+      const id = Math.max(...templates.map(t => t.id)) + 1;
+      this.setState({
+        templates: [...templates, { id, name: editorName || 'Untitled Template', isDefault: false, active: true, woCount: 0, firstUsed: '—', lastUsed: '—' }],
+        editorOpen: false,
+      });
+    }
+  }
+
+  setDefault(id) {
+    this.setState({
+      templates: this.state.templates.map(t => ({ ...t, isDefault: t.id === id })),
+      openMenu: null,
+    });
+  }
+
+  doDeactivate() {
+    const id = this.state.confirmId;
+    let templates = this.state.templates.map(t => t.id === id ? { ...t, active: false, isDefault: false } : t);
+    if (!templates.some(t => t.isDefault)) {
+      const firstActive = templates.find(t => t.active);
+      if (firstActive) templates = templates.map(t => ({ ...t, isDefault: t.id === firstActive.id }));
+    }
+    this.setState({ templates, confirmId: null });
+  }
+
+  updateField(i, patch) {
+    this.setState({ editorFields: this.state.editorFields.map((f, j) => j === i ? { ...f, ...patch } : f) });
+  }
+  updateGroupField(gi, fi, patch) {
+    this.setState({
+      groupLevels: this.state.groupLevels.map((g, j) => j !== gi ? g : { ...g, fields: g.fields.map((f, k) => k === fi ? { ...f, ...patch } : f) }),
+    });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const usesWorkOrders = this.props.jobUsesWorkOrders ?? true;
+    const forceNarrow = this.props.forceNarrowLayout ?? false;
+    const vw = forceNarrow ? 820 : s.vw;
+    const showSidebar = vw >= 1080;
+    const showSectionRail = vw >= 880;
+
+    const icon = (paths) => React.createElement('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round', strokeLinejoin: 'round', dangerouslySetInnerHTML: { __html: paths } });
+
+    const navStorm = [
+      { label: 'Events', icon: icon('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>') },
+      { label: 'Roster', icon: icon('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h4"/><path d="M15 12h4"/><path d="M6 16h12"/>') },
+      { label: 'Invoice', icon: icon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/>') },
+      { label: 'Timesheet', icon: icon('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>') },
+      { label: 'Tickets', icon: icon('<path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1a2 2 0 0 0 0 4v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1a2 2 0 0 0 0-4z"/><path d="M13 7v10"/>') },
+    ];
+    const navData = [
+      { label: 'Unions', icon: icon('<path d="M3 21h18"/><path d="M4 21V9l8-5 8 5v12"/><path d="M9 21v-6h6v6"/>') },
+      { label: 'Organizations', icon: icon('<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1.5"/><path d="M13.5 8H15"/><path d="M9 12h1.5"/><path d="M13.5 12H15"/><path d="M10 21v-4h4v4"/>') },
+      { label: 'Equipment', icon: icon('<path d="M10 17h4V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v11h2"/><path d="M14 9h4l3 4v4h-2"/><circle cx="6.5" cy="17.5" r="2"/><circle cx="16.5" cy="17.5" r="2"/>') },
+    ];
+    const navTools = [
+      { label: 'Calculators', icon: icon('<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 6h6"/><path d="M9 11h.01"/><path d="M12 11h.01"/><path d="M15 11h.01"/><path d="M9 15h.01"/><path d="M12 15h.01"/><path d="M15 15h.01"/><path d="M9 19h.01"/><path d="M12 19h.01"/><path d="M15 19h.01"/>') },
+      { label: 'Bid Estimates', icon: icon('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 14l2 2 4-4"/>') },
+    ];
+
+    const pageTabs = ['Overview', 'Crew & Equipment', 'Production Log', 'Billing', 'Settings'].map(label => {
+      const active = label === 'Settings';
+      return { label, weight: active ? 600 : 500, color: active ? '#0F172A' : '#64748B', underline: active ? '#0F172A' : 'transparent' };
+    });
+
+    const sections = [
+      { id: 'general', label: 'General' },
+      { id: 'templates', label: 'Work Order Templates' },
+      { id: 'invoicing', label: 'Invoicing Rules' },
+      { id: 'delays', label: 'Delays & Exceptions' },
+    ];
+    const sectionNav = sections.map(sec => {
+      const active = s.activeSection === sec.id;
+      return {
+        label: sec.label,
+        weight: active ? 600 : 500,
+        color: active ? '#0F172A' : '#64748B',
+        bg: active ? '#F1F5F9' : 'transparent',
+        onSelect: () => this.setState({ activeSection: sec.id }),
+      };
+    });
+
+    const placeholders = {
+      general: { title: 'General', desc: 'Job identity, work order numbering, and defaults.', hint: 'General job settings will appear here once configured.' },
+      invoicing: { title: 'Invoicing Rules', desc: 'How production converts to invoice line items.', hint: 'Invoicing rules will appear here once configured.' },
+      delays: { title: 'Delays & Exceptions', desc: 'Delay categories and exception codes crews can log.', hint: 'Delay categories will appear here once configured.' },
+    };
+    const ph = placeholders[s.activeSection];
+
+    // ----- template rows -----
+    const templateRows = s.templates.map(t => {
+      const item = (o) => ({ tooltip: '', cursor: 'pointer', hoverBg: '#F8FAFC', ...o });
+      const menuItems = [
+        item({ label: 'Edit', color: '#334155', onClick: (e) => { e.stopPropagation(); this.openEditor(t); } }),
+        item({ label: 'Rename', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ renameId: t.id, renameValue: t.name, openMenu: null }); } }),
+      ];
+      if (t.active && !t.isDefault) menuItems.push(item({ label: 'Set as Default', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setDefault(t.id); } }));
+      if (t.active && t.isDefault) menuItems.push(item({ label: 'Deactivate', color: '#CBD5E1', cursor: 'not-allowed', hoverBg: 'transparent', tooltip: 'Set another template as default first', onClick: (e) => e.stopPropagation() }));
+      else if (t.active) menuItems.push(item({ label: 'Deactivate', color: '#DC2626', onClick: (e) => { e.stopPropagation(); this.setState({ confirmId: t.id, openMenu: null }); } }));
+      else menuItems.push(item({ label: 'Activate', color: '#334155', onClick: (e) => { e.stopPropagation(); this.setState({ templates: s.templates.map(x => x.id === t.id ? { ...x, active: true } : x), openMenu: null }); } }));
+      return {
+        ...t,
+        nameColor: t.active ? '#0F172A' : '#94A3B8',
+        statusLabel: t.active ? 'Active' : 'Inactive',
+        pillColor: t.active ? '#059669' : '#64748B',
+        pillBg: t.active ? '#ECFDF5' : '#F1F5F9',
+        pillDot: t.active ? '#10B981' : '#94A3B8',
+        menuOpen: s.openMenu === t.id,
+        kebabBg: s.openMenu === t.id ? '#F1F5F9' : 'transparent',
+        menuItems,
+        onEdit: () => this.openEditor(t),
+        onKebab: (e) => { e.stopPropagation(); this.setState({ openMenu: s.openMenu === t.id ? null : t.id }); },
+      };
+    });
+
+    // ----- editor -----
+    const fieldSuggestions = ['Region', 'Priority', 'Budgeted Hours', 'Job Type', 'Service Center', 'RIS Date', 'Responsible Engineer'];
+    const usedNames = s.editorFields.map(f => f.name);
+    const fieldChips = fieldSuggestions.filter(n => !usedNames.includes(n)).map(label => ({
+      label,
+      onAdd: () => this.setState({ editorFields: [...s.editorFields, { name: label, type: label.includes('Date') ? 'Date' : (label === 'Budgeted Hours' ? 'Number' : 'Text'), req: false, options: [] }] }),
+    }));
+
+    const editorFields = s.editorFields.map((f, i) => ({
+      ...f,
+      isDropdown: f.type === 'Dropdown',
+      optionsEmpty: f.type === 'Dropdown' && f.options.length === 0,
+      reqBg: f.req ? '#0F172A' : '#fff',
+      reqBorder: f.req ? '#0F172A' : '#CBD5E1',
+      reqCheckOpacity: f.req ? 1 : 0,
+      onName: (e) => this.updateField(i, { name: e.target.value }),
+      onType: (e) => this.updateField(i, { type: e.target.value }),
+      onReq: () => this.updateField(i, { req: !f.req }),
+      onDelete: () => this.setState({ editorFields: s.editorFields.filter((_, j) => j !== i) }),
+      onAddOption: () => this.updateField(i, { options: [...f.options, ''] }),
+      optionRows: f.options.map((op, oi) => ({
+        value: op,
+        onChange: (e) => this.updateField(i, { options: f.options.map((x, k) => k === oi ? e.target.value : x) }),
+        onRemove: () => this.updateField(i, { options: f.options.filter((_, k) => k !== oi) }),
+      })),
+    }));
+
+    const groupSuggestions = ['Work Location', 'Work Point', 'Pole #', 'Address', 'Span', 'Station', 'Structure'];
+    const groupBlocks = s.groupLevels.map((g, gi) => {
+      const primary = gi === 0;
+      const gUsed = g.fields.map(f => f.name);
+      return {
+        title: primary ? 'Primary Grouping Level' : 'Sub-group Level',
+        subtitle: primary ? 'Primary grouping — e.g., by work location or address' : 'Nested within each group above — e.g., by pole or span',
+        headerBg: primary ? '#FFFBF2' : '#FFFDF7',
+        bodyBg: primary ? '#FFFEFB' : '#FFFEFC',
+        indent: primary ? '20px' : '44px',
+        fields: g.fields.map((f, fi) => ({
+          ...f,
+          onName: (e) => this.updateGroupField(gi, fi, { name: e.target.value }),
+          onType: (e) => this.updateGroupField(gi, fi, { type: e.target.value }),
+          onDelete: () => this.setState({ groupLevels: s.groupLevels.map((x, j) => j !== gi ? x : { ...x, fields: x.fields.filter((_, k) => k !== fi) }) }),
+        })),
+        chips: groupSuggestions.filter(n => !gUsed.includes(n)).slice(0, 5).map(label => ({
+          label,
+          onAdd: () => this.setState({ groupLevels: s.groupLevels.map((x, j) => j !== gi ? x : { ...x, fields: [...x.fields, { name: label, type: 'Text' }] }) }),
+        })),
+        onAddField: () => this.setState({ groupLevels: s.groupLevels.map((x, j) => j !== gi ? x : { ...x, fields: [...x.fields, { name: '', type: 'Text' }] }) }),
+        onRemove: () => this.setState({ groupLevels: s.groupLevels.filter((_, j) => j !== gi) }),
+      };
+    });
+
+    // ----- add WO panel -----
+    const activeTemplates = s.templates.filter(t => t.active);
+    const defaultTemplate = s.templates.find(t => t.isDefault) || activeTemplates[0];
+    const addWoPlaceholders = { 'Feeder ID': 'e.g. FDR-2214', 'Substation': 'Select substation', 'Staking Sheet #': 'e.g. SS-1048', 'RIS Date': 'mm/dd/yyyy', 'Circuit ID': 'e.g. CKT-40218', 'Pike Job #': 'e.g. PK-26-114', 'Design Engineer': 'Select engineer', 'Required Completion Date': 'mm/dd/yyyy' };
+    const selectedWoTemplate = s.templates.find(t => t.id === s.addWoTemplateId);
+    const selectedWoFields = (selectedWoTemplate && selectedWoTemplate.name === 'Pike Engineering') ? this.pikeFields() : this.chelcoFields();
+
+    const confirmTemplate = s.templates.find(t => t.id === s.confirmId);
+
+    return {
+      // layout
+      showSidebar, showSectionRail,
+      showSectionDropdown: !showSectionRail,
+      contentPadLeft: showSectionRail ? '16px' : '32px',
+      // shell
+      navStorm, navData, navTools, pageTabs,
+      closeMenus: () => { if (s.openMenu != null) this.setState({ openMenu: null }); },
+      stopProp: (e) => e.stopPropagation(),
+      // sections
+      sectionNav,
+      activeSection: s.activeSection,
+      onSectionDropdown: (e) => this.setState({ activeSection: e.target.value }),
+      isTemplatesSection: s.activeSection === 'templates',
+      isPlaceholderSection: s.activeSection !== 'templates',
+      placeholderTitle: ph ? ph.title : '',
+      placeholderDesc: ph ? ph.desc : '',
+      placeholderHint: ph ? ph.hint : '',
+      goToGeneral: () => this.setState({ activeSection: 'general' }),
+      // templates list
+      usesWorkOrders,
+      noWorkOrders: !usesWorkOrders,
+      templateRows,
+      templateCountLabel: s.templates.length + ' templates · ' + activeTemplates.length + ' active',
+      openNewTemplate: () => this.openEditor(null),
+      // confirm dialog
+      confirmOpen: s.confirmId != null,
+      confirmName: confirmTemplate ? confirmTemplate.name : '',
+      closeConfirm: () => this.setState({ confirmId: null }),
+      confirmDeactivate: () => this.doDeactivate(),
+      // rename dialog
+      renameOpen: s.renameId != null,
+      renameValue: s.renameValue,
+      onRenameChange: (e) => this.setState({ renameValue: e.target.value }),
+      closeRename: () => this.setState({ renameId: null }),
+      saveRename: () => this.setState({
+        templates: s.templates.map(t => t.id === s.renameId ? { ...t, name: s.renameValue || t.name } : t),
+        renameId: null,
+      }),
+      // add WO panel
+      addWoOpen: s.addWoOpen,
+      openAddWoPanel: () => this.setState({ addWoOpen: true, addWoTemplateId: defaultTemplate ? defaultTemplate.id : 1 }),
+      closeAddWoPanel: () => this.setState({ addWoOpen: false }),
+      multipleActiveTemplates: activeTemplates.length > 1,
+      activeTemplateOptions: activeTemplates.map(t => ({ id: t.id, label: t.name + (t.isDefault ? ' (Default)' : '') })),
+      addWoTemplateId: s.addWoTemplateId,
+      onAddWoTemplate: (e) => this.setState({ addWoTemplateId: Number(e.target.value) }),
+      addWoFields: selectedWoFields.map(f => ({ name: f.name, reqMark: f.req ? '*' : '', placeholder: addWoPlaceholders[f.name] || '' })),
+      // editor
+      editorOpen: s.editorOpen,
+      editorClosed: !s.editorOpen,
+      editorTitle: s.editorTemplateId != null ? 'Edit Template' : 'New Template',
+      editorSaveLabel: s.editorTemplateId != null ? 'Save Changes' : 'Create Template',
+      editorName: s.editorName,
+      onEditorName: (e) => this.setState({ editorName: e.target.value }),
+      closeEditor: () => this.setState({ editorOpen: false }),
+      saveEditor: () => this.saveEditor(),
+      editorFields, fieldChips,
+      addBlankField: () => this.setState({ editorFields: [...s.editorFields, { name: '', type: 'Text', req: false, options: [] }] }),
+      // document preview
+      previewHeaderFields: s.editorFields.filter(f => f.name).map(f => ({ name: f.name })),
+      previewHasGroups: s.groupLevels.length > 0,
+      previewNoGroups: s.groupLevels.length === 0,
+      previewGroups: (() => {
+        if (s.groupLevels.length === 0) return [];
+        const g1Name = (s.groupLevels[0].fields[0] && s.groupLevels[0].fields[0].name) || 'Group';
+        const g2Name = s.groupLevels[1] ? ((s.groupLevels[1].fields[0] && s.groupLevels[1].fields[0].name) || 'Sub-group') : null;
+        const rowA = { fn: 'Install', qty: '1', code: 'NEUT-CONN', desc: 'Neutral connection' };
+        const rowB = { fn: 'Install', qty: '1', code: 'PREP-POLE', desc: 'Prepare pole' };
+        const mkSubs = (first) => g2Name
+          ? (first
+            ? [{ hasLabel: true, label: g2Name, value: '100', rows: [rowA] }, { hasLabel: true, label: g2Name, value: '200', rows: [rowB] }]
+            : [{ hasLabel: true, label: g2Name, value: '100', rows: [rowA] }])
+          : [{ hasLabel: false, label: '', value: '', rows: first ? [rowA, rowB] : [rowA] }];
+        return [
+          { label: g1Name, value: '48923N36298', subs: mkSubs(true) },
+          { label: g1Name, value: '48923N36305', subs: mkSubs(false) },
+        ];
+      })(),
+      groupBlocks,
+      showAddGroupRow: s.groupLevels.length < 2,
+      addGroupLabel: s.groupLevels.length === 0 ? 'Add a grouping level' : 'Add a sub-group level',
+      addGroupHint: s.groupLevels.length === 0 ? '— organize CUs into groups (e.g., by work location, address)' : '— nest within each group (e.g., by pole, span)',
+      addGroupIndent: s.groupLevels.length === 0 ? '20px' : '44px',
+      addGroupLevel: () => this.setState({ groupLevels: [...s.groupLevels, { fields: [{ name: s.groupLevels.length === 0 ? 'Work Location' : 'Work Point', type: 'Text' }] }] }),
+    };
+  }
+}
+</script>
+</body>
+</html>
