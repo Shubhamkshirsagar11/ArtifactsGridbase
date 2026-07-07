@@ -1,0 +1,24 @@
+/* Global styles ported verbatim from the design's <helmet> block. */
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+#root { height: 100%; }
+body { font-family: Inter, system-ui, sans-serif; }
+input, textarea, select, button { font-family: inherit; font-size: inherit; }
+input:focus, textarea:focus { outline: none; border-color: #B9BDC5; }
+input::placeholder, textarea::placeholder { color: #A7ACB5; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-thumb { background: #DCDDE0; border-radius: 8px; border: 3px solid #fff; }
+::-webkit-scrollbar-thumb:hover { background: #C9CBCF; }
+.ck-row .ck-actions { opacity: 0; transition: opacity .12s; }
+.ck-row:hover .ck-actions { opacity: 1; }
+.ovr-wrap .ovr-tip { display: none; }
+.ovr-wrap:hover .ovr-tip { display: block; }
+.dd-item:hover { background: #F6F7F9; }
+select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%239AA0A9' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 7px center !important;
+  padding-right: 24px !important;
+}

@@ -1,0 +1,1758 @@
+<div style="display:flex;height:100vh;width:100%;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:#1F2430;background:#fff;-webkit-font-smoothing:antialiased">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside style="width:256px;flex-shrink:0;border-right:1px solid #ECEDEF;background:#FBFBFC;display:flex;flex-direction:column;overflow-y:auto">
+    <div style="display:flex;align-items:center;gap:11px;padding:18px 16px 6px">
+      <svg width="30" height="30" viewBox="0 0 32 32" style="flex-shrink:0"><path d="M7 6 L16 16 L7 26" fill="none" stroke="#EE7B3D" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 6 L16 16 L25 26" fill="none" stroke="#EE7B3D" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/></svg>
+      <div style="min-width:0;flex:1">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="font-size:17px;font-weight:700;letter-spacing:-.01em">Gridbase</span>
+          <span style="font-size:9px;font-weight:600;letter-spacing:.04em;color:#8A8F99;background:#EEF0F2;padding:2px 6px;border-radius:5px">Beta</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;color:#8A8F99;font-size:12px;margin-top:1px">
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">PowerGrid Distributi…</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div style="width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#A7ACB5;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+      </div>
+    </div>
+
+    <nav style="padding:6px 10px 20px;flex:1">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.09em;color:#A7ACB5;text-transform:uppercase;padding:0 10px;margin:16px 0 6px">Storm</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>Events</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg><span>Roster</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg><span>Invoice</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Timesheet</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 6v12"/></svg><span>Tickets</span></div>
+
+      <div style="font-size:11px;font-weight:600;letter-spacing:.09em;color:#A7ACB5;text-transform:uppercase;padding:0 10px;margin:18px 0 6px">Bluesky</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg><span>Jobs</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:#FCF2EA;color:#D9662B">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 6c-2-1.4-5-1.4-8-.8v13c3-.6 6-.6 8 .8 2-1.4 5-1.4 8-.8V5.2c-3-.6-6-.6-8 .8z"/><path d="M12 6v13"/></svg><span>Unit Libraries</span></div>
+
+      <div style="font-size:11px;font-weight:600;letter-spacing:.09em;color:#A7ACB5;text-transform:uppercase;padding:0 10px;margin:18px 0 6px">Data</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18"/><path d="M4 10h16M5 21V10M19 21V10M9 21V10M15 21V10"/><path d="M12 3 4 8h16z"/></svg><span style="flex:1">Unions</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h6"/></svg><span style="flex:1">Organizations</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div style="display:flex;flex-direction:column;padding:2px 0 2px 30px">
+        <div style="padding:7px 10px;font-size:13.5px;color:#6B7079;cursor:pointer">Utilities</div>
+        <div style="padding:7px 10px;font-size:13.5px;color:#6B7079;cursor:pointer">Contractors</div>
+        <div style="padding:7px 10px;font-size:13.5px;color:#6B7079;cursor:pointer">Brokers</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3.5V16h-8z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span style="flex:1">Equipment</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+
+      <div style="font-size:11px;font-weight:600;letter-spacing:.09em;color:#A7ACB5;text-transform:uppercase;padding:0 10px;margin:18px 0 6px">Tools</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M8 12h.01M12 12h.01M16 12v5M8 16h.01M12 16h.01"/></svg><span>Calculators</span></div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg><span>Bid Estimates</span></div>
+
+      <div style="font-size:11px;font-weight:600;letter-spacing:.09em;color:#A7ACB5;text-transform:uppercase;padding:0 10px;margin:18px 0 6px">Settings</div>
+      <div style="display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:8px;font-size:14px;color:#4A4F59;font-weight:500;cursor:pointer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg><span>Settings</span></div>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid #ECEDEF">
+      <div style="width:30px;height:30px;border-radius:50%;background:#E6E8EB;color:#5A5F69;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600">BG</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600">Ben Glatt</div>
+        <div style="font-size:11px;color:#9AA0A9">Owner · EDT</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column;background:#fff">
+
+    <!-- breadcrumb + header -->
+    <div style="{{ chrome.breadcrumb }}">
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9AA0A9">
+        <span style="cursor:pointer">Unit Libraries</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+        <span style="color:#5A5F69;font-weight:500">New Library</span>
+      </div>
+    </div>
+    <div style="{{ chrome.header }}">
+      <div style="display:flex;align-items:center;gap:16px">
+        <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em">New Library</h1>
+        <div style="position:relative">
+          <div onClick="{{ on.toggleTypeMenu }}" style="display:flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 14px;border:1px solid #E4E6EA;border-radius:9px;background:#fff;cursor:pointer">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#9AA0A9">Type</span>
+            <span style="font-size:14px;font-weight:600;color:#1F2430">T&amp;E Rate Book</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div style="{{ typeMenu }}">
+            <div style="position:absolute;top:44px;left:0;width:300px;background:#fff;border:1px solid #E4E6EA;border-radius:12px;box-shadow:0 12px 32px rgba(20,24,31,.13);padding:6px;z-index:20">
+              <div style="display:flex;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="1.7" style="margin-top:1px;flex-shrink:0"><path d="M12 6c-2-1.4-5-1.4-8-.8v13c3-.6 6-.6 8 .8 2-1.4 5-1.4 8-.8V5.2c-3-.6-6-.6-8 .8z"/></svg>
+                <div style="flex:1"><div style="font-size:14px;font-weight:600">Core Library</div><div style="font-size:12px;color:#9AA0A9;margin-top:1px">Fixed per-unit prices by function</div></div>
+              </div>
+              <div style="display:flex;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;background:#FCF2EA">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9662B" stroke-width="1.7" style="margin-top:1px;flex-shrink:0"><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M12 7v6M9.5 9h4a1.3 1.3 0 0 1 0 2.6h-3A1.3 1.3 0 0 0 10 14h4" stroke-width="1.4"/></svg>
+                <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#D9662B">T&amp;E Rate Book</div><div style="font-size:12px;color:#C08A63;margin-top:1px">Crew, equipment &amp; delay rates for time &amp; equipment work</div></div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9662B" stroke-width="2.2" style="margin-top:2px;flex-shrink:0"><path d="M5 12l4 4L19 6"/></svg>
+              </div>
+              <div style="display:flex;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="1.7" style="margin-top:1px;flex-shrink:0"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+                <div style="flex:1"><div style="font-size:14px;font-weight:600">WBS Library</div><div style="font-size:12px;color:#9AA0A9;margin-top:1px">Prices rolled up by work breakdown structure</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9AA0A9;cursor:pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </div>
+    </div>
+
+    <!-- stepper -->
+    <div style="{{ chrome.stepper }}">
+      <div onClick="{{ on.go1 }}" style="display:flex;align-items:center;gap:13px;cursor:pointer">
+        <div style="{{ stpr.c1 }}">1</div>
+        <span style="{{ stpr.l1 }}">Book setup</span>
+      </div>
+      <div style="width:120px;height:1.5px;background:#E4E6EA;margin:0 22px"></div>
+      <div onClick="{{ on.go2 }}" style="display:flex;align-items:center;gap:13px;cursor:pointer">
+        <div style="{{ stpr.c2 }}">2</div>
+        <span style="{{ stpr.l2 }}">Add rates</span>
+      </div>
+      <div style="width:120px;height:1.5px;background:#E4E6EA;margin:0 22px"></div>
+      <div onClick="{{ on.go3 }}" style="display:flex;align-items:center;gap:13px;cursor:pointer">
+        <div style="{{ stpr.c3 }}">3</div>
+        <span style="{{ stpr.l3 }}">Review</span>
+      </div>
+    </div>
+
+    <!-- scroll content -->
+    <div style="flex:1;overflow-y:auto">
+
+      <!-- ==================== STEP 1 ==================== -->
+      <section data-screen-label="Step 1 — Book setup" style="{{ show.step1 }}">
+      <div style="padding:32px 44px 40px;max-width:1500px">
+        <!-- shell fields -->
+        <div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1.35fr) minmax(0,1fr);gap:22px 30px">
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Customer</div>
+            <div onClick="{{ on.shellCust }}" style="height:44px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" style-hover="border-color:#C9CCD2">
+              <span style="{{ shellD.custStyle }}">{{ shellD.customer }}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Work type</div>
+            <div onClick="{{ on.shellWork }}" style="height:44px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;display:flex;align-items:center;justify-content:space-between;cursor:pointer" style-hover="border-color:#C9CCD2">
+              <span style="display:inline-flex;align-items:center;gap:6px">
+                <sc-if value="{{ shellD.hasWork }}" hint-placeholder-val="{{ true }}"><span style="font-size:11px;font-weight:600;color:#3B6BD1;background:#EAF0FB;padding:3px 8px;border-radius:5px">{{ shellD.work }}</span></sc-if>
+                <sc-if value="{{ shellD.noWork }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#A7ACB5">Select work types…</span></sc-if>
+              </span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#3A3F4A;margin-bottom:8px;height:14px;line-height:14px">Book name</div>
+            <input value="{{ shellD.bookName }}" onInput="{{ on.bookName }}" placeholder="e.g. Duke Carolinas 2026 T&E" style="width:100%;height:44px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;background:#fff;color:#1F2430;font-size:14px">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1.35fr) minmax(0,1fr);gap:14px 30px;margin-top:26px">
+          <div style="grid-column:1 / 3;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#3A3F4A">First rate period</div>
+          <div></div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Effective date</div>
+            <div onClick="{{ on.shellEff }}" style="height:44px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;display:flex;align-items:center;gap:10px;cursor:pointer" style-hover="border-color:#C9CCD2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span style="{{ shellD.effStyle }}">{{ shellD.eff }}</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Expiration date</div>
+            <div onClick="{{ on.shellExp }}" style="height:44px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;display:flex;align-items:center;gap:10px;cursor:pointer" style-hover="border-color:#C9CCD2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span style="{{ shellD.expStyle }}">{{ shellD.exp }}</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#3A3F4A;margin-bottom:8px;height:14px;line-height:14px">Notes</div>
+            <input placeholder="Optional notes about this book…" style="width:100%;height:44px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;background:#fff;color:#1F2430;font-size:14px">
+          </div>
+          <p style="grid-column:1 / 3;margin:0;font-size:12px;color:#9AA0A9;line-height:1.6;max-width:680px">Rates entered in the next step apply to this period. When rates change (e.g., annual escalation), add a new period to this book — hours are billed from the period containing their work date.</p>
+        </div>
+
+        <div style="height:1px;background:#EEEFF1;margin:34px 0 28px"></div>
+
+        <!-- Rate configuration -->
+        <div style="margin-bottom:6px">
+          <h2 style="margin:0 0 4px;font-size:18px;font-weight:700">Rate configuration</h2>
+          <p style="margin:0;font-size:14px;color:#6B7079">Choose what this book prices, then the dimensions that shape its rate tables.</p>
+        </div>
+
+        <!-- Shell field dropdown -->
+        <sc-if value="{{ shellMenuOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ shellMenuPos }}">
+            <sc-if value="{{ shellMenuIsList }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ shellMenuItems }}" as="o" hint-placeholder-count="4">
+                <div onClick="{{ o.onPick }}" style="padding:9px 12px;border-radius:7px;font-size:13.5px;cursor:pointer" style-hover="background:#F6F7F9">{{ o.label }}</div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ shellMenuIsCal }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:6px 8px 8px">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
+                  <div onClick="{{ calPrev }}" style="width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#8A8F99;cursor:pointer" style-hover="background:#F1F2F4"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg></div>
+                  <span style="font-size:13px;font-weight:600">{{ calLabel }}</span>
+                  <div onClick="{{ calNext }}" style="width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#8A8F99;cursor:pointer" style-hover="background:#F1F2F4"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">
+                  <sc-for list="{{ calDows }}" as="d" hint-placeholder-count="7">
+                    <div style="text-align:center;font-size:10px;font-weight:600;color:#B4B8C0;padding:3px 0">{{ d }}</div>
+                  </sc-for>
+                  <sc-for list="{{ calDays }}" as="d" hint-placeholder-count="30">
+                    <div onClick="{{ d.onPick }}" style="{{ d.style }}" style-hover="background:#F1F2F4">{{ d.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- What this book prices -->
+        <div style="margin-top:22px;max-width:980px;border:1px solid #E4E6EA;border-radius:12px;padding:22px 24px;background:#FCFCFD">
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#3A3F4A">What this book prices</span>
+            <span style="font-size:12px;color:#9AA0A9">— everything this contract bills</span>
+          </div>
+          <p style="margin:6px 0 0;font-size:12px;color:#B4B8C0">Selected categories become the rate sections in the next step.</p>
+          <div style="margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:12px">
+
+            <!-- Labor tile -->
+            <div onClick="{{ on.pLabor }}" style="{{ tiles.labor.card }}">
+              <div style="{{ tiles.labor.check }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="{{ tiles.labor.icon }}"><path d="M4 17a8 8 0 0 1 5-7.4V13h6V9.6a8 8 0 0 1 5 7.4"/><path d="M10 9.6V6a2 2 0 0 1 4 0v3.6"/><path d="M2 17h20v3H2z"/></svg>
+              <div style="margin-top:10px;font-size:14px;font-weight:600">Labor</div>
+              <p style="margin:3px 0 0;font-size:12px;color:#8A8F99;line-height:1.45">Hourly labor billed by classification, blended rate, or both</p>
+            </div>
+
+            <!-- Equipment tile -->
+            <div onClick="{{ on.pEquipment }}" style="{{ tiles.equipment.card }}">
+              <div style="{{ tiles.equipment.check }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="{{ tiles.equipment.icon }}"><path d="M2 7h11v9H2z"/><path d="M13 10h4l4 3.5V16h-8z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
+              <div style="margin-top:10px;font-size:14px;font-weight:600">Equipment</div>
+              <p style="margin:3px 0 0;font-size:12px;color:#8A8F99;line-height:1.45">Equipment hours billed by type</p>
+            </div>
+
+            <!-- Per diem tile -->
+            <div onClick="{{ on.pPerdiem }}" style="{{ tiles.perdiem.card }}">
+              <div style="{{ tiles.perdiem.check }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="{{ tiles.perdiem.icon }}"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 15h3M13 15h3"/></svg>
+              <div style="margin-top:10px;font-size:14px;font-weight:600">Per diem</div>
+              <p style="margin:3px 0 0;font-size:12px;color:#8A8F99;line-height:1.45">Daily allowance billed per person</p>
+            </div>
+
+            <!-- Delay types tile -->
+            <div onClick="{{ on.pDelays }}" style="{{ tiles.delays.card }}">
+              <div style="{{ tiles.delays.check }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="{{ tiles.delays.icon }}"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></svg>
+              <div style="margin-top:10px;font-size:14px;font-weight:600">Delay types</div>
+              <p style="margin:3px 0 0;font-size:12px;color:#8A8F99;line-height:1.45">Logged delay events with approval and pricing rules</p>
+            </div>
+
+            <!-- Custom category tiles -->
+            <sc-for list="{{ customKinds }}" as="ck" hint-placeholder-count="0">
+              <div onClick="{{ ck.onToggle }}" class="ck-row" style="{{ ck.card }}">
+                <div style="position:absolute;top:9px;right:9px;display:flex;align-items:center;gap:3px">
+                  <div style="{{ ck.checkBadge }}"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div style="position:relative">
+                    <div onClick="{{ ck.onMenu }}" class="ck-actions" style="width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#9AA0A9;cursor:pointer" style-hover="background:#EEF0F2"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></div>
+                    <div style="{{ ck.menuStyle }}">
+                      <div style="position:absolute;top:24px;right:0;width:130px;background:#fff;border:1px solid #E4E6EA;border-radius:10px;box-shadow:0 10px 28px rgba(20,24,31,.13);padding:5px;z-index:30;text-align:left">
+                        <div onClick="{{ ck.onRename }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer" style-hover="background:#F6F7F9">Rename</div>
+                        <div onClick="{{ ck.onRemove }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer" style-hover="background:#F6F7F9">Remove</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="{{ ck.icon }}"><path d="M12.6 2.6 21.4 11.4a2 2 0 0 1 0 2.8l-7.2 7.2a2 2 0 0 1-2.8 0L2.6 12.6A2 2 0 0 1 2 11.2V4a2 2 0 0 1 2-2h7.2a2 2 0 0 1 1.4.6z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>
+                <div style="margin-top:10px;font-size:14px;font-weight:600">{{ ck.name }}</div>
+                <p style="margin:3px 0 0;font-size:12px;color:#8A8F99;line-height:1.45">{{ ck.desc }}</p>
+              </div>
+            </sc-for>
+
+            <!-- Add category ghost tile -->
+            <div onClick="{{ on.openCatDialog }}" style="border:1.5px dashed #D5D8DD;border-radius:11px;min-height:118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#8A8F99;background:transparent" style-hover="border-color:#B9BDC5;color:#6B7079;background:#FDFDFD">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <span style="font-size:12.5px;font-weight:600;text-align:center;padding:0 12px;line-height:1.4">Add another billable category</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Add billable category dialog -->
+        <sc-if value="{{ catOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+            <div style="width:560px;max-height:86vh;overflow-y:auto;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+              <h3 style="margin:0 0 3px;font-size:17px;font-weight:700">Add a billable category</h3>
+              <p style="margin:0 0 18px;font-size:13px;color:#8A8F99;line-height:1.5">For anything else this contract bills — mobilization, lodging, show-up pay, small tools… sometimes called adders.</p>
+              <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Name</div>
+              <input value="{{ catName }}" onInput="{{ on.catName }}" placeholder="e.g. Mobilization" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+              <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin:18px 0 10px">How is it priced?</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ catStyles }}" as="st" hint-placeholder-count="4">
+                  <div onClick="{{ st.onSelect }}" style="{{ st.card }}">
+                    <div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap">
+                      <span style="font-size:14px;font-weight:600">{{ st.title }}</span>
+                      <span style="font-size:12.5px;color:#9AA0A9">— {{ st.like }}</span>
+                    </div>
+                    <p style="margin:4px 0 0;font-size:12.5px;color:#8A8F99;line-height:1.5">{{ st.body }}</p>
+                    <sc-if value="{{ st.hasHint }}" hint-placeholder-val="{{ false }}">
+                      <p style="margin:7px 0 0;font-size:11.5px;color:#B4B8C0;line-height:1.5">{{ st.hint }}</p>
+                    </sc-if>
+                    <sc-if value="{{ st.showPct }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+                        <div style="display:inline-flex;align-items:center;gap:5px">
+                          <input value="{{ catPct }}" onInput="{{ on.catPct }}" style="width:56px;height:34px;padding:0 10px;border:1px solid #E4E6EA;border-radius:8px;font-size:14px;text-align:right;outline:none;background:#fff">
+                          <span style="font-size:14px;color:#6B7079">%</span>
+                        </div>
+                        <span style="font-size:13px;color:#8A8F99">of</span>
+                        {{ catPctSelectEl }}
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+                <button onClick="{{ on.catCancel }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+                <button onClick="{{ on.catAdd }}" style="{{ catAddBtn }}">Add</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- Rename category dialog -->
+        <sc-if value="{{ renOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+            <div style="width:430px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+              <h3 style="margin:0 0 18px;font-size:17px;font-weight:700">Rename category</h3>
+              <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Name</div>
+              <input value="{{ renName }}" onInput="{{ on.renName }}" ref="{{ pdFocusRef }}" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+              <p style="margin:14px 0 0;font-size:13px;color:#6B7079">Priced as: {{ renStyleText }}</p>
+              <p style="margin:4px 0 0;font-size:11.5px;color:#B4B8C0;line-height:1.5">To change how a category is priced, remove it and add it again.</p>
+              <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+                <button onClick="{{ on.renCancel }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+                <button onClick="{{ on.renSave }}" style="height:40px;padding:0 20px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">Save</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+
+
+      </div>
+      </section>
+
+      <!-- ==================== STEP 2 ==================== -->
+      <section data-screen-label="Step 2 — Add rates" style="{{ show.step2 }}">
+      <!-- Book identity + settings now merged into the Book bar card (see Rates tables section) -->
+      </section>
+
+      <!-- ==================== BOOK DETAIL ==================== -->
+      <section data-screen-label="Book detail" style="{{ show.step4 }}">
+      <div style="padding:18px 44px 0">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9AA0A9">
+          <span style="cursor:pointer" onClick="{{ on.go1 }}">Unit Libraries</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          <span style="color:#5A5F69;font-weight:500">Duke Carolinas 2026 T&amp;E</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;padding:8px 44px 20px;border-bottom:1px solid #EEEFF1">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em">{{ shellD.bookNameDisp }}</h1>
+            <span style="font-size:11px;font-weight:600;color:#1F8A5B;background:#E8F5EE;padding:4px 10px;border-radius:6px">Active</span>
+            <span style="font-size:11px;font-weight:600;color:#D9662B;background:#FCF2EA;padding:4px 10px;border-radius:6px">T&amp;E Rate Book</span>
+          </div>
+          <div style="margin-top:6px;font-size:13.5px;color:#8A8F99">{{ shellD.custLine }}</div>
+        </div>
+      </div>
+      <div style="padding:26px 44px 0;max-width:1300px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <h2 style="margin:0;font-size:16px;font-weight:700">Rate periods</h2>
+          <button onClick="{{ on.openAddPeriod }}" style="height:36px;padding:0 16px;border-radius:8px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer">+ Add period</button>
+        </div>
+        <div style="border:1px solid #E4E6EA;border-radius:12px">
+          <sc-for list="{{ periodRows }}" as="p" hint-placeholder-count="1">
+            <div style="{{ p.rowStyle }}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <span style="font-size:14px;font-weight:600">{{ p.label }}</span>
+              <span style="{{ p.chipStyle }}">{{ p.status }}</span>
+              <div style="flex:1"></div>
+              <div style="position:relative">
+                <div onClick="{{ p.onMenu }}" style="width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer" style-hover="background:#F1F2F4">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+                </div>
+                <div style="{{ p.menuStyle }}">
+                  <div style="position:absolute;top:32px;right:0;width:190px;background:#fff;border:1px solid #E4E6EA;border-radius:10px;box-shadow:0 10px 28px rgba(20,24,31,.13);padding:5px;z-index:30">
+                    <div onClick="{{ p.onEditRates }}" style="padding:9px 12px;border-radius:7px;font-size:13.5px;cursor:pointer" style-hover="background:#F6F7F9">Edit rates</div>
+                    <div onClick="{{ p.onEndEarly }}" style="padding:9px 12px;border-radius:7px;font-size:13.5px;cursor:pointer" style-hover="background:#F6F7F9">End period early…</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- Add period dialog -->
+      <sc-if value="{{ addPeriodOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+          <div style="width:490px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+            <h3 style="margin:0 0 18px;font-size:17px;font-weight:700">Add rate period</h3>
+            <div style="display:flex;gap:14px">
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Start date</div>
+                <input value="{{ apStart }}" onInput="{{ on.apStart }}" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">End date</div>
+                <input value="{{ apEnd }}" onInput="{{ on.apEnd }}" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+              </div>
+            </div>
+            <sc-if value="{{ apErrorShow }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:8px 0 0;font-size:12.5px;color:#C93B3B">{{ apError }}</p>
+            </sc-if>
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                  <div onClick="{{ on.apModeCopy }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                    <div style="{{ apRb.copy.ring }}"></div><span style="font-size:14px;font-weight:500">Copy current rates with an escalation</span>
+                  </div>
+                  <div style="display:inline-flex;align-items:center;gap:5px">
+                    <input value="{{ apPct }}" onInput="{{ on.apPct }}" style="width:58px;height:34px;padding:0 10px;border:1px solid #E4E6EA;border-radius:8px;font-size:14px;text-align:right;outline:none">
+                    <span style="font-size:14px;color:#6B7079">%</span>
+                  </div>
+                </div>
+                <p style="margin:7px 0 0 27px;font-size:12px;color:#9AA0A9;line-height:1.5">All rates copy from the current period, increased {{ apPct }}%. Every rate stays individually editable.</p>
+              </div>
+              <div onClick="{{ on.apModeBlank }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                <div style="{{ apRb.blank.ring }}"></div><span style="font-size:14px;font-weight:500">Start from blank rates</span>
+              </div>
+            </div>
+            <div style="margin-top:24px;display:flex;justify-content:flex-end;gap:10px">
+              <button onClick="{{ on.closeAddPeriod }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+              <button onClick="{{ on.confirmAddPeriod }}" style="height:40px;padding:0 20px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">Add period</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- End early dialog -->
+      <sc-if value="{{ endEarlyOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+          <div style="width:420px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+            <h3 style="margin:0 0 18px;font-size:17px;font-weight:700">End period early</h3>
+            <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">New end date</div>
+            <input value="{{ eeDate }}" onInput="{{ on.eeDate }}" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+            <p style="margin:10px 0 0;font-size:12px;color:#9AA0A9;line-height:1.5">Use this when rates are renegotiated mid-period. The new period starts the following day.</p>
+            <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+              <button onClick="{{ on.closeEndEarly }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+              <button onClick="{{ on.confirmEndEarly }}" style="height:40px;padding:0 20px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">End period</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- Toast -->
+      <sc-if value="{{ toastShow }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#1B2130;color:#fff;padding:12px 22px;border-radius:10px;font-size:13.5px;font-weight:500;box-shadow:0 10px 30px rgba(15,18,24,.3);z-index:60;white-space:nowrap">{{ toastMsg }}</div>
+      </sc-if>
+      </section>
+
+      <!-- ==================== BLENDED WO PREVIEW ==================== -->
+      <section data-screen-label="Blended work order preview" style="{{ show.step5 }}">
+      <div style="padding:18px 44px 0">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9AA0A9">
+          <span style="cursor:pointer" onClick="{{ on.go3 }}">Work Orders</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+          <span style="color:#5A5F69;font-weight:500">WO-4471</span>
+        </div>
+      </div>
+      <div style="padding:8px 44px 20px;border-bottom:1px solid #EEEFF1">
+        <div style="display:flex;align-items:center;gap:12px">
+          <h1 style="margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em">WO-4471</h1>
+          <span style="font-size:11px;font-weight:600;color:#D9662B;background:#FCF2EA;padding:4px 10px;border-radius:6px">Blended contract</span>
+        </div>
+        <div style="margin-top:6px;font-size:13.5px;color:#8A8F99">Duke Energy Carolinas · Duke Blended Rates</div>
+      </div>
+      <div style="padding:26px 44px 40px;max-width:900px">
+        <div style="border:1px solid #E4E6EA;border-radius:12px;padding:20px 22px">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px">
+            <div style="display:flex;gap:44px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:6px">Billing basis</div>
+                <div style="display:flex;align-items:center;gap:7px">
+                  <span style="font-size:15px;font-weight:600;line-height:30px">{{ woBasisText }}</span>
+                  <span style="position:relative;display:inline-flex">
+                    <svg onClick="{{ on.toggleWoBasisTip }}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="1.8" style="cursor:pointer" style-hover="stroke:#8A8F99"><path d="M17 3a2.8 2.8 0 0 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg>
+                    <div style="{{ woBasisTipStyle }}">
+                      <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:280px;background:#1B2130;color:#fff;font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;line-height:1.55;padding:10px 13px;border-radius:8px;z-index:40;box-shadow:0 8px 24px rgba(15,18,24,.25)">This work order has logged hours and accrued revenue. Changing the billing basis requires admin access and is recorded in the audit log.</div>
+                    </div>
+                  </span>
+                </div>
+                <div style="margin-top:2px;font-size:11.5px;color:#B4B8C0;line-height:1.4">Billing basis can be changed freely until work is logged.</div>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+                  <span style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99">Region</span>
+                  <span style="position:relative;display:inline-flex">
+                    <svg onClick="{{ on.toggleWoRegionTip }}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="1.8" style="cursor:pointer" style-hover="stroke:#8A8F99"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+                    <div style="{{ woRegionTipStyle }}">
+                      <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:290px;background:#1B2130;color:#fff;font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;line-height:1.55;padding:10px 13px;border-radius:8px;z-index:40;box-shadow:0 8px 24px rgba(15,18,24,.25)">This work order's region determines which regional rate applies. When the contract's rate book has regions, the region field is required at work-order creation and offers only the book's regions.</div>
+                    </div>
+                  </span>
+                </div>
+                <div style="font-size:15px;font-weight:600;line-height:30px">Central</div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:6px">Estimated hours</div>
+                <div style="{{ woHoursStyle }}">{{ woHours }}</div>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+                  <span style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99">Blended rate</span>
+                  <span style="position:relative;display:inline-flex">
+                    <svg onClick="{{ on.toggleWoTip }}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="1.8" style="cursor:pointer" style-hover="stroke:#8A8F99"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+                    <div style="{{ woTipStyle }}">
+                      <div style="position:absolute;bottom:22px;left:50%;transform:translateX(-50%);width:270px;background:#1B2130;color:#fff;font-size:12px;font-weight:400;letter-spacing:0;text-transform:none;line-height:1.55;padding:10px 13px;border-radius:8px;z-index:40;box-shadow:0 8px 24px rgba(15,18,24,.25)">Snapshotted from Duke Blended Rates — Central — when this work order was created.</div>
+                    </div>
+                  </span>
+                </div>
+                <div style="font-size:22px;font-weight:700">$176.50<span style="font-size:14px;color:#9AA0A9;font-weight:500"> / hr</span></div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:6px">Work order value</div>
+                <div style="{{ woValueStyle }}">{{ woValue }}</div>
+                <sc-if value="{{ woFixed }}" hint-placeholder-val="{{ true }}">
+                  <div style="margin-top:4px;font-size:11.5px;color:#B4B8C0;line-height:1.4;max-width:230px">Calculated at creation: 105.3 est hrs × Central blended rate. Utilities may also provide a fixed amount directly.</div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ woFixed }}" hint-placeholder-val="{{ true }}">
+                <div>
+                  <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:6px">% complete</div>
+                  <div style="font-size:22px;font-weight:700">60%</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A8F99;margin-bottom:6px">Accrued to date</div>
+                  <div style="font-size:22px;font-weight:700">$11,151.27</div>
+                </div>
+              </sc-if>
+            </div>
+            <span onClick="{{ on.toggleWoBasis }}" style="font-size:13px;color:#2563EB;font-weight:600;cursor:pointer;white-space:nowrap" style-hover="color:#1D4ED8">{{ woToggleLabel }}</span>
+          </div>
+          <p style="margin:16px 0 0;font-size:12.5px;color:#9AA0A9;line-height:1.5">{{ woFinePrint }}</p>
+          <p style="margin:6px 0 0;font-size:12.5px;color:#9AA0A9;line-height:1.5">Billing basis is set per work order — jobs on this contract mix fixed and T&amp;E work orders.</p>
+        </div>
+
+        <div style="margin-top:22px;border:1px solid #E4E6EA;border-radius:12px;overflow:hidden">
+          <div style="padding:12px 18px;background:#FAFAFB;border-bottom:1px solid #EEEFF1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">T&amp;E daily sheet · Mar 12</div>
+          <sc-for list="{{ woCrew }}" as="cm" hint-placeholder-count="2">
+            <div style="{{ cm.rowStyle }}">
+              <span style="font-size:14px;font-weight:500;flex:1">{{ cm.name }}</span>
+              <span style="font-size:14px;color:#6B7079">{{ cm.hrsLabel }} <span style="color:#B9BDC5">→</span> {{ cm.split }}</span>
+              <span title="Split by the contract's tier rules. Job Settings controls whether foremen can adjust the split." style="font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#EEF0F2;padding:2px 7px;border-radius:5px;cursor:default">auto</span>
+              <span style="{{ woTagStyle }}">{{ woTag }}</span>
+            </div>
+          </sc-for>
+          <div style="display:flex;align-items:center;gap:10px;padding:13px 18px;border-top:1px solid #EEEFF1">
+            <span style="font-size:14px;font-weight:500;flex:1">Bucket truck (55')</span>
+            <span style="font-size:14px;color:#6B7079">8.0 hrs</span>
+            <sc-if value="{{ woEqCovered }}" hint-placeholder-val="{{ true }}">
+              <span class="ovr-wrap" style="position:relative;display:inline-block">
+                <span style="font-size:11px;font-weight:600;color:#6B7079;background:#EEF0F2;padding:3px 9px;border-radius:6px;white-space:nowrap;cursor:default">Included in blended rate</span>
+                <div class="ovr-tip" style="position:absolute;bottom:calc(100% + 7px);right:0;width:252px;background:#1B2130;color:#fff;font-size:11.5px;font-weight:400;line-height:1.55;padding:9px 11px;border-radius:8px;z-index:35;box-shadow:0 8px 24px rgba(15,18,24,.25);white-space:normal;cursor:default">This contract's blended rate covers equipment — hours are tracked, not billed separately.</div>
+              </span>
+            </sc-if>
+            <sc-if value="{{ woEqNotCovered }}" hint-placeholder-val="{{ false }}">
+              <span style="{{ woTagStyle }}">{{ woTag }}</span>
+            </sc-if>
+          </div>
+          <p style="margin:0;padding:12px 18px;font-size:12.5px;color:#9AA0A9;border-top:1px solid #EEEFF1">{{ woSheetNote }}</p>
+        </div>
+      </div>
+      </section>
+
+      <!-- ==================== RATES TABLES (shared: step 2 + detail) ==================== -->
+      <section data-screen-label="Rates tables" style="{{ show.tables }}">
+      <div style="padding:22px 44px 40px;max-width:1300px">
+        <sc-if value="{{ showPeriodSelector }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:10px;margin:0 0 18px">
+            <span style="font-size:13px;color:#8A8F99">Viewing rates for:</span>
+            <div style="position:relative">
+              <div onClick="{{ on.togglePeriodSel }}" style="display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid #E4E6EA;border-radius:9px;background:#fff;cursor:pointer;font-size:13.5px;font-weight:600">
+                {{ viewingPeriodLabel }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <div style="{{ periodSelMenuStyle }}">
+                <div style="position:absolute;top:42px;left:0;width:240px;background:#fff;border:1px solid #E4E6EA;border-radius:10px;box-shadow:0 10px 28px rgba(20,24,31,.13);padding:5px;z-index:30">
+                  <sc-for list="{{ periodOptions }}" as="po" hint-placeholder-count="1">
+                    <div onClick="{{ po.onSelect }}" style="{{ po.style }}" style-hover="background:#F6F7F9">{{ po.label }}</div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- Book bar: read-only identity (step 2) + book-wide settings, one card -->
+        <sc-if value="{{ showBookSettings }}" hint-placeholder-val="{{ true }}">
+          <div style="border:1px solid #E4E6EA;border-radius:12px;margin-bottom:22px;background:#fff">
+            <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:11px 18px;background:#FAFBFC;border-radius:12px 12px 0 0">
+                <span style="display:inline-flex;align-items:center;font-size:12px;font-weight:600;color:#4A4F59;background:#EEF0F2;padding:4px 10px;border-radius:6px;white-space:nowrap">{{ shellD.ratesFor }}</span>
+                <span style="font-size:13px;color:#8A8F99">{{ shellD.custLine }}</span>
+              </div>
+              <div style="height:1px;background:#EEEFF1"></div>
+            </sc-if>
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:14px;padding:13px 18px">
+              <span style="font-size:12px;color:#9AA0A9;font-weight:600;letter-spacing:.02em">Settings</span>
+              <div style="width:1px;height:16px;background:#E4E6EA"></div>
+              <div onClick="{{ on.billing }}" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer;white-space:nowrap">
+                <span style="font-size:12.5px;color:#4A4F59;font-weight:500">Utility billing codes</span>
+                <div style="{{ billingSwitchSm.track }}"><div style="{{ billingSwitchSm.knob }}"></div></div>
+              </div>
+              <div style="width:1px;height:16px;background:#E4E6EA"></div>
+              <div style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap">
+                <span onMouseEnter="{{ wwLabelTip.onTipEnter }}" onMouseLeave="{{ wwLabelTip.onTipLeave }}" style="cursor:default;font-size:12.5px;color:#4A4F59;font-weight:500;white-space:nowrap"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Work week begins</span>:</span>
+                <div style="{{ wwLabelTip.tipStyle }}">Weekly rules — the weekly floor, equipment caps, and the unit-price premium — reset on this day. Accounting periods in the Billing tab follow your organization’s calendar and are unaffected.</div>
+                <div style="position:relative">
+                  <div onClick="{{ on.toggleWwSel }}" style="display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 11px;border:1px solid #E4E6EA;border-radius:7px;background:#fff;cursor:pointer;font-size:12.5px;font-weight:600;color:#1F2430" style-hover="border-color:#B9BDC5">
+                    {{ workWeekStart }}
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <div style="{{ wwMenuStyle }}">
+                    <div style="position:absolute;top:36px;left:0;width:150px;background:#fff;border:1px solid #E4E6EA;border-radius:10px;box-shadow:0 10px 28px rgba(20,24,31,.13);padding:5px;z-index:30">
+                      <sc-for list="{{ wwOptions }}" as="wd" hint-placeholder-count="7">
+                        <div onClick="{{ wd.onSelect }}" style="{{ wd.style }}" style-hover="background:#F6F7F9">{{ wd.label }}</div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="width:1px;height:16px;background:#E4E6EA"></div>
+              <div style="display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-size:12.5px;color:#8A8F99">Regions:</span>
+                <sc-if value="{{ regionsEmpty }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:12.5px;color:#B4B8C0">none — rates apply everywhere</span>
+                </sc-if>
+                <sc-for list="{{ regionItems }}" as="rg" hint-placeholder-count="0">
+                  <span style="display:inline-flex;align-items:center;gap:7px;padding:5px 10px;background:#F4F5F7;border-radius:7px;font-size:12.5px;font-weight:500">
+                    {{ rg.name }}
+                    <span onClick="{{ rg.onRemove }}" style="color:#B9BDC5;cursor:pointer;display:inline-flex" style-hover="color:#8A8F99"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+                  </span>
+                </sc-for>
+                <sc-if value="{{ regionsOne }}" hint-placeholder-val="{{ false }}">
+                  <span onMouseEnter="{{ oneRegionTip.onTipEnter }}" onMouseLeave="{{ oneRegionTip.onTipLeave }}" style="cursor:default;font-size:12px;color:#B4B8C0;white-space:nowrap">· <span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">no effect with one region</span></span>
+                  <div style="{{ oneRegionTip.tipStyle }}">One region has no effect — add another if rates differ by geography, or remove this one.</div>
+                </sc-if>
+                <sc-if value="{{ addRegionShow }}" hint-placeholder-val="{{ false }}">
+                  <input value="{{ regionDraft }}" onInput="{{ on.regionDraft }}" onKeyDown="{{ on.regionKey }}" onBlur="{{ on.regionBlur }}" ref="{{ pdFocusRef }}" placeholder="Region name, then Enter" style="width:178px;height:30px;padding:0 10px;border:1px solid #B9BDC5;border-radius:7px;font-size:12.5px;outline:none">
+                </sc-if>
+                <sc-if value="{{ regionErrorShow }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:12px;color:#C93B3B;white-space:nowrap">{{ regionError }}</span>
+                </sc-if>
+                <span style="font-size:12.5px;color:#B9BDC5">·</span>
+                <span onClick="{{ on.toggleAddRegion }}" style="font-size:12.5px;font-weight:600;color:#2563EB;cursor:pointer;white-space:nowrap">+ Add region</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- LABOR -->
+        <div style="{{ secStyle.labor }}">
+          <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer" onClick="{{ on.openLabor }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2" style="{{ chev.labor }}"><path d="M6 9l6 6 6-6"/></svg>
+            <span style="font-size:15px;font-weight:700">Labor</span>
+            <span style="font-size:13px;color:#9AA0A9">· {{ laborCountText }}</span>
+            <div style="flex:1"></div>
+            <sc-if value="{{ laborAddLinkShow }}" hint-placeholder-val="{{ true }}">
+              <span onClick="{{ on.addLaborRow }}" style="font-size:13.5px;font-weight:600;color:#2563EB">+ Add classification</span>
+            </sc-if>
+            <sc-if value="{{ blendedOnlyHint }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:12.5px;color:#B4B8C0;font-weight:400">Switch the rate structure to "Both" to add per-classification rates for change-order work.</span>
+            </sc-if>
+          </div>
+          <div style="{{ body.labor }}">
+              <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;padding:10px 18px;border-top:1px solid #EEEFF1;background:#FCFCFD">
+                <span style="font-size:12.5px;color:#4A4F59;font-weight:600">Rate structure:</span>
+                <div style="display:inline-flex;background:#EEF0F2;border-radius:7px;padding:2px;gap:2px">
+                  <sc-for list="{{ structOpts }}" as="o" hint-placeholder-count="3">
+                    <div class="ovr-wrap" style="position:relative">
+                      <div onClick="{{ o.onClick }}" style="{{ o.style }}">{{ o.label }}</div>
+                      <sc-if value="{{ o.hasTip }}" hint-placeholder-val="{{ false }}">
+                        <div class="ovr-tip" style="position:absolute;top:calc(100% + 9px);left:0;width:256px;background:#1B2130;color:#fff;font-size:11.5px;font-weight:400;line-height:1.55;padding:9px 11px;border-radius:8px;z-index:35;box-shadow:0 8px 24px rgba(15,18,24,.25);white-space:normal;cursor:default">The blended rate covers all classifications. It prices fixed work orders (estimated hours × rate) or bills T&amp;E hours.</div>
+                      </sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ classRowsShow }}" hint-placeholder-val="{{ true }}">
+                <div style="width:1px;height:16px;background:#E4E6EA"></div>
+                <span style="font-size:12.5px;color:#4A4F59;font-weight:600">Tiers:</span>
+                <sc-for list="{{ tierItems }}" as="t" hint-placeholder-count="4">
+                  <span title="{{ t.lockTitle }}" style="display:inline-flex;align-items:stretch;border:1px solid #E4E6EA;border-radius:8px;background:#fff;overflow:hidden">
+                    <span onClick="{{ t.onToggle }}" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px">
+                      <span style="{{ t.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ t.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                      <span style="font-size:12.5px;font-weight:600">{{ t.abbr }}</span>
+                    </span>
+                    <span style="display:inline-flex;align-items:center;border-left:1px solid #EEEFF1;background:#FAFAFB">
+                      <sc-if value="{{ t.notEditingMult }}" hint-placeholder-val="{{ true }}">
+                        <span onClick="{{ t.onEditMult }}" style="{{ t.multStyle }}" style-hover="background:#EEF0F2">{{ t.multText }}</span>
+                      </sc-if>
+                      <sc-if value="{{ t.editingMult }}" hint-placeholder-val="{{ false }}">
+                        <input value="{{ tierEditValue }}" onInput="{{ onTierInput }}" onBlur="{{ onTierCommit }}" onKeyDown="{{ onTierKey }}" ref="{{ pdFocusRef }}" placeholder="× none" style="width:60px;height:100%;padding:0 7px;border:none;font-size:12px;outline:none;background:#fff">
+                      </sc-if>
+                    </span>
+                    <sc-if value="{{ t.custom }}" hint-placeholder-val="{{ false }}">
+                      <span onClick="{{ t.onRemove }}" style="display:inline-flex;align-items:center;padding:0 7px;border-left:1px solid #EEEFF1;color:#B9BDC5;cursor:pointer" style-hover="color:#8A8F99;background:#F4F5F7"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+                    </sc-if>
+                  </span>
+                </sc-for>
+                <span onClick="{{ on.toggleAddTier }}" style="font-size:12.5px;font-weight:600;color:#2563EB;cursor:pointer">+ custom</span>
+                <div style="display:flex;align-items:center;gap:8px;margin-left:auto">
+                <div style="position:relative">
+                  <button onClick="{{ on.laborOptsToggle }}" style="{{ optsBtnStyle }}">
+                    <span>{{ laborOptsLabel }}</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                  </button>
+                  <sc-if value="{{ laborOptsOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="{{ laborOptsPanel }}">
+                      <div style="font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;margin-bottom:10px">Activities</div>
+                      <sc-if value="{{ activitiesEmpty }}" hint-placeholder-val="{{ true }}">
+                        <p style="margin:0 0 9px;font-size:12px;color:#B4B8C0;font-style:italic;line-height:1.5">No activities yet — add one only if a classification's rate varies by the task performed.</p>
+                      </sc-if>
+                      <div style="display:flex;flex-direction:column;gap:9px">
+                        <sc-for list="{{ activityItems }}" as="a" hint-placeholder-count="0">
+                          <div style="display:flex;align-items:center;gap:8px">
+                            <span onClick="{{ a.onToggle }}" style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;flex:1">
+                              <span style="{{ a.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ a.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                              <span style="font-size:13px;font-weight:500">{{ a.name }}</span>
+                            </span>
+                            <span onClick="{{ a.onRemove }}" style="color:#B9BDC5;cursor:pointer;display:inline-flex" style-hover="color:#8A8F99"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></span>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <sc-if value="{{ addActivityShow }}" hint-placeholder-val="{{ false }}">
+                        <input value="{{ activityDraft }}" onInput="{{ on.activityDraft }}" onKeyDown="{{ on.activityKey }}" ref="{{ pdFocusRef }}" placeholder="Activity name, then Enter" style="width:100%;height:32px;margin-top:9px;padding:0 10px;border:1px solid #B9BDC5;border-radius:7px;font-size:12.5px;outline:none">
+                      </sc-if>
+                      <div style="margin-top:9px"><span onClick="{{ on.toggleAddActivity }}" style="font-size:12.5px;font-weight:600;color:#2563EB;cursor:pointer">+ Add activity</span></div>
+                      <p style="margin:9px 0 0;font-size:11.5px;color:#B4B8C0;line-height:1.5">A modifier on a classification's rate. A flat rate that doesn't depend on the crew belongs in a unit library at UoM = hours.</p>
+                      <div style="height:1px;background:#EEEFF1;margin:14px 0"></div>
+                      <div style="display:flex;align-items:center;gap:9px">
+                        <div onClick="{{ on.utilLaborToggle }}" style="{{ utilLaborSw.track }}"><div style="{{ utilLaborSw.knob }}"></div></div>
+                        <span style="font-size:13px;font-weight:500">Utility names</span>
+                      </div>
+                      <p style="margin:7px 0 0;font-size:11.5px;color:#B4B8C0;line-height:1.5">Adds a Utility name column for the billing names this utility requires.</p>
+                      <div style="height:1px;background:#EEEFF1;margin:14px 0"></div>
+                      <div style="display:flex;align-items:center;gap:9px">
+                        <div onClick="{{ onApprColToggle }}" style="{{ apprColSw.track }}"><div style="{{ apprColSw.knob }}"></div></div>
+                        <span style="font-size:13px;font-weight:500">Customer approval column</span>
+                      </div>
+                      <sc-if value="{{ apprColBlocked }}" hint-placeholder-val="{{ false }}">
+                        <p style="margin:7px 0 0;font-size:11.5px;color:#D9662B;line-height:1.5">{{ apprColNote }}</p>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+                </div>
+                <div class="ovr-wrap" style="position:relative">
+                  <button onClick="{{ on.openTierRules }}" style="{{ trBtn.style }}">
+                    <sc-if value="{{ trBtn.dot }}" hint-placeholder-val="{{ false }}">
+                      <span style="width:7px;height:7px;border-radius:50%;background:#EE7B3D;flex-shrink:0"></span>
+                    </sc-if>
+                    <sc-if value="{{ trBtn.check }}" hint-placeholder-val="{{ true }}">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+                    </sc-if>
+                    <span>{{ trBtn.label }}</span>
+                    <sc-if value="{{ trBtn.check }}" hint-placeholder-val="{{ true }}">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1F8A5B" stroke-width="2.4"><path d="M5 12l4 4L19 6"/></svg>
+                    </sc-if>
+                  </button>
+                  <div class="ovr-tip" style="position:absolute;top:calc(100% + 7px);right:0;width:320px;background:#fff;border:1px solid #E4E6EA;border-radius:10px;box-shadow:0 12px 32px rgba(20,24,31,.16);padding:12px 14px;z-index:32;font-size:12.5px;color:#4A4F59;line-height:1.6;font-weight:400;cursor:default">{{ trBtn.hoverText }}</div>
+                </div>
+                </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ classRowsShow }}" hint-placeholder-val="{{ true }}">
+              <sc-if value="{{ addTierShow }}" hint-placeholder-val="{{ false }}">
+                <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+                  <div style="width:470px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+                    <h3 style="margin:0 0 3px;font-size:17px;font-weight:700">Add a time tier</h3>
+                    <p style="margin:0 0 18px;font-size:13px;color:#8A8F99;line-height:1.5">Tiers are the hour types this contract bills — each becomes a rate column in the labor tables.</p>
+                    <div style="display:flex;gap:12px">
+                      <div style="flex:1">
+                        <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Tier name</div>
+                        <input value="{{ tierDraftName }}" onInput="{{ on.tierDraftName }}" ref="{{ pdFocusRef }}" placeholder="e.g. Sunday" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+                      </div>
+                      <div style="width:130px">
+                        <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Abbreviation</div>
+                        <input value="{{ tierDraftAbbr }}" onInput="{{ on.tierDraftAbbr }}" placeholder="e.g. SUN" style="width:100%;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+                      </div>
+                    </div>
+                    <div style="margin-top:16px">
+                      <div style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin-bottom:8px">Multiplier <span style="color:#B4B8C0;text-transform:none;letter-spacing:normal;font-weight:400">(optional)</span></div>
+                      <div style="display:flex;align-items:center;gap:8px">
+                        <span style="font-size:15px;color:#8A8F99">×</span>
+                        <input value="{{ tierDraftMult }}" onInput="{{ on.tierDraftMult }}" placeholder="1.75" style="width:92px;height:42px;padding:0 14px;border:1px solid #E4E6EA;border-radius:9px;font-size:14px;outline:none">
+                      </div>
+                      <p style="margin:9px 0 0;font-size:12px;color:#9AA0A9;line-height:1.55">Multiplier tiers calculate their rates from straight time — e.g., × 1.75 of the ST rate. Leave blank if this tier's rates are entered directly. Any calculated rate can be overridden per cell.</p>
+                    </div>
+                    <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+                      <button onClick="{{ on.toggleAddTier }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+                      <button onClick="{{ on.addTierCommit }}" style="{{ tierAddBtn }}">Add tier</button>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+
+              <!-- Tier rules panel -->
+              <sc-if value="{{ trOpen }}" hint-placeholder-val="{{ false }}">
+                <div onMouseMove="{{ onTrMove }}" onMouseUp="{{ onTrUp }}" style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+                  <div style="width:640px;max-width:94vw;max-height:88vh;display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);overflow:hidden">
+                    <div style="padding:24px 24px 0">
+                      <h3 style="margin:0 0 3px;font-size:17px;font-weight:700">Tier rules</h3>
+                      <p style="margin:0 0 4px;font-size:13px;color:#8A8F99;line-height:1.5">How logged hours are assigned to time tiers. Jobs can override these rules in Job Settings.</p>
+                    </div>
+                    <div style="flex:1;overflow-y:auto;padding:14px 24px 20px;display:flex;flex-direction:column;gap:22px">
+
+                      <div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Daily progression</span>
+                          <div onClick="{{ on.trDailyToggle }}" style="{{ trDaily.track }}"><div style="{{ trDaily.knob }}"></div></div>
+                        </div>
+                        <div style="{{ trDaily.ctrlStyle }}">
+                        <div ref="{{ trBarRef }}" style="position:relative">
+                          <div style="display:flex;height:34px;border-radius:8px;overflow:hidden">
+                            <sc-for list="{{ trSegments }}" as="seg" hint-placeholder-count="2">
+                              <div style="{{ seg.style }}">{{ seg.label }}</div>
+                            </sc-for>
+                          </div>
+                          <sc-for list="{{ trHandles }}" as="h" hint-placeholder-count="1">
+                            <div onMouseDown="{{ h.onDown }}" style="{{ h.style }}">
+                              <div style="width:4px;flex:1;background:#fff;border-radius:2px;box-shadow:0 0 0 1px rgba(15,18,24,.3)"></div>
+                            </div>
+                          </sc-for>
+                        </div>
+                        <div style="position:relative;height:19px;margin-top:5px;font-size:10.5px;color:#9AA0A9">
+                          <span style="position:absolute;left:0">0</span>
+                          <sc-for list="{{ trHandles }}" as="h" hint-placeholder-count="1">
+                            <sc-if value="{{ h.notEditing }}" hint-placeholder-val="{{ true }}">
+                              <span onClick="{{ h.onLblClick }}" title="Click to type an hour" style="{{ h.lblStyle }}" style-hover="background:#EEF0F2;color:#3A3F4A">{{ h.label }}</span>
+                            </sc-if>
+                            <sc-if value="{{ h.editing }}" hint-placeholder-val="{{ false }}">
+                              <input value="{{ trBpValue }}" onInput="{{ onTrBpInput }}" onBlur="{{ onTrBpCommit }}" onKeyDown="{{ onTrBpKey }}" ref="{{ pdFocusRef }}" style="{{ h.inputStyle }}">
+                            </sc-if>
+                          </sc-for>
+                          <span style="position:absolute;right:0">24</span>
+                        </div>
+                        <p style="margin:6px 0 0;font-size:12px;color:#9AA0A9;line-height:1.5">Drag the handles — or click an hour label to type — to set where a day's hours move to the next tier.</p>
+                        </div>
+                        <sc-if value="{{ trDaily.offNote }}" hint-placeholder-val="{{ false }}">
+                          <div style="margin:8px 0 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:#4A4F59;line-height:1.5">No daily progression — all hours bill at {{ trDaily.offTierEl }} unless a weekly floor, day override, or time type applies.</div>
+                        </sc-if>
+                        <p style="margin:5px 0 0;font-size:12px;color:#B4B8C0;line-height:1.5">Half-time and custom-rate tiers don't appear in the daily progression — they're used by time types, day overrides, and premiums.</p>
+                      </div>
+
+                      <div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Weekly floor</span>
+                          <div onClick="{{ on.trWeeklyToggle }}" style="{{ trWeekly.track }}"><div style="{{ trWeekly.knob }}"></div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                          <span style="{{ trWeekly.ctrlStyle }}">
+                            <span style="font-size:13.5px">After</span>
+                            <input value="{{ trWeekly.hrs }}" onInput="{{ on.trWeeklyHrs }}" style="width:52px;height:30px;padding:0 8px;border:1px solid #E4E6EA;border-radius:7px;font-size:13px;text-align:center;outline:none">
+                            <span style="font-size:13.5px">hours in a week, hours bill at least</span>
+                            {{ trWeekly.selectEl }}
+                          </span>
+                        </div>
+                        <p style="margin:8px 0 0;font-size:12px;color:#B4B8C0;line-height:1.5">The weekly count includes all logged hours — T&amp;E and unit-price work — within the contract’s work week (begins {{ workWeekStart }} · set in Book settings).</p>
+                      </div>
+
+                      <div>
+                        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99;margin-bottom:11px">Day overrides</div>
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                          <sc-for list="{{ trDays }}" as="d" hint-placeholder-count="3">
+                            <span style="display:inline-flex;align-items:center;gap:7px;padding:5px 6px 5px 11px;background:#F4F5F7;border-radius:8px">
+                              <span style="font-size:12.5px;font-weight:500">{{ d.label }}</span>
+                              {{ d.selectEl }}
+                            </span>
+                          </sc-for>
+                          <span onClick="{{ on.holToggleList }}" style="font-size:12.5px;font-weight:600;color:#2563EB;cursor:pointer">Edit holiday list</span>
+                        </div>
+                        <sc-if value="{{ holOpen }}" hint-placeholder-val="{{ false }}">
+                          <div style="margin-top:12px;padding:12px 14px;border:1px solid #EEEFF1;border-radius:9px;background:#FCFCFD">
+                            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:9px 18px">
+                              <sc-for list="{{ trHolidays }}" as="hd" hint-placeholder-count="6">
+                                <div onClick="{{ hd.onToggle }}" style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                                  <div style="{{ hd.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ hd.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                                  <span style="font-size:12.5px">{{ hd.name }}</span>
+                                </div>
+                              </sc-for>
+                            </div>
+                            <input value="{{ holDraft }}" onInput="{{ on.holDraft }}" onKeyDown="{{ on.holKey }}" placeholder="+ add date (e.g. Dec 24), then Enter" style="margin-top:11px;width:240px;height:30px;padding:0 10px;border:1px solid #E4E6EA;border-radius:7px;font-size:12.5px;outline:none">
+                          </div>
+                        </sc-if>
+                        <p style="margin:9px 0 0;font-size:12px;color:#B4B8C0;line-height:1.5">Day overrides take precedence over time types — e.g., standby hours on a Sunday bill at the Sunday tier.</p>
+                      </div>
+
+                      <div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Time types</span>
+                          <div onClick="{{ on.trTypesToggle }}" style="{{ trTypesSw.track }}"><div style="{{ trTypesSw.knob }}"></div></div>
+                        </div>
+                        <div style="{{ trTypesCtrl }}">
+                        <div style="display:flex;flex-direction:column;gap:9px">
+                          <sc-for list="{{ trTypes }}" as="tt" hint-placeholder-count="4">
+                            <div style="display:flex;align-items:center;gap:10px">
+                              <span style="font-size:13.5px;width:150px">{{ tt.label }}</span>
+                              <span style="color:#B9BDC5;font-size:12px">→</span>
+                              {{ tt.selectEl }}
+                            </div>
+                          </sc-for>
+                        </div>
+                        <p style="margin:9px 0 0;font-size:12px;color:#B4B8C0;line-height:1.5">Applied before daily and weekly rules.</p>
+                        </div>
+                        <sc-if value="{{ trTypesOff }}" hint-placeholder-val="{{ false }}">
+                          <p style="margin:9px 0 0;font-size:12px;color:#B4B8C0;line-height:1.5">Time type tags don't affect billing on this contract — all hours follow the daily, weekly, and day rules. Crews can still tag time for tracking.</p>
+                        </sc-if>
+                      </div>
+
+                      <div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px">
+                          <span style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Unit-price work premium</span>
+                          <div onClick="{{ on.trUpToggle }}" style="{{ trUp.track }}"><div style="{{ trUp.knob }}"></div></div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                          <span style="{{ trUp.ctrlStyle }}">
+                            <span style="font-size:13.5px">Hours logged on unit-price work bill at</span>
+                            {{ trUp.selectEl }}
+                            <span style="font-size:13.5px">after</span>
+                            <input value="{{ trUp.hrs }}" onInput="{{ on.trUpHrs }}" style="width:52px;height:30px;padding:0 8px;border:1px solid #E4E6EA;border-radius:7px;font-size:13px;text-align:center;outline:none">
+                            <span style="font-size:13.5px">weekly hours, in addition to unit prices.</span>
+                          </span>
+                        </div>
+                        <p style="margin:8px 0 0;font-size:12px;color:#B4B8C0;line-height:1.5">Until the threshold, hours on unit-price work are tracked but not billed.</p>
+                        <sc-if value="{{ trUp.noteShow }}" hint-placeholder-val="{{ false }}">
+                          <p style="margin:8px 0 0;font-size:12px;color:#D9662B;line-height:1.5">{{ trUp.noteText }}</p>
+                        </sc-if>
+                      </div>
+
+                    </div>
+                    <div style="display:flex;justify-content:flex-end;gap:16px;padding:13px 24px;border-top:1px solid #EEEFF1;background:#FAFAFB">
+                      <div style="display:flex;gap:10px">
+                        <button onClick="{{ on.trCancel }}" style="height:36px;padding:0 16px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13px;cursor:pointer">Cancel</button>
+                        <button onClick="{{ on.trSave }}" style="height:36px;padding:0 18px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">Save Rules</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </sc-if>
+            </sc-if>
+            <sc-if value="{{ laborEmptyShow }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:16px 18px 2px;border-top:1px solid #EEEFF1">
+                <p style="margin:0;font-size:13px;color:#8A8F99;line-height:1.6;max-width:520px">No classifications yet. Add the labor classes this contract prices — rates and billing codes are entered per class.</p>
+              </div>
+            </sc-if>
+            <sc-if value="{{ laborTableShow }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto;border-top:1px solid #EEEFF1">
+              <table style="width:100%;border-collapse:collapse;min-width:560px">
+                <thead><tr>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Classification</th>
+                  <sc-if value="{{ utilLabor }}" hint-placeholder-val="{{ true }}">
+                    <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB;white-space:nowrap">
+                      <span onMouseEnter="{{ utilTipLabor.onTipEnter }}" onMouseLeave="{{ utilTipLabor.onTipLeave }}" style="cursor:default;display:inline-block"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Utility name</span></span>
+                      <div style="{{ utilTipLabor.tipStyle }}">The name this utility requires on invoices and exports. Internal names are still used everywhere inside Gridbase.</div>
+                    </th>
+                  </sc-if>
+                  <sc-for list="{{ laborCols }}" as="c" hint-placeholder-count="2">
+                    <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB;white-space:nowrap">
+                      <div style="display:flex;align-items:center;gap:6px">
+                        <span>{{ c.label }}</span>
+                        <sc-if value="{{ c.hasBadge }}" hint-placeholder-val="{{ false }}">
+                          <span title="{{ c.badgeTitle }}" style="{{ c.badgeStyle }}">{{ c.badge }}</span>
+                        </sc-if>
+                      </div>
+                    </th>
+                  </sc-for>
+                  <th style="{{ apprThStyle }}">
+                    <div style="display:flex;align-items:center;gap:3px">
+                      <span onMouseEnter="{{ apprHdr.labor.onTipEnter }}" onMouseLeave="{{ apprHdr.labor.onTipLeave }}" style="cursor:default;display:inline-block"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Approval</span></span>
+                      <div style="{{ apprHdr.labor.tipStyle }}">Entries logged against a rate that requires approval can't be billed until the customer approves them.</div>
+                      <div style="position:relative;display:inline-block">
+                        <div onClick="{{ apprHdr.labor.onMenu }}" style="width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer" style-hover="background:#E8EAED"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></div>
+                        <div style="{{ apprHdr.labor.menuStyle }}">
+                          <div style="{{ apprHdr.labor.menuPos }}">
+                            <div onClick="{{ apprHdr.labor.onAll }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Require approval on all</div>
+                            <div onClick="{{ apprHdr.labor.onClear }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Clear all</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="width:48px;background:#FAFAFB"></th>
+                </tr></thead>
+                <tbody>
+                  <sc-if value="{{ blendedRowShow }}" hint-placeholder-val="{{ false }}">
+                    <tr style="border-top:1px solid #EEEFF1;background:#FDF8F3">
+                      <td style="padding:13px 18px;font-size:14px;font-weight:600;white-space:nowrap">Blended rate <span style="color:#B08D6E;font-weight:400">— all classifications</span>
+                        <span class="ovr-wrap" style="position:relative;display:inline-block;margin-left:6px;vertical-align:1px">
+                          <span onClick="{{ onCoverOpen }}" style="display:inline-block;font-size:11.5px;font-weight:600;color:#B4652E;background:#F6EDE3;padding:3px 9px;border-radius:6px;cursor:pointer;white-space:nowrap" style-hover="background:#F0DFCE">{{ blendedCoversText }}</span>
+                          <div class="ovr-tip" style="position:absolute;top:calc(100% + 7px);left:0;width:212px;background:#1B2130;color:#fff;font-size:11.5px;font-weight:400;line-height:1.55;padding:8px 10px;border-radius:8px;z-index:35;box-shadow:0 8px 24px rgba(15,18,24,.25);white-space:normal;cursor:default">Click to change what the blended rate covers.</div>
+                        </span>
+                      </td>
+                      <sc-if value="{{ utilLabor }}" hint-placeholder-val="{{ true }}">
+                        <td style="padding:13px 18px;font-size:14px;color:#C6C9CF">—</td>
+                      </sc-if>
+                      <sc-for list="{{ blendedCells }}" as="cell" hint-placeholder-count="2">
+                        <td colSpan="{{ cell.span }}" style="padding:8px 18px;vertical-align:top;min-width:96px">
+                          <sc-if value="{{ cell.notEditingRate }}" hint-placeholder-val="{{ true }}">
+                            <div onClick="{{ cell.onEditRate }}" style="display:inline-block;padding:4px 8px;margin:-4px -8px;border-radius:6px;cursor:text" style-hover="background:#F6EDE3"><span style="{{ cell.rateStyle }}">{{ cell.rateMain }}</span></div>
+                          </sc-if>
+                          <sc-if value="{{ cell.editingRate }}" hint-placeholder-val="{{ false }}">
+                            <input value="{{ cellEditValue }}" onInput="{{ onCellInput }}" onBlur="{{ onCellCommit }}" onKeyDown="{{ onCellKey }}" ref="{{ pdFocusRef }}" style="width:92px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:14px;outline:none">
+                          </sc-if>
+                          <sc-if value="{{ cell.showCodeRow }}" hint-placeholder-val="{{ false }}">
+                            <div style="margin-top:4px">
+                              <sc-if value="{{ cell.notEditingCode }}" hint-placeholder-val="{{ true }}">
+                                <span onClick="{{ cell.onEditCode }}" style="display:inline-block;padding:2px 6px;margin:-2px -6px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#9AA0A9;cursor:text" style-hover="background:#F6EDE3">{{ cell.code }}</span>
+                              </sc-if>
+                              <sc-if value="{{ cell.editingCode }}" hint-placeholder-val="{{ false }}">
+                                <input value="{{ cellEditValue }}" onInput="{{ onCellInput }}" onBlur="{{ onCellCommit }}" onKeyDown="{{ onCellKey }}" ref="{{ pdFocusRef }}" style="width:92px;height:28px;padding:0 8px;border:1px solid #B9BDC5;border-radius:6px;font-size:11px;font-family:ui-monospace,monospace;outline:none">
+                              </sc-if>
+                            </div>
+                          </sc-if>
+                        </td>
+                      </sc-for>
+                      <td style="{{ apprTdBlended }}">
+                        <div style="display:flex;align-items:center;gap:7px">
+                          <div onClick="{{ blendedAppr.onAppr }}" style="{{ blendedAppr.apprTrack }}"><div style="{{ blendedAppr.apprKnob }}"></div></div>
+                          <sc-if value="{{ blendedAppr.apprOn }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#3B6BD1;background:#EAF0FB;padding:3px 9px;border-radius:6px;white-space:nowrap">Customer</span></sc-if>
+                        </div>
+                      </td>
+                      <td style="text-align:center;vertical-align:top;padding-top:9px">
+                        <div style="position:relative;display:inline-block">
+                          <div onClick="{{ onBlendedMenu }}" style="width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer" style-hover="background:#F6EDE3"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg></div>
+                          <div style="{{ blendedMenuStyle }}">
+                            <div style="{{ blendedMenuPos }}">
+                              <div onClick="{{ onCoverOpen }}" style="padding:9px 12px;border-radius:7px;font-size:13.5px;font-weight:400;cursor:pointer" style-hover="background:#F6F7F9">What this rate covers…</div>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </sc-if>
+                  <sc-if value="{{ classRowsShow }}" hint-placeholder-val="{{ true }}">
+                  <sc-for list="{{ laborRows }}" as="row" hint-placeholder-count="4">
+                    <tr style="border-top:1px solid #EEEFF1">
+                      <td style="padding:8px 12px 8px 18px;font-size:14px;font-weight:500;vertical-align:top">
+                        {{ row.clsCellEl }}
+                      </td>
+                      <sc-if value="{{ utilLabor }}" hint-placeholder-val="{{ true }}">
+                        <td style="padding:8px 12px;vertical-align:middle">
+                          <input value="{{ row.util }}" onInput="{{ row.onUtil }}" placeholder="Same as internal" style="width:150px;height:32px;padding:0 9px;border:1px solid transparent;border-radius:7px;font-size:13.5px;background:transparent;outline:none" style-hover="border-color:#E4E6EA;background:#fff">
+                        </td>
+                      </sc-if>
+                      <sc-if value="{{ row.nonBillable }}" hint-placeholder-val="{{ false }}">
+                        <td colSpan="{{ row.nbSpan }}" style="padding:13px 18px">
+                          <span style="font-size:12px;font-weight:600;color:#8A8F99;background:#EEF0F2;padding:4px 10px;border-radius:6px;white-space:nowrap">Non-billable — tracked for cost &amp; utilization</span>
+                        </td>
+                      </sc-if>
+                      <sc-if value="{{ row.billableShow }}" hint-placeholder-val="{{ true }}">
+                      <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="2">
+                        <td style="padding:8px 18px;vertical-align:top;min-width:96px">
+                          {{ cell.liveEl }}
+                          <sc-if value="{{ cell.notEditingRate }}" hint-placeholder-val="{{ true }}">
+                            <div class="ovr-wrap" onClick="{{ cell.onEditRate }}" style="{{ cell.rateWrap }}" style-hover="background:#F1F2F4">
+                              <span style="{{ cell.rateStyle }}">{{ cell.rateMain }}</span>
+                              <sc-if value="{{ cell.isOvr }}" hint-placeholder-val="{{ false }}">
+                                <span style="position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:#EE7B3D"></span>
+                                <div class="ovr-tip" style="position:absolute;bottom:100%;left:-4px;margin-bottom:7px;width:216px;background:#1B2130;color:#fff;font-size:11.5px;font-weight:400;line-height:1.5;padding:9px 11px;border-radius:8px;z-index:35;box-shadow:0 8px 24px rgba(15,18,24,.25);cursor:default">
+                                  {{ cell.ovrTip }}
+                                  <div onClick="{{ cell.onResetOvr }}" style="margin-top:6px;color:#F7B489;font-weight:600;cursor:pointer">{{ cell.resetLabel }}</div>
+                                </div>
+                              </sc-if>
+                            </div>
+                            <sc-if value="{{ cell.ovrConfirmOpen }}" hint-placeholder-val="{{ false }}">
+                              <div style="position:relative;z-index:36">
+                                <div style="position:absolute;top:6px;left:-10px;width:238px;background:#fff;border:1px solid #E4E6EA;border-radius:10px;box-shadow:0 10px 28px rgba(20,24,31,.16);padding:12px">
+                                  <div style="font-size:12.5px;color:#3A3F4A;line-height:1.5">{{ cell.ovrQuestion }}</div>
+                                  <div style="display:flex;gap:8px;margin-top:10px">
+                                    <button onClick="{{ cell.onOvrConfirm }}" style="flex:1;height:30px;border-radius:7px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:12px;cursor:pointer">Override</button>
+                                    <button onClick="{{ cell.onOvrCancel }}" style="height:30px;padding:0 10px;border-radius:7px;border:1px solid #E4E6EA;background:#fff;color:#6B7079;font-size:12px;cursor:pointer">Cancel</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </sc-if>
+                          </sc-if>
+                          <sc-if value="{{ cell.editingRate }}" hint-placeholder-val="{{ false }}">
+                            <input value="{{ cellEditValue }}" onInput="{{ onCellInput }}" onBlur="{{ onCellCommit }}" onKeyDown="{{ onCellKey }}" ref="{{ pdFocusRef }}" style="width:92px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:14px;outline:none">
+                          </sc-if>
+                          <sc-if value="{{ cell.showCodeRow }}" hint-placeholder-val="{{ false }}">
+                            <div style="margin-top:4px">
+                              <sc-if value="{{ cell.notEditingCode }}" hint-placeholder-val="{{ true }}">
+                                <span onClick="{{ cell.onEditCode }}" style="display:inline-block;padding:2px 6px;margin:-2px -6px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#9AA0A9;cursor:text" style-hover="background:#F1F2F4">{{ cell.code }}</span>
+                              </sc-if>
+                              <sc-if value="{{ cell.editingCode }}" hint-placeholder-val="{{ false }}">
+                                <input value="{{ cellEditValue }}" onInput="{{ onCellInput }}" onBlur="{{ onCellCommit }}" onKeyDown="{{ onCellKey }}" ref="{{ pdFocusRef }}" style="width:92px;height:28px;padding:0 8px;border:1px solid #B9BDC5;border-radius:6px;font-size:11px;font-family:ui-monospace,monospace;outline:none">
+                              </sc-if>
+                            </div>
+                          </sc-if>
+                        </td>
+                      </sc-for>
+                      </sc-if>
+                      <td style="{{ apprTdTop }}">
+                        <div style="display:flex;align-items:center;gap:7px">
+                          <div onClick="{{ row.onAppr }}" style="{{ row.apprTrack }}"><div style="{{ row.apprKnob }}"></div></div>
+                          <sc-if value="{{ row.apprOn }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#3B6BD1;background:#EAF0FB;padding:3px 9px;border-radius:6px;white-space:nowrap">Customer</span></sc-if>
+                        </div>
+                      </td>
+                      <td style="text-align:center;vertical-align:top;padding-top:9px">
+                        {{ row.actionEl }}
+                      </td>
+                    </tr>
+                  </sc-for>
+                  </sc-if>
+
+                </tbody>
+              </table>
+            </div>
+            </sc-if>
+
+          </div>
+        </div>
+
+        <!-- EQUIPMENT -->
+        <div style="{{ secStyle.equipment }}">
+          <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer" onClick="{{ on.openEquip }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2" style="{{ chev.equipment }}"><path d="M6 9l6 6 6-6"/></svg>
+            <span style="font-size:15px;font-weight:700">Equipment</span>
+            <span style="font-size:13px;color:#9AA0A9">· {{ counts.equip }} types</span>
+            <div style="flex:1"></div>
+            <sc-if value="{{ equipAddLinkShow }}" hint-placeholder-val="{{ true }}">
+              <span onClick="{{ on.addEquipRow }}" style="font-size:13.5px;font-weight:600;color:#2563EB">+ Add equipment</span>
+            </sc-if>
+          </div>
+          <div style="{{ body.equipment }}">
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:10px 18px;border-top:1px solid #EEEFF1;background:#FCFCFD">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:12px;font-weight:600;color:#8A8F99">Rate basis:</span>
+                <select value="{{ equipBasis }}" onChange="{{ on.setBasis }}" style="height:30px;padding:0 8px;border:1px solid #E4E6EA;border-radius:7px;font-size:12.5px;color:#1F2430;background:#fff;cursor:pointer">
+                  <option value="hour">Per hour</option>
+                  <option value="day">Per day</option>
+                  <option value="week">Per week</option>
+                </select>
+              </div>
+              <div onClick="{{ on.toggleStandby }}" style="display:flex;align-items:center;gap:7px;cursor:pointer">
+                <div style="{{ cb.standby.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ cb.standby.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span style="font-size:12.5px;color:#4A4F59">Standby rate</span>
+              </div>
+              <div onClick="{{ on.toggleCap }}" style="display:flex;align-items:center;gap:7px;cursor:pointer">
+                <div style="{{ cb.cap.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ cb.cap.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span style="font-size:12.5px;color:#4A4F59">Weekly cap</span>
+              </div>
+              <div style="position:relative;margin-left:auto">
+                <button onClick="{{ on.equipOptsToggle }}" style="{{ optsBtnStyle }}">
+                  <span>{{ equipOptsLabel }}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <sc-if value="{{ equipOptsOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="{{ equipOptsPanel }}">
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <div onClick="{{ on.utilEquipToggle }}" style="{{ utilEquipSw.track }}"><div style="{{ utilEquipSw.knob }}"></div></div>
+                      <span style="font-size:13px;font-weight:500">Utility names</span>
+                    </div>
+                    <p style="margin:7px 0 0;font-size:11.5px;color:#B4B8C0;line-height:1.5">Adds a Utility name column for the billing names this utility requires.</p>
+                    <div style="height:1px;background:#EEEFF1;margin:14px 0"></div>
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <div onClick="{{ onApprColToggle }}" style="{{ apprColSw.track }}"><div style="{{ apprColSw.knob }}"></div></div>
+                      <span style="font-size:13px;font-weight:500">Customer approval column</span>
+                    </div>
+                    <sc-if value="{{ apprColBlocked }}" hint-placeholder-val="{{ false }}">
+                      <p style="margin:7px 0 0;font-size:11.5px;color:#D9662B;line-height:1.5">{{ apprColNote }}</p>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <sc-if value="{{ equipEmptyShow }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:16px 18px 2px;border-top:1px solid #EEEFF1">
+                <p style="margin:0;font-size:13px;color:#8A8F99;line-height:1.6;max-width:520px">No equipment types yet. Add the equipment this contract bills by the hour, day, or week.</p>
+              </div>
+            </sc-if>
+            <sc-if value="{{ equipTableShow }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto;border-top:1px solid #EEEFF1">
+              <table style="width:100%;border-collapse:collapse;min-width:420px">
+                <thead><tr>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Equipment type</th>
+                  <sc-if value="{{ utilEquip }}" hint-placeholder-val="{{ false }}">
+                    <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB;white-space:nowrap">
+                      <span onMouseEnter="{{ utilTipEquip.onTipEnter }}" onMouseLeave="{{ utilTipEquip.onTipLeave }}" style="cursor:default;display:inline-block"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Utility name</span></span>
+                      <div style="{{ utilTipEquip.tipStyle }}">The name this utility requires on invoices and exports. Internal names are still used everywhere inside Gridbase.</div>
+                    </th>
+                  </sc-if>
+                  <sc-for list="{{ equipCols }}" as="c" hint-placeholder-count="3">
+                    <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB;white-space:nowrap">
+                      <sc-if value="{{ c.hasTip }}" hint-placeholder-val="{{ false }}">
+                        <span onMouseEnter="{{ c.onTipEnter }}" onMouseLeave="{{ c.onTipLeave }}" style="display:inline-flex;align-items:center;gap:5px;cursor:default">{{ c.label }}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#B9BDC5" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
+                        <div style="{{ c.tipStyle }}">{{ c.tip }}</div>
+                      </sc-if>
+                      <sc-if value="{{ c.noTip }}" hint-placeholder-val="{{ true }}">{{ c.label }}</sc-if>
+                    </th>
+                  </sc-for>
+                  <th style="{{ apprThStyle }}">
+                    <div style="display:flex;align-items:center;gap:3px">
+                      <span onMouseEnter="{{ apprHdr.equipment.onTipEnter }}" onMouseLeave="{{ apprHdr.equipment.onTipLeave }}" style="cursor:default;display:inline-block"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Approval</span></span>
+                      <div style="{{ apprHdr.equipment.tipStyle }}">Entries logged against a rate that requires approval can't be billed until the customer approves them.</div>
+                      <div style="position:relative;display:inline-block">
+                        <div onClick="{{ apprHdr.equipment.onMenu }}" style="width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer" style-hover="background:#E8EAED"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></div>
+                        <div style="{{ apprHdr.equipment.menuStyle }}">
+                          <div style="{{ apprHdr.equipment.menuPos }}">
+                            <div onClick="{{ apprHdr.equipment.onAll }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Require approval on all</div>
+                            <div onClick="{{ apprHdr.equipment.onClear }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Clear all</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="width:48px;background:#FAFAFB"></th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ equipRows }}" as="row" hint-placeholder-count="5">
+                    <tr style="border-top:1px solid #EEEFF1">
+                      <td style="padding:8px 12px 8px 18px;font-size:14px;font-weight:500;vertical-align:top">
+                        {{ row.typeCellEl }}
+                        <sc-if value="{{ row.hasOperatorBadge }}" hint-placeholder-val="{{ false }}">
+                          <span title="Hours logged with this operator classification are tracked but not billed." style="display:inline-block;margin-top:5px;font-size:11px;font-weight:600;color:#6B7079;background:#EEF0F2;padding:3px 8px;border-radius:6px;cursor:default;white-space:nowrap">{{ row.operatorBadge }}</span>
+                        </sc-if>
+                      </td>
+                      <sc-if value="{{ utilEquip }}" hint-placeholder-val="{{ false }}">
+                        <td style="padding:8px 12px;vertical-align:middle">
+                          <input value="{{ row.util }}" onInput="{{ row.onUtil }}" placeholder="Same as internal" style="width:150px;height:32px;padding:0 9px;border:1px solid transparent;border-radius:7px;font-size:13.5px;background:transparent;outline:none" style-hover="border-color:#E4E6EA;background:#fff">
+                        </td>
+                      </sc-if>
+                      <sc-if value="{{ row.never }}" hint-placeholder-val="{{ false }}">
+                        <td colSpan="{{ row.neverSpan }}" style="padding:13px 18px">
+                          <span style="font-size:12px;font-weight:600;color:#8A8F99;background:#EEF0F2;padding:4px 10px;border-radius:6px;white-space:nowrap">Non-billable — tracked for cost &amp; utilization</span>
+                        </td>
+                      </sc-if>
+                      <sc-if value="{{ row.notNever }}" hint-placeholder-val="{{ true }}">
+                      <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="3">
+                        <td style="padding:8px 18px;vertical-align:top;min-width:100px">
+                          {{ cell.liveEl }}
+                          <sc-if value="{{ cell.notEditing }}" hint-placeholder-val="{{ true }}">
+                            <div onClick="{{ cell.onEdit }}" style="{{ cell.wrap }}" style-hover="background:#F1F2F4"><span style="{{ cell.mainStyle }}">{{ cell.main }}</span></div>
+                          </sc-if>
+                          <sc-if value="{{ cell.editing }}" hint-placeholder-val="{{ false }}">
+                            <input value="{{ cellEditValue }}" onInput="{{ onCellInput }}" onBlur="{{ onCellCommit }}" onKeyDown="{{ onCellKey }}" ref="{{ pdFocusRef }}" style="width:96px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:14px;outline:none">
+                          </sc-if>
+                          <sc-if value="{{ cell.showCodeRow }}" hint-placeholder-val="{{ false }}">
+                            <div style="margin-top:4px">
+                              <sc-if value="{{ cell.notEditingCode }}" hint-placeholder-val="{{ true }}">
+                                <span onClick="{{ cell.onEditCode }}" style="display:inline-block;padding:2px 6px;margin:-2px -6px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#9AA0A9;cursor:text" style-hover="background:#F1F2F4">{{ cell.code }}</span>
+                              </sc-if>
+                              <sc-if value="{{ cell.editingCode }}" hint-placeholder-val="{{ false }}">
+                                <input value="{{ cellEditValue }}" onInput="{{ onCellInput }}" onBlur="{{ onCellCommit }}" onKeyDown="{{ onCellKey }}" ref="{{ pdFocusRef }}" style="width:100px;height:28px;padding:0 8px;border:1px solid #B9BDC5;border-radius:6px;font-size:11px;font-family:ui-monospace,monospace;outline:none">
+                              </sc-if>
+                            </div>
+                          </sc-if>
+                        </td>
+                      </sc-for>
+                      </sc-if>
+                      <td style="{{ apprTdTop }}">
+                        <div style="display:flex;align-items:center;gap:7px">
+                          <div onClick="{{ row.onAppr }}" style="{{ row.apprTrack }}"><div style="{{ row.apprKnob }}"></div></div>
+                          <sc-if value="{{ row.apprOn }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#3B6BD1;background:#EAF0FB;padding:3px 9px;border-radius:6px;white-space:nowrap">Customer</span></sc-if>
+                        </div>
+                      </td>
+                      <td style="text-align:center;vertical-align:top;padding-top:9px">
+                        {{ row.actionEl }}
+                      </td>
+                    </tr>
+                  </sc-for>
+
+                </tbody>
+              </table>
+            </div>
+            </sc-if>
+            <sc-if value="{{ equipCoverNote }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0;padding:12px 18px;font-size:12.5px;color:#9AA0A9;border-top:1px solid #EEEFF1">The blended rate covers equipment on blended-billed work orders — these rates apply to per-class and change-order work.</p>
+            </sc-if>
+
+          </div>
+        </div>
+
+        <!-- PER DIEM -->
+        <div style="{{ secStyle.perdiem }}">
+          <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer" onClick="{{ on.openPerdiem }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2" style="{{ chev.perdiem }}"><path d="M6 9l6 6 6-6"/></svg>
+            <span style="font-size:15px;font-weight:700">Per diem</span>
+            <span style="font-size:13px;color:#9AA0A9">· {{ counts.perdiem }} eligible classes</span>
+          </div>
+          <div style="{{ body.perdiem }}">
+            <sc-if value="{{ pdEmptyShow }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:30px 18px;border-top:1px solid #EEEFF1;text-align:center">
+                <p style="margin:0 auto;font-size:13.5px;color:#8A8F99;line-height:1.6;max-width:440px">Per diem is set per labor classification — add classifications in Labor first.</p>
+              </div>
+            </sc-if>
+            <sc-if value="{{ pdTableShow }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto;border-top:1px solid #EEEFF1">
+              <table style="width:100%;border-collapse:collapse;min-width:560px">
+                <thead><tr>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Classification</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Eligible</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Daily per diem $</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Billing code</th>
+                  <th style="{{ apprThStyle }}">
+                    <div style="display:flex;align-items:center;gap:3px">
+                      <span onMouseEnter="{{ apprHdr.perdiem.onTipEnter }}" onMouseLeave="{{ apprHdr.perdiem.onTipLeave }}" style="cursor:default;display:inline-block"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Approval</span></span>
+                      <div style="{{ apprHdr.perdiem.tipStyle }}">Entries logged against a rate that requires approval can't be billed until the customer approves them.</div>
+                      <div style="position:relative;display:inline-block">
+                        <div onClick="{{ apprHdr.perdiem.onMenu }}" style="width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer" style-hover="background:#E8EAED"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></div>
+                        <div style="{{ apprHdr.perdiem.menuStyle }}">
+                          <div style="{{ apprHdr.perdiem.menuPos }}">
+                            <div onClick="{{ apprHdr.perdiem.onAll }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Require approval on all</div>
+                            <div onClick="{{ apprHdr.perdiem.onClear }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Clear all</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ perdiemRows }}" as="row" hint-placeholder-count="4">
+                    <tr style="border-top:1px solid #EEEFF1">
+                      <td style="padding:13px 18px;font-size:14px;font-weight:500">{{ row.cls }}</td>
+                      <td style="padding:10px 18px">
+                        <div onClick="{{ row.onToggle }}" style="{{ row.track }}"><div style="{{ row.knob }}"></div></div>
+                      </td>
+                      <td style="padding:8px 18px;font-size:14px;vertical-align:middle">
+                        <sc-if value="{{ row.notEditingBilled }}" hint-placeholder-val="{{ true }}">
+                          <div onClick="{{ row.onEditBilled }}" style="{{ row.billedWrap }}" style-hover="background:#F1F2F4"><span style="{{ row.billedStyle }}">{{ row.billed }}</span></div>
+                        </sc-if>
+                        <sc-if value="{{ row.editingBilled }}" hint-placeholder-val="{{ false }}">
+                          <input value="{{ pdEditValue }}" onInput="{{ onPdInput }}" onBlur="{{ onPdCommit }}" onKeyDown="{{ onPdKey }}" ref="{{ pdFocusRef }}" style="width:100px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:14px;outline:none">
+                        </sc-if>
+                      </td>
+                      <td style="padding:8px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;vertical-align:middle">
+                        <sc-if value="{{ row.notEditingCode }}" hint-placeholder-val="{{ true }}">
+                          <span onClick="{{ row.onEditCode }}" style="{{ row.codeStyle }}" style-hover="background:#F1F2F4">{{ row.code }}</span>
+                        </sc-if>
+                        <sc-if value="{{ row.editingCode }}" hint-placeholder-val="{{ false }}">
+                          <input value="{{ pdEditValue }}" onInput="{{ onPdInput }}" onBlur="{{ onPdCommit }}" onKeyDown="{{ onPdKey }}" ref="{{ pdFocusRef }}" style="width:120px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:13px;font-family:ui-monospace,monospace;outline:none">
+                        </sc-if>
+                      </td>
+                      <td style="{{ apprTdMid }}">
+                        <div style="display:flex;align-items:center;gap:7px">
+                          <div onClick="{{ row.onAppr }}" style="{{ row.apprTrack }}"><div style="{{ row.apprKnob }}"></div></div>
+                          <sc-if value="{{ row.apprOn }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#3B6BD1;background:#EAF0FB;padding:3px 9px;border-radius:6px;white-space:nowrap">Customer</span></sc-if>
+                        </div>
+                      </td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin:0;padding:12px 18px;font-size:12.5px;color:#9AA0A9;border-top:1px solid #EEEFF1">Billed per eligible person per day; authorization is set per individual at log time.</p>
+            </sc-if>
+          </div>
+        </div>
+
+        <!-- DELAY TYPES -->
+        <div style="{{ secStyle.delays }}">
+          <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer" onClick="{{ on.openDelays }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2" style="{{ chev.delays }}"><path d="M6 9l6 6 6-6"/></svg>
+            <span style="font-size:15px;font-weight:700">Delay types</span>
+            <span style="font-size:13px;color:#9AA0A9">· {{ counts.delays }} types</span>
+            <div style="flex:1"></div>
+            <sc-if value="{{ delayAddLinkShow }}" hint-placeholder-val="{{ true }}">
+              <span onClick="{{ on.addDelayRow }}" style="font-size:13.5px;font-weight:600;color:#2563EB">+ Add delay type</span>
+            </sc-if>
+          </div>
+          <div style="{{ body.delays }}">
+            <sc-if value="{{ delayEmptyShow }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:30px 18px;border-top:1px solid #EEEFF1;text-align:center">
+                <p style="margin:0 auto;font-size:13.5px;color:#8A8F99;line-height:1.6;max-width:460px">No delay types yet. Add the delay categories this utility recognizes, with their approval and pricing rules.</p>
+              </div>
+            </sc-if>
+            <sc-if value="{{ delayTableShow }}" hint-placeholder-val="{{ true }}">
+            <div style="overflow-x:auto;border-top:1px solid #EEEFF1">
+              <table style="width:100%;border-collapse:collapse;min-width:560px">
+                <thead><tr>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Delay type</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Code</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Approval</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Pricing</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Amount</th>
+                  <th style="width:48px;background:#FAFAFB"></th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ delayRows }}" as="row" hint-placeholder-count="5">
+                    <tr style="border-top:1px solid #EEEFF1">
+                      <td style="padding:13px 18px;font-size:14px;font-weight:500;vertical-align:middle">{{ row.typeCellEl }}</td>
+                      <td style="padding:8px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;vertical-align:middle">
+                        <sc-if value="{{ row.notEditingCode }}" hint-placeholder-val="{{ true }}">
+                          <span onClick="{{ row.onEditCode }}" style="display:inline-block;padding:4px 8px;margin:-4px -8px;border-radius:6px;color:#6B7079;cursor:text" style-hover="background:#F1F2F4">{{ row.code }}</span>
+                        </sc-if>
+                        <sc-if value="{{ row.editingCode }}" hint-placeholder-val="{{ false }}">
+                          <input value="{{ delayEditValue }}" onInput="{{ onDelayInput }}" onBlur="{{ onDelayCommit }}" onKeyDown="{{ onDelayKey }}" ref="{{ pdFocusRef }}" style="width:110px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:13px;font-family:ui-monospace,monospace;outline:none">
+                        </sc-if>
+                      </td>
+                      <td style="padding:10px 18px">
+                        <select value="{{ row.approval }}" onChange="{{ row.onApproval }}" style="height:36px;padding:0 10px;border:1px solid #E4E6EA;border-radius:8px;font-size:13.5px;color:#1F2430;background:#fff;cursor:pointer">
+                          <option value="Customer">Customer</option>
+                          <option value="Internal">Internal</option>
+                          <option value="None">None</option>
+                        </select>
+                      </td>
+                      <td style="padding:10px 18px">
+                        <select value="{{ row.pricing }}" onChange="{{ row.onPricing }}" style="height:36px;padding:0 10px;border:1px solid #E4E6EA;border-radius:8px;font-size:13.5px;color:#1F2430;background:#fff;cursor:pointer">
+                          <option value="Labor + equipment">Labor + equipment</option>
+                          <option value="Labor only">Labor only</option>
+                          <option value="Flat rate">Flat rate</option>
+                        </select>
+                      </td>
+                      <td style="padding:8px 18px;font-size:14px;vertical-align:middle">
+                        <sc-if value="{{ row.notFlat }}" hint-placeholder-val="{{ true }}">
+                          <span style="color:#B9BDC5">—</span>
+                        </sc-if>
+                        <sc-if value="{{ row.isFlat }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;align-items:center;gap:8px">
+                            <sc-if value="{{ row.notEditingAmount }}" hint-placeholder-val="{{ true }}">
+                              <span onClick="{{ row.onEditAmount }}" style="display:inline-block;padding:4px 8px;margin:-4px -8px;border-radius:6px;cursor:text" style-hover="background:#F1F2F4">{{ row.amountDisplay }}</span>
+                            </sc-if>
+                            <sc-if value="{{ row.editingAmount }}" hint-placeholder-val="{{ false }}">
+                              <input value="{{ delayEditValue }}" onInput="{{ onDelayInput }}" onBlur="{{ onDelayCommit }}" onKeyDown="{{ onDelayKey }}" ref="{{ pdFocusRef }}" style="width:88px;height:32px;padding:0 9px;border:1px solid #B9BDC5;border-radius:7px;font-size:14px;outline:none">
+                            </sc-if>
+                            <span style="font-size:13px;color:#9AA0A9">/ hr</span>
+                          </div>
+                        </sc-if>
+                      </td>
+                      <td style="text-align:center;vertical-align:middle;color:#B9BDC5">{{ row.actionEl }}</td>
+                    </tr>
+                  </sc-for>
+                  <!-- New delay types are appended inline as live rows (see delayRows / appendDelay) -->
+                </tbody>
+              </table>
+            </div>
+            </sc-if>
+            <p style="margin:0;padding:12px 18px;font-size:12.5px;color:#9AA0A9;border-top:1px solid #EEEFF1">Delays reuse the labor + equipment rates unless priced as a flat rate. Each carries a code and an approval gate.</p>
+          </div>
+        </div>
+
+        <!-- CUSTOM CATEGORIES -->
+        <sc-for list="{{ customSections }}" as="cs" hint-placeholder-count="0">
+          <div style="{{ cs.wrapStyle }}">
+            <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer" onClick="{{ cs.onOpen }}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2" style="{{ cs.chev }}"><path d="M6 9l6 6 6-6"/></svg>
+              <span style="font-size:15px;font-weight:700">{{ cs.name }}</span>
+              <span style="font-size:13px;color:#9AA0A9">· {{ cs.meta }}</span>
+              <div style="flex:1"></div>
+              <sc-if value="{{ cs.addLinkShow }}" hint-placeholder-val="{{ true }}">
+                <span onClick="{{ cs.onAddItem }}" style="font-size:13.5px;font-weight:600;color:#2563EB">+ Add item</span>
+              </sc-if>
+            </div>
+            <div style="{{ cs.bodyStyle }}">
+              <sc-if value="{{ cs.isPercent }}" hint-placeholder-val="{{ false }}">
+                <p style="margin:0;padding:14px 18px;font-size:13.5px;color:#6B7079;border-top:1px solid #EEEFF1">{{ cs.percentLine }}</p>
+              </sc-if>
+              <sc-if value="{{ cs.tableShow }}" hint-placeholder-val="{{ true }}">
+                <div style="overflow-x:auto;border-top:1px solid #EEEFF1">
+                  <table style="width:100%;border-collapse:collapse;min-width:420px">
+                    <thead><tr>
+                      <sc-for list="{{ cs.cols }}" as="c" hint-placeholder-count="2">
+                        <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">{{ c }}</th>
+                      </sc-for>
+                      <th style="{{ apprThStyle }}">
+                        <div style="display:flex;align-items:center;gap:3px">
+                          <span onMouseEnter="{{ cs.apprHdr.onTipEnter }}" onMouseLeave="{{ cs.apprHdr.onTipLeave }}" style="cursor:default;display:inline-block"><span style="border-bottom:1px dotted #C6C9CF;padding-bottom:1px">Approval</span></span>
+                          <div style="{{ cs.apprHdr.tipStyle }}">Entries logged against a rate that requires approval can't be billed until the customer approves them.</div>
+                          <div style="position:relative;display:inline-block">
+                            <div onClick="{{ cs.apprHdr.onMenu }}" style="width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer" style-hover="background:#E8EAED"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg></div>
+                            <div style="{{ cs.apprHdr.menuStyle }}">
+                              <div style="{{ cs.apprHdr.menuPos }}">
+                                <div onClick="{{ cs.apprHdr.onAll }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Require approval on all</div>
+                                <div onClick="{{ cs.apprHdr.onClear }}" style="padding:8px 12px;border-radius:7px;font-size:13px;font-weight:500;color:#1F2430;cursor:pointer" style-hover="background:#F6F7F9">Clear all</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </th>
+                    </tr></thead>
+                    <tbody>
+                      <sc-if value="{{ cs.empty }}" hint-placeholder-val="{{ false }}">
+                        <tr><td colSpan="{{ cs.colCount }}" style="padding:14px 18px;font-size:13px;color:#B4B8C0;font-style:italic;border-top:1px solid #EEEFF1">No entries yet.</td></tr>
+                      </sc-if>
+                      <sc-for list="{{ cs.rows }}" as="r" hint-placeholder-count="1">
+                        <tr style="border-top:1px solid #EEEFF1">
+                          <td style="padding:13px 18px;font-size:14px;font-weight:500">{{ r.a }}</td>
+                          <sc-for list="{{ r.cells }}" as="rc" hint-placeholder-count="1">
+                            <td style="padding:13px 18px;vertical-align:top">
+                              <div style="font-size:14px">{{ rc.v }}</div>
+                              <sc-if value="{{ rc.hasCode }}" hint-placeholder-val="{{ false }}"><div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#9AA0A9;margin-top:3px">{{ rc.code }}</div></sc-if>
+                            </td>
+                          </sc-for>
+                          <td style="{{ apprTdTop }}">
+                            <div style="display:flex;align-items:center;gap:7px">
+                              <div onClick="{{ r.onAppr }}" style="{{ r.apprTrack }}"><div style="{{ r.apprKnob }}"></div></div>
+                              <sc-if value="{{ r.apprOn }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:600;color:#3B6BD1;background:#EAF0FB;padding:3px 9px;border-radius:6px;white-space:nowrap">Customer</span></sc-if>
+                            </div>
+                          </td>
+                        </tr>
+                      </sc-for>
+                      <sc-if value="{{ cs.hasLiveRow }}" hint-placeholder-val="{{ false }}">
+                        <tr style="border-top:1px solid #EEEFF1">
+                          <td style="padding:8px 12px 8px 18px;vertical-align:top">
+                            <input value="{{ cs.live.a }}" onInput="{{ cs.live.onA }}" onKeyDown="{{ cs.live.onKey }}" onBlur="{{ cs.live.onBlur }}" ref="{{ cs.live.ref }}" placeholder="Name" style="width:100%;min-width:150px;height:34px;padding:0 10px;border:1px solid #E4E6EA;border-radius:7px;font-size:13.5px;outline:none">
+                          </td>
+                          <td style="padding:8px 18px;vertical-align:top">
+                            <div style="display:flex;align-items:center;gap:6px">
+                              <input value="{{ cs.live.b }}" onInput="{{ cs.live.onB }}" onKeyDown="{{ cs.live.onKey }}" onBlur="{{ cs.live.onBlur }}" placeholder="e.g. $1,850.00 each" style="width:150px;height:34px;padding:0 9px;border:1px solid #E4E6EA;border-radius:7px;font-size:13.5px;outline:none">
+                              <div onClick="{{ cs.live.onRemove }}" title="Remove row" style="width:26px;height:30px;display:flex;align-items:center;justify-content:center;color:#B9BDC5;cursor:pointer;flex-shrink:0" style-hover="color:#8A8F99"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></div>
+                            </div>
+                            <sc-if value="{{ cs.billingOn }}" hint-placeholder-val="{{ false }}">
+                              <div><input value="{{ cs.live.code }}" onInput="{{ cs.live.onCode }}" onKeyDown="{{ cs.live.onKey }}" onBlur="{{ cs.live.onBlur }}" placeholder="Code" style="margin-top:4px;width:96px;height:26px;padding:0 8px;border:1px solid #E4E6EA;border-radius:6px;font-size:11px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;outline:none"></div>
+                            </sc-if>
+                          </td>
+                          <td style="{{ apprTdTop }}"><span style="font-size:14px;color:#C6C9CF">—</span></td>
+                        </tr>
+                      </sc-if>
+                    </tbody>
+                  </table>
+                </div>
+              </sc-if>
+              <sc-if value="{{ cs.emptyShow }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:16px 18px 2px;border-top:1px solid #EEEFF1">
+                  <p style="margin:0;font-size:13px;color:#8A8F99;line-height:1.6;max-width:520px">No entries yet — add the first item this category bills.</p>
+                </div>
+              </sc-if>
+
+              <p style="margin:0;padding:12px 18px;font-size:12.5px;color:#9AA0A9;border-top:1px solid #EEEFF1">Custom categories are flat — time tiers, activities, and regions don't apply.</p>
+            </div>
+          </div>
+        </sc-for>
+
+        <!-- REIMBURSABLES -->
+        <div style="border:1px solid #E4E6EA;border-radius:12px;margin-bottom:16px;overflow:hidden;background:#fff">
+          <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer" onClick="{{ on.openReimb }}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA0A9" stroke-width="2" style="{{ chev.reimb }}"><path d="M6 9l6 6 6-6"/></svg>
+            <span style="font-size:15px;font-weight:700">Expenses</span>
+            <span style="font-size:13px;color:#9AA0A9">· allowances &amp; pass-through costs</span>
+          </div>
+          <div style="{{ body.reimb }}">
+            <p style="margin:0;padding:0 18px 12px;font-size:12.5px;color:#8A8F99;line-height:1.5">How this contract handles meals, lodging, and pass-through costs — allowance amounts and reimbursement terms.</p>
+            <div style="overflow-x:auto;border-top:1px solid #EEEFF1">
+              <table style="width:100%;border-collapse:collapse;min-width:680px">
+                <thead><tr>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Item</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Handling</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Documentation</th>
+                  <th style="text-align:left;padding:11px 18px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#8A8F99;background:#FAFAFB">Note</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-top:1px solid #EEEFF1">
+                    <td style="padding:11px 18px;font-size:14px;font-weight:500;vertical-align:middle">Fuel</td>
+                    <td style="padding:8px 18px;vertical-align:middle">{{ rb0.handlingEl }}</td>
+                    <td style="padding:8px 18px;vertical-align:middle">{{ rb0.docEl }}</td>
+                    <td style="padding:8px 12px;vertical-align:middle">{{ rb0.noteEl }}</td>
+                  </tr>
+                  <tr style="border-top:1px solid #EEEFF1">
+                    <td style="padding:14px 18px;font-size:14px;font-weight:500;vertical-align:top">Meals</td>
+                    <td style="padding:8px 18px;vertical-align:top">{{ rbMeals.handlingEl }}</td>
+                    <td style="padding:8px 18px;vertical-align:top">{{ rbMeals.docEl }}</td>
+                    <td style="padding:8px 12px;vertical-align:top">{{ rbMeals.noteEl }}</td>
+                  </tr>
+                  <tr style="border-top:1px solid #EEEFF1">
+                    <td style="padding:11px 18px;font-size:14px;font-weight:500;vertical-align:middle;white-space:nowrap">Lodging<span onMouseEnter="{{ lodgTip.onTipEnter }}" onMouseLeave="{{ lodgTip.onTipLeave }}" style="display:inline-flex;vertical-align:-2px;margin-left:6px;color:#B9BDC5;cursor:default"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg></span><div style="{{ lodgTip.tipStyle }}">Lodging billed as a daily allowance instead? Set it in Per diem. Use this row when lodging is reimbursed at actual cost.</div></td>
+                    <td style="padding:8px 18px;vertical-align:middle">{{ rb1.handlingEl }}</td>
+                    <td style="padding:8px 18px;vertical-align:middle">{{ rb1.docEl }}</td>
+                    <td style="padding:8px 12px;vertical-align:middle">{{ rb1.noteEl }}</td>
+                  </tr>
+                  <tr style="border-top:1px solid #EEEFF1">
+                    <td style="padding:11px 18px;font-size:14px;font-weight:500;vertical-align:middle">Tolls</td>
+                    <td style="padding:8px 18px;vertical-align:middle">{{ rb2.handlingEl }}</td>
+                    <td style="padding:8px 18px;vertical-align:middle">{{ rb2.docEl }}</td>
+                    <td style="padding:8px 12px;vertical-align:middle">{{ rb2.noteEl }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Billing exception dialog -->
+      <sc-if value="{{ excOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:50">
+          <div style="width:480px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+            <h3 style="margin:0 0 3px;font-size:17px;font-weight:700">Billing exception</h3>
+            <p style="margin:0 0 18px;font-size:13px;color:#8A8F99">{{ excType }}</p>
+            <div style="display:flex;flex-direction:column;gap:13px">
+              <div onClick="{{ on.excBillable }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                <div style="{{ excRb.billable.ring }}"></div><span style="font-size:14px;font-weight:500">Billable <span style="color:#9AA0A9;font-weight:400">(default)</span></span>
+              </div>
+              <div onClick="{{ on.excNever }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                <div style="{{ excRb.never.ring }}"></div><span style="font-size:14px;font-weight:500">Never billable <span style="color:#9AA0A9;font-weight:400">— tracked for cost &amp; utilization only</span></span>
+              </div>
+              <div>
+                <div onClick="{{ on.excOperator }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                  <div style="{{ excRb.operator.ring }}"></div><span style="font-size:14px;font-weight:500">Non-billable when operated by:</span>
+                </div>
+                <sc-if value="{{ excOperatorMode }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin:10px 0 0 27px;display:flex;flex-wrap:wrap;gap:8px">
+                    <sc-for list="{{ excClsOpts }}" as="c" hint-placeholder-count="5">
+                      <div onClick="{{ c.onToggle }}" style="{{ c.style }}">{{ c.label }}</div>
+                    </sc-for>
+                  </div>
+                  <div style="margin:14px 0 0 27px;border:1px solid #EEEFF1;border-radius:9px;overflow:hidden">
+                    <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12.5px;color:#8A8F99">
+                      <span style="flex:1">Pickup PU-4471 · J. Ramos <span style="color:#B4B8C0">(Lineman A)</span> · 8.0 hrs</span>
+                      <span style="font-size:11px;font-weight:600;color:#1F8A5B;background:#E8F5EE;padding:2px 8px;border-radius:5px">Billable</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12.5px;color:#8A8F99;border-top:1px solid #EEEFF1">
+                      <span style="flex:1">Pickup PU-0973 · T. Boone <span style="color:#B4B8C0">(General Foreman)</span> · 8.0 hrs</span>
+                      <span style="font-size:11px;font-weight:600;color:#6B7079;background:#EEF0F2;padding:2px 8px;border-radius:5px">Non-billable</span>
+                    </div>
+                  </div>
+                  <p style="margin:8px 0 0 27px;font-size:11.5px;color:#B4B8C0;line-height:1.5">Same equipment type — billability follows the operator's classification.</p>
+                </sc-if>
+              </div>
+            </div>
+            <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+              <button onClick="{{ on.excCancel }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+              <button onClick="{{ on.excSave }}" style="height:40px;padding:0 20px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">Save</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      </section>
+
+      <!-- ==================== STEP 3 ==================== -->
+      <section data-screen-label="Step 3 — Review" style="{{ show.step3 }}">
+      <div style="padding:32px 44px 40px;max-width:1000px">
+        <div style="margin-bottom:24px">
+          <h2 style="margin:0 0 4px;font-size:18px;font-weight:700">Review &amp; create</h2>
+          <p style="margin:0;font-size:14px;color:#6B7079">Confirm the book details below. You can edit anything after it's created.</p>
+        </div>
+
+        <!-- overview -->
+        <div style="border:1px solid #E4E6EA;border-radius:12px;overflow:hidden;margin-bottom:18px">
+          <div style="padding:12px 20px;background:#FAFAFB;border-bottom:1px solid #EEEFF1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Book details</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;padding:22px 20px">
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Customer</div><div style="font-size:14.5px;font-weight:500">{{ shellD.customerOr }}</div></div>
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Work type</div><div style="font-size:14.5px;font-weight:500">{{ shellD.workOr }}</div></div>
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Book name</div><div style="font-size:14.5px;font-weight:500">{{ shellD.bookNameOr }}</div></div>
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">First rate period</div><div style="font-size:14.5px;font-weight:500">{{ shellD.period }}</div></div>
+          </div>
+        </div>
+
+        <!-- configuration -->
+        <div style="border:1px solid #E4E6EA;border-radius:12px;overflow:hidden;margin-bottom:18px">
+          <div style="padding:12px 20px;background:#FAFAFB;border-bottom:1px solid #EEEFF1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Configuration</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;padding:22px 20px">
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Prices</div><div style="font-size:14.5px;font-weight:500">{{ review.prices }}</div></div>
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Time tiers</div><div style="font-size:14.5px;font-weight:500">{{ review.tiers }}</div></div>
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Regions</div><div style="font-size:14.5px;font-weight:500">{{ review.regions }}</div></div>
+            <div><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Billing codes</div><div style="font-size:14.5px;font-weight:500">{{ review.billing }}</div></div>
+            <div style="grid-column:1 / -1"><div style="font-size:12px;color:#9AA0A9;margin-bottom:3px">Tier rules</div><div style="{{ review.trStyle }}">{{ review.tr }}</div></div>
+          </div>
+        </div>
+
+        <!-- contents -->
+        <div style="border:1px solid #E4E6EA;border-radius:12px;overflow:hidden">
+          <div style="padding:12px 20px;background:#FAFAFB;border-bottom:1px solid #EEEFF1;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A8F99">Contents</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0">
+            <div style="padding:22px 20px;border-right:1px solid #EEEFF1"><div style="font-size:28px;font-weight:700">{{ counts.labor }}</div><div style="font-size:13px;color:#6B7079;margin-top:2px">Classifications</div></div>
+            <div style="padding:22px 20px;border-right:1px solid #EEEFF1"><div style="font-size:28px;font-weight:700">{{ counts.equip }}</div><div style="font-size:13px;color:#6B7079;margin-top:2px">Equipment types</div></div>
+            <div style="padding:22px 20px;border-right:1px solid #EEEFF1"><div style="font-size:28px;font-weight:700">{{ counts.perdiem }}</div><div style="font-size:13px;color:#6B7079;margin-top:2px">Per diem classes</div></div>
+            <div style="padding:22px 20px"><div style="font-size:28px;font-weight:700">{{ counts.delays }}</div><div style="font-size:13px;color:#6B7079;margin-top:2px">Delay types</div></div>
+          </div>
+        </div>
+      </div>
+      </section>
+
+    </div>
+
+    <!-- Blended coverage dialog -->
+    <sc-if value="{{ coverOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:55">
+        <div style="width:460px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+          <h3 style="margin:0 0 18px;font-size:17px;font-weight:700">Blended rate coverage</h3>
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="{{ coverLabor.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ coverLabor.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <span style="font-size:14px;font-weight:500">Labor</span>
+              </div>
+              <p style="margin:5px 0 0 28px;font-size:11.5px;color:#B4B8C0">A blended rate always covers labor hours.</p>
+            </div>
+            <div onClick="{{ onCoverEq }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+              <div style="{{ coverEq.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ coverEq.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <span style="font-size:14px;font-weight:500">Equipment</span>
+            </div>
+            <div onClick="{{ onCoverPd }}" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+              <div style="{{ coverPd.box }}"><svg width="11" height="11" viewBox="0 0 12 12" style="{{ coverPd.check }}"><path d="M2 6.2 4.7 9 10 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <span style="font-size:14px;font-weight:500">Per diem</span>
+            </div>
+          </div>
+          <p style="margin:16px 0 0;font-size:12px;color:#9AA0A9;line-height:1.55">Items covered by the blended rate are tracked but not billed separately on work orders billed at this rate. They still bill normally on per-class change-order work.</p>
+          <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+            <button onClick="{{ onCoverCancel }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+            <button onClick="{{ onCoverSave }}" style="height:40px;padding:0 20px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">Save</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Confirm dialog -->
+    <sc-if value="{{ confirmOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;inset:0;background:rgba(15,18,24,.38);display:flex;align-items:center;justify-content:center;z-index:60">
+        <div style="width:440px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(15,18,24,.25);padding:24px">
+          <h3 style="margin:0 0 8px;font-size:17px;font-weight:700">{{ confirmTitle }}</h3>
+          <p style="margin:0;font-size:14px;color:#6B7079;line-height:1.55">{{ confirmBody }}</p>
+          <div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px">
+            <sc-if value="{{ confirmHasCancel }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ on.confirmCancel }}" style="height:40px;padding:0 18px;border-radius:9px;border:1px solid #E4E6EA;background:#fff;color:#3A3F4A;font-weight:600;font-size:13.5px;cursor:pointer">Cancel</button>
+            </sc-if>
+            <button onClick="{{ on.confirmOk }}" style="height:40px;padding:0 20px;border-radius:9px;border:none;background:#EE7B3D;color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 1px 2px rgba(238,123,61,.35)">{{ confirmLabel }}</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ============ FOOTER ============ -->
+    <div style="{{ chrome.footer }}">
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+        <div onClick="{{ on.demoToggle }}" style="display:flex;align-items:center;gap:7px;cursor:pointer">
+          <div style="{{ demoSw.track }}"><div style="{{ demoSw.knob }}"></div></div>
+          <span style="font-size:12.5px;color:#9AA0A9;white-space:nowrap">Demo data</span>
+        </div>
+        <div style="font-size:13px;color:#9AA0A9">{{ footerNote }}</div>
+        <span onClick="{{ on.goDetail }}" style="font-size:13px;color:#2563EB;font-weight:600;cursor:pointer;white-space:nowrap" style-hover="color:#1D4ED8">Preview: book detail →</span>
+        <span onClick="{{ on.goWO }}" style="font-size:13px;color:#2563EB;font-weight:600;cursor:pointer;white-space:nowrap" style-hover="color:#1D4ED8">Preview: blended work order →</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button onClick="{{ on.back }}" style="{{ backBtn }}">{{ backLabel }}</button>
+        <button onClick="{{ on.next }}" title="{{ nextTitle }}" style="{{ btnPrimary }}">{{ nextLabel }}</button>
+      </div>
+    </div>
+  </main>
+</div>
+
