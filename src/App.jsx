@@ -26,6 +26,7 @@ import UnionPrototype from './components/UnionPrototype'
 import TERateBookWizard1 from './components/TERateBookWizard1'
 import TERateBookWizard2 from './components/TERateBookWizard2'
 import GridbaseSettingsTab from './components/GridbaseSettingsTab'
+import TERateBookApp from './components/TERateBookApp'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -53,7 +54,8 @@ const PAGES = [
   {key: 'union-prototype', label: 'Union Prototype', component: UnionPrototype},
   {key: 'te-rate-book-wizard-1', label: 'T&E Rate Book Wizard (1)', component: TERateBookWizard1},
   {key: 'te-rate-book-wizard-2', label: 'T&E Rate Book Wizard (2)', component: TERateBookWizard2},
-  {key: 'gridbase-settings-tab', label: 'Gridbase Settings Tab', component: GridbaseSettingsTab}
+  {key: 'gridbase-settings-tab', label: 'Gridbase Settings Tab', component: GridbaseSettingsTab},
+  {key: 'te-rate-book-app', label: 'T&E Rate Book Wizard (App)', component: TERateBookApp}
 ]
 
 function App() {
