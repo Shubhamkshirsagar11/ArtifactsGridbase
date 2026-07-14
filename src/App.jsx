@@ -27,6 +27,8 @@ import TERateBookWizard1 from './components/TERateBookWizard1'
 import TERateBookWizard2 from './components/TERateBookWizard2'
 import GridbaseSettingsTab from './components/GridbaseSettingsTab'
 import TERateBookApp from './components/TERateBookApp'
+import AgreementWizardRedesign from './components/AgreementWizardRedesign'
+import UnionAgreementsPRD from './components/UnionAgreementsPRD'
 
 const PAGES = [
   { key: 'cu-library', label: 'CU Library', component: CULibraryModule },
@@ -55,11 +57,13 @@ const PAGES = [
   {key: 'te-rate-book-wizard-1', label: 'T&E Rate Book Wizard (1)', component: TERateBookWizard1},
   {key: 'te-rate-book-wizard-2', label: 'T&E Rate Book Wizard (2)', component: TERateBookWizard2},
   {key: 'gridbase-settings-tab', label: 'Gridbase Settings Tab', component: GridbaseSettingsTab},
-  {key: 'te-rate-book-app', label: 'T&E Rate Book Wizard (App)', component: TERateBookApp}
+  {key: 'te-rate-book-app', label: 'T&E Rate Book Wizard (App)', component: TERateBookApp},
+  {key: 'agreement-wizard-redesign', label: 'Agreement Wizard (Redesign)', component: AgreementWizardRedesign},
+  {key: 'union-agreements-prd', label: 'Union Agreements PRD', component: UnionAgreementsPRD}
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('invoicing-tab')
+  const [activePage, setActivePage] = useState('agreement-wizard-redesign')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (

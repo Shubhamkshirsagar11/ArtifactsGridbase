@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea,select{font-family:inherit;}
+  input::placeholder{color:#9aa0a8;}
+  input:focus{outline:none;border-color:#2f6feb;box-shadow:0 0 0 3px rgba(47,111,235,0.15);}
+  a{color:#c2560f;text-decoration:none;}
+  a:hover{color:#a2450b;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;background:#ffffff;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="background:#f7f8fa;padding:15px 48px;display:flex;align-items:center;gap:10px;font-size:15px;">
+    <span style="color:#9096a0;">Data</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Unions</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Agreements</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#191c22;font-weight:600;">New agreement</span>
+  </div>
+
+  <div style="background:#ffffff;border-bottom:1px solid #ededf0;padding:18px 48px;display:flex;align-items:center;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Setup</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Classifications</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Wages</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Benefits</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">5</div>
+        <span style="font-size:16px;font-weight:600;color:#191c22;">Mapping</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">6</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Review</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#9096a0;font-size:16px;margin-left:30px;cursor:pointer;flex:none;">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Cancel
+    </div>
+  </div>
+
+  <div style="flex:1;width:100%;display:flex;justify-content:center;padding:40px 24px 48px;" data-screen-label="Mapping — New agreement">
+    <div style="width:100%;max-width:940px;">
+
+      <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0 0 22px;">Map each union class to an internal role — the single source of truth for union→internal mapping. <b style="color:#191c22;font-weight:600;">ST (P1)</b> wage shown for context, from the first wage column (Maryland).</p>
+
+      <div style="border:1px solid #e3e6ea;border-radius:12px;background:#fff;">
+        <div style="display:flex;align-items:center;gap:16px;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 18px;font-size:13px;font-weight:600;color:#6b7280;border-top-left-radius:12px;border-top-right-radius:12px;">
+          <span style="flex:1;min-width:0;">Union class</span>
+          <span style="width:110px;flex:none;">ST (P1)</span>
+          <span style="width:280px;flex:none;">Internal role</span>
+          <span style="width:140px;flex:none;">Status</span>
+        </div>
+
+        <sc-for list="{{ booksVM }}" as="b" hint-placeholder-count="2">
+          <sc-if value="{{ showBookLayer }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f4f5f7;padding:10px 18px;border-bottom:1px solid #eef0f2;">
+            <span style="font-weight:600;color:#191c22;font-size:14px;">Rate book: {{ b.name }}</span>
+            <span style="font-size:12.5px;color:#9096a0;">{{ b.countText }}</span>
+          </div>
+          </sc-if>
+
+          <sc-for list="{{ b.rows }}" as="row" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:16px;padding:12px 18px;border-bottom:1px solid #eef0f2;background:{{ row.rowBg }};">
+            <div style="flex:1;min-width:0;font-size:14px;font-weight:600;color:#191c22;">{{ row.cls }}</div>
+            <div style="width:110px;flex:none;font-size:14px;color:#3f4652;">{{ row.wage }}</div>
+            <div style="width:280px;flex:none;position:relative;" data-menuwrap="1">
+              <div onClick="{{ row.onToggle }}" style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid {{ row.ddBorder }};border-radius:8px;padding:8px 11px;font-size:13.5px;background:#fff;cursor:pointer;">
+                <span style="color:{{ row.ddColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ row.ddText }}</span>
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none" style="flex:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <sc-if value="{{ row.menuOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:calc(100% + 6px);left:0;width:280px;background:#fff;border:1px solid #e3e6ea;border-radius:11px;box-shadow:0 12px 34px rgba(17,23,41,0.15);padding:6px;z-index:40;">
+                <div style="padding:2px 2px 6px;"><input value="{{ search }}" onChange="{{ onSearch }}" placeholder="Search roles…" style="width:100%;border:1px solid #e3e6ea;border-radius:8px;padding:7px 10px;font-size:13px;color:#191c22;background:#fff;"></div>
+                <sc-for list="{{ row.roleItems }}" as="it" hint-placeholder-count="4">
+                  <div onClick="{{ it.onPick }}" style="padding:8px 10px;border-radius:7px;font-size:14px;color:#2f3640;cursor:pointer;" style-hover="background:#f6f7f9;">{{ it.label }}</div>
+                </sc-for>
+                <div style="height:1px;background:#eef0f2;margin:5px 6px;"></div>
+                <div onClick="{{ row.onNA }}" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;font-size:14px;color:#2f3640;cursor:pointer;" style-hover="background:#f6f7f9;">
+                  <span style="width:15px;height:15px;border-radius:50%;border:1.5px solid #c4c8ce;flex:none;"></span>Not Available
+                </div>
+                <div onClick="{{ row.onClear }}" style="padding:8px 10px;border-radius:7px;font-size:13.5px;color:#9096a0;cursor:pointer;" style-hover="background:#f6f7f9;">Clear selection</div>
+              </div>
+              </sc-if>
+              <sc-if value="{{ row.showSuggest }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ row.onSuggest }}" style="font-size:13px;color:#2f6feb;cursor:pointer;margin-top:6px;">↳ Use '{{ row.suggest }}'</div>
+              </sc-if>
+            </div>
+            <div style="width:140px;flex:none;">
+              <span style="display:inline-flex;align-items:center;gap:7px;background:{{ row.pill.bg }};color:{{ row.pill.color }};font-size:12.5px;font-weight:500;padding:4px 11px;border-radius:20px;">
+                <span style="width:7px;height:7px;border-radius:50%;background:{{ row.pill.dot }};flex:none;"></span>{{ row.pill.label }}
+              </span>
+            </div>
+          </div>
+          </sc-for>
+        </sc-for>
+
+        <div style="padding:12px 18px;font-size:13px;color:#9096a0;">
+          <span>{{ footMapped }}</span><span>{{ footNa }}</span><sc-if value="{{ footHasUn }}" hint-placeholder-val="{{ true }}"> · <span style="color:#d64545;">{{ footUn }} unmapped</span></sc-if>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.28);z-index:100;">{{ toast }}</div>
+  </sc-if>
+
+  <div style="border-top:1px solid #ededf0;background:#fff;padding:20px 48px;display:flex;justify-content:flex-end;align-items:center;gap:14px;">
+    <button style="display:flex;align-items:center;gap:8px;background:transparent;border:none;color:#4b5563;font-weight:600;font-size:15px;padding:13px 18px;border-radius:10px;cursor:pointer;" style-hover="background:#f2f3f5;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8h-10M7 4.5L3.5 8 7 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+    <sc-if value="{{ cannotContinue }}" hint-placeholder-val="{{ true }}">
+    <button disabled style="display:flex;align-items:center;gap:9px;background:#f8d3b8;background:color-mix(in srgb, var(--accent,#ee6b2d) 34%, #ffffff);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:not-allowed;">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+    <sc-if value="{{ canContinue }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ onContinue }}" style="display:flex;align-items:center;gap:9px;background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+  </div>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(17,23,41,0.28);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:130;width:420px;max-width:calc(100vw - 48px);max-height:80vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.26);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Mapping — behavior spec</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">CONTINUE GATE</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Continue is disabled until zero classes are Unmapped. <b style="color:#191c22;font-weight:600;">Not Available</b> counts as handled — it is a deliberate human choice ("we have no role like this"), and nothing ever assigns it automatically.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">PICK-ONLY ROLES</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The role dropdown is pick-only: roles are a curated company list; new roles are added in Settings, never invented here.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">PER-ROW SUGGESTIONS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The blue "↳ Use …" link fills that one row's dropdown when clicked — per-row suggestions only; there is no bulk auto-apply. (The Auto-suggest button was removed.)</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">SAME NAME, TWO BOOKS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The same class name may appear in two rate books and map independently — consumers always know which book they're in, so the right wage resolves.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">SINGLE RATE BOOK</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">With a single rate book, no book-header rows appear — the table looks exactly like the current screenshot minus the Auto-suggest button.</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;scenario&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Designed&quot;,&quot;options&quot;:[&quot;Designed&quot;,&quot;Simple agreement&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scenario&quot;},
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  roles = ['Foreman','General Foreman','Groundman / Driver','Journeyman Lineman'];
+  state = Object.assign({ openRow:null, search:'', notesOpen:false, toast:null }, this.seed(this.props.scenario));
+
+  seed(scenario){
+    var b1 = { id:'b1', name:'Outside Power', rows:[
+      {id:'m1', cls:'Lineman, Journeyman', wage:'$45.87', role:'Journeyman Lineman', suggest:''},
+      {id:'m2', cls:'General Foreman', wage:'$52.75', role:'General Foreman', suggest:''},
+      {id:'m3', cls:'Equipment Mechanic', wage:'$34.60', role:'__NA__', suggest:''},
+      {id:'m4', cls:'Sub-Foreman', wage:'$48.16', role:'', suggest:'Foreman'}
+    ]};
+    if (scenario === 'Simple agreement') return { books:[b1], openRow:'m4' };
+    var b2 = { id:'b2', name:'High Tension Cable', rows:[
+      {id:'m5', cls:'Cable Splicer', wage:'$48.06', role:'Cable Splicer', suggest:''},
+      {id:'m6', cls:'Cable Splicer Apprentice', wage:'$33.64', role:'', suggest:'Apprentice'}
+    ]};
+    return { books:[b1,b2], openRow:'m4' };
+  }
+
+  componentDidMount(){ this.applyAccent(); document.addEventListener('mousedown', this._onDocDown); }
+  componentWillUnmount(){ document.removeEventListener('mousedown', this._onDocDown); }
+  componentDidUpdate(prev){ this.applyAccent(); if(prev.scenario!==this.props.scenario) this.setState(Object.assign({ openRow:null, search:'' }, this.seed(this.props.scenario))); }
+  applyAccent(){ var el=this.rootRef.current; if(el) el.style.setProperty('--accent', this.props.accent||'#ee6b2d'); }
+  _onDocDown = (e)=>{ if(this.state.openRow && e.target && e.target.closest && !e.target.closest('[data-menuwrap]')) this.setState({ openRow:null }); };
+
+  updRow(id, fn){ this.setState(s => ({ books: s.books.map(function(b){ return Object.assign({},b,{ rows: b.rows.map(function(r){ if(r.id!==id) return r; var nr=Object.assign({},r); fn(nr); return nr; }) }); }) })); }
+  toggleMenu(id){ this.setState(s => ({ openRow: s.openRow===id ? null : id, search:'' })); }
+  setRole(id, role){ this.updRow(id, function(r){ r.role=role; }); this.setState({ openRow:null }); }
+  setNA(id){ this.updRow(id, function(r){ r.role='__NA__'; }); this.setState({ openRow:null }); }
+  clearRole(id){ this.updRow(id, function(r){ r.role=''; }); this.setState({ openRow:null }); }
+  useSuggest(id, s){ this.updRow(id, function(r){ r.role=s; }); }
+  onSearch = (e)=>{ this.setState({ search:e.target.value }); };
+  onContinue = ()=>{ var self=this; this.setState({ toast:'Mapping saved — continuing to Review…' }); setTimeout(function(){ self.setState({ toast:null }); }, 2400); };
+  toggleNotes = ()=>{ this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var self=this, S=this.state, books=S.books;
+    var showBookLayer = books.length>1;
+    var statusOf = function(r){ return r.role==='__NA__' ? 'na' : (r.role==='' ? 'unmapped' : 'mapped'); };
+    var allStatus=[];
+    var booksVM = books.map(function(b){
+      var mapped=0, na=0, un=0;
+      var rowsVM = b.rows.map(function(r){
+        var st=statusOf(r);
+        if(st==='mapped') mapped++; else if(st==='na') na++; else un++;
+        allStatus.push(st);
+        var menuOpen = S.openRow===r.id;
+        var roleItems=[];
+        if(menuOpen){
+          var q=(S.search||'').toLowerCase();
+          roleItems = self.roles.filter(function(x){ return x.toLowerCase().indexOf(q)>=0; }).map(function(x){
+            return { label:x, onPick:function(){ self.setRole(r.id, x); } };
+          });
+        }
+        var pill = st==='mapped' ? {label:'Mapped',bg:'#e9f9ef',dot:'#16a34a',color:'#15803d'}
+                 : st==='na' ? {label:'Not Available',bg:'#eef0f2',dot:'#9096a0',color:'#6b7280'}
+                 : {label:'Unmapped',bg:'#fdecec',dot:'#e5484d',color:'#d64545'};
+        return {
+          id:r.id, cls:r.cls, wage:r.wage,
+          rowBg: st==='unmapped' ? '#fdf3f2' : '#ffffff',
+          ddText: st==='mapped' ? r.role : (st==='na' ? 'Not Available' : 'Map to internal role…'),
+          ddColor: st==='mapped' ? '#191c22' : (st==='na' ? '#b4740c' : '#b9736f'),
+          ddBorder: st==='unmapped' ? '#f2b8b4' : '#dfe3e8',
+          menuOpen:menuOpen, roleItems:roleItems,
+          showSuggest: (st==='unmapped' && !!r.suggest), suggest:r.suggest,
+          pill:pill,
+          onToggle:function(){ self.toggleMenu(r.id); },
+          onNA:function(){ self.setNA(r.id); },
+          onClear:function(){ self.clearRole(r.id); },
+          onSuggest:function(){ self.useSuggest(r.id, r.suggest); }
+        };
+      });
+      var parts=[mapped+' of '+b.rows.length+' mapped'];
+      if(na>0) parts.push(na+' not available');
+      if(un>0) parts.push(un+' unmapped');
+      return { id:b.id, name:b.name, countText:'· '+parts.join(' · '), rows:rowsVM };
+    });
+
+    var tot=allStatus.length;
+    var tMapped=allStatus.filter(function(s){return s==='mapped';}).length;
+    var tNa=allStatus.filter(function(s){return s==='na';}).length;
+    var tUn=allStatus.filter(function(s){return s==='unmapped';}).length;
+
+    return {
+      rootRef:this.rootRef,
+      booksVM:booksVM, showBookLayer:showBookLayer,
+      search:S.search, onSearch:this.onSearch,
+      footMapped: tMapped+' of '+tot+' mapped',
+      footNa: (tNa>0 ? (' · '+tNa+' not available') : ''),
+      footUn: tUn, footHasUn: tUn>0,
+      canContinue: tUn===0, cannotContinue: tUn>0,
+      onContinue:this.onContinue, toast:S.toast,
+      notesOpen:S.notesOpen, toggleNotes:this.toggleNotes
+    };
+  }
+}
+</script>
+</body>
+</html>

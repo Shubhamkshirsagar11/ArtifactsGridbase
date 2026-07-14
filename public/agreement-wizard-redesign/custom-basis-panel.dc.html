@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#eceef1;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea,select{font-family:inherit;}
+  input::placeholder{color:#9aa0a8;}
+  input:focus,select:focus{outline:none;border-color:#2f6feb;box-shadow:0 0 0 3px rgba(47,111,235,0.15);}
+  @keyframes slideOver{from{transform:translateX(40px);opacity:0.4;}to{transform:translateX(0);opacity:1;}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;position:fixed;inset:0;background:rgba(17,23,41,0.42);display:flex;justify-content:flex-end;">
+
+  <div style="width:540px;max-width:94vw;height:100vh;background:#fff;box-shadow:-24px 0 70px rgba(17,23,41,0.32);display:flex;flex-direction:column;animation:slideOver 0.22s ease-out;">
+
+    <div style="padding:18px 22px 15px;border-bottom:1px solid #eef0f2;display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none;">
+      <span style="font-size:17px;font-weight:700;color:#191c22;">Custom basis — Pension</span>
+      <div onClick="{{ onCancel }}" style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+
+    <div style="padding:12px 22px;background:#f4f5f7;border-bottom:1px solid #eef0f2;display:flex;align-items:center;gap:12px;flex:none;">
+      <span style="font-size:13.5px;color:#6b7280;">Starting from: <b style="color:#191c22;font-weight:600;">$ per hour worked</b></span>
+      <sc-if value="{{ hasHeaderPill }}" hint-placeholder-val="{{ true }}">
+      <span style="background:#fdf4e3;color:#9a6207;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:20px;">{{ headerPill }}</span>
+      </sc-if>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:22px;">
+
+      <div style="margin-bottom:24px;">
+        <div style="font-size:14px;font-weight:600;color:#191c22;margin-bottom:10px;">The amount multiplies…</div>
+        <div style="display:inline-flex;border:1px solid #dfe3e8;border-radius:9px;padding:3px;background:#f7f8fa;gap:3px;">
+          <sc-for list="{{ q1Segs }}" as="s" hint-placeholder-count="3">
+            <button onClick="{{ s.on }}" style="border:none;border-radius:7px;padding:7px 16px;font-size:13.5px;font-weight:500;cursor:pointer;background:{{ s.bg }};color:{{ s.color }};">{{ s.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ q1hr }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-bottom:24px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px;">
+          <span style="font-size:14px;font-weight:600;color:#191c22;">Which hours count?</span>
+          <sc-if value="{{ q2Unchanged }}" hint-placeholder-val="{{ true }}"><span style="font-size:12.5px;color:#9096a0;">— unchanged</span></sc-if>
+          <sc-if value="{{ q2Modified }}" hint-placeholder-val="{{ false }}"><span style="background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">modified</span></sc-if>
+        </div>
+        <sc-for list="{{ hoursUniform }}" as="c" hint-placeholder-count="2">
+          <div onClick="{{ c.on }}" style="display:flex;gap:12px;border:1px solid {{ c.border }};border-radius:10px;padding:12px 14px;cursor:pointer;align-items:flex-start;margin-bottom:8px;">
+            <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ c.radioBorder }};flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ c.sel }}" hint-placeholder-val="{{ false }}"><span style="width:9px;height:9px;border-radius:50%;background:#101728;"></span></sc-if></span>
+            <div>
+              <div style="font-size:14px;font-weight:500;color:#191c22;">{{ c.label }}</div>
+              <div style="font-size:12.5px;color:#9096a0;margin-top:2px;">{{ c.sub }}</div>
+            </div>
+          </div>
+        </sc-for>
+        <div onClick="{{ onSingleCard }}" style="display:flex;gap:12px;border:1px solid {{ singleBorder }};border-radius:10px;padding:12px 14px;cursor:pointer;align-items:flex-start;">
+          <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ singleRadioBorder }};flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ singleSel }}" hint-placeholder-val="{{ false }}"><span style="width:9px;height:9px;border-radius:50%;background:#101728;"></span></sc-if></span>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:9px;">
+              <span style="font-size:14px;font-weight:500;color:#191c22;">A single hour type</span>
+              <span style="position:relative;display:inline-flex;align-items:center;">
+                <select value="{{ singleType }}" onChange="{{ onSingleType }}" style="-webkit-appearance:none;appearance:none;border:1px solid #dfe3e8;border-radius:7px;padding:4px 24px 4px 9px;font-size:12.5px;color:#3f4652;background:#fff;cursor:pointer;">
+                  <option value="Reg">Reg</option>
+                  <option value="OT">OT</option>
+                  <option value="DT">DT</option>
+                </select>
+                <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style="position:absolute;right:8px;pointer-events:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <div style="font-size:12.5px;color:#9096a0;margin-top:2px;">rare — e.g. a fund owed only on overtime hours</div>
+          </div>
+        </div>
+      </div>
+
+      <sc-if value="{{ showQ3 }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-bottom:22px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px;">
+          <span style="font-size:14px;font-weight:600;color:#191c22;">Rate for overtime &amp; double-time hours</span>
+          <sc-if value="{{ q3Modified }}" hint-placeholder-val="{{ true }}"><span style="background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">modified</span></sc-if>
+          <sc-if value="{{ q3Unchanged }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:#9096a0;">— unchanged</span></sc-if>
+        </div>
+        <sc-for list="{{ otUniform }}" as="c" hint-placeholder-count="2">
+          <div onClick="{{ c.on }}" style="display:flex;gap:12px;border:1px solid {{ c.border }};border-radius:10px;padding:12px 14px;cursor:pointer;align-items:flex-start;margin-bottom:8px;">
+            <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ c.radioBorder }};flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ c.sel }}" hint-placeholder-val="{{ false }}"><span style="width:9px;height:9px;border-radius:50%;background:#101728;"></span></sc-if></span>
+            <div>
+              <div style="font-size:14px;font-weight:500;color:#191c22;">{{ c.label }}</div>
+              <div style="font-size:12.5px;color:#9096a0;margin-top:2px;">{{ c.sub }}</div>
+            </div>
+          </div>
+        </sc-for>
+        <div onClick="{{ onCustomCard }}" style="display:flex;gap:12px;border:1px solid {{ customBorder }};border-radius:10px;padding:12px 14px;cursor:pointer;align-items:flex-start;">
+          <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ customRadioBorder }};flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ customSel }}" hint-placeholder-val="{{ true }}"><span style="width:9px;height:9px;border-radius:50%;background:#101728;"></span></sc-if></span>
+          <div style="flex:1;">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="font-size:14px;font-weight:500;color:#191c22;">Custom rates</span>
+              <span style="display:flex;align-items:center;gap:7px;font-size:13px;color:#4b5563;">OT $ <input value="{{ otC }}" onChange="{{ onOtC }}" style="width:58px;border:1px solid #dfe3e8;border-radius:7px;padding:4px 8px;font-size:13px;text-align:center;color:#191c22;background:#fff;"> · DT $ <input value="{{ dtC }}" onChange="{{ onDtC }}" style="width:58px;border:1px solid #dfe3e8;border-radius:7px;padding:4px 8px;font-size:13px;text-align:center;color:#191c22;background:#fff;"></span>
+            </div>
+            <div style="font-size:12.5px;color:#9096a0;margin-top:3px;">for contracts that print their own OT/DT dollar rates</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#eef4fe;border:1px solid #cfe0fb;border-radius:10px;padding:12px 15px;font-size:13px;color:#26559c;line-height:1.5;margin-bottom:20px;">{{ calcText }} <span style="color:#7a93c2;">— recalculates on every change</span></div>
+      </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ q1pct }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-bottom:22px;">
+        <div style="font-size:14px;font-weight:600;color:#191c22;margin-bottom:11px;">Which wages is it a percent of?</div>
+        <sc-for list="{{ pctCards }}" as="c" hint-placeholder-count="2">
+          <div onClick="{{ c.on }}" style="display:flex;gap:12px;border:1px solid {{ c.border }};border-radius:10px;padding:12px 14px;cursor:pointer;align-items:flex-start;margin-bottom:8px;">
+            <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ c.radioBorder }};flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ c.sel }}" hint-placeholder-val="{{ false }}"><span style="width:9px;height:9px;border-radius:50%;background:#101728;"></span></sc-if></span>
+            <div><div style="font-size:14px;font-weight:500;color:#191c22;">{{ c.label }}</div><div style="font-size:12.5px;color:#9096a0;margin-top:2px;">{{ c.sub }}</div></div>
+          </div>
+        </sc-for>
+        <div onClick="{{ togglePctBenefit }}" style="display:flex;align-items:center;gap:11px;padding:10px 4px;cursor:pointer;">
+          <span style="width:18px;height:18px;border:1.5px solid {{ pctBenefitBorder }};background:{{ pctBenefitBg }};border-radius:5px;flex:none;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ pctBenefit }}" hint-placeholder-val="{{ false }}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2L5 8.5 9.5 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if></span>
+          <span style="font-size:14px;color:#2f3640;">Include benefit pay?</span>
+        </div>
+        <div onClick="{{ togglePctOtStraight }}" style="display:flex;align-items:center;gap:11px;padding:10px 4px;cursor:pointer;">
+          <span style="width:18px;height:18px;border:1.5px solid {{ pctOtStraightBorder }};background:{{ pctOtStraightBg }};border-radius:5px;flex:none;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ pctOtStraight }}" hint-placeholder-val="{{ false }}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2L5 8.5 9.5 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if></span>
+          <span style="font-size:14px;color:#2f3640;">OT counted at straight-time?</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;color:#4b5563;">plus $ <input value="{{ pctAddOn }}" onChange="{{ onPctAddOn }}" placeholder="0.00" style="width:70px;border:1px solid #dfe3e8;border-radius:7px;padding:5px 9px;font-size:13.5px;text-align:center;color:#191c22;background:#fff;"> per hour worked <span style="color:#9096a0;">(optional add-on)</span></div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ q1flat }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-bottom:22px;">
+        <div style="font-size:14px;font-weight:600;color:#191c22;margin-bottom:11px;">How often?</div>
+        <div style="display:inline-flex;border:1px solid #dfe3e8;border-radius:9px;padding:3px;background:#f7f8fa;gap:3px;margin-bottom:22px;">
+          <sc-for list="{{ freqSegs }}" as="s" hint-placeholder-count="4">
+            <button onClick="{{ s.on }}" style="border:none;border-radius:7px;padding:7px 15px;font-size:13.5px;font-weight:500;cursor:pointer;background:{{ s.bg }};color:{{ s.color }};">{{ s.label }}</button>
+          </sc-for>
+        </div>
+        <div style="font-size:14px;font-weight:600;color:#191c22;margin-bottom:11px;">Which hours trigger it?</div>
+        <sc-for list="{{ flatCards }}" as="c" hint-placeholder-count="2">
+          <div onClick="{{ c.on }}" style="display:flex;gap:12px;border:1px solid {{ c.border }};border-radius:10px;padding:12px 14px;cursor:pointer;align-items:flex-start;margin-bottom:8px;">
+            <span style="width:18px;height:18px;border-radius:50%;border:1.5px solid {{ c.radioBorder }};flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ c.sel }}" hint-placeholder-val="{{ false }}"><span style="width:9px;height:9px;border-radius:50%;background:#101728;"></span></sc-if></span>
+            <div><div style="font-size:14px;font-weight:500;color:#191c22;">{{ c.label }}</div><div style="font-size:12.5px;color:#9096a0;margin-top:2px;">{{ c.sub }}</div></div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <div onClick="{{ onOther }}" style="border:1px solid #e3e6ea;border-radius:10px;padding:12px 14px;cursor:pointer;font-size:13px;color:#6b7280;line-height:1.5;" style-hover="background:#fafbfc;"><b style="color:#3a404a;font-weight:600;">Other</b> — the contract's wording doesn't fit these options? Capture it verbatim for review…</div>
+
+    </div>
+
+    <div style="padding:15px 22px;border-top:1px solid #eef0f2;display:flex;justify-content:flex-end;align-items:center;gap:12px;flex:none;">
+      <button onClick="{{ onCancel }}" style="background:transparent;border:none;color:#4b5563;font-weight:600;font-size:14px;padding:11px 18px;border-radius:9px;cursor:pointer;" style-hover="background:#f2f3f5;">Cancel</button>
+      <button onClick="{{ onDone }}" style="background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:9px;padding:11px 26px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Done</button>
+    </div>
+
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.4);z-index:140;">{{ toast }}</div>
+  </sc-if>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.35);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:135;width:420px;max-width:calc(100vw - 48px);max-height:80vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.3);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Custom basis panel — behavior spec</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">Q1 → % OF PAY</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Replaces questions 2–3 with: which wages it's a percent of (all vs worked-only hours · include benefit pay? · OT at straight-time?) plus an optional "plus $__ per hour worked" add-on.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">Q1 → FLAT AMOUNT</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Asks how often (day / week / month / pay run) and whether any hours or only worked hours trigger it.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">Q2 → SINGLE HOUR TYPE</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Picking "A single hour type" in question 2 hides question 3.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">LIVE AGREEMENT DATA</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">"OT × 1.5 · DT × 2" in the premium option is this agreement's live data interpolated into the label — never hardcoded copy (California agreements read OT × 2.0).</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">DEVIATION INDICATORS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The "Starting from" bar and "modified" pills show how this custom config deviates from the preset the user began with.</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  state = { q1:'hr', hours:'worked', singleType:'Reg', ot:'custom', otC:'9.00', dtC:'12.00', pctBase:'all', pctBenefit:false, pctOtStraight:false, pctAddOn:'', flatFreq:'week', flatTrigger:'any', notesOpen:false, toast:null };
+
+  componentDidMount(){ this.applyAccent(); }
+  componentDidUpdate(){ this.applyAccent(); }
+  applyAccent(){ var el=this.rootRef.current; if(el) el.style.setProperty('--accent', this.props.accent||'#ee6b2d'); }
+  flash(msg){ var self=this; this.setState({ toast:msg }); setTimeout(function(){ self.setState({ toast:null }); }, 2600); }
+
+  onDone = ()=>{ this.flash('Custom basis saved'); };
+  onCancel = ()=>{ this.flash('Cancelled — no changes saved'); };
+  toggleNotes = ()=>{ this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var self=this, S=this.state;
+    var base=6.00, otMult=1.5, dtMult=2;
+    var q1hr = S.q1==='hr', q1pct = S.q1==='pct', q1flat = S.q1==='flat';
+
+    var seg = function(cur, key, label, on){ var sel=cur===key; return { label:label, sel:sel, bg: sel?'#101728':'transparent', color: sel?'#ffffff':'#4b5563', on:on }; };
+    var q1Segs = [
+      seg(S.q1,'hr','$ per hour', function(){ self.setState({q1:'hr'}); }),
+      seg(S.q1,'pct','% of pay', function(){ self.setState({q1:'pct'}); }),
+      seg(S.q1,'flat','Flat amount', function(){ self.setState({q1:'flat'}); })
+    ];
+
+    var card = function(cur, key, label, sub, setter){ var sel=cur===key; return { key:key, label:label, sub:sub, sel:sel, border: sel?'#101728':'#dfe3e8', radioBorder: sel?'#101728':'#c4c8ce', on:function(){ setter(key); } }; };
+
+    var setHours=function(v){ self.setState({hours:v}); };
+    var hoursUniform = [
+      card(S.hours,'worked','Only hours actually worked','Reg + OT + DT — how most funds read', setHours),
+      card(S.hours,'allpaid','All paid hours','also counts PTO, sick, holiday — a sick day still earns the fund', setHours)
+    ];
+    var singleSel = S.hours==='single';
+    var q2Modified = S.hours!=='worked';
+
+    var setOt=function(v){ self.setState({ot:v}); };
+    var otUniform = [
+      card(S.ot,'same','Same rate',"an OT hour pays the same $"+base.toFixed(2)+" (the preset's answer)", setOt),
+      card(S.ot,'premium',"At the agreement's premium","uses this agreement's OT × "+otMult+" · DT × "+dtMult+" from the Wages step", setOt)
+    ];
+    var customSel = S.ot==='custom';
+    var q3Modified = S.ot!=='same';
+    var showQ3 = q1hr && S.hours!=='single';
+
+    var otEff = S.ot==='same' ? base : (S.ot==='premium' ? base*otMult : (parseFloat(S.otC)||0));
+    var total = base*40 + otEff*10;
+    var calcText = 'Check with a real week: 40 Reg + 10 OT → $'+base.toFixed(2)+' × 40 + $'+otEff.toFixed(2)+' × 10 = $'+total.toFixed(2);
+
+    var headerPill = null;
+    if(!q1hr){ headerPill='basis changed'; }
+    else { var n=(S.hours!=='worked'?1:0)+(S.ot!=='same'?1:0); headerPill = n>0 ? (n+' question'+(n>1?'s':'')+' modified') : null; }
+
+    var setPctBase=function(v){ self.setState({pctBase:v}); };
+    var pctCards=[
+      card(S.pctBase,'all','All paid hours','the percent applies to every paid hour', setPctBase),
+      card(S.pctBase,'worked','Worked hours only','the percent applies only to hours worked', setPctBase)
+    ];
+
+    var freqLabels={day:'Day',week:'Week',month:'Month',payrun:'Pay run'};
+    var freqSegs=['day','week','month','payrun'].map(function(k){ return seg(S.flatFreq,k,freqLabels[k], function(){ self.setState({flatFreq:k}); }); });
+    var setFlatTrigger=function(v){ self.setState({flatTrigger:v}); };
+    var flatCards=[
+      card(S.flatTrigger,'any','Any hours','owed regardless of hours worked', setFlatTrigger),
+      card(S.flatTrigger,'worked','Only worked hours','owed only when the employee actually works', setFlatTrigger)
+    ];
+
+    return {
+      rootRef:this.rootRef,
+      q1Segs:q1Segs, q1hr:q1hr, q1pct:q1pct, q1flat:q1flat,
+      hoursUniform:hoursUniform,
+      singleSel:singleSel, singleRadioBorder: singleSel?'#101728':'#c4c8ce', singleBorder: singleSel?'#101728':'#dfe3e8',
+      singleType:S.singleType, onSingleType:function(e){ self.setState({singleType:e.target.value, hours:'single'}); }, onSingleCard:function(){ self.setState({hours:'single'}); },
+      q2Modified:q2Modified, q2Unchanged:!q2Modified,
+      showQ3:showQ3,
+      otUniform:otUniform,
+      customSel:customSel, customRadioBorder: customSel?'#101728':'#c4c8ce', customBorder: customSel?'#101728':'#dfe3e8',
+      otC:S.otC, dtC:S.dtC, onOtC:function(e){ self.setState({otC:e.target.value, ot:'custom'}); }, onDtC:function(e){ self.setState({dtC:e.target.value, ot:'custom'}); }, onCustomCard:function(){ self.setState({ot:'custom'}); },
+      q3Modified:q3Modified, q3Unchanged:!q3Modified,
+      calcText:calcText,
+      headerPill:headerPill, hasHeaderPill: !!headerPill,
+      pctCards:pctCards,
+      pctBenefit:S.pctBenefit, pctBenefitBorder: S.pctBenefit?'#101728':'#c4c8ce', pctBenefitBg: S.pctBenefit?'#101728':'transparent',
+      pctOtStraight:S.pctOtStraight, pctOtStraightBorder: S.pctOtStraight?'#101728':'#c4c8ce', pctOtStraightBg: S.pctOtStraight?'#101728':'transparent',
+      pctAddOn:S.pctAddOn,
+      togglePctBenefit:function(){ self.setState(s=>({pctBenefit:!s.pctBenefit})); },
+      togglePctOtStraight:function(){ self.setState(s=>({pctOtStraight:!s.pctOtStraight})); },
+      onPctAddOn:function(e){ self.setState({pctAddOn:e.target.value}); },
+      freqSegs:freqSegs, flatCards:flatCards,
+      onOther:function(){ self.flash('Capture verbatim — opens a free-text note for review'); },
+      onDone:this.onDone, onCancel:this.onCancel,
+      toast:S.toast, notesOpen:S.notesOpen, toggleNotes:this.toggleNotes
+    };
+  }
+}
+</script>
+</body>
+</html>

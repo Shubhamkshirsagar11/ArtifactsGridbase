@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea,select{font-family:inherit;}
+  input::placeholder{color:#9aa0a8;}
+  input:focus,select:focus{outline:none;border-color:#2f6feb;box-shadow:0 0 0 3px rgba(47,111,235,0.15);}
+  a{color:#c2560f;text-decoration:none;}
+  a:hover{color:#a2450b;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;background:#ffffff;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="background:#f7f8fa;padding:15px 48px;display:flex;align-items:center;gap:10px;font-size:15px;">
+    <span style="color:#9096a0;">Data</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Unions</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Agreements</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#191c22;font-weight:600;">New agreement</span>
+  </div>
+
+  <div style="background:#ffffff;border-bottom:1px solid #ededf0;padding:18px 48px;display:flex;align-items:center;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Setup</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Classifications</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Wages</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">4</div>
+        <span style="font-size:16px;font-weight:600;color:#191c22;">Benefits</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">5</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Mapping</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">6</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Review</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#9096a0;font-size:16px;margin-left:30px;cursor:pointer;flex:none;">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Cancel
+    </div>
+  </div>
+
+  <div style="flex:1;width:100%;display:flex;justify-content:center;padding:40px 24px 48px;" data-screen-label="Benefits — New agreement">
+    <div style="width:100%;max-width:1200px;">
+
+      <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0 0 28px;max-width:820px;">Add or edit the benefit funds this agreement requires. Most funds change rates on the wage periods; some change on their own dates — they live in the second section. Enter each fund's name exactly as the contract prints it.</p>
+
+      <h2 style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;margin:0 0 14px;">Funds that change with the wage periods</h2>
+
+      <div style="border:1px solid #e3e6ea;border-radius:12px;overflow:hidden;background:#fff;">
+        <div style="display:flex;align-items:center;gap:14px;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 18px;font-size:13px;font-weight:600;color:#6b7280;">
+          <span style="width:24px;flex:none;"></span>
+          <span style="flex:1;min-width:160px;">Fund</span>
+          <span style="width:246px;flex:none;">Basis</span>
+          <span style="width:124px;flex:none;">Paid by</span>
+          <span style="width:206px;flex:none;">Applies to</span>
+          <span style="width:100px;flex:none;text-align:right;">9/1/25–8/31/26</span>
+          <span style="width:100px;flex:none;text-align:right;">9/1/26–8/31/27</span>
+        </div>
+
+        <sc-for list="{{ funds }}" as="row" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;border-bottom:1px solid #eef0f2;">
+          <button onClick="{{ row.onRemove }}" style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#b6bbc2;cursor:pointer;border-radius:6px;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+
+          <div style="flex:1;min-width:160px;">
+            <input value="{{ row.name }}" onChange="{{ row.onName }}" ref="{{ row.setNameRef }}" placeholder="e.g. NEBF" style="width:100%;border:1px solid #e3e6ea;border-radius:8px;padding:8px 11px;font-size:14px;color:#191c22;background:#fff;">
+          </div>
+
+          <div style="width:246px;flex:none;">
+            <sc-if value="{{ row.basisCustom }}" hint-placeholder-val="{{ false }}">
+              <div onClick="{{ row.onBasisChipClick }}" style="display:flex;align-items:center;gap:8px;border:1px solid #dfe3e8;border-radius:8px;padding:6px 10px;background:#fff;cursor:pointer;font-size:13px;">
+                <span style="color:#3f4652;white-space:nowrap;">{{ row.basisCustomLabel }}</span>
+                <span style="background:#eef0f2;color:#5b616b;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:5px;flex:none;">Custom</span>
+                <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="flex:none;color:#8d939c;margin-left:auto;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </sc-if>
+            <sc-if value="{{ row.basisPresetMode }}" hint-placeholder-val="{{ true }}">
+              <span style="position:relative;display:flex;align-items:center;">
+                <select value="{{ row.basisPreset }}" onChange="{{ row.onBasis }}" style="-webkit-appearance:none;appearance:none;width:100%;border:1px solid #dfe3e8;border-radius:8px;padding:7px 30px 7px 11px;font-size:13px;color:#3f4652;background:#fff;cursor:pointer;">
+                  <option value="$hr">$ per hour worked</option>
+                  <option value="%gross">% of gross pay</option>
+                  <option value="custom">Custom…</option>
+                </select>
+                <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="position:absolute;right:11px;pointer-events:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </sc-if>
+          </div>
+
+          <div style="width:124px;flex:none;position:relative;display:flex;align-items:center;">
+            <select value="{{ row.paidBy }}" onChange="{{ row.onPaidBy }}" style="-webkit-appearance:none;appearance:none;width:100%;border:1px solid #dfe3e8;border-radius:8px;padding:7px 30px 7px 11px;font-size:13px;color:#3f4652;background:#fff;cursor:pointer;">
+              <option value="Employer">Employer</option>
+              <option value="Employee">Employee</option>
+            </select>
+            <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="position:absolute;right:11px;pointer-events:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div style="width:206px;flex:none;position:relative;display:flex;align-items:center;">
+            <select value="{{ row.appliesTo }}" onChange="{{ row.onApplies }}" style="-webkit-appearance:none;appearance:none;width:100%;border:1px solid #dfe3e8;border-radius:8px;padding:7px 30px 7px 11px;font-size:13px;color:#3f4652;background:#fff;cursor:pointer;">
+              <option value="every">Every class</option>
+              <sc-if value="{{ showOneBook }}" hint-placeholder-val="{{ true }}"><option value="onebook">One rate book: Outside Power</option></sc-if>
+              <option value="specific">Specific classes…</option>
+            </select>
+            <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="position:absolute;right:11px;pointer-events:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <sc-if value="{{ row.specific }}" hint-placeholder-val="{{ false }}">
+          <div style="width:214px;flex:none;text-align:right;">
+            <div style="font-size:13px;color:#6b7280;">per class · 6 classes ($ and %)</div>
+            <div onClick="{{ row.onEditClasses }}" style="font-size:13px;color:#2f6feb;cursor:pointer;margin-top:3px;">Edit per class →</div>
+          </div>
+          </sc-if>
+          <sc-if value="{{ row.notSpecific }}" hint-placeholder-val="{{ true }}">
+          <div style="width:100px;flex:none;display:flex;justify-content:flex-end;">
+            <sc-if value="{{ row.p1.isVal }}" hint-placeholder-val="{{ true }}">
+              <div style="border:1px solid #dfe3e8;border-radius:8px;padding:5px 9px;background:#fff;display:inline-flex;"><input value="{{ row.p1.value }}" onChange="{{ row.p1.onChange }}" onBlur="{{ row.p1.onBlur }}" ref="{{ row.p1.setRef }}" style="width:56px;border:none;outline:none;box-shadow:none;text-align:right;font-size:13.5px;color:#191c22;background:transparent;padding:0;"></div>
+            </sc-if>
+            <sc-if value="{{ row.p1.isTbd }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ row.p1.onEdit }}" style="border:none;background:#eaf1fd;color:#2f6feb;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:20px;cursor:pointer;">TBD</button>
+            </sc-if>
+            <sc-if value="{{ row.p1.isBlank }}" hint-placeholder-val="{{ false }}">
+              <span onClick="{{ row.p1.onEdit }}" style="color:#c1c5cc;font-size:14px;cursor:pointer;padding:0 8px;">—</span>
+            </sc-if>
+          </div>
+          <div style="width:100px;flex:none;display:flex;justify-content:flex-end;">
+            <sc-if value="{{ row.p2.isVal }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px solid #dfe3e8;border-radius:8px;padding:5px 9px;background:#fff;display:inline-flex;"><input value="{{ row.p2.value }}" onChange="{{ row.p2.onChange }}" onBlur="{{ row.p2.onBlur }}" ref="{{ row.p2.setRef }}" style="width:56px;border:none;outline:none;box-shadow:none;text-align:right;font-size:13.5px;color:#191c22;background:transparent;padding:0;"></div>
+            </sc-if>
+            <sc-if value="{{ row.p2.isTbd }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ row.p2.onEdit }}" style="border:none;background:#eaf1fd;color:#2f6feb;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:20px;cursor:pointer;">TBD</button>
+            </sc-if>
+            <sc-if value="{{ row.p2.isBlank }}" hint-placeholder-val="{{ false }}">
+              <span onClick="{{ row.p2.onEdit }}" style="color:#c1c5cc;font-size:14px;cursor:pointer;padding:0 8px;">—</span>
+            </sc-if>
+          </div>
+          </sc-if>
+        </div>
+        </sc-for>
+
+        <div style="padding:12px 18px;">
+          <button onClick="{{ addFund }}" style="border:1px solid #e3e6ea;border-radius:8px;padding:9px 15px;display:inline-flex;align-items:center;gap:8px;font-size:14px;color:#3a404a;background:#fff;cursor:pointer;" style-hover="background:#fafbfc;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2.5v9M2.5 7h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Add fund
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;font-size:12.5px;color:#9096a0;line-height:1.5;">Each cell: a value, TBD (in effect, unallocated), or blank "—" (not in effect). Wages &amp; benefits TBD are independent.</div>
+
+      <sc-if value="{{ showSection2 }}" hint-placeholder-val="{{ true }}">
+      <h2 style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;margin:40px 0 4px;">Funds with their own change dates</h2>
+      <p style="font-size:13.5px;color:#9096a0;line-height:1.55;margin:0 0 16px;max-width:760px;">Some funds change on dates the wage schedule doesn't — enter each change exactly as the contract prints it.</p>
+
+      <sc-for list="{{ cards }}" as="card" hint-placeholder-count="1">
+      <div style="border:1px solid #e3e6ea;border-radius:12px;overflow:hidden;background:#fff;margin-bottom:14px;">
+        <div style="display:flex;align-items:baseline;gap:10px;padding:14px 18px;border-bottom:1px solid #eef0f2;background:#fafbfc;">
+          <span style="font-size:15px;font-weight:700;color:#191c22;">{{ card.name }}</span>
+          <span style="font-size:13px;color:#9096a0;">{{ card.sub }}</span>
+          <div style="flex:1;"></div>
+          <span onClick="{{ card.onRemove }}" style="font-size:13px;color:#9096a0;cursor:pointer;" style-hover="color:#e5484d;">Remove</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:9px 18px;border-bottom:1px solid #eef0f2;font-size:12px;font-weight:600;letter-spacing:0.03em;color:#9096a0;">
+          <span style="width:120px;flex:none;">EFFECTIVE</span>
+          <span style="width:120px;flex:none;">RATE</span>
+          <span style="flex:1;">NOTES</span>
+          <span style="width:24px;flex:none;"></span>
+        </div>
+        <sc-for list="{{ card.changes }}" as="ch" hint-placeholder-count="2">
+        <div style="display:flex;align-items:center;gap:14px;padding:10px 18px;border-bottom:1px solid #eef0f2;">
+          <input value="{{ ch.eff }}" onChange="{{ ch.onEff }}" ref="{{ ch.setRef }}" placeholder="M/D/YY" style="width:120px;flex:none;border:1px solid #dfe3e8;border-radius:8px;padding:6px 10px;font-size:13.5px;color:#191c22;background:#fff;">
+          <input value="{{ ch.rate }}" onChange="{{ ch.onRate }}" placeholder="$0.00" style="width:120px;flex:none;border:1px solid #dfe3e8;border-radius:8px;padding:6px 10px;font-size:13.5px;color:#191c22;background:#fff;">
+          <input value="{{ ch.note }}" onChange="{{ ch.onNote }}" placeholder="Add a note…" style="flex:1;border:1px solid #dfe3e8;border-radius:8px;padding:6px 10px;font-size:13px;color:#4b5563;background:#fff;">
+          <button onClick="{{ ch.onRemove }}" style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#b6bbc2;cursor:pointer;border-radius:6px;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+        </div>
+        </sc-for>
+        <div style="padding:11px 18px;">
+          <button onClick="{{ card.onAddChange }}" style="border:none;background:transparent;color:#4b5563;font-weight:500;font-size:14px;cursor:pointer;padding:0;">+ Add change</button>
+        </div>
+      </div>
+      </sc-for>
+
+      <sc-if value="{{ noCards }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px dashed #dfe3e8;border-radius:12px;padding:24px;text-align:center;font-size:13.5px;color:#9096a0;">No funds with their own change dates yet.</div>
+      </sc-if>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.28);z-index:100;">{{ toast }}</div>
+  </sc-if>
+
+  <div style="border-top:1px solid #ededf0;background:#fff;padding:20px 48px;display:flex;justify-content:flex-end;align-items:center;gap:14px;">
+    <button style="display:flex;align-items:center;gap:8px;background:transparent;border:none;color:#4b5563;font-weight:600;font-size:15px;padding:13px 18px;border-radius:10px;cursor:pointer;" style-hover="background:#f2f3f5;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8h-10M7 4.5L3.5 8 7 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+    <button onClick="{{ onContinue }}" style="display:flex;align-items:center;gap:9px;background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(17,23,41,0.28);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:130;width:420px;max-width:calc(100vw - 48px);max-height:78vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.26);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Benefits — behavior spec</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">BASIS DROPDOWN</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Offers two presets — <b style="color:#191c22;font-weight:600;">$ per hour worked</b> and <b style="color:#191c22;font-weight:600;">% of gross pay</b> — plus <b style="color:#191c22;font-weight:600;">Custom…</b>, which opens a slide-over panel (separate frame). A custom basis shows as a summary chip, like the Pension row.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">+ ADD FUND</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Clicking "+ Add fund" first asks one question: <b style="color:#191c22;font-weight:600;">"When does this fund's rate change? With the wage periods / On its own dates"</b> — routing it to section 1 or section 2.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">APPLIES TO</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">"One rate book…" fills that book's classes and marks all other books' classes Not applicable, in one act. "Specific classes…" opens a per-class editor (side panel).</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">SIMPLE AGREEMENTS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">With one rate book in the agreement, the "One rate book…" option is hidden. Simple agreements see section 1 only, exactly like today.</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;scenario&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Designed&quot;,&quot;options&quot;:[&quot;Designed&quot;,&quot;Simple agreement&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scenario&quot;},
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  refs2 = {};
+  _n = 200;
+  state = Object.assign({ editing:{}, focusKey:null, notesOpen:false, toast:null }, this.seed(this.props.scenario));
+
+  seed(scenario){
+    var simple = scenario === 'Simple agreement';
+    var funds = [
+      {id:'f1',name:'NEBF',basisMode:'preset',basisPreset:'%gross',paidBy:'Employer',appliesTo:'every',p1:{t:'val',v:'3%'},p2:{t:'val',v:'3%'}},
+      {id:'f2',name:'Working Assessment',basisMode:'preset',basisPreset:'%gross',paidBy:'Employee',appliesTo:'every',p1:{t:'val',v:'2.5%'},p2:{t:'tbd'}},
+      {id:'f3',name:'Apprenticeship & Training',basisMode:'preset',basisPreset:'%gross',paidBy:'Employer',appliesTo:(simple?'every':'onebook'),p1:{t:'val',v:'1.5%'},p2:{t:'val',v:'1.5%'}},
+      {id:'f4',name:'NEAP',basisMode:'preset',basisPreset:'%gross',paidBy:'Employer',appliesTo:'specific',p1:{t:'val',v:''},p2:{t:'val',v:''}},
+      {id:'f5',name:'Pension',basisMode:'custom',basisCustomLabel:'$/hr · worked · OT $9.00',paidBy:'Employer',appliesTo:'every',p1:{t:'val',v:'$6.00'},p2:{t:'tbd'}},
+      {id:'f6',name:'',basisMode:'preset',basisPreset:'$hr',paidBy:'Employer',appliesTo:'every',p1:{t:'blank'},p2:{t:'blank'}}
+    ];
+    var offCards = simple ? [] : [
+      {id:'o1',name:'Lineco',sub:'Line Construction Benefit Fund · $ per hour worked · Employer',changes:[
+        {id:'ch1',eff:'9/1/25',rate:'$7.50',note:'applies until the next change'},
+        {id:'ch2',eff:'8/1/26',rate:'$7.75',note:'increases above $7.50 paid via HRA reduction (§6.02)'}
+      ]}
+    ];
+    return { funds:funds, offCards:offCards };
+  }
+
+  componentDidMount(){ this.applyAccent(); this.doFocus(); }
+  componentDidUpdate(prev){
+    this.applyAccent();
+    if (prev.scenario !== this.props.scenario) this.setState(Object.assign({ editing:{}, focusKey:null, toast:null }, this.seed(this.props.scenario)));
+    else this.doFocus();
+  }
+  applyAccent(){ var el=this.rootRef.current; if(el) el.style.setProperty('--accent', this.props.accent||'#ee6b2d'); }
+  doFocus(){ var k=this.state.focusKey; if(k && this.refs2[k]){ this.refs2[k].focus({ preventScroll:true }); this.setState({ focusKey:null }); } }
+  nid(p){ this._n++; return (p||'x')+this._n; }
+  flash(msg){ var self=this; this.setState({ toast:msg }); setTimeout(function(){ self.setState({ toast:null }); }, 2600); }
+
+  setFunds(fn){ this.setState(s => ({ funds: fn(s.funds) })); }
+  updFund(id, fn){ this.setFunds(function(fs){ return fs.map(function(f){ if(f.id!==id) return f; var nf=Object.assign({},f); fn(nf); return nf; }); }); }
+  fundName(id, v){ this.updFund(id, function(f){ f.name=v; }); }
+  fundBasis(id, v){ if(v==='custom'){ this.flash('Custom basis opens a slide-over panel (separate frame)'); return; } this.updFund(id, function(f){ f.basisMode='preset'; f.basisPreset=v; }); }
+  fundPaidBy(id, v){ this.updFund(id, function(f){ f.paidBy=v; }); }
+  fundApplies(id, v){ this.updFund(id, function(f){ f.appliesTo=v; }); }
+  addFund = ()=>{ var id=this.nid('f'); this.setFunds(function(fs){ return fs.concat([{ id:id, name:'', basisMode:'preset', basisPreset:'$hr', paidBy:'Employer', appliesTo:'every', p1:{t:'blank'}, p2:{t:'blank'} }]); }); this.setState({ focusKey:'fund|'+id }); };
+  removeFund(id){ this.setFunds(function(fs){ return fs.filter(function(f){ return f.id!==id; }); }); }
+
+  cellEdit(id, period){ this.updFund(id, function(f){ f[period]={t:'val',v:''}; }); this.setState({ focusKey:'cell|'+id+'|'+period }); }
+  cellChange(id, period, v){ this.updFund(id, function(f){ f[period]={t:'val',v:v}; }); }
+  cellBlur(id, period){ var f=this.state.funds.filter(function(x){ return x.id===id; })[0]; if(f && f[period] && f[period].t==='val' && (f[period].v||'').trim()===''){ this.updFund(id, function(g){ g[period]={t:'tbd'}; }); } }
+
+  setCards(fn){ this.setState(s => ({ offCards: fn(s.offCards) })); }
+  offChange(cid, chid, field, v){ this.setCards(function(cs){ return cs.map(function(c){ if(c.id!==cid) return c; var nc=Object.assign({},c); nc.changes=c.changes.map(function(ch){ if(ch.id!==chid) return ch; var n=Object.assign({},ch); n[field]=v; return n; }); return nc; }); }); }
+  addChange(cid){ var id=this.nid('ch'); this.setCards(function(cs){ return cs.map(function(c){ if(c.id!==cid) return c; var nc=Object.assign({},c); nc.changes=c.changes.concat([{ id:id, eff:'', rate:'', note:'' }]); return nc; }); }); this.setState({ focusKey:'eff|'+id }); }
+  removeChange(cid, chid){ this.setCards(function(cs){ return cs.map(function(c){ if(c.id!==cid) return c; var nc=Object.assign({},c); nc.changes=c.changes.filter(function(ch){ return ch.id!==chid; }); return nc; }); }); }
+  removeCard(cid){ this.setCards(function(cs){ return cs.filter(function(c){ return c.id!==cid; }); }); }
+
+  onContinue = ()=>{ this.flash('Benefits saved — continuing to Mapping…'); };
+  toggleNotes = ()=>{ this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var self=this, S=this.state;
+    var simple = this.props.scenario === 'Simple agreement';
+    var mkCell = function(fund, period){
+      var c = fund[period] || {t:'blank'};
+      var key = 'cell|'+fund.id+'|'+period;
+      if(c.t==='val'){ return { isVal:true, value:(c.v||''),
+        onChange:function(e){ self.cellChange(fund.id,period,e.target.value); },
+        onBlur:function(){ self.cellBlur(fund.id,period); },
+        setRef:function(el){ if(el) self.refs2[key]=el; } }; }
+      if(c.t==='tbd'){ return { isTbd:true, onEdit:function(){ self.cellEdit(fund.id,period); } }; }
+      return { isBlank:true, onEdit:function(){ self.cellEdit(fund.id,period); } };
+    };
+    var funds = S.funds.map(function(f){
+      var custom = f.basisMode==='custom';
+      return {
+        id:f.id, name:f.name,
+        basisCustom:custom, basisPresetMode:!custom,
+        basisPreset:f.basisPreset||'$hr', basisCustomLabel:f.basisCustomLabel||'',
+        paidBy:f.paidBy||'Employer', appliesTo:f.appliesTo||'every',
+        specific:(f.appliesTo==='specific'), notSpecific:(f.appliesTo!=='specific'),
+        p1:mkCell(f,'p1'), p2:mkCell(f,'p2'),
+        onName:function(e){ self.fundName(f.id,e.target.value); },
+        onBasis:function(e){ self.fundBasis(f.id,e.target.value); },
+        onPaidBy:function(e){ self.fundPaidBy(f.id,e.target.value); },
+        onApplies:function(e){ self.fundApplies(f.id,e.target.value); },
+        onRemove:function(){ self.removeFund(f.id); },
+        onBasisChipClick:function(){ self.flash('Custom basis opens a slide-over panel (separate frame)'); },
+        onEditClasses:function(){ self.flash('Per-class values open a side panel (separate frame)'); },
+        setNameRef:function(el){ if(el) self.refs2['fund|'+f.id]=el; }
+      };
+    });
+    var cards = S.offCards.map(function(c){
+      return { id:c.id, name:c.name, sub:c.sub,
+        changes:c.changes.map(function(ch){
+          return { id:ch.id, eff:ch.eff, rate:ch.rate, note:ch.note,
+            onEff:function(e){ self.offChange(c.id,ch.id,'eff',e.target.value); },
+            onRate:function(e){ self.offChange(c.id,ch.id,'rate',e.target.value); },
+            onNote:function(e){ self.offChange(c.id,ch.id,'note',e.target.value); },
+            onRemove:function(){ self.removeChange(c.id,ch.id); },
+            setRef:function(el){ if(el) self.refs2['eff|'+ch.id]=el; } };
+        }),
+        onAddChange:function(){ self.addChange(c.id); },
+        onRemove:function(){ self.removeCard(c.id); } };
+    });
+    return {
+      rootRef:this.rootRef,
+      funds:funds, addFund:this.addFund,
+      showOneBook:!simple, showSection2:!simple,
+      cards:cards, noCards:(cards.length===0),
+      onContinue:this.onContinue, toast:S.toast,
+      notesOpen:S.notesOpen, toggleNotes:this.toggleNotes
+    };
+  }
+}
+</script>
+</body>
+</html>

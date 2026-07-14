@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea,select{font-family:inherit;}
+  a{color:#c2560f;text-decoration:none;}
+  a:hover{color:#a2450b;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;background:#ffffff;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="background:#f7f8fa;padding:15px 48px;display:flex;align-items:center;gap:10px;font-size:15px;">
+    <span style="color:#9096a0;">Data</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Unions</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Agreements</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#191c22;font-weight:600;">New agreement</span>
+  </div>
+
+  <div style="background:#ffffff;border-bottom:1px solid #ededf0;padding:18px 48px;display:flex;align-items:center;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Setup</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Classifications</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Wages</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Benefits</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Mapping</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">6</div>
+        <span style="font-size:16px;font-weight:600;color:#191c22;">Review</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#9096a0;font-size:16px;margin-left:30px;cursor:pointer;flex:none;">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Cancel
+    </div>
+  </div>
+
+  <div style="flex:1;width:100%;display:flex;justify-content:center;padding:40px 24px 48px;" data-screen-label="Review — New agreement">
+    <div style="width:100%;max-width:960px;">
+
+      <div style="border:1px solid #e3e6ea;border-radius:12px;background:#fff;">
+        <sc-for list="{{ checklist }}" as="r" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:13px;padding:15px 20px;border-bottom:1px solid #eef0f2;">
+          <sc-if value="{{ r.ok }}" hint-placeholder-val="{{ true }}"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" style="flex:none;"><path d="M3.5 8.8l3 3 7-7.2" stroke="#16a34a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if>
+          <sc-if value="{{ r.notOk }}" hint-placeholder-val="{{ false }}"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" style="flex:none;"><path d="M8.5 2l7 12.2H1.5L8.5 2Z" stroke="#e0951f" stroke-width="1.4" stroke-linejoin="round"/><path d="M8.5 6.6v3.4" stroke="#b4740c" stroke-width="1.5" stroke-linecap="round"/><circle cx="8.5" cy="12" r="0.8" fill="#b4740c"/></svg></sc-if>
+          <span style="font-size:15px;color:{{ r.color }};">{{ r.text }}</span>
+        </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:18px;background:#eef4fe;border:1px solid #cfe0fb;border-radius:12px;padding:16px 18px;">
+        <div style="font-size:14.5px;font-weight:700;color:#1f4e9c;">Already-covered locals</div>
+        <div style="font-size:13.5px;color:#3a5a94;line-height:1.55;margin-top:5px;">LU 70 is already on an active agreement: Outside Power &amp; High Tension Cable 2021–2025. Publishing won't change it — unless this is its renewal.</div>
+        <div onClick="{{ toggleSupersede }}" style="display:flex;align-items:flex-start;gap:11px;margin-top:14px;cursor:pointer;padding:10px 12px;background:#ffffff;border:1px solid #d3e0f3;border-radius:9px;">
+          <span style="width:18px;height:18px;border:1.5px solid {{ supBorder }};background:{{ supBg }};border-radius:5px;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;"><sc-if value="{{ supersede }}" hint-placeholder-val="{{ true }}"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2L5 8.5 9.5 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if></span>
+          <span style="font-size:13.5px;color:#26426f;line-height:1.5;">This replaces Outside Power &amp; High Tension Cable 2021–2025 — mark it superseded when this agreement publishes.</span>
+        </div>
+      </div>
+
+      <div style="margin-top:32px;display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
+        <span style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;">Loaded wage preview</span>
+        <span style="font-size:13.5px;color:#9096a0;">— 9/1/25–8/31/26</span>
+      </div>
+      <div style="border:1px solid #e3e6ea;border-radius:12px;overflow:hidden;background:#fff;">
+        <div style="display:flex;align-items:center;gap:16px;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 18px;font-size:13px;font-weight:600;color:#6b7280;">
+          <span style="flex:1;min-width:0;">Role</span>
+          <span style="width:130px;flex:none;text-align:right;">Maryland (ST)</span>
+          <sc-if value="{{ showVirginia }}" hint-placeholder-val="{{ true }}"><span style="width:130px;flex:none;text-align:right;">Virginia (ST)</span></sc-if>
+          <span style="width:230px;flex:none;text-align:right;">Derivation</span>
+        </div>
+        <sc-for list="{{ wageBooks }}" as="bk" hint-placeholder-count="2">
+          <sc-if value="{{ showBookLayer }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#f4f5f7;padding:10px 18px;border-bottom:1px solid #eef0f2;font-weight:600;color:#191c22;font-size:14px;">Rate book: {{ bk.name }}</div>
+          </sc-if>
+          <sc-for list="{{ bk.rows }}" as="w" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:16px;padding:12px 18px;border-bottom:1px solid #eef0f2;">
+            <span style="flex:1;min-width:0;font-size:14px;font-weight:500;color:#191c22;">{{ w.role }}</span>
+            <span style="width:130px;flex:none;text-align:right;font-size:14px;color:#191c22;">{{ w.md }}</span>
+            <sc-if value="{{ showVirginia }}" hint-placeholder-val="{{ true }}"><span style="width:130px;flex:none;text-align:right;font-size:14px;color:#3f4652;">{{ w.va }}</span></sc-if>
+            <span style="width:230px;flex:none;text-align:right;font-size:13px;color:#9096a0;">{{ w.deriv }}</span>
+          </div>
+          </sc-for>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:32px;display:flex;align-items:baseline;gap:8px;margin-bottom:12px;">
+        <span style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;">Loaded benefit preview</span>
+        <span style="font-size:13.5px;color:#9096a0;">— values in effect on 9/1/25</span>
+      </div>
+      <div style="border:1px solid #e3e6ea;border-radius:12px;overflow:hidden;background:#fff;">
+        <div style="display:flex;align-items:center;gap:16px;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 18px;font-size:13px;font-weight:600;color:#6b7280;">
+          <span style="flex:1;min-width:0;">Fund</span>
+          <span style="width:210px;flex:none;">Basis</span>
+          <span style="width:110px;flex:none;">Paid by</span>
+          <span style="width:160px;flex:none;text-align:right;">P1</span>
+        </div>
+        <sc-for list="{{ benefits }}" as="b" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:16px;padding:12px 18px;border-bottom:1px solid #eef0f2;">
+          <span style="flex:1;min-width:0;font-size:14px;font-weight:500;color:#191c22;">{{ b.fund }}</span>
+          <div style="width:210px;flex:none;display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:13.5px;color:#3f4652;">
+            <span>{{ b.basis }}</span>
+            <sc-if value="{{ b.custom }}" hint-placeholder-val="{{ false }}"><span style="background:#eef0f2;color:#5b616b;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:5px;">Custom</span></sc-if>
+          </div>
+          <span style="width:110px;flex:none;font-size:13.5px;color:#3f4652;">{{ b.paidBy }}</span>
+          <div style="width:160px;flex:none;text-align:right;">
+            <div style="font-size:14px;color:{{ b.p1Color }};">{{ b.p1 }}</div>
+            <sc-if value="{{ b.hasChip }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;margin-top:4px;background:#eef0f2;color:#6b7280;font-size:11px;padding:2px 8px;border-radius:5px;">{{ b.chip }}</span></sc-if>
+          </div>
+        </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:28px;background:#f7f8fa;border:1px solid #eef0f2;border-radius:12px;padding:20px 22px;">
+        <div style="font-size:16px;font-weight:700;color:#191c22;">Outside Power &amp; High Tension Cable Agreement</div>
+        <div style="font-size:14px;color:#3a404a;margin-top:6px;">Term 09/01/2025 – 08/31/2027</div>
+        <div style="font-size:13.5px;color:#9096a0;margin-top:3px;">{{ summaryLine3 }}</div>
+      </div>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.28);z-index:100;">{{ toast }}</div>
+  </sc-if>
+
+  <div style="border-top:1px solid #ededf0;background:#fff;padding:20px 48px;display:flex;justify-content:flex-end;align-items:center;gap:14px;">
+    <button style="display:flex;align-items:center;gap:8px;background:transparent;border:none;color:#4b5563;font-weight:600;font-size:15px;padding:13px 18px;border-radius:10px;cursor:pointer;" style-hover="background:#f2f3f5;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8h-10M7 4.5L3.5 8 7 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+    <button onClick="{{ onPublish }}" style="display:flex;align-items:center;gap:9px;background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Publish agreement</button>
+  </div>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(17,23,41,0.28);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:130;width:420px;max-width:calc(100vw - 48px);max-height:80vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.26);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Review — behavior spec</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">PUBLISH GATE</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Publish is disabled until every step is valid and zero classes are Unmapped (Not Available counts as handled).</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">OVERTIME ROW</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The Overtime/Double-time row only becomes an amber "— confirm" warning when the user never touched the default multipliers on the Wages step. Here they were reviewed, so it is a green row.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">BENEFIT P1 VALUE</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The benefit preview's P1 value is the value in effect on period 1's first day — so a fund with its own change dates (Lineco) shows a real number, never a blank.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">SUPERSEDE CHECKBOX</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Checking the supersede box archives the prior agreement at the moment this one publishes, and records which agreement replaced it. Leaving it unchecked keeps both active — legitimate when a local runs two different agreements at once.</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">SINGLE BOOK / COLUMN</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">With one rate book / one wage column, the previews render without book headers and with a single value column — exactly like the current screenshot.</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;scenario&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Designed&quot;,&quot;options&quot;:[&quot;Designed&quot;,&quot;Simple agreement&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scenario&quot;},
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  state = { supersede:true, notesOpen:false, toast:null };
+
+  componentDidMount(){ this.applyAccent(); }
+  componentDidUpdate(){ this.applyAccent(); }
+  applyAccent(){ var el=this.rootRef.current; if(el) el.style.setProperty('--accent', this.props.accent||'#ee6b2d'); }
+  toggleSupersede = ()=>{ this.setState(s => ({ supersede: !s.supersede })); };
+  onPublish = ()=>{ var self=this; this.setState({ toast:'Publishing agreement…' }); setTimeout(function(){ self.setState({ toast:null }); }, 2600); };
+  toggleNotes = ()=>{ this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var S=this.state;
+    var simple = this.props.scenario === 'Simple agreement';
+    var booksN = simple?1:2, colsN = simple?1:2, classesN = simple?3:6;
+    var plur = function(n){ return n>1?'s':''; };
+
+    var opRows=[
+      {role:'Lineman, Journeyman', md:'$45.87', va:'$44.44', deriv:'anchor'},
+      {role:'General Foreman', md:'$52.75', va:'$51.11', deriv:'115% of Lineman, Journeyman'},
+      {role:'Equipment Mechanic', md:'$34.60', va:'$32.65', deriv:'absolute'}
+    ];
+    var htcRows=[
+      {role:'Cable Splicer', md:'$48.06', va:'$46.93', deriv:'anchor'},
+      {role:'Cable Splicer Apprentice', md:'$33.64', va:'$32.85', deriv:'70% of Cable Splicer'}
+    ];
+    var wageBooks = simple ? [{name:'Outside Power', rows:opRows}] : [{name:'Outside Power', rows:opRows},{name:'High Tension Cable', rows:htcRows}];
+
+    var checklist = [
+      {ok:true, text:'Covered by 1 local (70)'},
+      {ok:true, text: booksN+' rate book'+plur(booksN)+' · '+colsN+' wage column'+plur(colsN)+' · 2 wage periods · '+classesN+' classes — derived rates resolve'},
+      {ok:true, text:'6 funds — 1 per-class, 1 scoped to a rate book, 1 with its own change dates'},
+      {ok:true, text:'All classes mapped · 1 marked Not Available'},
+      {ok:false, text:'TBD pending — 3 wage / 2 benefit cells unallocated'},
+      {ok:true, text:'Overtime 1.5× · Double-time 2× (applied to ST)'}
+    ].map(function(r){ return { ok:r.ok, notOk:!r.ok, text:r.text, color: r.ok?'#191c22':'#b4740c' }; });
+
+    var benefits = [
+      {fund:'NEBF', basis:'% of gross pay', custom:false, paidBy:'Employer', p1:'3%', muted:false, chip:''},
+      {fund:'Working Assessment', basis:'% of gross pay', custom:false, paidBy:'Employee', p1:'2.5%', muted:false, chip:''},
+      {fund:'Apprenticeship & Training', basis:'% of gross pay', custom:false, paidBy:'Employer', p1:'1.5%', muted:false, chip:'Outside Power book only'},
+      {fund:'NEAP', basis:'% of gross pay', custom:false, paidBy:'Employer', p1:'per class ($ and %)', muted:true, chip:''},
+      {fund:'Pension', basis:'$/hr · worked · OT $9.00', custom:true, paidBy:'Employer', p1:'$6.00', muted:false, chip:''},
+      {fund:'Lineco', basis:'$ per hour worked', custom:false, paidBy:'Employer', p1:'$7.50', muted:false, chip:'own dates'}
+    ].map(function(b){ return { fund:b.fund, basis:b.basis, custom:b.custom, paidBy:b.paidBy, p1:b.p1, p1Color: b.muted?'#9096a0':'#191c22', hasChip:!!b.chip, chip:b.chip }; });
+
+    var summaryLine3 = '1 local · 2 periods · '+booksN+' rate book'+plur(booksN)+' · '+colsN+' wage column'+plur(colsN)+' · '+classesN+' classes · 6 funds';
+
+    return {
+      rootRef:this.rootRef,
+      checklist:checklist,
+      supersede:S.supersede,
+      supBg: S.supersede?'#101728':'#ffffff',
+      supBorder: S.supersede?'#101728':'#b9c9e0',
+      toggleSupersede:this.toggleSupersede,
+      wageBooks:wageBooks, showBookLayer: wageBooks.length>1, showVirginia: !simple,
+      benefits:benefits,
+      summaryLine3:summaryLine3,
+      onPublish:this.onPublish, toast:S.toast,
+      notesOpen:S.notesOpen, toggleNotes:this.toggleNotes
+    };
+  }
+}
+</script>
+</body>
+</html>

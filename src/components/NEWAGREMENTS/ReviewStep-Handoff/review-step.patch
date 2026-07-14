@@ -1,0 +1,549 @@
+diff --git a/src/pages/union/agreements-v2/AgreementWizard.tsx b/src/pages/union/agreements-v2/AgreementWizard.tsx
+index bd748f93..c428c615 100644
+--- a/src/pages/union/agreements-v2/AgreementWizard.tsx
++++ b/src/pages/union/agreements-v2/AgreementWizard.tsx
+@@ -94,6 +94,10 @@ export function AgreementWizard() {
+   const [hydrating, setHydrating] = useState<boolean>(Boolean(uuid));
+   const [saving, setSaving] = useState(false);
+   const [submitError, setSubmitError] = useState<string | null>(null);
++  // Whether the Wages step was completed (multipliers reviewed) — drives the
++  // Review checklist's OT/DT row: green once reviewed, amber "— confirm" while
++  // the defaults were never even looked at (e.g. a free forward jump).
++  const [wagesReviewed, setWagesReviewed] = useState(false);
+   // Sequence-ordered backend period ids — aligns Step-3 rate cells to periods.
+   const [periodIds, setPeriodIds] = useState<number[]>([]);
+ 
+@@ -160,6 +164,10 @@ export function AgreementWizard() {
+       if (res.success && res.data) {
+         applyEnvelope(res.data, true);
+         setCur(STEP_INDEX[res.data.wizard.current_step] ?? 1);
++        // Resuming past Wages ⇒ the step was completed, multipliers reviewed.
++        if (STEP_INDEX[res.data.wizard.current_step] > STEP_INDEX.wages) {
++          setWagesReviewed(true);
++        }
+       } else {
+         toast.error(res.error ?? "Couldn't load this draft.");
+         navigate(LANDING_PATH, { replace: true });
+@@ -332,6 +340,8 @@ export function AgreementWizard() {
+     const env = res.data;
+     applyEnvelope(env); // reflect server-materialized OT/DT + normalized ST
+     surfaceWarnings(env.warnings);
++    setWagesReviewed(true); // Wages step completed — multipliers reviewed
++
+     if (thenExit) {
+       navigate(LANDING_PATH);
+       return;
+@@ -541,7 +551,9 @@ export function AgreementWizard() {
+           {cur === 5 && (
+             <StepMapping draft={draft} updateClass={actions.updateClass} />
+           )}
+-          {cur === 6 && <StepReview draft={draft} />}
++          {cur === 6 && (
++            <StepReview draft={draft} premiumsReviewed={wagesReviewed} />
++          )}
+         </div>
+       </div>
+ 
+diff --git a/src/pages/union/agreements-v2/CLAUDE.md b/src/pages/union/agreements-v2/CLAUDE.md
+index ad50cac3..bebbbecf 100644
+--- a/src/pages/union/agreements-v2/CLAUDE.md
++++ b/src/pages/union/agreements-v2/CLAUDE.md
+@@ -22,7 +22,7 @@ A v2 of the union agreements surface — manages agreement **wages & benefits**:
+ 
+ **Route:** `/union/agreements-v2` (static path; ranks above the dynamic `/union/:union_slug`, so no collision). Wired in `App.tsx` under `AuthLayout`.
+ 
+-**Backend:** the **landing list is wired** to the V2 read-only endpoints (`api/agreementsApi.ts` → `GET /api/v2/utilities/agreements/` + `/locals/`, Phase 1.5). **Wizard Step 1 (Setup) is wired** (Phase 2) — `api/wizardApi.ts` → `POST/PATCH /agreement-drafts/.../setup/` + `GET/DELETE /agreement-drafts/{uuid}/`; Continue persists a `DRAFT` agreement and sticks its UUID to the URL, reload-resumes via GET, and landing **draft rows route to the wizard** (`is_draft`/`wizard_step`). **Wizard Steps 2–6 are wired** — `PATCH …/{uuid}/classifications/`, `…/wages/`, `…/benefits/`, `…/mapping/` + `POST …/publish/` (wages materializes OT/DT server-side; benefits maps funds ⇄ tri-state cells; mapping is id-based 3-state; publish flushes to V1 then returns to the landing list; all return normalization `warnings[]`; `applyEnvelope` re-syncs after every save). The **agreement + local detail pages are API-wired** — `GET /agreements/{uuid}/` (+ `…/documents/`, `…/history/`) via `useAgreementDetailData`, `GET /locals/{code}/` (+ `…/documents/`) via `useLocalDetailData`; read views render the server-**computed** sections directly (no re-derivation). **Editing a published agreement is wired** (Phase 3) — `hooks/useAgreementEdit` + `api/editApi.ts`: `PATCH …/{uuid}/wages|benefits|mapping/` save in-place **Corrections** (each = one audit row; wages/benefits bump `current_version` with optimistic-409 conflict handling, mapping is org-scoped/no-version). `utils/detailToDraft.ts` rebuilds an editable `AgreementDraft` from the computed read — wages resolve **by name + period sequence** (`period_id = seq`), benefits use **`per_class` by class_name**, mapping is keyed by the canonical **`umo_id`** the read now surfaces (`mapping.mapping[].umo_id` / `wages.classifications[].id`). The **mapping save is a PARTIAL body** — `toMappingEditBody` sends only the rows changed vs the live read (diffed by role name + NA flag), because the backend **scrubs a mapping on `internal_id: null`**; a full payload would wipe every untouched mapping. A no-op mapping save is skipped client-side (the backend logs an amendment per save). The **History tab** renders the real Corrections audit log. **Every edit is a "Correction"** — no "Amendment"/effective-date concept. See `Documents/UNION_AGREEMENTS_V2_API.md` §"Edit endpoints (Phase 3)" + §"Detail endpoints". **CoveredLocals fetches all active unions from `/locals/options/?page=all`** (`hooks/useLocalOptions`; NOT `/locals/`, which is agreement-filtered), sends each local's union `code`, and offers a wired **"+ Create new local"** (`NewLocalForm` → `POST /locals/create/`). `data/mockAgreements.ts` is kept only for W6's "already-covered" advisory.
++**Backend:** the **landing list is wired** to the V2 read-only endpoints (`api/agreementsApi.ts` → `GET /api/v2/utilities/agreements/` + `/locals/`, Phase 1.5). **Wizard Step 1 (Setup) is wired** (Phase 2) — `api/wizardApi.ts` → `POST/PATCH /agreement-drafts/.../setup/` + `GET/DELETE /agreement-drafts/{uuid}/`; Continue persists a `DRAFT` agreement and sticks its UUID to the URL, reload-resumes via GET, and landing **draft rows route to the wizard** (`is_draft`/`wizard_step`). **Wizard Steps 2–6 are wired** — `PATCH …/{uuid}/classifications/`, `…/wages/`, `…/benefits/`, `…/mapping/` + `POST …/publish/` (wages materializes OT/DT server-side; benefits maps funds ⇄ tri-state cells; mapping is id-based 3-state; publish flushes to V1 then returns to the landing list; all return normalization `warnings[]`; `applyEnvelope` re-syncs after every save). The **agreement + local detail pages are API-wired** — `GET /agreements/{uuid}/` (+ `…/documents/`, `…/history/`) via `useAgreementDetailData`, `GET /locals/{code}/` (+ `…/documents/`) via `useLocalDetailData`; read views render the server-**computed** sections directly (no re-derivation). **Editing a published agreement is wired** (Phase 3) — `hooks/useAgreementEdit` + `api/editApi.ts`: `PATCH …/{uuid}/wages|benefits|mapping/` save in-place **Corrections** (each = one audit row; wages/benefits bump `current_version` with optimistic-409 conflict handling, mapping is org-scoped/no-version). `utils/detailToDraft.ts` rebuilds an editable `AgreementDraft` from the computed read — wages resolve **by name + period sequence** (`period_id = seq`), benefits use **`per_class` by class_name**, mapping is keyed by the canonical **`umo_id`** the read now surfaces (`mapping.mapping[].umo_id` / `wages.classifications[].id`). The **mapping save is a PARTIAL body** — `toMappingEditBody` sends only the rows changed vs the live read (diffed by role name + NA flag), because the backend **scrubs a mapping on `internal_id: null`**; a full payload would wipe every untouched mapping. A no-op mapping save is skipped client-side (the backend logs an amendment per save). The **History tab** renders the real Corrections audit log. **Every edit is a "Correction"** — no "Amendment"/effective-date concept. See `Documents/UNION_AGREEMENTS_V2_API.md` §"Edit endpoints (Phase 3)" + §"Detail endpoints". **CoveredLocals fetches all active unions from `/locals/options/?page=all`** (`hooks/useLocalOptions`; NOT `/locals/`, which is agreement-filtered), sends each local's union `code`, and offers a wired **"+ Create new local"** (`NewLocalForm` → `POST /locals/create/`). W6's "already-covered" advisory is live too (`hooks/useAlreadyCovered` → `GET /agreements/?status=active&union_code=…`); the old `data/mockAgreements.ts` is deleted.
+ 
+ ---
+ 
+@@ -59,7 +59,7 @@ src/pages/union/agreements-v2/
+ │           ├── Wages.tsx              ✅ Step 3 — per-period ST rate grid + OT/DT premiums
+ │           ├── Benefits.tsx           ✅ Step 4 — funds × periods grid + per-class slide-over
+ │           ├── Mapping.tsx            ✅ Step 5 — class → internal role (auto-suggest, orphan flags)
+-│           └── Review.tsx             ✅ Step 6 — recomputed checklist + dupe-coverage advisory + wage preview
++│           └── Review.tsx             ✅ Step 6 — recomputed checklist + live already-covered advisory w/ supersede checkbox + wage/benefit previews (design: Review Step.dc.html)
+ │   └── detail/                         (agreement + local detail pages — read views + in-place section editors)
+ │       ├── SectionHead.tsx           ✅ section title + Edit link
+ │       ├── WagesView.tsx             ✅ read-only wage matrix (API-computed rates; anchor row highlighted via base_name)
+@@ -74,6 +74,7 @@ src/pages/union/agreements-v2/
+ │   ├── useAgreementsLanding.ts       ✅ landing: view/search/filter state + derived KPI counts + rows
+ │   ├── useAgreementDraft.ts          ✅ wizard: in-memory AgreementDraft + typed actions (blank draft)
+ │   ├── useLocalOptions.ts            ✅ fetches /locals/options/?page=all (all active unions) → raw LocalOption rows for the CoveredLocals picker
++│   ├── useAlreadyCovered.ts          ✅ Review advisory: fetches Active agreements covering the drafted locals (/agreements/?status=active&union_code=…) → per-local hits; silent on failure (publish still warns `locals_already_covered`)
+ │   ├── useAgreementDetailData.ts     ✅ agreement detail READ + edit-apply: GET /agreements/{uuid}/ + lazy /documents/ + /history/; applyEdit / refetch
+ │   ├── useLocalDetailData.ts         ✅ local detail READ: GET /locals/{code}/ (identity+agreements) + lazy /documents/
+ │   └── useAgreementEdit.ts           ✅ in-place section editing (Corrections): scratch draft via detailToDraft → PATCH wages/benefits/mapping; 409 → reload; mapping = PARTIAL body (only changed rows — backend scrubs on internal_id:null), no-op save skipped; `canSave` gates Save on the SAME validators as the wizard (classificationsValid + premiumError + fundsValid)
+@@ -96,9 +97,6 @@ src/pages/union/agreements-v2/
+ │   ├── detailToDraft.ts              ✅ detail read → editable AgreementDraft (deriv rebuild, umoId, per-class funds) for the section editors
+ │   └── detailToDraft.test.ts         ✅ unit tests — deriv/TBD/per-class/mapping + umoId carry
+ │
+-├── data/
+-│   └── mockAgreements.ts             ✅ AGREEMENTS — W6 "already-covered" advisory ONLY (Review.tsx); LOC unused; landing is API-backed
+-│
+ ├── constants.ts                      ✅ AGREEMENTS_UI, VIEW_OPTIONS, FILTER_CHIPS, STATUS_BADGE_VARIANT, HEALTH_CARDS
+ ├── types.ts                          ✅ Agreement, AgreementDraft, Classification, Derivation, Fund, FilterKey, …
+ │
+@@ -238,7 +236,7 @@ Baked-in from prior project feedback. Violating these has caused rework before.
+ - [x] **W4 — Benefits** — fringe-fund editor: one row per fund (Fund `FundCombobox` pick-or-create · Basis · Pays ER/EE · Per-class · period columns), storybook `Card`/`Table`/`Select`/`Input`/`Badge`/`Popover`/`Command`. Flat funds edit per-period inline via `BenCell` (tri-state: value / **TBD** `Badge variant="info"` / blank "—"); per-class ($/%) funds open a `SlideOverPanel` (class × period grid). Config columns frozen on horizontal scroll (>4 periods). Decimal cells 2-dp guarded (`acceptDecimal2dp`). **Continue gate**: fund config validity (`fundsValid` / `fundErrors` in `utils/validation.ts` — non-blank name + no duplicate **name + Pays** combination, flagged inline with a red `FundCombobox` border + message; zero funds is allowed). Fund *values* may still be fully TBD/blank (announced-but-unallocated), like wages. Build + lint + vite green.
+ - [x] **W5 — Mapping** — class → internal role table (Union class · ST P1 wage · role `RoleCombobox` · status `Badge`), storybook `Card`/`Table`/`Badge` + the shared pick-or-create combobox. Name-based **auto-suggest** (`suggestRole` in `utils/mapping.ts` — **domain-aware US line-work resolver**: exact → foreign-trade veto → apprentice step engine → alias-canonicalized weighted-Dice, dynamic against the live `roles`; maps the many real-world spellings ("Apprentice Lineman - 1st Period"→"Apprentice 1", "H.E.O."→"Equipment Operator", "Head Lineman"→"Lead Lineman") and declines trades absent from the catalog (Substation/Signal/Meter/Fiber/Cable/URD/Street-Light); per-row "↳ Use …" + bulk "Auto-suggest mappings"). Orphaned (unmapped) classes flagged red; footer shows "X of Y mapped · N orphaned". Mapping is where orphans are cleared. ST P1 via `rateAt(c, byId, 0)` + `money`. Build + lint + vite + 5 tests green.
+ - **Publish gate is comprehensive** (shell): `canPublish = setupValid && classesValid && wagesValid && benefitsValid && mappingValid` (mappingValid = ≥1 class **and** no orphans). The `Stepper` allows free forward jumps, so Publish re-checks **every** step — you can't jump to the end and publish an incomplete agreement (e.g. zero classes, where `orphans` is vacuously 0). Each step's Continue still gates only its own step.
+-- [x] **W6 — Review** — read-only summary: a checklist recomputed live from the draft (locals · structure · per-class funds · all-mapped · TBD cell counts · premiums-confirm — `Check`/`AlertTriangle` rows), a quiet **"already-covered locals"** advisory (locals already on an Active `AGREEMENTS` row), a **period-1 loaded-wage preview** (`Role · Wage(ST) · Derivation`, TBD badge for unentered via `anchorEmptyAt`) **and a period-1 benefit preview** (`Fund · Basis · Pays · P1`; flat funds show the value/TBD/—, per-class funds show "per class ($/%)"; only when funds exist), plus a summary showing the **name, term (effective → expires), and counts**. Publish lives in the **shell footer** (gated on the comprehensive `canPublish`) — the step has no duplicate button. Storybook `Card`/`Table`/`Badge`. *(Term + benefit preview are completeness additions beyond the prototype, which previewed only wages and never showed the term.)* Build + lint + vite green.
++- [x] **W6 — Review** (redesigned per `Review Step.dc.html`, Claude Design project `2fd50170`) — read-only summary: a checklist recomputed live from the draft (locals · structure incl. the constant "1 rate book · 1 wage column" until multi-book/column ships · funds w/ per-class count · all-mapped + Not-Available count · TBD cell counts · OT/DT premiums — `Check`/`AlertTriangle` rows). The **OT/DT row is green once the Wages step was completed** (`premiumsReviewed` prop, from the shell's `wagesReviewed`: set on Wages Continue + on resume past Wages) and an amber "— confirm" otherwise (free forward jump / untouched defaults). The **"already-covered locals" advisory is LIVE** (`useAlreadyCovered`) and carries a **supersede checkbox per prior Active agreement** (default checked, storybook `Checkbox variant="dark"`) — capture-only: the publish API has no supersede field yet (locked in the walkthrough; wire the selection into `POST /publish/` when the backend lands). Period-1 **loaded wage preview** (`Role · Wage(ST) · Derivation`, TBD badge via `anchorEmptyAt`) + **loaded benefit preview** ("values in effect on {P1 start}"; `Fund · Basis · Paid by` — Employer/Employee spelled out — `· P1`; flat funds show value/TBD/—, per-class show "per class ($/%)"; only when funds exist), plus the summary card (**name, term, counts** incl. book/column). Publish lives in the **shell footer** (gated on the comprehensive `canPublish`) — the step has no duplicate button. Storybook `Card`/`Table`/`Badge`/`Checkbox`. Build + lint + vite green.
+   - Dropped (prototype test-harness): `ScenarioPicker`, `SCENARIOS` presets, `TypeTag` schema tags, `CatalogProvider` (mock catalogs now).
+   - Domain widgets (no storybook equiv — flag each): ✅ `CoveredLocals`, `WagePeriods`, `DerivationControl`, Wages cells (`WageCell`/`MultInput`), Benefits `BenCell` + frozen-column matrix.
+ - [x] **Detail page — API-wired (read + edit)** — single-agreement view (route `/union/agreements-v2/:id`). Fetches by uuid via `useAgreementDetailData` → `GET /agreements/{uuid}/` + lazy `…/documents/` + `…/history/`; PUBLISHED-only (DRAFT/404 → "back to agreements" card). Header + **Details / Documents / History** tabs. Read views render the server-computed sections directly. **Wages / Benefits / Mapping edit in place** as "Corrections" (`useAgreementEdit` + `api/editApi`; `utils/detailToDraft` rebuilds the editable draft; wages/benefits carry `expected_version` w/ optimistic-409, mapping is org-scoped keyed by `umo_id` and sends a **partial body — changed rows only**, since the backend scrubs on `internal_id: null`). **History** = the real Corrections audit log. Documents open the real `file_url`. Build + lint + tsc + 139 tests green.
+@@ -253,7 +251,7 @@ Baked-in from prior project feedback. Violating these has caused rework before.
+ - [ ] No `.css` file created in this module.
+ - [ ] All UI primitives from storybook (gaps flagged in the map, not silently inlined).
+ - [ ] New UI copy in `constants.ts`; new types in `types.ts`.
+-- [ ] Mock/static data in `data/` (no imports from the prototype dir).
++- [ ] No imports from the prototype dir (port sample data into the module if ever needed — the module is fully API-backed today).
+ - [ ] Config records centralized and derived (no duplication).
+ - [ ] Route-level components at module root; supporting code in folders.
+ - [ ] Gridbase tokens — `font-inter`, orange CTA, tone variants (no raw tone hex).
+diff --git a/src/pages/union/agreements-v2/components/wizard/steps/Review.tsx b/src/pages/union/agreements-v2/components/wizard/steps/Review.tsx
+index d84749f9..7d5c20d1 100644
+--- a/src/pages/union/agreements-v2/components/wizard/steps/Review.tsx
++++ b/src/pages/union/agreements-v2/components/wizard/steps/Review.tsx
+@@ -1,15 +1,17 @@
+-import { useMemo } from "react";
++import { useMemo, useState } from "react";
+ import { AlertTriangle, Check } from "lucide-react";
+ import { cn } from "@/lib/utils";
+ import { Badge } from "@/components/ui/badge";
+ import { Card } from "@/components/ui/card";
++import { Checkbox } from "@/components/ui/checkbox";
+ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+ import type { AgreementDraft, Basis } from "../../../types";
+-import { AGREEMENTS } from "../../../data/mockAgreements";
++import type { AgreementListRow } from "../../../api/types";
+ import { BASIS_OPTS, REVIEW_UI } from "../../../constants";
++import { useAlreadyCovered } from "../../../hooks/useAlreadyCovered";
+ import { anchorEmptyAt, derivLabel, indexById, isAnchorLike, rateAt } from "../../../utils/derivation";
+ import { money } from "../../../utils/format";
+-import { isoToMD, periodLabel } from "../../../utils/periods";
++import { isoToMD, periodLabel, shortDate } from "../../../utils/periods";
+ 
+ /** Basis → display unit / label. */
+ const benUnit = (basis: Basis): "$" | "%" => (basis === "DOLLAR_HR" ? "$" : "%");
+@@ -18,17 +20,26 @@ const basisLabel = (basis: Basis): string =>
+ 
+ /**
+  * Step 6 — Review. A checklist recomputed live from the draft (locals, structure,
+- * per-class funds, mapping, TBD, premiums), a quiet "already-covered locals"
+- * advisory (locals already on an Active agreement), and a period-1 loaded-wage
+- * preview. Read-only: the wizard's footer owns Publish (gated on a complete
+- * agreement). Ported from the union-prototype's <StepReview/>; storybook
+- * Card/Table/Badge.
++ * funds, mapping, TBD, premiums), the "already-covered locals" advisory (live
++ * lookup of Active agreements covering the drafted locals) with a per-agreement
++ * supersede checkbox, and period-1 loaded wage / benefit previews. Read-only:
++ * the wizard's footer owns Publish (gated on a complete agreement).
++ *
++ * The OT/DT row is green once the Wages step was completed (`premiumsReviewed`);
++ * until then it's an amber "— confirm" (untouched default multipliers).
+  */
+-export function StepReview({ draft }: { draft: AgreementDraft }) {
++export function StepReview({
++  draft,
++  premiumsReviewed,
++}: {
++  draft: AgreementDraft;
++  premiumsReviewed: boolean;
++}) {
+   const byId = useMemo(() => indexById(draft.classes), [draft.classes]);
+   const orphans = draft.classes.filter(
+     (c) => !c.internal && !c.notAvailable,
+   ).length;
++  const notAvailable = draft.classes.filter((c) => c.notAvailable).length;
+   const perClass = draft.funds.filter((f) => f.perClass).length;
+ 
+   // Per-cell TBD counts (wages & benefits decouple).
+@@ -52,22 +63,32 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+   }, 0);
+   const anyTbd = wageTbd > 0 || benTbd > 0;
+ 
+-  // Quiet duplicate-coverage advisory: covered locals already on an Active
+-  // agreement (non-blocking — a future "renew" flow would supersede the prior).
+-  const dupes = useMemo(
+-    () =>
+-      draft.locals
+-        .map((l) => ({
+-          lu: l.lu,
+-          hits: AGREEMENTS.filter(
+-            (a) => a.status === "Active" && a.locals.includes(l.lu),
+-          ),
+-        }))
+-        .filter((x) => x.hits.length > 0),
+-    [draft.locals],
+-  );
++  // Already-covered locals — live lookup of Active agreements covering any
++  // drafted local, with a supersede checkbox per prior agreement (default
++  // checked: the common case is a renewal). Capture-only for now — the publish
++  // API has no supersede field yet (locked in the walkthrough; backend
++  // pending), so the choice isn't sent anywhere.
++  const { dupes } = useAlreadyCovered(draft.locals);
++  const priorAgreements = useMemo(() => {
++    const seen = new Map<string, AgreementListRow>();
++    dupes.forEach((d) =>
++      d.hits.forEach((h) => {
++        if (!seen.has(h.uuid)) seen.set(h.uuid, h);
++      }),
++    );
++    return [...seen.values()];
++  }, [dupes]);
++  const [notSuperseding, setNotSuperseding] = useState<Set<string>>(new Set());
++  const toggleSupersede = (uuid: string) =>
++    setNotSuperseding((prev) => {
++      const next = new Set(prev);
++      if (next.has(uuid)) next.delete(uuid);
++      else next.add(uuid);
++      return next;
++    });
+ 
+   const nLocals = draft.locals.length;
++  const nFunds = draft.funds.length;
+   const checks: [ok: boolean, label: string][] = [
+     [
+       true,
+@@ -77,18 +98,22 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+     ],
+     [
+       true,
+-      `${draft.periods.length} ${REVIEW_UI.wagePeriods} · ${draft.classes.length} ${REVIEW_UI.classes} · ${REVIEW_UI.structureTail}`,
++      `1 ${REVIEW_UI.rateBook} · 1 ${REVIEW_UI.wageColumn} · ${draft.periods.length} ${REVIEW_UI.wagePeriods} · ${draft.classes.length} ${REVIEW_UI.classes} ${REVIEW_UI.structureTail}`,
+     ],
+     [
+-      perClass > 0,
+-      perClass > 0
+-        ? `${perClass} ${REVIEW_UI.perClassCaptured}`
+-        : REVIEW_UI.noPerClass,
++      true,
++      nFunds === 0
++        ? REVIEW_UI.noFunds
++        : `${nFunds} ${nFunds === 1 ? REVIEW_UI.fund : REVIEW_UI.funds}${
++            perClass > 0 ? ` — ${perClass} ${REVIEW_UI.perClassTail}` : ""
++          }`,
+     ],
+     [
+       orphans === 0,
+       orphans === 0
+-        ? REVIEW_UI.allMapped
++        ? `${REVIEW_UI.allMapped}${
++            notAvailable > 0 ? ` · ${notAvailable} ${REVIEW_UI.naTail}` : ""
++          }`
+         : `${orphans} ${REVIEW_UI.unmapped}`,
+     ],
+     [
+@@ -98,8 +123,10 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+         : REVIEW_UI.noTbd,
+     ],
+     [
+-      false,
+-      `${REVIEW_UI.overtime} ${draft.otMult || 1.5}× · ${REVIEW_UI.doubletime} ${draft.dtMult || 2}× ${REVIEW_UI.premiumsTail}`,
++      premiumsReviewed,
++      `${REVIEW_UI.overtime} ${draft.otMult || 1.5}× · ${REVIEW_UI.doubletime} ${draft.dtMult || 2}× ${REVIEW_UI.premiumsApplied}${
++        premiumsReviewed ? "" : ` ${REVIEW_UI.premiumsConfirm}`
++      }`,
+     ],
+   ];
+ 
+@@ -126,16 +153,44 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+ 
+       {dupes.length > 0 && (
+         <div className="mb-5 rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+-          <div className="mb-1.5 text-sm font-medium text-gray-900">
++          <div className="mb-1.5 text-sm font-semibold text-blue-900">
+             {REVIEW_UI.dupesTitle}
+           </div>
+-          <p className="mb-2.5 text-xs text-gray-600">{REVIEW_UI.dupesBody}</p>
+-          <div className="space-y-1">
+-            {dupes.map((x) => (
+-              <div key={x.lu} className="text-xs text-gray-700">
+-                <span className="font-semibold">LU {x.lu}</span> —{" "}
+-                {x.hits.map((h) => h.name).join(", ")}
+-              </div>
++          <p className="mb-3 text-xs leading-relaxed text-blue-800/90">
++            {dupes
++              .map(
++                (d) =>
++                  `LU ${d.local.lu} ${
++                    d.hits.length === 1
++                      ? REVIEW_UI.dupesOnOne
++                      : REVIEW_UI.dupesOnMany
++                  } ${d.hits.map((h) => h.name).join(", ")}.`,
++              )
++              .join(" ")}{" "}
++            {priorAgreements.length === 1
++              ? REVIEW_UI.dupesTailOne
++              : REVIEW_UI.dupesTailMany}
++          </p>
++          <div className="space-y-2">
++            {priorAgreements.map((h) => (
++              <label
++                key={h.uuid}
++                htmlFor={`supersede-${h.uuid}`}
++                className="flex cursor-pointer items-start gap-2.5 rounded-lg border border-blue-200 bg-white px-3 py-2.5"
++              >
++                <Checkbox
++                  id={`supersede-${h.uuid}`}
++                  variant="dark"
++                  checked={!notSuperseding.has(h.uuid)}
++                  onCheckedChange={() => toggleSupersede(h.uuid)}
++                  className="mt-0.5"
++                />
++                <span className="text-xs leading-relaxed text-gray-700">
++                  {REVIEW_UI.supersedePre}{" "}
++                  <span className="font-medium text-gray-900">{h.name}</span>{" "}
++                  {REVIEW_UI.supersedePost}
++                </span>
++              </label>
+             ))}
+           </div>
+         </div>
+@@ -192,7 +247,8 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+           <div className="mb-2 text-sm font-semibold text-gray-900">
+             {REVIEW_UI.benefitPreview}{" "}
+             <span className="text-xs font-normal text-gray-400">
+-              — {periodLabel(draft.periods[0])}
++              — {REVIEW_UI.benefitAsOf}{" "}
++              {draft.periods[0] ? shortDate(draft.periods[0].start) : "—"}
+             </span>
+           </div>
+           <Card className="mb-5 overflow-hidden p-0 shadow-none">
+@@ -201,7 +257,9 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+                 <TableRow className="bg-gray-50/80 text-xs hover:bg-gray-50/80">
+                   <TableHead className="px-3 text-xs">{REVIEW_UI.colFund}</TableHead>
+                   <TableHead className="px-3 text-xs">{REVIEW_UI.colBasis}</TableHead>
+-                  <TableHead className="px-3 text-xs">{REVIEW_UI.colPays}</TableHead>
++                  <TableHead className="px-3 text-xs">
++                    {REVIEW_UI.colPaidBy}
++                  </TableHead>
+                   <TableHead className="px-3 text-right text-xs">
+                     {REVIEW_UI.colP1}
+                   </TableHead>
+@@ -216,7 +274,11 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+                     <TableCell className="px-3 text-gray-500">
+                       {basisLabel(f.basis)}
+                     </TableCell>
+-                    <TableCell className="px-3 text-gray-500">{f.liable}</TableCell>
++                    <TableCell className="px-3 text-gray-500">
++                      {f.liable === "ER"
++                        ? REVIEW_UI.paidByER
++                        : REVIEW_UI.paidByEE}
++                    </TableCell>
+                     <TableCell className="px-3 text-right">
+                       {f.perClass ? (
+                         <span className="text-xs text-gray-400">
+@@ -255,7 +317,8 @@ export function StepReview({ draft }: { draft: AgreementDraft }) {
+           </div>
+           <div className="mt-0.5 text-xs text-gray-500">
+             {draft.locals.length} {REVIEW_UI.summaryLocals} · {draft.periods.length}{" "}
+-            {REVIEW_UI.summaryPeriods} · {draft.classes.length}{" "}
++            {REVIEW_UI.summaryPeriods} · 1 {REVIEW_UI.rateBook} · 1{" "}
++            {REVIEW_UI.wageColumn} · {draft.classes.length}{" "}
+             {REVIEW_UI.summaryClasses} · {draft.funds.length}{" "}
+             {REVIEW_UI.summaryFunds}
+           </div>
+diff --git a/src/pages/union/agreements-v2/constants.ts b/src/pages/union/agreements-v2/constants.ts
+index b26d3e2c..380c6a50 100644
+--- a/src/pages/union/agreements-v2/constants.ts
++++ b/src/pages/union/agreements-v2/constants.ts
+@@ -265,12 +265,21 @@ export const REVIEW_UI = {
+   coveredBy: "Covered by",
+   local: "local",
+   locals: "locals",
++  // Rate books / wage columns aren't modeled yet — every agreement is exactly
++  // one implicit book with one value column, so the checklist + summary render
++  // the constant "1 …" until the multi-book / multi-column structure ships
++  // (locked in the wizard walkthrough review).
++  rateBook: "rate book",
++  wageColumn: "wage column",
+   wagePeriods: "wage periods",
+   classes: "classes",
+-  structureTail: "derived rates resolve (incl. offset)",
+-  perClassCaptured: "per-class fund(s) captured ($ and/or %)",
+-  noPerClass: "No per-class funds",
++  structureTail: "— derived rates resolve",
++  fund: "fund",
++  funds: "funds",
++  perClassTail: "per-class",
++  noFunds: "No funds captured",
+   allMapped: "All classes mapped",
++  naTail: "marked Not Available",
+   unmapped: "class(es) unmapped — required to publish (fix in Mapping)",
+   noTbd: "No TBD cells",
+   tbdPending: "TBD pending",
+@@ -279,10 +288,15 @@ export const REVIEW_UI = {
+   cellsUnallocated: "cell(s) unallocated",
+   overtime: "Overtime",
+   doubletime: "Double-time",
+-  premiumsTail: "(applied to ST) — confirm",
++  premiumsApplied: "(applied to ST)",
++  premiumsConfirm: "— confirm",
+   dupesTitle: "Already-covered locals",
+-  dupesBody:
+-    "These locals are already on an active agreement. Publishing won’t change the existing one — if this is a renewal, you may want to end-date the prior agreement.",
++  dupesOnOne: "is already on an active agreement:",
++  dupesOnMany: "is already on active agreements:",
++  dupesTailOne: "Publishing won’t change it — unless this is its renewal.",
++  dupesTailMany: "Publishing won’t change them — unless this is their renewal.",
++  supersedePre: "This replaces",
++  supersedePost: "— mark it superseded when this agreement publishes.",
+   term: "Term",
+   wagePreview: "Loaded wage preview",
+   colRole: "Role",
+@@ -291,10 +305,13 @@ export const REVIEW_UI = {
+   tbd: "TBD",
+   notInEffect: "—",
+   benefitPreview: "Loaded benefit preview",
++  benefitAsOf: "values in effect on",
+   colFund: "Fund",
+   colBasis: "Basis",
+-  colPays: "Pays",
++  colPaidBy: "Paid by",
+   colP1: "P1",
++  paidByER: "Employer",
++  paidByEE: "Employee",
+   perClassLabel: "per class",
+   summaryLocals: "local(s)",
+   summaryPeriods: "periods",
+diff --git a/src/pages/union/agreements-v2/data/mockAgreements.ts b/src/pages/union/agreements-v2/data/mockAgreements.ts
+deleted file mode 100644
+index e7b172be..00000000
+--- a/src/pages/union/agreements-v2/data/mockAgreements.ts
++++ /dev/null
+@@ -1,22 +0,0 @@
+-import type { Agreement } from "../types";
+-
+-/**
+- * HARDCODED sample agreements — ported from the union-prototype. The landing,
+- * wizard, and detail pages are all API-wired now; this set is kept ONLY for the
+- * Review step's "already-covered locals" advisory (`StepReview`). Never import
+- * design artifacts directly; sample data lives here.
+- */
+-
+-/** Sample agreement set. */
+-export const AGREEMENTS: Agreement[] = [
+-  { id: "tn", name: "Tennessee Statewide", locals: [175, 270, 429, 474, 760, 934, 1925], coverage: "TN", contract: ["11/30/2026", "ok"], wb: ["11/30/2026", "ok"], status: "Draft", tbd: 0 },
+-  { id: "ca", name: "California Outside Line", locals: [47, 1245], coverage: "CA + NV", contract: ["05/31/2027", "ok"], wb: ["05/31/2027", "ok"], status: "Active", tbd: 0 },
+-  { id: "617", name: "6-17-A · Outside Line", locals: [17], coverage: "MI", contract: ["12/05/2027", "ok"], wb: ["11/30/2026", "ok"], status: "Active", tbd: 3 },
+-  { id: "104n", name: "LU 104 Northern — Utility", locals: [104], coverage: "NH / ME / VT", contract: ["09/02/2028", "ok"], wb: ["08/29/2026", "expiring"], status: "Active", tbd: 0 },
+-  { id: "104s", name: "LU 104 Southern — Utility", locals: [104], coverage: "MA / RI", contract: ["11/30/2027", "ok"], wb: ["08/31/2027", "ok"], status: "Active", tbd: 0 },
+-  { id: "66", name: "LU 66 Outside Utility", locals: [66], coverage: "TX", contract: ["08/31/2029", "ok"], wb: ["09/01/2029", "ok"], status: "Active", tbd: 0 },
+-  { id: "876", name: "6-876-A · Utility & Commercial", locals: [876], coverage: "MI", contract: ["05/31/2027", "ok"], wb: ["05/31/2026", "expired"], status: "Active", tbd: 0 },
+-  { id: "9", name: "MSECA", locals: [9], coverage: "IL", contract: ["05/25/2030", "ok"], wb: ["05/30/2026", "expired"], status: "Active", tbd: 0 },
+-  { id: "51", name: "6-51-A · Outside Power", locals: [51], coverage: "IL", contract: ["02/28/2027", "ok"], wb: ["03/02/2026", "expired"], status: "Active", tbd: 0 },
+-  { id: "42", name: "LU 42 Outside Utility", locals: [42], coverage: "CT", contract: ["09/02/2028", "ok"], wb: ["08/29/2026", "expiring"], status: "Active", tbd: 0 },
+-];
+diff --git a/src/pages/union/agreements-v2/hooks/useAlreadyCovered.ts b/src/pages/union/agreements-v2/hooks/useAlreadyCovered.ts
+new file mode 100644
+index 00000000..e6fc64fe
+--- /dev/null
++++ b/src/pages/union/agreements-v2/hooks/useAlreadyCovered.ts
+@@ -0,0 +1,64 @@
++import { useEffect, useMemo, useState } from "react";
++import { fetchAgreements } from "../api/agreementsApi";
++import type { AgreementListRow } from "../api/types";
++import type { CoveredLocal } from "../types";
++
++/** A drafted local that's already covered by ≥1 Active agreement, with the hits. */
++export interface AlreadyCoveredLocal {
++  local: CoveredLocal;
++  hits: AgreementListRow[];
++}
++
++/**
++ * Live "already-covered locals" advisory for the Review step: fetches the
++ * Active agreements covering any of the drafted locals
++ * (`GET /agreements/?status=active&union_code=…`). Replaces the mock-data
++ * advisory, which could name agreements the org doesn't actually have.
++ *
++ * Advisory-only, so a fetch failure stays silent (no toast, no card) — the
++ * publish response independently carries the `locals_already_covered` warning.
++ */
++export function useAlreadyCovered(locals: CoveredLocal[]) {
++  const codes = useMemo(
++    () =>
++      locals
++        .map((l) => l.code)
++        .filter(Boolean)
++        .sort()
++        .join(","),
++    [locals],
++  );
++  const [rows, setRows] = useState<AgreementListRow[]>([]);
++
++  useEffect(() => {
++    if (!codes) {
++      setRows([]);
++      return;
++    }
++    let alive = true;
++    fetchAgreements({ status: "active", union_code: codes, size: 50 }).then(
++      (res) => {
++        if (!alive) return;
++        setRows(res.success && res.data ? res.data.results : []);
++      },
++    );
++    return () => {
++      alive = false;
++    };
++  }, [codes]);
++
++  const dupes = useMemo<AlreadyCoveredLocal[]>(
++    () =>
++      locals
++        .map((local) => ({
++          local,
++          hits: rows.filter((r) =>
++            r.locals.some((c) => c.code === local.code),
++          ),
++        }))
++        .filter((d) => d.hits.length > 0),
++    [locals, rows],
++  );
++
++  return { dupes } as const;
++}
+diff --git a/src/pages/union/agreements-v2/types.ts b/src/pages/union/agreements-v2/types.ts
+index 5c7c64fa..a9c98861 100644
+--- a/src/pages/union/agreements-v2/types.ts
++++ b/src/pages/union/agreements-v2/types.ts
+@@ -6,8 +6,8 @@
+  *   agreement + agreement_local (M:N) + agreement_classification.derivation_type
+  *   (incl. OFFSET_OF_BASE + offset_value) + period-aware fringe_rate.
+  *
+- * The landing surface reads the persisted `Agreement` row shape. The wizard (not
+- * built yet) edits a richer in-memory `AgreementDraft`.
++ * The landing surface reads the V2 API row shapes (`api/types.ts`); the wizard
++ * edits the richer in-memory `AgreementDraft` below.
+  *
+  * NOTE: this is the single source of truth for the module's types — never
+  * redeclare these inline in components (see CLAUDE.md conventions).
+@@ -16,24 +16,6 @@
+ /* ------------------------------------------------------------------ landing */
+ 
+ export type ExpiryState = "ok" | "expiring" | "expired";
+-export type AgreementStatus = "Active" | "Draft";
+-
+-/** Color-coded expiry cell payload: [displayDate, state]. */
+-export type Expiry = [date: string, state: ExpiryState];
+-
+-export interface Agreement {
+-  id: string;
+-  name: string;
+-  /** Covered IBEW local numbers. length > 1 ⇒ joint agreement. */
+-  locals: number[];
+-  coverage: string;
+-  contract: Expiry;
+-  /** "W&B through" — date through which actual (non-TBD) wages & benefits exist. */
+-  wb: Expiry;
+-  status: AgreementStatus;
+-  /** Count of periods whose raises are announced-but-unallocated (TBD). */
+-  tbd: number;
+-}
+ 
+ /**
+  * Landing list view mode — picks which V2 endpoint the landing fetches. The

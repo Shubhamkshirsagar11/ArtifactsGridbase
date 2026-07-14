@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea,select{font-family:inherit;}
+  input::placeholder{color:#9aa0a8;}
+  input:focus,select:focus{outline:none;border-color:#2f6feb;box-shadow:0 0 0 3px rgba(47,111,235,0.15);}
+  a{color:#c2560f;text-decoration:none;}
+  a:hover{color:#a2450b;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;background:#ffffff;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="background:#f7f8fa;padding:15px 48px;display:flex;align-items:center;gap:10px;font-size:15px;">
+    <span style="color:#9096a0;">Data</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Unions</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Agreements</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#191c22;font-weight:600;">New agreement</span>
+  </div>
+
+  <div style="background:#ffffff;border-bottom:1px solid #ededf0;padding:18px 48px;display:flex;align-items:center;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Setup</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">2</div>
+        <span style="font-size:16px;font-weight:600;color:#191c22;">Classifications</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">3</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Wages</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">4</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Benefits</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">5</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Mapping</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">6</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Review</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#9096a0;font-size:16px;margin-left:30px;cursor:pointer;flex:none;">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Cancel
+    </div>
+  </div>
+
+  <div style="flex:1;width:100%;display:flex;justify-content:center;padding:44px 24px 48px;" data-screen-label="Classifications — New agreement">
+    <div style="width:100%;max-width:960px;">
+
+      <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0 0 22px;">Add/edit classes — the agreement's own data. Derivation supports <b style="color:#191c22;font-weight:600;">absolute</b>, <b style="color:#191c22;font-weight:600;">% of base</b>, <b style="color:#191c22;font-weight:600;">+$ offset</b>, <b style="color:#191c22;font-weight:600;">same as</b> (base = any class in the same rate book). Wages recompute live.<span style="display:block;color:#9aa0a8;margin-top:4px;">Internal mapping is set in Step 5.</span></p>
+
+      <div style="border:1px solid #e3e6ea;border-radius:12px;overflow:hidden;background:#fff;">
+
+        <div style="display:flex;align-items:center;gap:16px;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 18px;font-size:13px;font-weight:600;color:#6b7280;">
+          <span style="width:320px;flex:none;">Union class</span>
+          <span style="flex:1;">Derivation</span>
+        </div>
+
+        <sc-for list="{{ books }}" as="b" hint-placeholder-count="2">
+
+          <sc-if value="{{ showBookLayer }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;align-items:center;gap:12px;background:#f4f5f7;padding:11px 18px;border-bottom:1px solid #eef0f2;">
+            <span style="font-weight:600;color:#191c22;font-size:14px;flex:none;">Rate book:</span>
+            <input value="{{ b.name }}" onChange="{{ b.onName }}" ref="{{ b.setRef }}" placeholder="e.g. Outside Line" style="border:1px solid #dfe3e8;border-radius:7px;padding:5px 10px;font-size:14px;font-weight:600;color:#191c22;background:#fff;width:210px;">
+            <span style="color:#9096a0;font-size:13px;flex:none;">{{ b.classCountText }}</span>
+            <div style="flex:1;"></div>
+            <sc-if value="{{ b.canRemoveBook }}" hint-placeholder-val="{{ false }}"><span onClick="{{ b.onRemove }}" style="color:#9096a0;font-size:13px;cursor:pointer;flex:none;" style-hover="color:#e5484d;">Remove</span></sc-if>
+          </div>
+          </sc-if>
+
+          <sc-for list="{{ b.classes }}" as="c" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:16px;padding:11px 18px;border-bottom:1px solid #eef0f2;background:{{ c.rowBg }};">
+            <div style="width:320px;flex:none;">
+              <input value="{{ c.name }}" onChange="{{ c.onName }}" ref="{{ c.setRef }}" placeholder="e.g. Journeyman Lineman" style="width:100%;border:1px solid #e3e6ea;border-radius:8px;padding:9px 12px;font-size:14px;color:#191c22;background:#fff;">
+            </div>
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                  <span style="position:relative;display:inline-flex;align-items:center;flex:none;">
+                    <select value="{{ c.type }}" onChange="{{ c.onType }}" style="-webkit-appearance:none;appearance:none;border:1px solid #dfe3e8;border-radius:8px;padding:6px 30px 6px 11px;font-size:13px;color:#3f4652;background:#fff;cursor:pointer;">
+                      <option value="abs">Absolute $</option>
+                      <option value="pct">% of base</option>
+                      <option value="offset">+ $ offset</option>
+                      <option value="same">Same as</option>
+                    </select>
+                    <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </span>
+                  <sc-if value="{{ c.isPct }}" hint-placeholder-val="{{ false }}">
+                    <input value="{{ c.pct }}" onChange="{{ c.onPct }}" style="width:56px;border:1px solid #dfe3e8;border-radius:8px;padding:6px 8px;font-size:13px;text-align:center;color:#3f4652;background:#fff;">
+                    <span style="color:#9096a0;font-size:13px;">% of</span>
+                  </sc-if>
+                  <sc-if value="{{ c.isOffset }}" hint-placeholder-val="{{ false }}">
+                    <input value="{{ c.pct }}" onChange="{{ c.onPct }}" placeholder="$" style="width:64px;border:1px solid #dfe3e8;border-radius:8px;padding:6px 8px;font-size:13px;text-align:center;color:#3f4652;background:#fff;">
+                    <span style="color:#9096a0;font-size:13px;">$ over</span>
+                  </sc-if>
+                  <sc-if value="{{ c.isAbs }}" hint-placeholder-val="{{ false }}">
+                    <span style="color:#9096a0;font-size:13px;">→ enter in Wages</span>
+                  </sc-if>
+                  <sc-if value="{{ c.needsBase }}" hint-placeholder-val="{{ false }}">
+                    <span style="position:relative;display:inline-flex;align-items:center;flex:none;">
+                      <select value="{{ c.base }}" onChange="{{ c.onBase }}" style="-webkit-appearance:none;appearance:none;border:1px solid #dfe3e8;border-radius:8px;padding:6px 30px 6px 11px;font-size:13px;color:#3f4652;background:#fff;cursor:pointer;max-width:220px;">
+                        <option value="">Select base…</option>
+                        <sc-for list="{{ c.baseOptions }}" as="o" hint-placeholder-count="0"><option value="{{ o.id }}">{{ o.name }}</option></sc-for>
+                      </select>
+                      <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:#8d939c;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                  </sc-if>
+                  <button onClick="{{ c.onRemove }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#b6bbc2;cursor:pointer;border-radius:7px;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+                </div>
+            </div>
+          </div>
+          </sc-for>
+
+          <sc-if value="{{ b.noClasses }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:22px 18px;text-align:center;color:#9096a0;font-size:14px;border-bottom:1px solid #eef0f2;">{{ b.emptyMsg }}</div>
+          </sc-if>
+          <sc-if value="{{ b.canAddClass }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ b.onAddClass }}" style="padding:13px 18px;font-size:14px;color:#6b7280;font-weight:500;cursor:pointer;border-bottom:1px solid #eef0f2;" style-hover="background:#fafbfc;">{{ b.addLabel }}</div>
+          </sc-if>
+          <sc-if value="{{ b.needsName }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:13px 18px;font-size:14px;color:#c1c5cc;font-weight:500;cursor:not-allowed;border-bottom:1px solid #eef0f2;">+ Add classification</div>
+          </sc-if>
+
+        </sc-for>
+
+        <div onClick="{{ addBook }}" style="padding:15px 18px;font-size:14px;color:#3a404a;font-weight:600;cursor:pointer;border-top:1px solid #e3e6ea;" style-hover="background:#f7f8fa;">+ Add rate book</div>
+
+      </div>
+
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:12.5px;color:#9096a0;line-height:1.5;">Each book has its own base rate; a derivation can only reference classes in the same book.</div>
+        <div style="font-size:12.5px;color:#9096a0;line-height:1.5;">The same class name may appear in different books at different pay.</div>
+        <div style="font-size:12.5px;color:#9096a0;line-height:1.5;">Row errors: Name is required · Duplicate class name (within this rate book) · Select a base class · Circular derivation · Percent must be between 0 and 1000</div>
+      </div>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.28);z-index:100;">Classifications saved — continuing to Wages…</div>
+  </sc-if>
+
+  <div style="border-top:1px solid #ededf0;background:#fff;padding:20px 48px;display:flex;justify-content:flex-end;align-items:center;gap:14px;">
+    <button style="display:flex;align-items:center;gap:8px;background:transparent;border:none;color:#4b5563;font-weight:600;font-size:15px;padding:13px 18px;border-radius:10px;cursor:pointer;" style-hover="background:#f2f3f5;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8h-10M7 4.5L3.5 8 7 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+    <sc-if value="{{ cannotContinue }}" hint-placeholder-val="{{ true }}">
+    <button disabled style="display:flex;align-items:center;gap:9px;background:#f8d3b8;background:color-mix(in srgb, var(--accent,#ee6b2d) 34%, #ffffff);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:not-allowed;">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+    <sc-if value="{{ canContinue }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ onContinue }}" style="display:flex;align-items:center;gap:9px;background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+  </div>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(17,23,41,0.28);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:130;width:410px;max-width:calc(100vw - 48px);max-height:78vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.26);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Classifications — the rate book model</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">WHAT A RATE BOOK IS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">A rate book is one self-contained classification list inside an agreement. Some agreements hold several — e.g. Local 1002 keeps a separate list for <b style="color:#191c22;font-weight:600;">Outside Line</b> work and for <b style="color:#191c22;font-weight:600;">Transmission Technician</b> work, each with its own job classes and its own base rate that the rest are calculated from.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">ONE BOOK BY DEFAULT</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">A new agreement starts with one rate book already created. The user must <b style="color:#191c22;font-weight:600;">name it before adding classifications</b> — the add row stays disabled until then. Every book (even a single one) shows a "Rate book:" header; adding a second via <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">+ Add rate book</span> is what surfaces the grouping.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">CLASSES &amp; DERIVATION</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Every class — including the first — has a derivation: <b style="color:#191c22;font-weight:600;">Absolute $</b> (a base rate entered in Step 3 · Wages), <b style="color:#191c22;font-weight:600;">% of base</b>, <b style="color:#191c22;font-weight:600;">+ $ offset</b>, or <b style="color:#191c22;font-weight:600;">Same as</b>. The base is any other class <b style="color:#191c22;font-weight:600;">in the same book</b>. There is no special "anchor" type — the base rate is simply a class left on Absolute $ that others point to.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">NAMES ARE PER-BOOK</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The same class name may appear in different books at different pay. Class names must be unique <b style="color:#191c22;font-weight:600;">within</b> a book, not globally.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">CONTINUE GATE</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Enabled only when every book is named, every book has at least one class, every class is named, and names are unique within their book.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">ROW ERRORS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Name is required · Duplicate class name (within this rate book) · Select a base class · Circular derivation · Percent must be between 0 and 1000.</div>
+      </div>
+
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;mode&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;New agreement&quot;,&quot;options&quot;:[&quot;New agreement&quot;,&quot;Populated (two books)&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Rate books&quot;},
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  inputs = {};
+  _n = 100;
+  state = Object.assign({ toast: false, notesOpen: false }, this.seed(this.props.mode));
+
+  seed(mode){
+    var m = mode || 'New agreement';
+    if (m === 'Populated (two books)'){
+      var b1 = { id:'b1', name:'Outside Line', classes:[
+        {id:'c1',name:'Journeyman Lineman',type:'abs',pct:'',base:''},
+        {id:'c2',name:'General Foreman',type:'pct',pct:'115',base:'c1'},
+        {id:'c3',name:'Foreman',type:'pct',pct:'110',base:'c1'},
+        {id:'c4',name:'Groundman Driver',type:'abs',pct:'',base:''},
+        {id:'c5',name:'',type:'abs',pct:'',base:''}
+      ]};
+      var b2 = { id:'b2', name:'Transmission Technician', classes:[
+        {id:'d1',name:'Transmission Technician',type:'abs',pct:'',base:''},
+        {id:'d2',name:'Trans. Tech Apprentice — 1st Period',type:'pct',pct:'60',base:'d1'}
+      ]};
+      return { books:[b1,b2], focusId:'c5' };
+    }
+    return { books:[{ id:'b1', name:'', classes:[] }], focusId:'book-b1' };
+  }
+
+  componentDidMount(){ this.applyAccent(); this.doFocus(); }
+  componentDidUpdate(prev){
+    this.applyAccent();
+    if (prev.mode !== this.props.mode) this.setState(Object.assign({ toast:false }, this.seed(this.props.mode)));
+    else this.doFocus();
+  }
+  applyAccent(){ var el = this.rootRef.current; if (el) el.style.setProperty('--accent', this.props.accent || '#ee6b2d'); }
+  doFocus(){
+    var id = this.state.focusId;
+    if (id && this.inputs[id]){ this.inputs[id].focus({ preventScroll:true }); this.setState({ focusId:null }); }
+  }
+  nid(p){ this._n++; return (p||'x') + this._n; }
+
+  setBooks(fn){ this.setState(s => ({ books: fn(s.books.slice()) })); }
+  updBook(bid, fn){ this.setBooks(function(bs){ return bs.map(function(b){ if(b.id!==bid) return b; var nb=Object.assign({},b); fn(nb); return nb; }); }); }
+  updClass(bid, cid, fn){ this.setBooks(function(bs){ return bs.map(function(b){ if(b.id!==bid) return b; var nb=Object.assign({},b); nb.classes=b.classes.map(function(c){ if(c.id!==cid) return c; var nc=Object.assign({},c); fn(nc); return nc; }); return nb; }); }); }
+
+  bookName(bid, v){ this.updBook(bid, function(b){ b.name=v; }); }
+  className(bid, cid, v){ this.updClass(bid, cid, function(c){ c.name=v; }); }
+  classType(bid, cid, v){ this.updClass(bid, cid, function(c){ c.type=v; if(v==='abs'){ c.base=''; } }); }
+  classPct(bid, cid, v){ this.updClass(bid, cid, function(c){ c.pct=v; }); }
+  classBase(bid, cid, v){ this.updClass(bid, cid, function(c){ c.base=v; }); }
+
+  addClass(bid){
+    var book = this.state.books.filter(function(b){ return b.id===bid; })[0];
+    if (book && !book.name.trim()){ this.setState({ focusId:'book-'+bid }); return; }
+    var newId = this.nid('c');
+    this.setBooks(function(bs){
+      return bs.map(function(b){
+        if(b.id!==bid) return b;
+        var nb=Object.assign({},b); nb.classes=b.classes.slice();
+        var type = 'abs';
+        nb.classes.push({ id:newId, name:'', type:type, pct:'', base:'' });
+        return nb;
+      });
+    });
+    this.setState({ focusId:newId });
+  }
+  removeClass(bid, cid){
+    this.setBooks(function(bs){
+      return bs.map(function(b){
+        if(b.id!==bid) return b;
+        var nb=Object.assign({},b);
+        nb.classes = b.classes.filter(function(c){ return c.id!==cid; });
+        nb.classes = nb.classes.map(function(c){ return c.base===cid ? Object.assign({},c,{ base:'' }) : c; });
+        return nb;
+      });
+    });
+  }
+  removeBook(bid){ this.setBooks(function(bs){ return bs.filter(function(b){ return b.id!==bid; }); }); }
+
+  addBook = () => {
+    var bid = this.nid('b');
+    this.setBooks(function(bs){ return bs.concat([{ id:bid, name:'', classes:[] }]); });
+    this.setState({ focusId:'book-'+bid });
+  };
+  onContinue = () => { var self=this; this.setState({ toast:true }); setTimeout(function(){ self.setState({ toast:false }); }, 2400); };
+  toggleNotes = () => { this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var self = this;
+    var books = this.state.books;
+    var showBookLayer = true;
+
+    var booksVM = books.map(function(b){
+      var classesVM = b.classes.map(function(c){
+        var baseOptions = b.classes.filter(function(o){ return o.id!==c.id; }).map(function(o){ return { id:o.id, name:(o.name.trim()||'(unnamed)') }; });
+        return {
+          id:c.id, name:c.name,
+          type:c.type, pct:c.pct, base:c.base,
+          isAbs:c.type==='abs', isPct:c.type==='pct', isOffset:c.type==='offset',
+          needsBase: (c.type==='pct'||c.type==='offset'||c.type==='same'),
+          baseOptions: baseOptions,
+          rowBg: '#ffffff',
+          setRef: function(el){ if(el) self.inputs[c.id]=el; },
+          onName: function(e){ self.className(b.id,c.id,e.target.value); },
+          onType: function(e){ self.classType(b.id,c.id,e.target.value); },
+          onPct: function(e){ self.classPct(b.id,c.id,e.target.value); },
+          onBase: function(e){ self.classBase(b.id,c.id,e.target.value); },
+          onRemove: function(){ self.removeClass(b.id,c.id); }
+        };
+      });
+      var n = b.classes.length;
+      var nm = b.name.trim();
+      return {
+        id:b.id, name:b.name,
+        needsName: !nm,
+        canAddClass: !!nm,
+        canRemoveBook: books.length > 1,
+        classCountText: '· ' + n + (n===1 ? ' class' : ' classes'),
+        noClasses: n===0,
+        emptyMsg: nm ? 'No classifications yet — add one below.' : 'Name this rate book to start adding classifications.',
+        addLabel: '+ Add classification' + (nm ? (' to ' + nm) : ''),
+        classes: classesVM,
+        setRef: function(el){ if(el) self.inputs['book-'+b.id]=el; },
+        onName: function(e){ self.bookName(b.id,e.target.value); },
+        onAddClass: function(){ self.addClass(b.id); },
+        onRemove: function(){ self.removeBook(b.id); }
+      };
+    });
+
+    var blocked = false;
+    books.forEach(function(b){
+      if(!b.name.trim()){ blocked=true; }
+      if(b.classes.length===0){ blocked=true; }
+      var seen={};
+      b.classes.forEach(function(c){
+        var t=c.name.trim().toLowerCase();
+        if(!t){ blocked=true; }
+        else { if(seen[t]){ blocked=true; } seen[t]=true; }
+      });
+    });
+
+    return {
+      rootRef: this.rootRef,
+      showBookLayer: showBookLayer,
+      books: booksVM,
+      addBook: this.addBook,
+      onContinue: this.onContinue,
+      canContinue: !blocked,
+      cannotContinue: blocked,
+      toast: this.state.toast,
+      notesOpen: this.state.notesOpen,
+      toggleNotes: this.toggleNotes
+    };
+  }
+}
+</script>
+</body>
+</html>

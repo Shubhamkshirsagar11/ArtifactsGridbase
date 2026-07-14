@@ -1,0 +1,782 @@
+<title>Agreement Wizard — Step-by-Step: UI ↔ Database</title>
+<style>
+  :root {
+    --page-bg: #F3F2EE; --page-ink: #22252A; --page-muted: #6E7480; --note: #C95B21; --note-soft: #FBEEE4;
+    --frame-line: #D8D5CD; --now: #059669; --now-soft: #ECFDF5; --json: #2563EB; --json-soft: #EFF6FF;
+    --pub: #B45309; --pub-soft: #FFFBEB; --flag: #B45309; --flag-soft: #FEF9EC;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --page-bg: #16181C; --page-ink: #E8EAED; --page-muted: #99A0AB; --note: #E68A4E; --note-soft: #35281E;
+      --frame-line: #33373E; --now: #4FB07A; --now-soft: #1C2E24; --json: #7FA6C0; --json-soft: #1F2A33;
+      --pub: #D2A73F; --pub-soft: #322B18; --flag: #D2A73F; --flag-soft: #2B2517; }
+  }
+  :root[data-theme="dark"] { --page-bg: #16181C; --page-ink: #E8EAED; --page-muted: #99A0AB; --note: #E68A4E; --note-soft: #35281E;
+    --frame-line: #33373E; --now: #4FB07A; --now-soft: #1C2E24; --json: #7FA6C0; --json-soft: #1F2A33;
+    --pub: #D2A73F; --pub-soft: #322B18; --flag: #D2A73F; --flag-soft: #2B2517; }
+  :root[data-theme="light"] { --page-bg: #F3F2EE; --page-ink: #22252A; --page-muted: #6E7480; --note: #C95B21; --note-soft: #FBEEE4;
+    --frame-line: #D8D5CD; --now: #059669; --now-soft: #ECFDF5; --json: #2563EB; --json-soft: #EFF6FF;
+    --pub: #B45309; --pub-soft: #FFFBEB; --flag: #B45309; --flag-soft: #FEF9EC; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0 24px 100px; background: var(--page-bg); color: var(--page-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.5; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .eyebrow { font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--note); font-weight: 600; margin: 44px 0 8px; }
+  h1 { font-size: 30px; font-weight: 650; margin: 0 0 6px; letter-spacing: -0.01em; }
+  .sub { color: var(--page-muted); font-size: 14.5px; max-width: 76ch; margin: 0 0 18px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 12px; color: var(--page-muted); margin-bottom: 8px; }
+  .lg { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 10px; height: 10px; border-radius: 3px; }
+
+  .step-h { display: flex; align-items: baseline; gap: 12px; margin: 52px 0 4px; border-bottom: 2px solid var(--note); padding-bottom: 8px; }
+  .step-h .num { background: var(--note); color: #fff; border-radius: 8px; padding: 2px 10px; font-size: 14px; font-weight: 700; }
+  .step-h h2 { font-size: 19px; font-weight: 650; margin: 0; }
+  .step-h .g { font-size: 12.5px; color: var(--page-muted); margin-left: auto; }
+  .step-sub { font-size: 13px; color: var(--page-muted); margin: 8px 0 16px; max-width: 84ch; }
+
+  .cols { display: grid; grid-template-columns: minmax(0, 58fr) minmax(0, 42fr); gap: 18px; align-items: start; }
+  @media (max-width: 940px) { .cols { grid-template-columns: 1fr; } }
+  .col-t { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--page-muted); font-weight: 650; margin: 0 0 8px; }
+
+  /* UI frame */
+  .frame { background: #fff; border: 1px solid var(--frame-line); border-radius: 13px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.05); color: #111827; }
+  .chrome { display: flex; align-items: center; gap: 7px; background: #F9FAFB; border-bottom: 1px solid #E5E7EB; padding: 8px 13px; }
+  .dot { width: 8px; height: 8px; border-radius: 999px; background: #E5E7EB; }
+  .crumb { font-size: 11.5px; color: #9CA3AF; margin-left: 6px; }
+  .screen { padding: 16px 18px 18px; font-size: 13px; }
+
+  .mini-stepper { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 0 14px; font-size: 10.5px; color: #9CA3AF; flex-wrap: wrap; }
+  .ms { display: flex; align-items: center; gap: 4px; }
+  .ms .c { width: 18px; height: 18px; border-radius: 999px; background: #E5E7EB; color: #6B7280; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+  .ms.cur .c { background: #111827; color: #fff; box-shadow: 0 0 0 3px #E5E7EB; }
+  .ms.done .c { background: #111827; color: #fff; }
+  .ms.cur .l { color: #111827; font-weight: 600; }
+  .ms .ln { width: 14px; height: 1px; background: #E5E7EB; }
+  .cancel-x { margin-left: auto; color: #9CA3AF; font-size: 11px; }
+
+  .sec { font-size: 13px; font-weight: 650; color: #111827; margin: 10px 0 6px; }
+  .fld { margin-bottom: 10px; }
+  .fl { font-size: 12px; font-weight: 550; color: #374151; margin-bottom: 3px; }
+  .fl .req { color: #EF4444; }
+  .fl .hint { font-weight: 400; color: #9CA3AF; }
+  .in { border: 1px solid #E5E7EB; border-radius: 8px; padding: 6px 10px; font-size: 12.5px; color: #111827; background: #fff; display: block; }
+  .in.ph { color: #9CA3AF; }
+  .in.ro { background: #F9FAFB; color: #6B7280; }
+  .in.sm { display: inline-block; width: 110px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .help { font-size: 11px; color: #9CA3AF; margin-top: 3px; }
+  .listbox { border: 1px solid #E5E7EB; border-radius: 10px; overflow: hidden; }
+  .li { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #F3F4F6; font-size: 12.5px; }
+  .li:last-child { border-bottom: none; }
+  .li .x { color: #D1D5DB; }
+  .li.add { color: #9CA3AF; background: #FAFAF9; }
+  table.mock { border-collapse: collapse; width: 100%; font-size: 12px; }
+  .mock-wrap { border: 1px solid #E5E7EB; border-radius: 10px; overflow-x: auto; }
+  table.mock th { background: #F9FAFBcc; text-align: left; font-size: 10px; font-weight: 650; color: #6B7280; padding: 7px 10px; border-bottom: 1px solid #E5E7EB; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+  table.mock td { padding: 7px 10px; border-bottom: 1px solid #F3F4F6; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.mock tr:last-child td { border-bottom: none; }
+  .cellin { border: 1px solid #E5E7EB; border-radius: 6px; padding: 3px 7px; display: inline-block; min-width: 58px; background: #fff; }
+  .cellin.ro { background: #F9FAFB; color: #6B7280; }
+  .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 1px 7px; font-size: 9.5px; font-weight: 700; }
+  .pill.blue { background: #DBEAFE; color: #1D4ED8; }
+  .pill.gray { background: #F3F4F6; color: #6B7280; }
+  .pill.green { background: #D1FAE5; color: #047857; }
+  .pill.red { background: #FEE2E2; color: #B91C1C; }
+  .pill.amber2 { background: #FEF3C7; color: #B45309; }
+  .badge-anchor { background: #F3F4F6; color: #6B7280; border-radius: 5px; padding: 2px 7px; font-size: 10px; font-weight: 650; }
+  .footerbar { display: flex; justify-content: flex-end; gap: 8px; border-top: 1px solid #E5E7EB; padding: 10px 14px; background: #fff; align-items: center; }
+  .btn { font-size: 12px; font-weight: 600; border-radius: 8px; padding: 6px 13px; }
+  .btn.orange { background: #EA6A2C; color: #fff; }
+  .btn.ghost { color: #6B7280; }
+  .btn.outline { border: 1px solid #E5E7EB; color: #4B5563; background: #fff; }
+  .intro-txt { font-size: 12px; color: #6B7280; margin: 0 0 10px; }
+  .intro-txt b { color: #374151; }
+  .warnrow { display: flex; gap: 7px; align-items: baseline; font-size: 12px; padding: 6px 0; border-bottom: 1px solid #F3F4F6; }
+  .warnrow:last-child { border-bottom: none; }
+  .ok { color: #059669; font-weight: 700; }
+  .warn { color: #D97706; font-weight: 700; }
+
+  /* DB panel */
+  .db { display: flex; flex-direction: column; gap: 10px; }
+  .db-card { border: 1px solid var(--frame-line); border-radius: 11px; background: #fff; overflow: hidden; }
+  :root[data-theme="dark"] .db-card, .dark-db .db-card { background: #1D2026; }
+  @media (prefers-color-scheme: dark) { .db-card { background: #1D2026; } }
+  .db-h { display: flex; align-items: center; gap: 8px; padding: 9px 13px; border-bottom: 1px solid var(--frame-line); }
+  .db-h .tn { font-family: var(--mono); font-size: 12.5px; font-weight: 700; color: var(--page-ink); }
+  .when { margin-left: auto; font-size: 9.5px; font-weight: 700; letter-spacing: .05em; border-radius: 5px; padding: 2px 7px; text-transform: uppercase; }
+  .when.now { background: var(--now-soft); color: var(--now); }
+  .when.json { background: var(--json-soft); color: var(--json); }
+  .when.pub { background: var(--pub-soft); color: var(--pub); }
+  .db-b { padding: 7px 13px 10px; }
+  .f { display: flex; gap: 10px; font-size: 12px; padding: 3px 0; align-items: baseline; }
+  .f .fn { font-family: var(--mono); font-size: 11.5px; color: var(--page-ink); white-space: nowrap; }
+  .f .fd { color: var(--page-muted); font-size: 11.5px; }
+  .db-note { font-size: 11.5px; color: var(--page-muted); padding: 8px 2px 0; }
+  .db-note b { color: var(--page-ink); }
+
+  /* review flags */
+  .flags { border: 1px solid var(--flag); background: var(--flag-soft); border-radius: 11px; padding: 12px 16px; margin-top: 14px; }
+  .flags h4 { margin: 0 0 6px; font-size: 12.5px; color: var(--flag); text-transform: uppercase; letter-spacing: .07em; }
+  .flags ul { margin: 0; padding-left: 17px; font-size: 12.5px; color: var(--page-ink); }
+  .flags li { margin-bottom: 4px; }
+  .flags .src { color: var(--page-muted); font-size: 11px; }
+  .chip { display: inline-block; font-size: 9.5px; font-weight: 800; letter-spacing: .05em; border-radius: 4px; padding: 1px 6px; margin-right: 4px; vertical-align: 1px; }
+  .chip.new { background: #D1FAE5; color: #047857; }
+  .chip.chg { background: #FEF3C7; color: #B45309; }
+  .chip.dep { background: #FEE2E2; color: #B91C1C; }
+
+  /* floating menu (open-state mock) */
+  .menu-anchor { position: relative; display: inline-block; }
+  .menu { position: absolute; right: 0; top: 26px; z-index: 5; background: #fff; border: 1px solid #E5E7EB; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.12); min-width: 230px; padding: 4px; text-align: left; display: block; }
+  .menu .mi { display: block; font-size: 12.5px; color: #374151; padding: 7px 10px; border-radius: 6px; white-space: nowrap; }
+  .menu .mi.hov { background: #F3F4F6; color: #111827; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Gridbase · Agreements V2 · verification walkthrough · staging (FE 4addbe90 / BE 2f6edbe)</p>
+  <h1>New-agreement wizard — UI on the left, database on the right</h1>
+  <p class="sub">Each step shows the screen as it exists today and exactly what the backend captures when you hit Continue. The big pattern to hold onto: <b>Step 1 writes real database rows immediately; Steps 2–5 accumulate in one JSON draft (plus the OT/DT multipliers); Publish flushes everything into the rate tables the calculators read.</b> The amber boxes record the decisions made during the page-by-page review (completed July 10, 2026) — each marked NEW / CHANGE / DEPRECATE with its rationale. Together with the chip-marked schema fields, they are the source material for the engineering PRD.</p>
+  <div class="legend">
+    <span class="lg"><span class="sw" style="background:var(--now);"></span>real row, written when you leave the step</span>
+    <span class="lg"><span class="sw" style="background:var(--json);"></span>draft JSON only (nothing relational yet)</span>
+    <span class="lg"><span class="sw" style="background:var(--pub);"></span>written at Publish</span>
+    <span class="lg"><span class="chip new">NEW</span><span class="chip chg">CHANGE</span><span class="chip dep">DEPRECATE</span>markers on every change this review decided</span>
+  </div>
+
+  <!-- ================= STEP 1 ================= -->
+  <div class="step-h"><span class="num">Step 1</span><h2>Setup</h2><span class="g">Continue gate: name + ≥1 local + dates + valid period schedule + required PDFs</span></div>
+  <p class="step-sub">Identity, covered locals, term, the wage-period schedule, and source documents. The only step that writes real rows immediately — and edits here are full-replacement (periods are deleted and recreated, which is why rate columns later re-map).</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">Current UI</p>
+      <div class="frame">
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="crumb">Unions / Agreements / New agreement</span></div>
+        <div class="screen">
+          <div class="mini-stepper">
+            <span class="ms cur"><span class="c">1</span><span class="l">Setup</span></span><span class="ln"></span>
+            <span class="ms"><span class="c">2</span>Classifications</span><span class="ln"></span>
+            <span class="ms"><span class="c">3</span>Wages</span><span class="ln"></span>
+            <span class="ms"><span class="c">4</span>Benefits</span><span class="ln"></span>
+            <span class="ms"><span class="c">5</span>Mapping</span><span class="ln"></span>
+            <span class="ms"><span class="c">6</span>Review</span>
+            <span class="cancel-x">✕ Cancel</span>
+          </div>
+          <div class="sec">Identity</div>
+          <div class="fld"><div class="fl">Agreement name <span class="req">*</span></div><span class="in ph">e.g. California Outside Line</span></div>
+          <div class="fld">
+            <div class="fl">Covered locals <span class="req">*</span></div>
+            <div class="listbox">
+              <div class="li"><span>IBEW Local Union No. 53</span><span class="x">✕</span></div>
+              <div class="li add"><span>＋ Add local — search number or city…</span><span>▾</span></div>
+            </div>
+            <div class="help">Search by local number or city. Two or more = a joint agreement. · dropdown has "Create new local…" (LU #, HQ city, state — name derived)</div>
+          </div>
+          <div class="sec">Term</div>
+          <div class="grid2">
+            <div class="fld"><div class="fl">Effective start <span class="req">*</span></div><span class="in">09/01/2023</span></div>
+            <div class="fld"><div class="fl">Expires <span class="req">*</span></div><span class="in">08/28/2027</span></div>
+          </div>
+          <div class="sec">Wage periods <span class="req">*</span> <span class="hint" style="font-weight:400;color:#9CA3AF;">· type each raise date (start); ends are derived</span>
+            <span style="float:right; font-weight:400; font-size:11px; color:#6B7280;">Periods <span class="cellin" style="min-width:34px; text-align:center;">4</span> <span style="color:#9CA3AF;">1–47</span></span>
+          </div>
+          <div class="mock-wrap">
+            <table class="mock">
+              <thead><tr><th>#</th><th>Start · raise date</th><th>End · derived</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>P1</td><td><span class="cellin ro">09/01/2023</span></td><td><span class="cellin ro">→ 08/31/2024</span></td><td></td></tr>
+                <tr><td>P2</td><td><span class="cellin">09/01/2024</span></td><td><span class="cellin ro">→ 08/31/2025</span></td><td style="color:#D1D5DB;">✕</td></tr>
+                <tr><td>P3</td><td><span class="cellin">09/01/2025</span></td><td><span class="cellin ro">→ 08/31/2026</span></td><td style="color:#D1D5DB;">✕</td></tr>
+                <tr><td>P4</td><td><span class="cellin">09/01/2026</span></td><td><span class="cellin ro">→ 08/28/2027</span></td><td style="color:#D1D5DB;">✕</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="help">P1 start = Effective start · last end = Expires · each end fills to next start − 1 day, gap-free. "Add period" appends a blank row; count caps at whole months in term.</div>
+          <div class="sec" style="margin-top:12px;">Documents <span class="req">*</span></div>
+          <div class="help" style="margin:0 0 8px;">Attach the source PDFs. They'll appear on the agreement's Documents tab and on each covered local.</div>
+          <div class="grid2">
+            <div class="fld"><div class="fl">Union Contract <span class="req">*</span> <span class="hint">— the CBA</span></div><span class="in ph">⬆ Upload PDF</span></div>
+            <div class="fld"><div class="fl">Wages &amp; Benefits sheet <span class="req">*</span> <span class="hint">— rates schedule</span></div><span class="in ph">⬆ Upload PDF</span></div>
+          </div>
+          <div class="help">☐ One combined PDF (contract &amp; wages/benefits in a single file) · ＋ Add document (extra slots with editable labels)</div>
+        </div>
+        <div class="footerbar"><span class="btn orange">Continue →</span></div>
+      </div>
+
+      <p class="col-t" style="margin-top:18px;">Proposed — Documents: upload what arrived, tag what it contains (decided 7/10)</p>
+      <div class="help" style="margin:0 0 10px; font-size:12.5px;">The paperwork arrives in at least five shapes — one combined PDF; contract + a wages-&amp;-benefits sheet; a contract that defines the benefits with a separate wage sheet; contract + wage sheet + standalone fringe sheet (LU 1002, LU 55); several wage sheets, one per rate book. Fixed slots can't cover that, so the model flips: <b>upload each file as received, tag what it contains</b>. The Continue gate checks coverage across the whole set, not slots.</div>
+
+      <div class="frame"><div class="screen" style="padding:16px 18px;">
+        <div class="sec" style="margin-top:0;">Documents <span class="req">*</span> <span style="font-weight:400; color:#9CA3AF; font-size:11px;">— empty state, before any upload</span></div>
+        <div class="help" style="margin:0 0 10px;">Attach the source PDFs and mark what each contains. They'll appear on the agreement's Documents tab and on each covered local.</div>
+        <div style="border:2px dashed #D1D5DB; border-radius:12px; padding:26px 16px; text-align:center; color:#6B7280; font-size:13px;">⬆ &nbsp;<b>Drag PDFs here, or click to upload</b><br><span style="font-size:11.5px; color:#9CA3AF;">You can drop several at once — you'll tag each file after it uploads</span></div>
+        <div class="help" style="margin-top:10px; background:#F9FAFB; border:1px solid #E5E7EB; border-radius:8px; padding:7px 11px; color:#6B7280;"><b>Coverage: Contract — · Wages — · Benefits —</b> &nbsp;·&nbsp; upload the agreement paperwork to continue</div>
+      </div></div>
+
+      <p class="col-t" style="margin-top:14px;">Same section with files — per-file multi-select tag control (chips always visible when closed; one menu shown open)</p>
+      <div class="frame"><div class="screen" style="padding:16px 18px;">
+        <div class="listbox">
+          <div class="li" style="align-items:center; gap:10px;">
+            <span style="color:#DC2626;">📄</span>
+            <span style="min-width:0;"><b>1002_Agreement_2025.pdf</b><br><span class="cellin" style="min-width:180px; font-size:11.5px;">Union contract</span></span>
+            <span class="cellin ro" style="margin-left:auto; white-space:nowrap;"><b>Contract · Benefits</b> ▾</span>
+            <span class="x">✕</span>
+          </div>
+          <div class="li" style="align-items:center; gap:10px;">
+            <span style="color:#DC2626;">📄</span>
+            <span style="min-width:0;"><b>1002_OutsideLine_Wages.pdf</b><br><span class="cellin" style="min-width:180px; font-size:11.5px;">Outside Line wage sheet</span></span>
+            <span class="cellin ro" style="margin-left:auto; white-space:nowrap;"><b>Wages</b> ▾</span>
+            <span class="x">✕</span>
+          </div>
+          <div class="li" style="align-items:center; gap:10px;">
+            <span style="color:#DC2626;">📄</span>
+            <span style="min-width:0;"><b>1002_Transmission_Wages.pdf</b><br><span class="cellin" style="min-width:180px; font-size:11.5px;">Transmission wage sheet</span></span>
+            <span class="cellin ro" style="margin-left:auto; white-space:nowrap;"><b>Wages</b> ▾</span>
+            <span class="x">✕</span>
+          </div>
+          <div class="li" style="align-items:center; gap:10px;">
+            <span style="color:#9CA3AF;">📄</span>
+            <span style="min-width:0;"><b>Signature_page_scan.pdf</b><br><span class="cellin" style="min-width:180px; font-size:11.5px;">Signed signature page</span></span>
+            <span class="cellin ro" style="margin-left:auto; white-space:nowrap; color:#6B7280;">Supporting document ▾</span>
+            <span class="x">✕</span>
+          </div>
+          <div class="li" style="align-items:flex-start; gap:10px; background:#FFFBEB; border-left:3px solid #D97706;">
+            <span style="color:#D97706;">📄</span>
+            <span style="min-width:0;"><b>Scan_04-22.pdf</b> <span class="pill amber2">needs tagging</span><br><span class="cellin" style="min-width:180px; font-size:11.5px; color:#9CA3AF;">Label…</span></span>
+            <span class="menu-anchor" style="margin-left:auto;">
+              <span class="cellin" style="white-space:nowrap; border-color:#D97706; color:#92400E;">What's in this file? ▾</span>
+              <span class="menu" style="top:26px;">
+                <span class="mi">☐ &nbsp;Contract</span>
+                <span class="mi hov">☐ &nbsp;Wages</span>
+                <span class="mi">☐ &nbsp;Benefits</span>
+                <span class="mi" style="border-top:1px solid #F3F4F6; margin-top:3px; padding-top:8px;">◯ &nbsp;Supporting document <span style="color:#9CA3AF; font-size:11px;">— selecting clears the others</span></span>
+              </span>
+            </span>
+            <span class="x">✕</span>
+          </div>
+          <div class="li add"><span>＋ Add document — or drag files anywhere onto this list</span></div>
+        </div>
+        <div class="help" style="margin-top:10px; background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:7px 11px; color:#92400E;"><b>Coverage: Contract ✓ · Wages ✓ · Benefits ✓ &nbsp;·&nbsp; 1 file needs tagging</b> — tell us what Scan_04-22.pdf contains to continue.</div>
+        <div class="help" style="margin-top:8px;"><b>Control spec (decided 7/10 — multi-select per file, Ben's call for a calmer row):</b> the closed control <b>always renders the chosen tags as chips</b> ("Contract · Benefits ▾") — never a count, never truncation; the untagged placeholder reads "What's in this file?". Inside the menu, Contract / Wages / Benefits are combinable ticks and <b>Supporting document is exclusive</b> (selecting it clears the others, and vice versa). Three honest states remain: <b>tagged</b> · <b>supporting</b> (explicit choice, never a default) · <b>needs tagging</b> (amber, blocks Continue — silence never classifies a file). <b>Upload placement:</b> a large dropzone is the whole empty state; once files exist it collapses to the "＋ Add document" row at the bottom of the list, and the list itself stays a drop target. The combined-PDF toggle disappears: one file tagged all three <i>is</i> the combined case.</div>
+      </div></div>
+    </div>
+    <div>
+      <p class="col-t">What the database captures</p>
+      <div class="db">
+        <div class="db-card"><div class="db-h"><span class="tn">UnionWageAgreement</span><span class="when now">real row · now</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">name</span><span class="fd">← Agreement name</span></div>
+            <div class="f"><span class="fn">start_date · end_date</span><span class="fd">← Effective start / Expires (both stay required)</span></div>
+            <div class="f"><span class="fn">lifecycle_status</span><span class="fd"><span class="chip chg">CHANGE</span>add SUPERSEDED + ENDED. The "last known rates" state is <b>never stored — it's computed each time it's displayed</b> (published + today is past end_date + no successor). No scheduled background process flips statuses when a date passes; computed-on-read can't go stale.</span></div>
+            <div class="f"><span class="fn">superseded_by</span><span class="fd"><span class="chip new">NEW</span>FK → the replacement agreement (set by the publish-time checkbox); makes renewal chains traceable</span></div>
+            <div class="f"><span class="fn">ended_on</span><span class="fd"><span class="chip new">NEW</span>explicit-termination date (admin action); reason captured in the edit history</span></div>
+            <div class="f"><span class="fn">created_by · updated_by</span><span class="fd">audit stamp</span></div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">UnionAgreementMembership</span><span class="when now">real rows · now</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">union → wage_agreement</span><span class="fd">one row per covered local</span></div>
+            <div class="f"><span class="fn">is_primary</span><span class="fd">first local leads (joint agreements)</span></div>
+            <div class="db-note">"Create new local…" also writes a real <b>Union</b> row (shared catalog).</div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementPeriod</span><span class="when now">real rows · now</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">start_date &lt; end_date</span><span class="fd">both required today</span></div>
+            <div class="f"><span class="fn">end_date</span><span class="fd"><span class="chip chg">CHANGE</span>nullable — only the <b>last</b> period may be open ("until amended"); start-before-end check applies only when an end exists</span></div>
+            <div class="f"><span class="fn">sequence_no</span><span class="fd">unique per agreement; also unique start</span></div>
+            <div class="db-note">Editing Setup (drafts) <b>deletes and recreates all periods</b>; wage/benefit cells re-map by index. <span class="chip new">NEW</span><b>"Add raise date" inserts rows here post-publish</b> — append or mid-schedule split, with resequencing; rate rows follow via the period FK (see Step 6).</div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementDocument</span><span class="when now">real rows · now</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">document_type</span><span class="fd">CONTRACT / WAGES_BENEFITS / CONTRACT_AND_WAGES / OTHER — today</span></div>
+            <div class="f"><span class="fn">covers_contract · covers_wages · covers_benefits</span><span class="fd"><span class="chip chg">CHANGE</span>three yes/no flags replace the enum — all 7 combinations expressible (incl. contract-and-benefits); legacy values map 1:1. A fourth flag <code>is_supporting</code> marks the explicit supporting-document choice — all four false = "needs tagging" (unfinished, blocks Continue), so silence never classifies a file. Validation: each of the three covered by ≥1 file AND no untagged files; the one-file-per-type rule dies — multiple wage sheets are legal (LU 1002: one per rate book)</span></div>
+            <div class="f"><span class="fn">file · title</span><span class="fd">label free text, shown on the Documents tab</span></div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementWizardDraft</span><span class="when now">real row · now</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">payload</span><span class="fd">= {} — fills up over steps 2–5</span></div>
+            <div class="f"><span class="fn">current_step · status</span><span class="fd">resume point; IN_PROGRESS → COMMITTED</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flags">
+        <h4>Flagged for review</h4>
+        <ul>
+          <li><span class="chip chg">CHANGE</span><b>Expires stays required</b> (every contract prints one; it drives the renewal alert) — but store the final period's end as open, so rates keep resolving past Expires. Label states what the system knows, not a legal claim: <b>"Using last known rates — term ended [date], renewal not on file. Confirm with the union."</b> Rates only stop when a successor is published or a person marks the agreement ended — never by the calendar. <span class="src">— contract-corpus scan (8/8 agreements hold over) + review discussion: the system can't know whether a successor exists; retroactive true-up is the industry norm either way</span></li>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): Documents become upload-and-tag.</b> Fixed slots + the combined toggle are replaced by a file list where each upload is tagged via a <b>per-file multi-select control whose closed state always shows the chosen tags as chips</b> (Contract / Wages / Benefits — any combination; <b>Supporting document is an explicit, exclusive choice, never a default</b> — a fresh upload is "needs tagging" and blocks Continue until someone says what it is). The Continue gate checks <b>coverage across all files</b> plus zero untagged files, not slots — handles all five real arrival patterns incl. contract-that-defines-benefits + separate wage sheets, and multiple wage sheets (one per rate book). Schema: three flags replace the document-type enum. <span class="src">— Ben, review; proposed mock below</span></li>
+          <li><span class="chip new">NEW</span><b>DECIDED (7/10): "Add raise date" on the published agreement's detail page</b> (wizard unchanged — drafts keep full-replace). One action, two behaviors: a date past the schedule <b>appends</b> a period (extensions, holdover raises, finishing incomplete loads like LU 104's 1-of-4); a date inside an existing period <b>splits it</b> (e.g. year 4 of a 5-year deal splits into two half-year rates) — first half inherits existing values unchanged, second half seeds from it for editing. Invariant: answers for dates before the new raise date never change. Prerequisite: rate rows FK to their period (the schema change noted on Step 6), so rows follow their period through splits. <span class="src">— review decisions with Ben</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STEP 2 ================= -->
+  <div class="step-h"><span class="num">Step 2</span><h2>Classifications</h2><span class="g">Continue gate: ≥1 class, unique names, valid bases, no cycles</span></div>
+  <p class="step-sub">The union's own job classes and how each one's pay is derived. Nothing relational is written — it all lives in the draft JSON until Publish.</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">Current UI</p>
+      <div class="frame">
+        <div class="screen">
+          <p class="intro-txt"><b>Add/edit classes</b> — the agreement's own data. Derivation supports <b>absolute, % of base, +$ offset, same as</b> (base = any class). Wages recompute live. <span style="color:#9CA3AF;">Internal mapping is set in Step 5.</span></p>
+          <div class="mock-wrap">
+            <table class="mock">
+              <thead><tr><th style="width:38%;">Union class</th><th>Derivation</th><th></th></tr></thead>
+              <tbody>
+                <tr style="background:#F9FAFB;"><td><span class="cellin" style="min-width:170px;">Journeyman Lineman</span></td><td><span class="badge-anchor">ANCHOR · 100%</span></td><td></td></tr>
+                <tr><td><span class="cellin" style="min-width:170px;">Foreman</span></td><td><span class="cellin ro">% of base ▾</span> <span class="cellin" style="min-width:40px;">110</span> <span style="color:#9CA3AF;">% of</span> <span class="cellin ro">Journeyman Lineman ▾</span></td><td style="color:#D1D5DB;">✕</td></tr>
+                <tr><td><span class="cellin" style="min-width:170px;">Line Sub-Foreman</span></td><td><span class="cellin ro">+ $ offset ▾</span> <span class="cellin ro">Journeyman Lineman ▾</span> <span style="color:#9CA3AF;">+ $</span> <span class="cellin" style="min-width:44px;">1.00</span></td><td style="color:#D1D5DB;">✕</td></tr>
+                <tr><td><span class="cellin" style="min-width:170px;">Groundman</span></td><td><span class="cellin ro">Absolute $ ▾</span> <span style="color:#9CA3AF;">→ enter in Wages</span></td><td style="color:#D1D5DB;">✕</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="help" style="border:1px solid #E5E7EB; border-top:none; border-radius:0 0 10px 10px; padding:8px 12px; color:#6B7280;">＋ Add classification</div>
+          <div class="help" style="margin-top:8px;">Row errors: "Name is required" · "Duplicate class name" · "Select a base class" · "Circular derivation" · "Percent must be between 0 and 1000"</div>
+        </div>
+        <div class="footerbar"><span class="btn ghost">← Back</span><span class="btn orange">Continue →</span></div>
+      </div>
+
+      <p class="col-t" style="margin-top:18px;">Proposed — Rate books (decided 7/10)</p>
+      <div class="help" style="margin:0 0 10px; font-size:12.5px;">Some agreements contain <b>several separate classification lists</b> — LU 1002's one agreement has Outside Line, Transmission Technician, and Substation Technician wage sheets, each with its own classes and its own 100% anchor. Those become <b>rate books</b> inside the one agreement. Default is a single unnamed book — the step looks exactly like today until a second book is added.</div>
+      <div class="frame"><div class="screen" style="padding:16px 18px;">
+        <div class="mock-wrap">
+          <table class="mock">
+            <thead><tr><th style="width:38%;">Union class</th><th>Derivation</th><th></th></tr></thead>
+            <tbody>
+              <tr style="background:#F3F4F6;"><td colspan="2" style="font-weight:650;">Rate book: <span class="cellin" style="min-width:150px;">Outside Line</span> <span style="color:#9CA3AF; font-weight:400;">· 13 classes</span></td><td style="color:#9CA3AF; font-size:11px;">Remove</td></tr>
+              <tr style="background:#F9FAFB;"><td><span class="cellin" style="min-width:170px;">Journeyman Lineman</span></td><td><span class="badge-anchor">ANCHOR · 100%</span></td><td></td></tr>
+              <tr><td><span class="cellin" style="min-width:170px;">General Foreman</span></td><td><span class="cellin ro">% of base ▾</span> <span class="cellin" style="min-width:40px;">115</span> <span style="color:#9CA3AF;">% of</span> <span class="cellin ro">Journeyman Lineman ▾</span></td><td style="color:#D1D5DB;">✕</td></tr>
+              <tr><td colspan="3" style="color:#6B7280; font-size:12px;">＋ Add classification to Outside Line</td></tr>
+              <tr style="background:#F3F4F6;"><td colspan="2" style="font-weight:650;">Rate book: <span class="cellin" style="min-width:150px;">Transmission Technician</span> <span style="color:#9CA3AF; font-weight:400;">· 5 classes</span></td><td style="color:#9CA3AF; font-size:11px;">Remove</td></tr>
+              <tr style="background:#F9FAFB;"><td><span class="cellin" style="min-width:170px;">Transmission Technician</span></td><td><span class="badge-anchor">ANCHOR · 100%</span></td><td></td></tr>
+              <tr><td><span class="cellin" style="min-width:170px;">Trans. Tech Apprentice — 1st Period</span></td><td><span class="cellin ro">% of base ▾</span> <span class="cellin" style="min-width:40px;">60</span> <span style="color:#9CA3AF;">% of</span> <span class="cellin ro">Transmission Technician ▾</span></td><td style="color:#D1D5DB;">✕</td></tr>
+              <tr><td colspan="3" style="color:#6B7280; font-size:12px;">＋ Add classification to Transmission Technician</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="help" style="border:1px solid #E5E7EB; border-top:none; border-radius:0 0 10px 10px; padding:8px 12px; color:#6B7280;">＋ Add rate book</div>
+        <div class="help" style="margin-top:8px;">Book names mirror the printed sheet titles (free text). Derivation bases stay within a book — each book has its own anchor. The same class name may appear in different books. <b>When to use books vs separate agreements:</b> same signed document + same term + same fringe schedule → one agreement with rate books; separate documents or terms (LU 104 North/South, LU 70's two agreements) → separate agreements.</div>
+      </div></div>
+    </div>
+    <div>
+      <p class="col-t">What the database captures</p>
+      <div class="db">
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementWizardDraft.payload</span><span class="when json">draft JSON only</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">classifications[]</span><span class="fd">id, name, deriv {type, baseId, percent, offset}</span></div>
+            <div class="f"><span class="fn">rate_books[]</span><span class="fd"><span class="chip new">NEW</span>id, name, sort — each class belongs to one book; single unnamed book by default</span></div>
+            <div class="f"><span class="fn">rates[]</span><span class="fd">seeded empty ("" = TBD) — filled in Step 3</span></div>
+            <div class="db-note">No table rows exist for classes yet. At Publish each class becomes one <b>UnionMappingOption</b> per covered local.</div>
+            <div class="db-note"><b>Decided 7/10 — no schema change, by design:</b> class names stay <b>free text</b>, mirroring the printed contract (no standard taxonomy/picker); normalization happens via Step 5's internal roles, and the DB guard is the existing unique (name, local, agreement). Derivation stays <b>one rule for the whole term</b> — effective-dated derivation (LU 17's mid-term "110% of JL") deferred; workaround = "Add raise date" split, then change the rule on the new period.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flags">
+        <h4>Flagged for review</h4>
+        <ul>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): new rows must not pre-fill "New class".</b> Today the literal text "New class" is seeded, forcing delete-before-type — and it passes the name-required validation, so it can be published as real data. Fix: empty field + gray placeholder ("e.g. Journeyman Lineman"), autofocus on add, blank blocks Continue via the existing "Name is required" rule. <span class="src">— Ben, review; same fix applies to Step 4's "New fund"</span></li>
+          <li><b>DECIDED (7/10): Step 2 closed.</b> Free-text class names are the deliberate choice — entry mirrors the printed page; no standard list. Mid-term derivation changes deferred with the "Add raise date" split as workaround. Derivation model otherwise passes clean (LU 876 offset, LU 17 chains tested). <span class="src">— Ben, review</span></li>
+          <li><span class="chip new">NEW</span><b>DECIDED (7/10, reopened for LU 1002): Rate books</b> — one agreement can contain several separate classification lists (LU 1002: Outside Line, Transmission Tech, Substation Tech sheets under one agreement, one term, one fringe schedule). Each book has its own classes and anchor; names mirror the sheet titles (free text); same class name may recur across books (uniqueness becomes name-within-book); derivation bases stay in-book. Default = one unnamed book → UI unchanged. Wages, Mapping, and pickers group by book. Decision rule for users: same document + term + fringe schedule → books; separate documents/terms → separate agreements. <b>Periods are shared</b> by all books and columns — if one sheet ever steps on a date the others don't, add that date as a period; unaffected books/columns repeat their value across the split. <span class="src">— LU 1002 fringe/wage sheets + review</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STEP 3 ================= -->
+  <div class="step-h"><span class="num">Step 3</span><h2>Wages</h2><span class="g">Continue gate: valid OT/DT multipliers only — cells may all be TBD</span></div>
+  <p class="step-sub">Straight-time rates per class per period. Derived rows compute live and are read-only; empty cell = TBD. OT/DT are multipliers, not typed rates.</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">Current UI</p>
+      <div class="frame">
+        <div class="screen">
+          <p class="intro-txt">Straight-time (ST) rates per period. Anchor/absolute rows are editable (decimals OK); derived rows compute live. <b>Leave a cell empty for TBD</b> — an announced-but-unallocated period. Columns come from <b>Step 1 · Setup</b>.</p>
+          <div class="mock-wrap">
+            <table class="mock">
+              <thead><tr><th>Classification</th><th style="text-align:right;">9/1/23–8/31/24</th><th style="text-align:right;">9/1/24–8/31/25</th><th style="text-align:right;">9/1/25–8/31/26</th><th style="text-align:right;">9/1/26–8/28/27</th><th>Derivation</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:600;">Journeyman Lineman</td><td style="text-align:right;"><span class="cellin">$53.41</span></td><td style="text-align:right;"><span class="cellin">$55.45</span></td><td style="text-align:right;"><span class="cellin">$57.60</span></td><td style="text-align:right;"><span class="pill blue">TBD</span></td><td style="color:#9CA3AF;">anchor</td></tr>
+                <tr style="background:#F9FAFB; color:#9CA3AF;"><td>Foreman</td><td style="text-align:right;">$58.75</td><td style="text-align:right;">$61.00</td><td style="text-align:right;">$63.36</td><td style="text-align:right;"><span class="pill gray">TBD</span></td><td>110% of JL</td></tr>
+                <tr style="background:#F9FAFB; color:#9CA3AF;"><td>Line Sub-Foreman</td><td style="text-align:right;">$54.41</td><td style="text-align:right;">$56.45</td><td style="text-align:right;">$58.60</td><td style="text-align:right;"><span class="pill gray">TBD</span></td><td>JL + $1.00</td></tr>
+                <tr><td style="font-weight:600;">Groundman</td><td style="text-align:right;"><span class="cellin">$32.10</span></td><td style="text-align:right;"><span class="cellin">$33.25</span></td><td style="text-align:right;"><span class="cellin">$34.55</span></td><td style="text-align:right;"><span class="pill blue">TBD</span></td><td style="color:#9CA3AF;">absolute</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="help" style="display:flex; justify-content:space-between; border:1px solid #E5E7EB; border-top:none; border-radius:0 0 10px 10px; padding:8px 12px;">
+            <span><b style="color:#374151;">Premiums</b> · multipliers on ST &nbsp; OT × <span class="cellin" style="min-width:36px;">1.5</span> &nbsp; DT × <span class="cellin" style="min-width:36px;">2</span></span>
+            <span>Empty cell = TBD (unallocated)</span>
+          </div>
+          <div class="help" style="margin-top:8px;">Derived cells: "Computed live from its base — edit the anchor row instead" · errors: "OT multiplier can't be greater than DT" / "OT/DT multipliers must be between 0 and 99.99"</div>
+        </div>
+        <div class="footerbar"><span class="btn ghost">← Back</span><span class="btn orange">Continue →</span></div>
+      </div>
+
+      <p class="col-t" style="margin-top:18px;">Proposed — Premiums promoted above the matrix (decided 7/10)</p>
+      <div class="help" style="margin:0 0 10px; font-size:12.5px;">Today the two multipliers sit in a footer bar under a wide scrolling table — easy to never see, though they multiply every rate in the agreement (California agreements are 2×-only). Promoted, they frame the matrix before you read it, and a wrong multiplier becomes obvious in dollars.</div>
+      <div class="frame"><div class="screen" style="padding:16px 18px;">
+        <div class="sec" style="margin-top:0;">Overtime &amp; double time <span class="hint" style="font-weight:400; color:#9CA3AF;">— applied to every straight-time rate below</span></div>
+        <div style="display:flex; align-items:center; gap:14px; border:1px solid #E5E7EB; border-radius:10px; padding:10px 14px;">
+          <span style="font-size:12.5px; color:#374151;">OT × <span class="cellin" style="min-width:36px;">1.5</span></span>
+          <span style="font-size:12.5px; color:#374151;">DT × <span class="cellin" style="min-width:36px;">2</span></span>
+          <span class="help" style="background:#F9FAFB; border-radius:8px; padding:5px 10px; margin:0;">Journeyman Lineman P1: <b>$53.41</b> ST → <b>$80.12</b> OT → <b>$106.82</b> DT <span style="color:#9CA3AF;">— live, recomputes as you type</span></span>
+        </div>
+        <div class="help" style="margin-top:8px;">…then the ST rate matrix follows below. Review's "confirm multipliers" checklist row fires <b>only when the defaults were never touched</b> — no more permanent warning. (Custom-basis funds in Step 4 reference these same values when "at the agreement's premium" is chosen — one source of truth.)</div>
+      </div></div>
+
+      <p class="col-t" style="margin-top:18px;">Proposed — Wage columns (decided 7/10)</p>
+      <div class="help" style="margin:0 0 10px; font-size:12.5px;">Some agreements print <b>the same classification ladder with more than one set of dollar values</b>: LU 70's sheet has Maryland and Virginia columns (MD Journeyman $45.87 × 115% = $52.75 GF; VA $44.44 × 115% = $51.11 — the ladder plus two anchors generates the whole page). LU 1002's Outside Line book has Standard and Federal Projects values. Those become <b>wage columns</b> inside a rate book. Default is one column — the matrix looks exactly like today until a second is added.</div>
+      <div class="frame"><div class="screen" style="padding:16px 18px;">
+        <div style="display:flex; align-items:center; gap:6px; margin-bottom:10px;">
+          <span style="font-size:12px; color:#6B7280;">Wage column:</span>
+          <span class="cellin" style="background:#111827; color:#fff; border-color:#111827;">Maryland</span>
+          <span class="cellin ro">Virginia</span>
+          <span class="cellin ro" style="color:#6B7280;">＋ Add wage column</span>
+        </div>
+        <div class="mock-wrap">
+          <table class="mock">
+            <thead><tr><th>Classification</th><th style="text-align:right;">9/1/25–8/31/26</th><th style="text-align:right;">9/1/26–8/31/27</th><th>Derivation</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:600;">Lineman, Journeyman</td><td style="text-align:right;"><span class="cellin">$45.87</span></td><td style="text-align:right;"><span class="pill blue">TBD</span></td><td style="color:#9CA3AF;">anchor</td></tr>
+              <tr style="background:#F9FAFB; color:#9CA3AF;"><td>General Foreman</td><td style="text-align:right;">$52.75</td><td style="text-align:right;"><span class="pill gray">TBD</span></td><td>115% of JL</td></tr>
+              <tr style="background:#F9FAFB; color:#9CA3AF;"><td>Sub-Foreman</td><td style="text-align:right;">$48.16</td><td style="text-align:right;"><span class="pill gray">TBD</span></td><td>105% of JL</td></tr>
+              <tr><td style="font-weight:600;">Equipment Mechanic</td><td style="text-align:right;"><span class="cellin">$34.60</span></td><td style="text-align:right;"><span class="pill blue">TBD</span></td><td style="color:#9CA3AF;">absolute</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="help" style="margin-top:8px;">Switching the pill shows that column's values; derived rows recompute from <b>that column's</b> anchor. Entering Virginia = type the VA anchor ($44.44) plus the few absolute-rate classes — every derived row fills itself. Column labels are free text ("Maryland", "Federal Projects"). <b>Benefits are unaffected:</b> fund rates (3% of gross, $7.50/hr) are shared — only the computed dollar results differ by column. Mapping is also unaffected — a class maps to an internal role once; the column is chosen later by the job's context (its state, its project type). The Step-3 Premiums example line computes from the currently selected column's anchor.</div>
+        <div class="help" style="margin-top:8px; background:#F9FAFB; border-radius:8px; padding:8px 12px;"><b>Picker spec — how consumers (Rate Builder, bids) select rates.</b> The full hierarchy is: <b>Local Union → Agreement → Rate book → Wage column → Effective date</b>, then classifications from within that book. <b>Any level with exactly one option auto-selects and is hidden</b>, so a simple agreement shows three picks — "LU 53 › Power &amp; Commercial › as of 9/1/25" — exactly today's experience, while the maximal case reads "LU 1002 › Outside Line &amp; Industrial/Commercial › Outside Line › Federal Projects › as of 9/1/26". The breadcrumb always displays whichever levels were real, so every calculation is auditable at a glance. <b>The benefits-package pick stops at the Agreement level</b> — funds are shared across books and columns, so the pay-scale/benefits mix-and-match works unchanged and never asks a book or column question.</div>
+      </div></div>
+    </div>
+    <div>
+      <p class="col-t">What the database captures</p>
+      <div class="db">
+        <div class="db-card"><div class="db-h"><span class="tn">UnionWageAgreement</span><span class="when now">real columns · now</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">ot_multiplier · dt_multiplier</span><span class="fd">← OT × / DT × (defaults 1.5 / 2.0)</span></div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementWizardDraft.payload</span><span class="when json">draft JSON only</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">classifications[].rates[]</span><span class="fd">{period_id, st, tbd} — one per period</span></div>
+            <div class="f"><span class="fn">value_status</span><span class="fd"><span class="chip chg">CHANGE</span>replaces the tbd bool: SET / TBD / NOT_APPLICABLE — same enum everywhere, no contingent state</span></div>
+            <div class="db-note">Server normalizes on save: derived rows recompute from their anchor; OT/DT materialize at Publish into <b>UnionMappingOptionRate.stRate/otRate/dtRate</b>.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flags">
+        <h4>Flagged for review</h4>
+        <ul>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): replace the tbd yes/no flag with a value status — Set / TBD / Not applicable.</b> Kills the NULL-vs-0 ambiguity (the GRI-1337 bug class). Same three states for wages and benefits — contingent "up to X if needed" amounts are <b>not logged</b> (see Step 4): they're entered as ordinary dated changes when actually invoked. <span class="src">— Ben, review</span></li>
+          <li><b>DECIDED (7/10):</b> derived rows stay read-only (server owns derivation math; a contract printing a mismatched derived figure = switch that class to Absolute). OT/DT triggers (when overtime starts) stay out of scope until payroll — multipliers suffice for calculators and bids. <span class="src">— Ben, review; deferred to the payroll phase</span></li>
+          <li><span class="chip new">NEW</span><b>DECIDED (7/10): Wage columns</b> — the same ladder can carry several sets of dollar values: LU 70 prints Maryland and Virginia columns (one ladder + two anchors generates the whole sheet — MD $45.87 × 115% = $52.75 GF, VA $44.44 × 115% = $51.11, verified against the print); LU 1002's Outside Line book has Standard and Federal Projects values. A column is a free-text label with its own values; derived rows recompute per column from that column's anchor; benefits and mapping are unaffected (fund rates shared; a class maps once — the column is chosen at consumption by the job's state/project type). Default = one column → matrix unchanged. Corrects an earlier call: 1002's "Federal Projects" is a wage column, not a rate book. <span class="src">— LU 70 fringe sheet + review</span></li>
+          <li><b>Why the multipliers are editable at all (challenged &amp; confirmed 7/10):</b> California's outside-line agreement has <b>no time-and-a-half tier</b> — "double the straight rate shall be the maximum compensation for any hour worked" — so its OT× must be 2.0, not 1.5. DT is definitionally 2× and no contract in our corpus prints otherwise, so DT stays editable only as transcription insurance. Guard: OT× outside {1.5, 2.0} or DT× ≠ 2.0 shows an inline "unusual — double-check the contract" note (soft, not blocking); the live dollar example is the second net. <span class="src">— Ben's challenge + CA agreement verbatim</span></li>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): promote Premiums out of the footer.</b> OT×/DT× become a titled section <b>above</b> the matrix ("Overtime &amp; double time — applied to every ST rate") with a live example line ("JL P1: $53.41 ST → $80.12 OT → $106.82 DT") so a wrong multiplier is visible in dollars (CA agreements are 2×-only). Review's permanent "confirm multipliers" warning then fires <b>only when the defaults were never touched</b>. Note: EPR has no equivalent — it receives reported OT hours, it doesn't compute pay; no precedent to borrow. <span class="src">— Ben, review</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STEP 4 ================= -->
+  <div class="step-h"><span class="num">Step 4</span><h2>Benefits</h2><span class="g">Continue gate: valid fund identities + % in range — zero funds allowed</span></div>
+  <p class="step-sub">Funds with per-period values; a fund can be flat or per-class ($ or %), employer- or employee-paid. Everything keys to the wage periods today — the split-calendar finding (some funds change on their own dates, e.g. LINECO moving Jan 1 while wages move Sept 1) lands on this page.</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">Current UI — drawn with two decided renames applied ("Paid by" replaces "Pays"; fund names shown as free text)</p>
+      <div class="frame">
+        <div class="screen">
+          <p class="intro-txt">Add/edit funds. A fund can be flat per-period, <b>$ per-class</b>, or <b>% per-class</b>. Per-class funds open a side panel to enter class-level values.</p>
+          <div class="mock-wrap">
+            <table class="mock">
+              <thead><tr><th></th><th>Fund</th><th>Basis</th><th>Paid by</th><th>Per-class</th><th style="text-align:right;">9/1/23<br>8/31/24</th><th style="text-align:right;">9/1/24<br>8/31/25</th><th style="text-align:right;">9/1/25<br>8/31/26</th><th style="text-align:right;">9/1/26<br>8/28/27</th></tr></thead>
+              <tbody>
+                <tr><td style="color:#D1D5DB;">✕</td><td><span class="cellin" style="min-width:110px;">NEBF</span></td><td><span class="cellin ro">% gross ▾</span></td><td><span class="cellin ro">Employer ▾</span></td><td><span class="cellin ro">No ▾</span></td><td style="text-align:right;"><span class="cellin">3%</span></td><td style="text-align:right;"><span class="cellin">3%</span></td><td style="text-align:right;"><span class="cellin">3%</span></td><td style="text-align:right;"><span class="cellin">3%</span></td></tr>
+                <tr><td style="color:#D1D5DB;">✕</td><td><span class="cellin" style="min-width:110px;">LINECO</span></td><td><span class="cellin ro">$/hr ▾</span></td><td><span class="cellin ro">Employer ▾</span></td><td><span class="cellin ro">No ▾</span></td><td style="text-align:right;"><span class="cellin">$7.00</span></td><td style="text-align:right;"><span class="cellin">$7.25</span></td><td style="text-align:right;"><span class="pill blue">TBD</span></td><td style="text-align:right;"><span class="pill gray">—</span></td></tr>
+                <tr><td style="color:#D1D5DB;">✕</td><td><span class="cellin" style="min-width:110px;">SERF</span></td><td><span class="cellin ro">% gross ▾</span></td><td><span class="cellin ro">Employer ▾</span></td><td><span class="cellin ro">Yes ▾</span></td><td colspan="4" style="text-align:center; color:#6B7280;">per class · 4 classes (%) &nbsp; <span style="color:#2563EB;">Edit per class →</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="help" style="display:flex; justify-content:space-between; border:1px solid #E5E7EB; border-top:none; border-radius:0 0 10px 10px; padding:8px 12px;">
+            <span>＋ Add fund</span>
+            <span>Each cell: a value, <b style="color:#1D4ED8;">TBD</b> (in effect, unallocated), or blank <b>"—"</b> (not in effect)</span>
+          </div>
+          <div class="help" style="margin-top:8px;">Shipped today (not drawn above): a fund typeahead picker with a live catalog + hardcoded fallback list and "Create new fund" — <b>decided: replaced by a plain free-text fund name</b> (see flags). Per-class values open a slide-over grid (class × period) — unchanged, except the grid <b>groups classes by rate book</b> when the agreement has more than one; fund values never vary by wage column (LU 1002's NEAP rates are identical across Standard and Federal Projects).</div>
+        </div>
+        <div class="footerbar"><span class="btn ghost">← Back</span><span class="btn orange">Continue →</span></div>
+      </div>
+
+      <p class="col-t" style="margin-top:18px;">Proposed — the Basis picker (decided 7/10)</p>
+      <div class="help" style="margin:0 0 10px; font-size:12.5px; line-height:1.55;"><b>Read this first — the mental model.</b> There is <b>one</b> way to define a fund's basis: three questions (what the amount multiplies · which hours count · what rate OT/DT hours get). The dropdown's two named options are <b>presets — saved answers to those three questions</b> — because they cover almost every fund. "Custom…" doesn't open a different system: it opens <b>the same three questions, pre-filled with the preset you're on</b>, so you change only what deviates. Flow: pick a preset → done (one click, ~90% of funds). Pick Custom… → a slide-over panel opens "Starting from: [your preset]" → adjust → Done → the cell shows a compact summary with a Custom chip.</div>
+      <div class="frame"><div class="screen" style="display:grid; grid-template-columns: 1fr 1.2fr; gap:18px;">
+        <div>
+          <div class="fl">Basis <span class="hint">— closed, then open</span></div>
+          <span class="in" style="margin-bottom:6px;">$ per hour worked ▾</span>
+          <div style="border:1px solid #E5E7EB; border-radius:10px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.08); background:#fff; font-size:12.5px;">
+            <div style="padding:8px 12px; border-bottom:1px solid #F3F4F6; background:#F9FAFB;"><b>✓ &nbsp;$ per hour worked</b><br><span style="color:#9CA3AF; margin-left:17px;">every hour actually worked, counted once — the standard</span></div>
+            <div style="padding:8px 12px; border-bottom:1px solid #F3F4F6;"><b style="color:#374151;">&nbsp;&nbsp;&nbsp;% of gross pay</b><br><span style="color:#9CA3AF; margin-left:17px;">all wages before deductions</span></div>
+            <div style="padding:8px 12px; color:#2563EB; font-weight:600;">&nbsp;&nbsp;&nbsp;Custom…</div>
+          </div>
+          <div class="help" style="margin-top:8px;"><b>What each preset means, spelled out:</b><br>
+          "$ per hour worked" &nbsp;=&nbsp; $ per hour · only hours actually worked · same rate for OT/DT.<br>
+          "% of gross pay" &nbsp;=&nbsp; % of pay · all wages before deductions · no add-on.<br>
+          <b>Flat amount</b> funds (per day/week/month/pay-run) exist but are rare — they're reachable only through Custom, which is why Q1 in the panel has a third option the dropdown doesn't show.</div>
+          <div class="help" style="margin-top:6px;"><b>After Custom → Done:</b> the cell reads e.g. <span class="cellin ro" style="min-width:0;">$/hr · worked · OT $5.00 &nbsp;<span class="pill blue">Custom</span></span> and reopening the dropdown shows that config checked, with Edit…. Design rule for this step: <b>lists edit inline; branching forms open the slide-over panel</b> (same panel pattern as the per-class values editor).</div>
+        </div>
+        <div>
+          <div class="fl">Custom basis (slide-over panel) <span class="hint">— shown here: a $6.54/hr pension where the contract prints its own OT rate, so only question 3 deviates</span></div>
+          <div style="border:1px solid #E5E7EB; border-radius:10px; padding:12px 14px; font-size:12px;">
+            <div style="background:#F9FAFB; border:1px solid #F3F4F6; border-radius:8px; padding:6px 10px; margin-bottom:10px; color:#6B7280;">Starting from: <b style="color:#111827;">$ per hour worked</b> &nbsp;·&nbsp; <span class="pill amber2">1 question modified</span></div>
+            <div style="font-weight:600; margin-bottom:5px;">1 · The amount multiplies… <span style="font-weight:400; color:#9CA3AF;">— unchanged</span></div>
+            <div style="display:flex; gap:6px; margin-bottom:12px;">
+              <span class="cellin" style="background:#111827; color:#fff; border-color:#111827;">$ per hour</span>
+              <span class="cellin ro">% of pay</span>
+              <span class="cellin ro">Flat amount</span>
+            </div>
+            <div style="font-weight:600; margin-bottom:5px;">2 · Which hours count? <span style="font-weight:400; color:#9CA3AF;">— unchanged</span></div>
+            <div style="display:flex; flex-direction:column; gap:5px; margin-bottom:12px;">
+              <div style="border:1.5px solid #111827; background:#F9FAFB; border-radius:9px; padding:7px 10px;">◉ <b>Only hours actually worked</b><br><span style="color:#6B7280; margin-left:17px;">Reg + OT + DT — how most funds read</span></div>
+              <div style="border:1px solid #E5E7EB; border-radius:9px; padding:7px 10px; color:#6B7280;">◯ <b style="color:#374151;">All paid hours</b><br><span style="margin-left:17px;">also counts PTO, sick, holiday — a sick day still earns the fund</span></div>
+              <div style="border:1px solid #E5E7EB; border-radius:9px; padding:7px 10px; color:#6B7280;">◯ <b style="color:#374151;">A single hour type</b> &nbsp;<span class="cellin ro" style="min-width:0;">Reg ▾</span><br><span style="margin-left:17px;">rare — e.g. a fund owed only on overtime hours</span></div>
+            </div>
+            <div style="font-weight:600; margin-bottom:5px;">3 · Rate for overtime &amp; double-time hours <span class="pill amber2">modified</span> <span style="font-weight:400; color:#9CA3AF;">(hidden when a single hour type is picked)</span></div>
+            <div style="display:flex; flex-direction:column; gap:5px; margin-bottom:12px;">
+              <div style="border:1px solid #E5E7EB; border-radius:9px; padding:7px 10px; color:#6B7280;">◯ <b style="color:#374151;">Same rate</b> — an OT hour pays the same $6.54 <span style="color:#9CA3AF;">(the preset's answer)</span></div>
+              <div style="border:1.5px solid #111827; background:#F9FAFB; border-radius:9px; padding:7px 10px;">◉ <b>At the agreement's premium</b> — uses <i>this agreement's</i> OT× 1.5 · DT× 2 from Step 3</div>
+              <div style="border:1px solid #E5E7EB; border-radius:9px; padding:7px 10px; color:#6B7280;">◯ <b style="color:#374151;">Custom rates</b> — OT $<span class="cellin" style="min-width:40px;"></span> · DT $<span class="cellin" style="min-width:40px;"></span> <span style="color:#9CA3AF;">— for contracts that print their own (e.g. $4.00 ST / $5.00 OT)</span></div>
+            </div>
+            <div class="help" style="background:#EFF6FF; border-radius:8px; padding:7px 10px; color:#1E40AF;"><b>Check with a real week:</b> 40 Reg + 10 OT → $6.54 × 40 + $9.81 × 10 = <b>$359.70</b></div>
+            <div class="help" style="margin-top:6px;"><b>Engineering notes (from verification round 2):</b> the "OT× 1.5 · DT× 2" in option 2 is <b>this sample agreement's data, not copy</b> — the label must interpolate the agreement's actual Step-3 multipliers (a CA agreement reads "OT× 2.0 · DT× 2.0"). The check-week box is a <b>live-computed component</b>, never static text — it recalculates on every option change and custom-rate keystroke.</div>
+            <div class="help" style="margin-top:8px;">Picking <b>% of pay</b> replaces questions 2–3 with: which wages it's a percent of (three flags: all vs worked-only hours · include benefit pay? · OT at straight-time?) <b>plus an optional "plus $__ per hour worked" add-on</b> ("5% of gross plus $1.25/hr" is real contract language). Non-standard flag combos save with an inline "non-standard — double-check the contract wording" note. Picking <b>Flat</b>: how often (day / week / month / pay run) and whether any hours or only worked hours trigger it.</div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+    <div>
+      <p class="col-t">What the database captures</p>
+      <div class="db">
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementWizardDraft.payload</span><span class="when json">draft JSON only</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">benefits[]</span><span class="fd">id (catalog) or null (new), name, basis, liable_party</span></div>
+            <div class="f"><span class="fn">applies_to</span><span class="fd">ALL (flat) / CLASS_SPECIFIC (per-class)</span></div>
+            <div class="f"><span class="fn">values[] · per_class[]</span><span class="fd">{period_id, value, tbd} — keyed to wage periods</span></div>
+            <div class="f"><span class="fn">base_type</span><span class="fd"><span class="chip new">NEW</span>HOURS / PAY / FLAT — replaces today's 2-value <code>rate_type</code></span></div>
+            <div class="f"><span class="fn">hours_scope · ot_dt_treatment</span><span class="fd"><span class="chip new">NEW</span>ALL / WORKED-ONLY / REG / OT / DT-only &nbsp;×&nbsp; SAME / AGREEMENT_PREMIUM (uses the agreement's OT·DT multipliers, never hardcoded 1.5/2) / CUSTOM — HOURS funds only</span></div>
+            <div class="f"><span class="fn">ot_rate_override · dt_rate_override</span><span class="fd"><span class="chip new">NEW</span>explicit $ rates when treatment = CUSTOM ("$5.00 for OT hours" printed in the contract) — reinstated after adversarial verification: these ARE agreement facts</span></div>
+            <div class="f"><span class="fn">addon_per_hour</span><span class="fd"><span class="chip new">NEW</span>optional flat $ per worked hour on top of a % fund ("5% of gross plus $1.25/hr") — TradeSeal's "Additional" family, reinstated</span></div>
+            <div class="f"><span class="fn">pay_hours · pay_incl_benefits · pay_ot_as_straight</span><span class="fd"><span class="chip new">NEW</span>PAY funds: which hours' wages (all vs worked-only) × include benefit earnings? × OT at straight-time ("working wages")? — three independent flags, so all TradeSeal pay methods are expressible</span></div>
+            <div class="f"><span class="fn">basis_other_text</span><span class="fd"><span class="chip new">NEW</span>"Other" escape hatch — contract wording verbatim + needs-review flag; never force a wrong approximation (EPR ships "Custom" for the same reason)</span></div>
+            <div class="f"><span class="fn">flat_cadence · flat_trigger</span><span class="fd"><span class="chip new">NEW</span>DAILY / WEEKLY / MONTHLY / PER_PAY &nbsp;×&nbsp; any-hours / productive-hours — FLAT funds only</span></div>
+            <div class="db-note">At Publish: fund matched to <b>Packages</b> by (name, type, liable party) — new names create new catalog rows; values become <b>UnionMappingOptPackageRate</b> rows per class × period. <b>Note (7/10):</b> with free-text entry, identical strings across agreements still auto-link to one catalog row — acceptable for now (values live per agreement), but true canonical fund identity (aliases → one trust) is deferred curation, and payroll remittance will require it. Basis fields land on the fund-on-agreement config (today <code>UnionPackages.rate_type</code> — its 5 legacy values map 1:1 onto default combinations, e.g. PER_HOUR → HOURS·ALL·WORKED, PERCENTAGE → PAY·GROSS_ALL). A shape check-constraint (like derivation's) enforces that only the chosen base's fields are set. TradeSeal's <code>info / earning / deduction</code> type (the taxability cut) is <b>deferred</b> to the payroll-fields phase — as are <b>caps/tiers/eligibility rules</b>, which the corpus confirms exist (4-70-A: Industry Fund at 25% of payroll over 75k man-hours, 100% over 150k) but are rules <i>on top of</i> a basis, not bases. MECE claim is scoped accordingly: bases exhaustive per TradeSeal + corpus check (7/10); rules layer deliberately separate; "Other" catches the residual.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flags">
+        <h4>Flagged for review</h4>
+        <ul>
+          <li><span class="chip new">NEW</span><b>"Funds with their own change dates" section</b> — found in the contract corpus: LU 53 and LU 70 move benefit funds on January 1 while wages move on the September anniversary. The Benefits step becomes two sections (period-grid funds + own-dates funds); own-dates schedule rows are just <b>date + rate + optional note</b>, and fund rates get their own date windows in the DB instead of being chained to wage periods. <span class="src">— corpus finding + approved mockup</span></li>
+          <li><b>DECIDED (7/10, reversing earlier drafts): contingent amounts are NOT logged.</b> "Up to $0.50 if needed" is a possibility, not a value — the system records the amount actually in effect ($7.25). If the trustees invoke the increase, it's entered <b>then</b>, as an ordinary dated rate change (new schedule row / edit, auto-logged). The contract's wording may live in the optional note for context. Consequences: value status = Set / TBD / Not applicable everywhere (no fourth state); no ceiling pricing in calculators; no contingent count on Review. Known trade-off, accepted: a bid built before an invoked increase won't carry it — consistent with the facts-not-forecasts stance throughout. <span class="src">— Ben, review</span></li>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): decomposed basis model, adapted from HCM TradeSeal's calculation methods</b> (TradeSeal runs union payroll in production, so its method list is the most battle-tested enumeration available). Final shape — the schema stores: <b>base</b> ($ per hour · % of pay · flat) × <b>which hours count</b> (only hours actually worked · all paid hours · a single type) × <b>OT/DT rate treatment</b> (same rate · the agreement's own premium multipliers from Step 3 — never hardcoded · custom printed $ rates). % funds carry three independent wage-base flags (all vs worked-only hours · include benefit earnings? · OT at straight-time?) plus an optional "plus $ per hour worked" add-on ("5% of gross plus $1.25/hr" is real contract language). Flat funds: cadence (day / week / month / pay run) + any-hours vs worked-hours trigger. An "Other" option stores unusual contract wording verbatim for review. <b>UI:</b> two dropdown presets ("$ per hour worked" · "% of gross pay") are saved answers to the same questions; Custom… opens them pre-filled. Guards: single-hour-type picks hide the rate question; non-standard flag combos save with a "double-check the wording" note. Excluded as payroll-engine concerns: PW Fringe family, 401K Adjustment, annualization. Provenance: TradeSeal docs → corpus check against our own contracts → two external adversarial verification rounds (which reinstated the per-hour-type rates and the add-on). <span class="src">— TradeSeal docs + review + external verification, 7/10</span></li>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): fund name is plain free text — no dropdown, no typeahead, no suggestions.</b> Same axiom as Step 2: enter the fund exactly as printed; a suggested "close match" risks silently merging two different funds (irreversible, payroll-corrupting), while duplicates from formatting are visible and mergeable later. Kills the FundCombobox and its hardcoded fallback list. Within-agreement duplicate check stays. Cross-agreement canonical linking (aliases → one real trust) becomes deliberate back-office curation in the catalog work — never an entry-time guess. <span class="src">— Ben, review; replaces the picker-guard proposal</span></li>
+          <li><span class="chip chg">CHANGE</span><b>New fund rows must not pre-fill "New fund"</b> — empty field + placeholder + autofocus, blank blocks Continue. Same defect and fix as Step 2's "New class". <span class="src">— Ben, review 7/10</span></li>
+          <li><span class="chip chg">CHANGE</span><b>DECIDED (7/10): rename the "Pays" column to "Paid by"</b>, values spelled out — Employer / Employee, no ER/EE abbreviations. Tooltip carries the nuance once: Employer = paid on top of wages; Employee = deducted from the worker's pay. (Avoid legacy "Liable Party" — jargon.) <span class="src">— Ben, review</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STEP 5 ================= -->
+  <div class="step-h"><span class="num">Step 5</span><h2>Mapping</h2><span class="g">Continue gate: every class mapped or marked Not Available — enforced again at Publish</span></div>
+  <p class="step-sub">Union classes → your internal roles. This is the only org-specific step: the agreement data is shared, the mapping is yours.</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">Current UI</p>
+      <div class="frame">
+        <div class="screen">
+          <p class="intro-txt">Map each union class to an internal role — the single source of truth for union→internal mapping. <b>ST (P1)</b> wage shown for context. <span style="float:right;" class="cellin ro">Auto-suggest mappings</span></p>
+          <div class="mock-wrap">
+            <table class="mock">
+              <thead><tr><th>Union class</th><th>ST (P1)</th><th>Internal role</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td style="font-weight:600;">Journeyman Lineman</td><td>$53.41</td><td><span class="cellin ro" style="min-width:150px;">Journeyman Lineman ▾</span></td><td><span class="pill green">● Mapped</span></td></tr>
+                <tr><td style="font-weight:600;">Foreman</td><td>$58.75</td><td><span class="cellin ro" style="min-width:150px;">Foreman ▾</span></td><td><span class="pill green">● Mapped</span></td></tr>
+                <tr><td style="font-weight:600;">Line Sub-Foreman</td><td>$54.41</td><td><span class="cellin ro" style="min-width:150px;">Not Available ▾</span></td><td><span class="pill gray">● Not Available</span></td></tr>
+                <tr style="background:#FEF2F2;"><td style="font-weight:600;">Groundman</td><td>$32.10</td><td><span class="cellin" style="min-width:150px; border-color:#FCA5A5; color:#9CA3AF;">Map to internal role… ▾</span><br><span style="color:#2563EB; font-size:11px;">↳ Use "Groundman / Driver"</span></td><td><span class="pill red">● Unmapped</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="help" style="border:1px solid #E5E7EB; border-top:none; border-radius:0 0 10px 10px; padding:8px 12px;">2 of 4 mapped · 1 not available · <span style="color:#B91C1C;">1 unmapped</span></div>
+        </div>
+        <div class="footerbar"><span class="btn ghost">← Back</span><span class="btn orange">Continue →</span></div>
+      </div>
+
+      <p class="col-t" style="margin-top:18px;">Proposed — Mapping with multiple rate books (decided 7/10)</p>
+      <div class="help" style="margin:0 0 10px; font-size:12.5px;">One continuous table with <b>book header rows</b> — not separate tables (fragments one task), not a repeated "book" column (noise, and sorting would interleave books). Per-book progress sits on the header; the combined count stays in the footer for the Continue gate. One book = no headers, today's flat table exactly.</div>
+      <div class="frame"><div class="screen" style="padding:16px 18px;">
+        <div class="mock-wrap">
+          <table class="mock">
+            <thead><tr><th>Union class</th><th>ST (P1)</th><th>Internal role</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr style="background:#F3F4F6;"><td colspan="3" style="font-weight:650;">Rate book: Outside Line <span style="color:#9CA3AF; font-weight:400;">· 2 of 2 mapped</span></td><td></td></tr>
+              <tr><td style="font-weight:600;">Journeyman Lineman</td><td>$50.00</td><td><span class="cellin ro" style="min-width:150px;">Journeyman Lineman ▾</span></td><td><span class="pill green">● Mapped</span></td></tr>
+              <tr><td style="font-weight:600;">Groundman Driver</td><td>$27.23</td><td><span class="cellin ro" style="min-width:150px;">Groundman / Driver ▾</span></td><td><span class="pill green">● Mapped</span></td></tr>
+              <tr style="background:#F3F4F6;"><td colspan="3" style="font-weight:650;">Rate book: Substation Technician <span style="color:#9CA3AF; font-weight:400;">· 1 of 2 mapped</span></td><td></td></tr>
+              <tr><td style="font-weight:600;">Substation Technician</td><td>$43.18</td><td><span class="cellin ro" style="min-width:150px;">Substation Tech ▾</span></td><td><span class="pill green">● Mapped</span></td></tr>
+              <tr style="background:#FEF2F2;"><td style="font-weight:600;">Groundman Driver</td><td>$26.10</td><td><span class="cellin" style="min-width:150px; border-color:#FCA5A5; color:#9CA3AF;">Map to internal role… ▾</span><br><span style="color:#2563EB; font-size:11px;">↳ Use "Groundman / Driver"</span></td><td><span class="pill red">● Unmapped</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="help" style="border:1px solid #E5E7EB; border-top:none; border-radius:0 0 10px 10px; padding:8px 12px;">3 of 4 mapped · <span style="color:#B91C1C;">1 unmapped</span></div>
+        <div class="help" style="margin-top:8px;">Note the duplicate name: "Groundman Driver" appears in both books at different wages, and both may map to the same internal role <b>without ambiguity</b> — consumers always know which book they're in (the picker hierarchy), so the right wage always resolves. The mapping is per class-row, not per name.</div>
+      </div></div>
+    </div>
+    <div>
+      <p class="col-t">What the database captures</p>
+      <div class="db">
+        <div class="db-card"><div class="db-h"><span class="tn">AgreementWizardDraft.payload</span><span class="when json">draft JSON only</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">mapping[]</span><span class="fd">class → internalId, or Not Available flag</span></div>
+            <div class="db-note">Org-scoped: internal roles come from your org's <b>SystemName</b> list. At Publish these become <b>UnionMappingMain</b> links (internal role → union class lines) — the join the Rate Builder resolves through.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flags">
+        <h4>Flagged for review</h4>
+        <ul>
+          <li><b>DECIDED (7/10): "Complete" = zero unmapped classes.</b> The badge answers one question — "do I need to act?" — so mapped-or-NA on every class is Complete, full stop (no "· 3 N/A" annotations). Detail views may show the three counts; the badge stays binary. Two rules ride along: <b>NA is always a human decision</b> — no script ever auto-assigns it (legacy data was auto-NA'd by <code>auto_set_not_available_mappings</code>, which is what made old badges lie); legacy auto-NA'd rows go to the planned legacy-data audit, not badge design. <span class="src">— Ben, review</span></li>
+          <li><b>DECIDED (7/10): the role dropdown stays pick-only</b> — no inline "create new role." The internal role list is a curated vocabulary; new roles are added deliberately in Settings, and "Not Available" covers a class until then. <span class="src">— Ben, review; Step 5 closed</span></li>
+          <li><span class="chip dep">DEPRECATE</span><b>DECIDED (7/10): remove the bulk "Auto-suggest mappings" button.</b> The per-row blue "↳ Use '…'" hint stays — each acceptance is an individual human click, which guarantees row-by-row review with no extra "suggested-state" machinery. Bulk-apply is how a plausible-but-wrong match lands at scale; one-by-one is the guardrail. <span class="src">— Ben, review</span></li>
+          <li><span class="chip dep">DEPRECATE</span><b>DECIDED (7/10): retire the Settings › Union Mapping admin page.</b> Mapping is edited in exactly two places, both on the agreement: this wizard step at creation, and the agreement detail page after publish. The retired page's API (<code>union-mapping-admin</code>) goes with it. Bundled engineering fix: the mapping PATCH must stop scrubbing rows on a missing/null id — a full payload must never wipe untouched mappings. <span class="src">— Ben, review</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= STEP 6 ================= -->
+  <div class="step-h"><span class="num">Step 6</span><h2>Review &amp; Publish</h2><span class="g">Publish gate: all five steps valid, zero unmapped classes</span></div>
+  <p class="step-sub">Read-only checklist and previews; the Publish button lives in the footer. This is the moment the draft becomes real rate data — everything the calculators, bids, and future payroll read is written here, atomically.</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">Current UI</p>
+      <div class="frame">
+        <div class="screen">
+          <div class="mock-wrap" style="margin-bottom:10px;"><div style="padding:10px 12px;">
+            <div class="warnrow"><span class="ok">✓</span><span>Covered by 1 local (LU 53)</span></div>
+            <div class="warnrow"><span class="ok">✓</span><span>4 wage periods · 4 classes · derived rates resolve (incl. offset)</span></div>
+            <div class="warnrow"><span class="ok">✓</span><span>1 per-class fund captured ($ and/or %)</span></div>
+            <div class="warnrow"><span class="warn">⚠</span><span>1 class unmapped — required to publish (fix in Mapping)</span></div>
+            <div class="warnrow"><span class="warn">⚠</span><span>TBD pending — 4 wage / 2 benefit cell(s) unallocated</span></div>
+            <div class="warnrow"><span class="warn">⚠</span><span>Overtime 1.5× · Double-time 2× (applied to ST) — confirm</span></div>
+          </div></div>
+          <div class="help" style="background:#EFF6FF; border:1px solid #BFDBFE; border-radius:10px; padding:9px 12px; color:#1E40AF; margin-bottom:10px;"><b>Already-covered locals</b> — These locals are already on an active agreement. Publishing won't change the existing one — if this is a renewal, you may want to end-date the prior agreement. <span style="opacity:.75;">LU 53 — Power &amp; Commercial 2019–23</span></div>
+          <div class="grid2">
+            <div class="mock-wrap"><table class="mock">
+              <thead><tr><th colspan="3">Loaded wage preview · P1</th></tr><tr><th>Role</th><th style="text-align:right;">Wage (ST)</th><th style="text-align:right;">Derivation</th></tr></thead>
+              <tbody>
+                <tr><td>Journeyman Lineman</td><td style="text-align:right;">$53.41</td><td style="text-align:right; color:#9CA3AF;">anchor</td></tr>
+                <tr><td>Foreman</td><td style="text-align:right;">$58.75</td><td style="text-align:right; color:#9CA3AF;">110% of JL</td></tr>
+              </tbody>
+            </table></div>
+            <div class="mock-wrap"><table class="mock">
+              <thead><tr><th colspan="4">Loaded benefit preview · P1</th></tr><tr><th>Fund</th><th>Basis</th><th>Pays</th><th style="text-align:right;">P1</th></tr></thead>
+              <tbody>
+                <tr><td>NEBF</td><td>% gross</td><td>ER</td><td style="text-align:right;">3%</td></tr>
+                <tr><td>SERF</td><td>% gross</td><td>ER</td><td style="text-align:right; color:#9CA3AF;">per class (%)</td></tr>
+              </tbody>
+            </table></div>
+          </div>
+          <div class="help" style="background:#F9FAFB; border-radius:10px; padding:9px 12px; margin-top:10px;">LU 53 Power &amp; Commercial · Term 09/01/2023 – 08/28/2027 · 1 local · 4 periods · 4 classes · 3 funds</div>
+        </div>
+        <div class="footerbar"><span class="btn ghost">← Back</span><span class="btn orange">Publish agreement</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="col-t">What Publish writes — the atomic flush</p>
+      <div class="db">
+        <div class="db-card"><div class="db-h"><span class="tn">UnionMappingOption</span><span class="when pub">at publish</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">unionRoster · union · wage_agreement</span><span class="fd">one row per class × covered local</span></div>
+            <div class="f"><span class="fn">rate_book</span><span class="fd"><span class="chip new">NEW</span>FK to the class's book — uniqueness becomes (name, book, local, agreement)</span></div>
+            <div class="f"><span class="fn">derivation_type · base_mapping · percent/offset</span><span class="fd">the Step-2 derivation, per local; base must be in the same book</span></div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">UnionMappingOptionRate</span><span class="when pub">at publish</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">stRate · otRate · dtRate</span><span class="fd">ST from Step 3; OT/DT materialized from multipliers</span></div>
+            <div class="f"><span class="fn">effective_date · end_date</span><span class="fd"><b>copied</b> from AgreementPeriod — no FK back</span></div>
+            <div class="f"><span class="fn">wage_column</span><span class="fd"><span class="chip new">NEW</span>FK to a small per-book label table (MD / VA / Federal Projects…) — one rate row per class × period × column; single default column when the agreement has no splits</span></div>
+            <div class="f"><span class="fn">tbd · is_active</span><span class="fd">one row per class × period (× column)</span></div>
+            <div class="f"><span class="fn">value_status</span><span class="fd"><span class="chip chg">CHANGE</span>replaces tbd: SET / TBD / NOT_APPLICABLE (decided 7/10)</span></div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">Packages → UnionPackages → UnionMappingOptPackageRate</span><span class="when pub">at publish</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">Packages</span><span class="fd">fund catalog — get-or-create by name/type/party</span></div>
+            <div class="f"><span class="fn">UnionMappingOptPackageRate</span><span class="fd">value per fund × class × period, dates copied</span></div>
+            <div class="f"><span class="fn">value_status</span><span class="fd"><span class="chip chg">CHANGE</span>benefit rates use the same enum — SET / TBD / NOT_APPLICABLE ("up to X if needed" amounts aren't logged; entered as dated changes when invoked)</span></div>
+            <div class="f"><span class="fn">UnionRateBenefits</span><span class="fd">per-union container — packages M2M synced</span></div>
+          </div>
+        </div>
+        <div class="db-card"><div class="db-h"><span class="tn">UnionMappingMain · status flips</span><span class="when pub">at publish</span></div>
+          <div class="db-b">
+            <div class="f"><span class="fn">UnionMappingMain</span><span class="fd">internal role → class links (your org)</span></div>
+            <div class="f"><span class="fn">lifecycle_status</span><span class="fd">DRAFT → PUBLISHED · draft → COMMITTED</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="flags">
+        <h4>Flagged for review</h4>
+        <ul>
+          <li><span class="chip chg">CHANGE</span>Rate rows should <b>FK to their period</b> instead of carrying copied dates — the drift risk lives here, and the "Add raise date" flow (Step 1 flags) depends on it. <span class="src">— architecture review</span></li>
+          <li><span class="chip chg">CHANGE</span>The "already-covered locals" advisory still reads <b>mock data</b>, not the API. <span class="src">— FE inventory; GRI pending</span></li>
+          <li><span class="chip new">NEW</span>Make that advisory <b>actionable</b>: a checkbox — "This replaces [prior agreement] — mark it superseded" — so publishing the renewal archives the old agreement in the same step. Separately, a rare explicit "Mark agreement ended…" action (end date + required reason, admin-only) on the detail page covers true terminations. <span class="src">— review discussion: rates stop by supersession or deliberate action, never by calendar</span></li>
+          <li><b>DECIDED (7/10): the benefit preview's P1 column shows the value in effect on P1's first day.</b> Own-dates funds (e.g. LINECO's January schedule) preview as a real number ($7.00) — never a blank that reads as a save failure. Same as-of rule every other screen uses. The TBD checklist line stays as-is; there is no contingent count because contingent amounts aren't logged (see Step 4). <span class="src">— Ben, review; Step 6 closed</span></li>
+          <li><span class="chip chg">CHANGE</span><b>Books &amp; columns on Review (compatibility audit, 7/10):</b> when the agreement has more than one, the checklist and summary tile count them ("2 rate books · 2 wage columns"), and the wage preview groups by book with multi-column values side by side ("MD $45.87 · VA $44.44"). Single book/column agreements render exactly as drawn above. <span class="src">— rate-book/wage-column audit</span></li>
+          <li><span class="chip dep">DEPRECATE</span>Stale "Save as draft" plumbing and comments (button removed in GRI-1356); unused auto-suggest-annual code in periods.ts. <span class="src">— code hygiene</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-h"><span class="num">After publish</span><h2>Editing &amp; history</h2><span class="g">every edit is plain; every edit is logged; nothing is ever locked by the calendar</span></div>
+  <p class="step-sub">Once an agreement is published, all changes happen on its detail page (Wages / Benefits / Mapping / Documents / Details tabs — the retired Settings mapping page had been the only exception). Edits apply immediately; there is no locking, no approval chain, and no draft mode for edits. The audit trail is a side effect the user never performs — the system records it.</p>
+  <div class="cols">
+    <div>
+      <p class="col-t">The seven kinds of edit</p>
+      <div class="db">
+        <div class="db-card"><div class="db-b" style="padding-top:10px;">
+          <div class="f"><span class="fn">1 · Fix a value</span><span class="fd">click the cell, type, save — no ceremony. New reads get the corrected number immediately.</span></div>
+          <div class="f"><span class="fn">2 · Add raise date</span><span class="fd">appends a period, or splits one mid-schedule. Answers for dates before the new raise date never change. If the date is past the current expiration, the same form requires the new expiration date (typed from the paperwork — never inferred): no agreement may contain a period outside its own term. Rate entry in this flow groups by rate book and carries each wage column, like Step 3.</span></div>
+          <div class="f"><span class="fn">3 · Classes &amp; funds</span><span class="fd">add / rename work as plain edits; <b>remove is an explicit confirmed action</b>, never a silent side effect of saving (today a save that omits a class quietly deletes it — that behavior ends). The same rules cover rate books and wage columns: add/rename plain, remove confirmed.</span></div>
+          <div class="f"><span class="fn">4 · Mappings</span><span class="fd">same three-state model as the wizard, edited on the detail page.</span></div>
+          <div class="f"><span class="fn">5 · Documents</span><span class="fd">replace or add source PDFs as they arrive.</span></div>
+          <div class="f"><span class="fn">6 · Identity</span><span class="fd"><b>Decided 7/10:</b> name and expiration are directly editable (Details tab, logged). <b>Adding a covered local</b> is allowed — it fans out rate rows for that local. <b>Removing a local</b> is its own confirmed action (it ends coverage, not a field tweak).</span></div>
+          <div class="f"><span class="fn">7 · Lifecycle</span><span class="fd">supersede via the checkbox when publishing the successor; "Mark agreement ended…" (admin-only, reason required) for true terminations. The calendar alone never stops rates.</span></div>
+        </div></div>
+        <div class="db-card"><div class="db-h"><span class="tn">Locals ↔ agreements: many-to-many, both directions</span></div><div class="db-b">
+          <div class="db-note">A local can hold <b>several simultaneously active agreements</b> (LU 70's 4-70-A CBA and WFS 4-70-A overlap in the corpus; LU 104 runs North and South side by side), and one agreement can cover many locals (TN's seven, CA's 47 + 1245). Consequences: supersede targets <b>one specific agreement</b>, never a local; status and alerts are per-agreement; consumers always pick an agreement, not just a local. The Review step's "already-covered" notice stays an advisory for exactly this reason — overlap is often legitimate.</div>
+        </div></div>
+      </div>
+    </div>
+    <div>
+      <p class="col-t">The audit trail — four properties</p>
+      <div class="db">
+        <div class="db-card"><div class="db-b" style="padding-top:10px;">
+          <div class="f"><span class="fn">Universal</span><span class="fd">every write from every surface produces a history entry — which requires closing the side doors (scripts and raw admin edits that leave no trace). An audit trail with exceptions isn't one.</span></div>
+          <div class="f"><span class="fn">Readable</span><span class="fd">field-level, human sentences: "Ben changed Journeyman Lineman ST (Outside Line · Maryland · period 9/1/25–8/31/26) from $57.60 to $57.65 · Jul 10, 2026 · via agreement page." Entries name the rate book and wage column when the agreement has them — without that, the entry is ambiguous on a split agreement. Optional "why" note; required only for ending an agreement.</span></div>
+          <div class="f"><span class="fn">Append-only</span><span class="fd">history entries are never edited or deleted, by anyone.</span></div>
+          <div class="f"><span class="fn">Reconstructable</span><span class="fd">before-and-after values on every entry mean "what did this agreement say on June 1?" is answerable by walking the history backward. With no locking, the history is the only place that answer lives — this property is what makes the no-locking decision safe.</span></div>
+        </div></div>
+        <div class="db-card"><div class="db-h"><span class="tn">History tab · implementation note</span></div><div class="db-b">
+          <div class="db-note">Shown on the agreement as a <b>History</b> tab: newest first, filterable by section (wages / benefits / mapping / documents / identity / lifecycle), one sentence per entry with before → after. The bones exist — the backend already snapshots before/after with a version counter on V2 edits and blocks two people from silently overwriting each other. The work: rename the concept from "amendments" to <b>edit history</b>, make entries field-level readable, cover the new flows (raise dates, supersede, ended, identity), and close the side doors.</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <footer style="margin-top:56px; color:var(--page-muted); font-size:12.5px; border-top:1px solid var(--frame-line); padding-top:16px;">
+    Sources: gridBaseFrontend/src/pages/union/agreements-v2 (staging 4addbe90 — includes GRI-1341 period count, GRI-1356 footer changes) · gridbaseBackend utilities/v2/wizard/services.py + rates models (staging 2f6edbe). UI microcopy reproduced from constants.ts. All decisions recorded July 10, 2026 during the page-by-page review with Ben; the broader phased change plan lives in the companion "Union Data Model — First-Principles Architecture" document.
+  </footer>
+</div>

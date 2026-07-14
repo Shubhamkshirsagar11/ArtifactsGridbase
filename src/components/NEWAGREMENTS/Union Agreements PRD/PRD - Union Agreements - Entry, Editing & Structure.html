@@ -1,0 +1,320 @@
+<title>PRD — Union Agreements: Entry, Editing &amp; Structure</title>
+<style>
+  :root {
+    --bg: #F7F6F2; --surface: #FFFFFF; --surface-2: #F0EEE8; --ink: #22252A; --muted: #6E7480;
+    --line: #E2DFD7; --accent: #C95B21; --accent-soft: #FBEEE4; --ok: #1A7F4B; --ok-soft: #E6F4EC;
+    --warn: #8F6400; --warn-soft: #FAF3DC; --crit: #B42318; --crit-soft: #FBEBE9;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #15171B; --surface: #1D2026; --surface-2: #23262D; --ink: #E8EAED; --muted: #99A0AB;
+      --line: #30343C; --accent: #E68A4E; --accent-soft: #35281E; --ok: #4FB07A; --ok-soft: #1C2E24;
+      --warn: #D2A73F; --warn-soft: #322B18; --crit: #E5615C; --crit-soft: #37211F; }
+  }
+  :root[data-theme="dark"] { --bg: #15171B; --surface: #1D2026; --surface-2: #23262D; --ink: #E8EAED; --muted: #99A0AB;
+    --line: #30343C; --accent: #E68A4E; --accent-soft: #35281E; --ok: #4FB07A; --ok-soft: #1C2E24;
+    --warn: #D2A73F; --warn-soft: #322B18; --crit: #E5615C; --crit-soft: #37211F; }
+  :root[data-theme="light"] { --bg: #F7F6F2; --surface: #FFFFFF; --surface-2: #F0EEE8; --ink: #22252A; --muted: #6E7480;
+    --line: #E2DFD7; --accent: #C95B21; --accent-soft: #FBEEE4; --ok: #1A7F4B; --ok-soft: #E6F4EC;
+    --warn: #8F6400; --warn-soft: #FAF3DC; --crit: #B42318; --crit-soft: #FBEBE9; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0 24px 100px; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
+  main { max-width: 880px; margin: 0 auto; }
+  .eyebrow { font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 48px 0 8px; }
+  h1 { font-size: 32px; font-weight: 650; margin: 0 0 8px; line-height: 1.15; letter-spacing: -0.01em; }
+  .meta { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
+  .meta b { color: var(--ink); font-weight: 600; }
+  h2 { font-size: 22px; font-weight: 650; margin: 52px 0 10px; padding-top: 18px; border-top: 2px solid var(--accent); }
+  h3 { font-size: 16.5px; font-weight: 650; margin: 30px 0 8px; }
+  h4 { font-size: 14.5px; font-weight: 650; margin: 22px 0 6px; }
+  p, li { font-size: 14.5px; max-width: 76ch; }
+  ul, ol { padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  code { font-family: var(--mono); font-size: .88em; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+  .callout { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
+  .callout.warn { border-left-color: var(--warn); }
+  .quote { background: var(--surface-2); border-radius: 8px; padding: 12px 16px; font-size: 13.5px; font-style: italic; color: var(--muted); margin: 12px 0; max-width: 76ch; }
+  .toc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 22px; font-size: 13.5px; }
+  .toc b { display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .toc ol { margin: 0; padding-left: 18px; }
+  .toc li { margin-bottom: 3px; }
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin: 14px 0 22px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 640px; }
+  th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 650;
+    padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.fn { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+  .chg-id { display: inline-block; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 12px; border-radius: 6px; padding: 2px 9px; margin-right: 8px; }
+  .tree { font-family: var(--mono); font-size: 13px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; overflow-x: auto; white-space: pre; line-height: 1.7; }
+  .why { color: var(--muted); }
+  hr.soft { border: none; border-top: 1px solid var(--line); margin: 30px 0; }
+  footer { margin-top: 60px; color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+
+<main>
+  <p class="eyebrow">Gridbase · Unions module · PRD · Draft for review</p>
+  <h1>Union Agreements: Entry, Editing &amp; Structure</h1>
+  <p class="meta"><b>Status:</b> Draft v1 · <b>Date:</b> July 10, 2026 · <b>Owner:</b> Ben · <b>Companion doc:</b> the <a href="https://claude.ai/code/artifact/0fcdb2f2-a1c9-481d-89ad-e016d32ec35b">visual walkthrough</a> has a screen-by-screen mockup for every UI change described here, with the matching database notes beside each one. This PRD is the narrative and the spec; the walkthrough is the picture book. Read them together.</p>
+
+  <div class="toc">
+    <b>Contents</b>
+    <ol>
+      <li>The problem: real contracts don't fit, routine updates need engineers, and failures are silent</li>
+      <li>Five concepts to understand first (read before anything else)</li>
+      <li>The changes, by area — what and why</li>
+      <li>Database changes — before and after</li>
+      <li>What we are deliberately NOT doing</li>
+      <li>Migration notes &amp; how we'll know it works</li>
+    </ol>
+  </div>
+
+  <!-- ============================================================ -->
+  <h2>1 · The problem: real contracts don't fit, routine updates need engineers, and failures are silent</h2>
+  <p><b>Scope of this PRD:</b> the union agreement system — the setup wizard, editing of published agreements, the rate lookup that calculators and bids read, and the database tables underneath all of it.</p>
+  <p>Union agreement data is the cost foundation of the whole platform. The Rate Builder prices crews from it, bid estimates are built on it, and payroll will eventually pay people from it. If a wage or benefit number is wrong, everything downstream is wrong — quietly.</p>
+  <p>The agreement wizard in production today works well for creating a straightforward agreement. But we reviewed it page by page against a stack of real signed contracts (locals 53, 66, 70, 876, 1002, 1186, the California and Tennessee multi-local agreements, and others), and three kinds of gaps showed up:</p>
+  <ul>
+    <li><b>Real contract structures we can't represent.</b> Some contracts have several wage tables under one agreement. Some print two sets of wages — one per state. Some benefit funds change rates on dates that have nothing to do with the wage schedule. Today, none of those fit.</li>
+    <li><b>Routine events with no path.</b> The single most common thing that happens to an agreement — the union announces next year's rates — cannot be entered without engineering help. Neither can an extension, and "what happens when an agreement expires" has the wrong answer today.</li>
+    <li><b>Silent-failure risks.</b> Saving a wage edit that omits a classification silently deletes it. A rate lookup can return a rate from the wrong time window. New rows pre-fill with fake names ("New class") that pass validation. These aren't hypothetical — the GRI-1337 hotfix was one of this family.</li>
+  </ul>
+  <p><b>The goal, in one sentence:</b> a Gridbase admin can create any agreement in our contract stack, keep it current for years — raises, extensions, renewals, corrections — entirely through the UI, and every number stays trustworthy enough to eventually run payroll on.</p>
+
+  <!-- ============================================================ -->
+  <h2>2 · Five concepts to understand first</h2>
+  <p>These are new ideas (or corrected ideas) that the rest of the document depends on. Each one exists because a real contract forced it.</p>
+
+  <h3>Concept 1 — An agreement's expiration date is an alarm clock, not a kill switch</h3>
+  <p>Every contract prints an end date. But almost every contract also says it <i>keeps going</i> past that date. From Local 1186's agreement, and nearly word-for-word in seven others we checked:</p>
+  <div class="quote">"…shall remain in effect until Midnight August 22, 2026… It shall continue in effect from year to year thereafter… unless changed or terminated in the way later provided herein."</div>
+  <p>So when the printed date passes, the crews are still working and still must be paid at the last published rates — that's what the contract itself says. Today our system treats the expiration date as the end of the data. After this PRD:</p>
+  <ul>
+    <li>The expiration date stays required — it drives the "go ask the union for the renewal" alerts, which is its real job.</li>
+    <li>When the date passes, <b>rates keep resolving</b>, and the agreement displays an honest status: <i>"Using last known rates — term ended 8/28/27, renewal not on file. Confirm with the union."</i> This status is <b>computed whenever it's displayed</b> (is it published? is today past the end date? is there no successor?) — it is never stored, so nothing has to run on a schedule to flip labels, and it can never be stale.</li>
+    <li>Rates only stop when a <b>successor agreement replaces this one</b> (a checkbox at publish time) or a person <b>deliberately marks the agreement ended</b>. The calendar alone never stops rates.</li>
+  </ul>
+
+  <h3>Concept 2 — Rate books: one agreement can contain several classification lists</h3>
+  <p>Local 1002 has one agreement, one term, one benefits schedule — and <b>separate wage tables</b> for Outside Line work, Transmission Technicians, and Substation Technicians. Each table has its own job classifications and its own top rate that the others are calculated from.</p>
+  <p>We're calling each of those tables a <b>rate book</b>. An agreement contains one or more rate books; each book has its own classifications and its own anchor (the 100% rate the others derive from). The same classification name may appear in two books at different pay — that's real and legal.</p>
+  <p><b>The rule for when to use books vs. separate agreements:</b> same signed document, same term, same benefits schedule → one agreement with rate books. Separate documents or separate terms (like Local 104's North and South agreements) → separate agreements.</p>
+  <p><b>Most agreements have exactly one book, and for them nothing changes visually</b> — the book layer is invisible until someone adds a second one.</p>
+
+  <h3>Concept 3 — Wage columns: the same table can carry more than one set of dollar values</h3>
+  <p>Local 70's wage sheet prints one list of classifications with <b>two money columns: Maryland and Virginia</b>. The structure is identical — General Foreman is 115% of the Journeyman rate in both states — only the dollars differ. The whole two-column page is generated by the classification ladder plus two anchor values ($45.87 MD, $44.44 VA — and 115% of those gives exactly the printed $52.75 and $51.11).</p>
+  <p>We're calling each money column a <b>wage column</b>. Columns aren't only geographic: Local 1002's Outside Line book prints Standard and Federal Projects values — same idea. Entering a second column means typing one anchor and a handful of flat rates; every derived row computes itself.</p>
+  <p>Benefits and role-mapping are <b>not</b> affected by columns — fund rates are shared, and a classification maps to an internal role once. Which column applies is decided later, by the job (its state, its project type).</p>
+  <p>The full hierarchy, with every level optional-by-default:</p>
+  <div class="tree">Agreement  (LU 1002 — Outside Line &amp; Industrial/Commercial, 8/17/25–6/30/29)
+ └─ Rate book  (Outside Line · Transmission Tech · Substation Tech)
+     └─ Wage column  (Standard · Federal Projects)
+         └─ Classification × Wage period  (Journeyman Lineman × 8/17/25–6/27/26)</div>
+  <p>Anything picking rates (the Rate Builder, bids) walks that path: <b>Local → Agreement → Book → Column → date</b> — and any level with exactly one option auto-selects and hides, so simple agreements feel exactly like today.</p>
+  <div class="callout"><b>A storage detail that is easy to misread as a contradiction:</b> when an agreement covers several locals (California's covers two, Tennessee's seven), the database stores one synchronized copy of each classification <i>per covered local</i>. This is not something anyone manages — the admin always edits <b>one</b> classification list and types each anchor <b>once</b>; the backend fans the identical rows out to every covered local in the same save (this fan-out already exists in production — the publish and edit code keeps per-local rows "in lockstep" automatically). The copies exist purely because everything that consumes rates today looks them up by (local, classification), and keeping that shape means no consumer rewrite. Per-local rows never diverge within an agreement: pay that differs by geography is what <b>wage columns</b> are for.</div>
+
+  <h3>Concept 4 — A value is Set, TBD, or Not applicable — never ambiguously blank</h3>
+  <p>Today a wage or benefit cell is either a number or a <code>tbd</code> flag, and underneath, an empty value and a zero look alike. That ambiguity is a bug factory — the GRI-1337 hotfix (benefit dropdown showing dates with no usable values) was exactly this.</p>
+  <p>After this PRD, every stored value carries one explicit status:</p>
+  <ul>
+    <li><b>Set</b> — a real number from the contract.</li>
+    <li><b>TBD</b> — the union scheduled this period but hasn't announced the amount yet. In effect, unknown.</li>
+    <li><b>Not applicable</b> — deliberately no value (this fund doesn't apply here). Finished business, not missing data.</li>
+  </ul>
+  <p>One deliberate exclusion: contracts sometimes say things like <i>"up to an additional $0.50 if needed."</i> We do <b>not</b> store that as a special "contingent" value. We store the amount actually in effect, and if the increase is ever invoked, it gets entered on that day as an ordinary dated rate change. The system records facts, not possibilities. (The contract's wording can live in a note.)</p>
+  <div class="callout"><b>What consumers do when they hit a TBD value — one rule, owned by the rate lookup:</b> <i>the lookup never invents a number and never substitutes one silently. When the value covering the requested date isn't Set, it returns the newest Set value before that date, together with a freshness label; when no Set value has ever existed, it says so explicitly.</i><br><br>
+  Concretely: pricing a crew six months out where a classification's period is TBD returns that classification's <b>most recent Set rate</b>, plus metadata — the date it was set and a "TBD — priced at last known rate" flag. Every consumer must surface that flag (a footnote in the Rate Builder, a line-item warning on a bid: <i>"3 classifications priced at rates last set 9/1/25; the 9/1/26 raise is announced but not yet allocated"</i>). The estimator can still plan, knows exactly which numbers are soft, and knows to expect a retroactive true-up — which is how this industry already handles late-allocated raises. A <b>Not applicable</b> value contributes nothing and warns about nothing. A classification with <b>no Set value ever</b> is genuinely unpriceable: excluded with an explicit "no usable rate" warning on that line only — <b>never $0.00</b>, and never a hard error that blocks the rest of the calculation. This matches the instinct already in production (the GRI-1337 fix hides all-TBD dates rather than pricing them at zero) — stated here as the single rule so no consumer team has to guess.</div>
+
+  <h3>Concept 5 — Every edit is plain, and every edit is logged</h3>
+  <p>After an agreement is published, people fix typos, enter newly announced rates, add classifications, replace documents. Two principles govern all of it:</p>
+  <ul>
+    <li><b>Editing is never a ceremony.</b> Click the cell, type, save. No approval flow, no locking, no "amendment" ritual for fixing $54.44 to $54.40.</li>
+    <li><b>The log is a side effect the user never performs.</b> Every change — from every code path — writes a history entry: who, what, before → after, when, from which screen. Entries are field-level and readable ("Ben changed Journeyman Lineman ST (Outside Line · Maryland · period 9/1/25–8/31/26) from $57.60 to $57.65"), never edited or deleted, and shown on a History tab. Because every entry has before-and-after values, "what did this agreement say on June 1?" is always answerable — which is what makes no-locking safe, and what payroll audits will demand.</li>
+  </ul>
+  <div class="callout warn"><b>The catch that makes this a real work item:</b> today, Django admin and management scripts can write to these tables without leaving any trace. An audit trail with side doors isn't one. The invariant is <b>"no unlogged writes"</b> — not "no admin writes": admin becomes read-only on the financial tables by default and scripts route through the same service layer as the UI, but a <b>break-glass engineering role</b> keeps emergency admin write access — mandatory reason, every change auto-logged into the same edit history tagged "via break-glass admin," and an alert fired on every use. An emergency exit differs from a side door in exactly one way: it's wired to the alarm. (Banning it entirely wouldn't remove 2 AM emergencies — it would push them into raw SQL, the least logged path of all.)</div>
+
+  <!-- ============================================================ -->
+  <h2>3 · The changes, by area</h2>
+  <p>Each change below says what it is and why. The <a href="https://claude.ai/code/artifact/0fcdb2f2-a1c9-481d-89ad-e016d32ec35b">visual walkthrough</a> has a drawn mockup for every one of these — look for the matching "Proposed" frames on each step.</p>
+
+  <h3>A · Setup step</h3>
+  <p><span class="chg-id">A1</span><b>Documents become "upload what arrived, tag what it contains."</b> Today there are two fixed upload slots (Union Contract, Wages &amp; Benefits sheet) plus a "combined file" toggle. Real paperwork doesn't fit: sometimes the contract itself defines the benefits and the wage sheet is separate; Local 1002 sends a standalone fringe sheet plus one wage sheet <i>per rate book</i>. New model: a single file list. Upload each PDF; tag it with what it contains using a per-file multi-select (closed state always shows the chosen tags as chips — "Contract · Benefits ▾"). Options: Contract, Wages, Benefits (any combination), or Supporting document (exclusive — picking it clears the others). A fresh upload is amber "needs tagging" and <b>blocks Continue until someone says what it is — silence never classifies a file</b>. The gate changes from "are the slots filled" to "is each of Contract / Wages / Benefits covered by at least one file, and is nothing untagged," shown as a coverage bar. Empty state: the upload dropzone <i>is</i> the section; once files exist it collapses to an "+ Add document" row that stays a drop target.</p>
+  <p><span class="chg-id">A2</span><b>Expiration semantics per Concept 1.</b> The final wage period may have an open end ("until amended"). Past the expiration date the agreement shows the computed "last known rates" status. Two new lifecycle outcomes exist: <b>Superseded</b> (set by a checkbox when publishing the replacement — see F1) and <b>Ended</b> (an explicit admin action with a required reason, for true terminations). Expiration alerts continue working unchanged.</p>
+
+  <h3>B · Classifications step</h3>
+  <p><span class="chg-id">B1</span><b>Rate books (Concept 2).</b> An "+ Add rate book" affordance; with more than one book the table groups under book header rows, each book holding its own classes and anchor. Book names are free text, mirroring the printed sheet titles. Derivations ("110% of…") can only reference classes in the same book. One book (the default) renders exactly today's UI.</p>
+  <p><span class="chg-id">B2</span><b>Kill the "New class" pre-fill.</b> Adding a row currently seeds the literal text "New class," which the user must delete — and which passes the name-required validation, so it can be published as real data. New rows start empty with a gray placeholder ("e.g. Journeyman Lineman"), autofocused; a blank row blocks Continue via the existing required-name rule. Identical fix for "New fund" on the Benefits step.</p>
+
+  <h3>C · Wages step</h3>
+  <p><span class="chg-id">C1</span><b>Move the OT/DT multipliers above the matrix, and make their effect visible.</b> Today two small inputs sit in a footer bar under a wide scrolling table — easy to never see, though they multiply every rate in the agreement. They become a titled section <i>above</i> the matrix ("Overtime &amp; double time — applied to every straight-time rate below") with a live example line: "Journeyman Lineman P1: $53.41 ST → $80.12 OT → $106.82 DT," recomputing as you type. Why they're editable at all: California's agreement has <b>no time-and-a-half tier</b> — "double the straight rate shall be the maximum compensation for any hour worked" — so its OT multiplier must be 2.0. Guard: values outside the expected set (OT ∉ {1.5, 2.0} or DT ≠ 2.0) get a soft inline "unusual — double-check the contract" note. The Review step's currently-permanent "confirm multipliers" warning then fires <b>only when the defaults were never touched</b>.</p>
+  <p><span class="chg-id">C2</span><b>Wage columns (Concept 3).</b> A pill selector above the matrix (Maryland | Virginia | + Add wage column). Switching pills shows that column's values; derived rows recompute from that column's anchor. The live example in C1 uses the selected column's anchor.</p>
+  <p><span class="chg-id">C3</span><b>Value status (Concept 4)</b> replaces the <code>tbd</code> flag on wage cells: Set / TBD / Not applicable.</p>
+
+  <h3>D · Benefits step</h3>
+  <p><span class="chg-id">D1</span><b>Two sections: funds that follow the wage periods, and funds with their own change dates.</b> Local 53's health &amp; welfare fund changes every January 1 while its wages change on the September anniversary; Local 1002's fringe sheet has a change date matching no wage period at all. Funds that follow the wage schedule stay in today's period grid, untouched. Funds that don't get their own section: a simple list of dated changes (date + rate + optional note), entered exactly as the contract prints them — each rate applies until the next row, no end dates to manage. When adding a fund, one plain question routes it: "When does this fund's rate change? With the wage periods / On its own dates."</p>
+  <p><span class="chg-id">D2</span><b>The Basis picker: two presets and a Custom panel — one model.</b> Today Basis is a two-value dropdown ($/hr or % gross), which can't express how many funds are actually calculated. The new dropdown keeps two presets — <b>"$ per hour worked"</b> (every hour actually worked, counted once — the standard) and <b>"% of gross pay"</b> — which are <i>saved answers</i> to three questions, plus <b>Custom…</b>, which opens those questions in a slide-over, pre-filled from the current pick: <b>(1)</b> what the amount multiplies ($ per hour / % of pay / flat amount); <b>(2)</b> which hours count (only hours actually worked / all paid hours incl. PTO &amp; sick / a single hour type); <b>(3)</b> what rate OT and DT hours get (same rate / the agreement's own premium multipliers from the Wages step — the label must interpolate the real values, never hardcode "1.5" / custom printed $ rates, e.g. "$4.00 ST, $5.00 OT"). % funds get three independent base flags (all vs worked-only hours; include benefit earnings?; count OT at straight-time?) plus an optional "plus $ per hour worked" add-on ("5% of gross plus $1.25/hr" is real contract language). Flat funds: cadence (day/week/month/pay run) + trigger (any hours vs only when hours were worked). An <b>"Other"</b> option stores unusual wording verbatim and flags the fund for review — never force a wrong approximation. A "check with a real week" box (40 Reg + 10 OT → the computed dollars) recalculates live on every change — it's a component, not copy. This model was adapted from HCM TradeSeal's production calculation methods and survived an external adversarial review; prevailing-wage/401k/annualization calculations were deliberately excluded as payroll-engine concerns, not agreement facts.</p>
+  <p><span class="chg-id">D3</span><b>Fund names become plain free text.</b> The typeahead picker (and its hardcoded fallback fund list) goes away. Reason: a suggested "close match" risks silently merging two genuinely different funds — an invisible, payroll-corrupting error — while duplicates from formatting differences are visible and fixable later. Enter the fund exactly as the contract prints it; the only check is no duplicate names within the same agreement. Linking entry names to canonical funds ("is this A&amp;T fund the same trust as that one?") becomes deliberate back-office curation, later.</p>
+  <p><span class="chg-id">D4</span><b>Rename the "Pays" column to "Paid by"</b>, values spelled out: Employer / Employee (tooltip: Employer = paid on top of wages; Employee = deducted from the worker's pay). No ER/EE abbreviations.</p>
+  <p><span class="chg-id">D5</span><b>Funds can be scoped to a rate book.</b> Some agreements contain trades with legally separate fringe obligations — a fund that applies to one book's classes and must never touch another's. The data model already handles this, because <b>benefit values are stored per classification</b> (and every classification belongs to a book) with Not applicable covering exclusions. What's missing is the entry convenience: the fund's "Applies to" setting gains a middle grain — <b>every class / all classes in one rate book / specific classes</b>. Choosing a book fills that book's classes and marks every other book's classes Not applicable, in one act. All three grains compile down to the same per-class value rows, so the rate lookup never has to care which grain was used. (Real example: LU 1002's NEAP annuity is printed "See Classification," with different amounts across its books — per-class values are how the corpus actually works.)</p>
+
+  <h3>E · Mapping step</h3>
+  <p><span class="chg-id">E1</span><b>Remove the bulk "Auto-suggest mappings" button; keep the per-row hints.</b> The blue "↳ Use 'Groundman / Driver'" link under an unmapped row stays — each acceptance is an individual human click, which guarantees row-by-row review. Bulk-apply is how a plausible-but-wrong match lands at scale.</p>
+  <p><span class="chg-id">E2</span><b>Group by rate book</b> when the agreement has more than one — book header rows with per-book progress ("Outside Line · 11 of 13 mapped") inside one continuous table; combined count in the footer. The same class name in two books maps independently, without ambiguity — consumers always know which book they're in.</p>
+  <p><span class="chg-id">E3</span><b>"Complete" means zero unmapped, period.</b> A class marked Not Available counts as handled — the badge answers "do I need to act?" and nothing else. Two rules ride along: Not Available is <b>always a human choice</b> (no script may ever auto-assign it — a legacy script did exactly that, which is how old dashboards lied), and detail views may show the three counts (mapped / not available / unmapped) for anyone who drills in.</p>
+  <p><span class="chg-id">E4</span><b>Retire the Settings → Union Mapping admin page</b> and its API. Mapping is edited in exactly two places, both on the agreement: this wizard step at creation, and the agreement's detail page after publish. Bundled fix: the mapping save endpoint currently deletes a mapping when a row arrives with an empty id — a full payload can wipe untouched rows. That behavior ends. The replacement contract, precisely: <b>the payload is a list of explicit per-row instructions, and only touched rows are sent.</b> Each instruction carries a verb — <i>set</i> (with the internal role id), <i>mark not available</i>, or <i>clear</i> (return the class to unmapped). A row absent from the payload is never modified, and <i>clear</i> can only be produced by the user's explicit "Clear selection" action on that row (which already exists in the dropdown) — a bare null can never arrive by accident of serialization. No separate delete endpoint and no deleted-flag: a mapping is a <b>state of the classification</b>, not an entity, so clearing it is a light, visible, reversible state change — unlike removing a classification or fund, which stays a confirmed explicit action per G3.</p>
+
+  <h3>F · Review &amp; Publish step</h3>
+  <p><span class="chg-id">F1</span><b>Make the "already-covered locals" notice real and actionable.</b> It currently reads from a hardcoded mock file; point it at the API. And since a local legitimately holds several active agreements (Local 70 runs two at once), the notice stays an advisory — but gains a checkbox: <i>"This replaces [prior agreement] — mark it superseded."</i> Publishing a renewal then archives its predecessor in the same act, and the replaced agreement records which agreement superseded it.</p>
+  <p><span class="chg-id">F2</span><b>Previews handle the new structures.</b> The benefit preview's "P1" cell shows the value in effect on the first day of period 1 — so an own-dates fund previews as a real number, never a blank that looks like a save failure. With multiple books/columns, the checklist and summary count them ("2 rate books · 2 wage columns") and the wage preview groups by book, columns side by side.</p>
+
+  <h3>G · After publish: editing on the agreement's detail page</h3>
+  <p><span class="chg-id">G1</span><b>Plain inline edits</b> on the detail page's Wages / Benefits / Mapping / Documents tabs — click, type, save, logged (Concept 5). The agreement's name and expiration date are directly editable on the Details tab.</p>
+  <p><span class="chg-id">G2</span><b>"Add raise date" — the flagship new flow.</b> The wizard is the only place wage periods can be created today, and it only works on drafts — so the single most common event (the union announces new rates) requires engineers. New action on the published agreement: enter a raise date. If it's after the schedule ends, a period is appended (extensions, holdover raises). If it falls <i>inside</i> an existing period, that period splits — e.g. year 4 of a 5-year deal splits into two half-year rates; the first half keeps its values unchanged, the second half opens for editing seeded from the first. <b>Invariant: answers for any date before the new raise date never change.</b> If the date is past the expiration, the same form requires the new expiration date, typed from the paperwork — never inferred; an agreement must never contain a period outside its own term. Rate entry groups by book and carries each wage column, like the Wages step.</p>
+  <p><span class="chg-id">G3</span><b>Deleting is always explicit.</b> Today, saving wages with a classification missing from the payload silently soft-deletes it. That ends: removing a classification, fund, rate book, wage column, or covered local is a deliberate, confirmed action — never a side effect of saving.</p>
+  <p><span class="chg-id">G4</span><b>Covered locals are editable post-publish:</b> adding a local fans out rate rows for it; removing one is its own confirmed action (it ends coverage — not a field tweak).</p>
+  <p><span class="chg-id">G5</span><b>"Mark agreement ended…"</b> — admin-only, requires a typed reason, for the rare true termination with no successor. This and the F1 supersede checkbox are the <i>only</i> ways rates stop resolving.</p>
+  <p><span class="chg-id">G6</span><b>The edit history (Concept 5), concretely:</b> rename the existing "amendments" concept to <b>edit history</b>; entries become field-level readable sentences naming the rate book and wage column when the agreement has them; coverage extends to every flow in this PRD; entries are append-only; and the side doors close under the "no unlogged writes" invariant: admin read-only on financial tables by default, scripts through the service layer, and a break-glass engineering role for emergencies (mandatory reason · auto-logged with a "via break-glass admin" source tag · alert on every use). The bones exist — the backend already snapshots before/after with a version counter and blocks concurrent overwrites.</p>
+
+  <h3>H · Consumers (Rate Builder, bids)</h3>
+  <p><span class="chg-id">H1</span><b>The picker follows the hierarchy</b> — Local → Agreement → Rate book → Wage column → effective date — with single-option levels auto-selected and hidden. The benefits-package pick asks no book or column question — not because funds are agreement-wide, but because <b>benefit values are stored per classification</b> (see D5), so once the classifications are chosen, the right fund values follow automatically. Pay/benefits mix-and-match works unchanged. Breadcrumbs display whichever levels were real.</p>
+  <p><span class="chg-id">H2</span><b>One date-window rule, everywhere.</b> The GRI-1337 hotfix taught us the canonical rate lookup ignores a rate row's end date, and the fix was applied at five call sites while ~14 others still use the old logic — so the same date can resolve to different rates depending on code path. Centralize the corrected logic in the model-level lookup (<code>get_current_rate</code>) and route every caller through it. An "expired" final period with an open end keeps resolving (Concept 1); everything else respects its window.</p>
+  <p><span class="chg-id">H3</span><b>The lookup's return contract covers uncertainty, not just numbers.</b> Per the TBD rule in Concept 4: the centralized lookup returns <i>(value, the date that value was set, freshness flag)</i> — where the flag distinguishes a clean current value, a value carried forward past a TBD period ("priced at last known rate"), and a value from an agreement past its term ("using last known rates" — Concept 1). Consumers render the flag; they never decide fallback behavior themselves. A classification with no Set value ever returns an explicit no-rate result that consumers exclude with a visible per-line warning — never $0.00, never a calculation-wide failure. <b>The flag is structured data, not a display string</b> — UI labels like "using last known rates" are derived from it, so headless and automated consumers get the identical contract: any API endpoint that serializes a rate carries the same metadata fields, and consuming rates by reading the tables directly (bypassing the lookup) is prohibited for the same reason the write side doors close in Concept 5 — a number stripped of its status metadata is not a rate.</p>
+
+  <!-- ============================================================ -->
+  <h2>4 · Database changes — before and after</h2>
+  <p>Grouped by table. "Before" is production today. Every change traces to a lettered item above.</p>
+
+  <h4>UnionWageAgreement — the agreement container</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">lifecycle_status</td><td>DRAFT / PUBLISHED / ARCHIVED</td><td>adds <b>SUPERSEDED</b> and <b>ENDED</b></td><td class="why">F1, G5 — the two deliberate ways an agreement stops governing. "Last known rates" is <b>not</b> a status value: it's computed at display time (published + past end date + no successor), so it can never go stale.</td></tr>
+      <tr><td class="fn">superseded_by</td><td>—</td><td><b>new</b> — FK to the replacement agreement</td><td class="why">F1 — renewal chains become traceable.</td></tr>
+      <tr><td class="fn">ended_on</td><td>—</td><td><b>new</b> — date of explicit termination</td><td class="why">G5 — the reason text lives in the edit history entry.</td></tr>
+      <tr><td class="fn">is_active</td><td>a second, independent on/off switch</td><td>deprecated — derived from lifecycle_status during transition, then dropped</td><td class="why">Two sources of truth for "is this live" will eventually disagree. One switch.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>AgreementPeriod — the wage-period spine</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field / rule</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">end_date</td><td>required on every period</td><td>nullable — but <b>only the last period</b> may be open</td><td class="why">A2 / Concept 1 — the final period runs "until amended," matching the contracts' own year-to-year language.</td></tr>
+      <tr><td class="fn">row creation</td><td>only the wizard's setup step, only on drafts (full delete-and-recreate)</td><td>"Add raise date" (G2) inserts and splits periods on <b>published</b> agreements, resequencing safely</td><td class="why">The annual raise, extensions, and mid-term splits become self-service.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>New table: RateBook &nbsp;·&nbsp; New table: WageColumn</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Table</th><th>Fields</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">RateBook</td><td>agreement FK · name (free text) · sort order</td><td class="why">Concept 2 / B1. Every agreement gets one default book on creation (and existing published agreements get one backfilled), so single-book agreements behave exactly as today.</td></tr>
+      <tr><td class="fn">WageColumn</td><td>rate_book FK · label (free text, e.g. "Maryland", "Federal Projects") · sort order</td><td class="why">Concept 3 / C2. Same default-and-backfill approach: one column per book unless the contract has more.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>UnionMappingOption — one row per classification per covered local</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field / rule</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">rate_book</td><td>—</td><td><b>new</b> FK — every classification belongs to one book</td><td class="why">B1.</td></tr>
+      <tr><td class="fn">uniqueness</td><td>(name, local, agreement)</td><td>(name, <b>book</b>, local, agreement)</td><td class="why">The same class name legally recurs across books at different pay (LU 1002).</td></tr>
+      <tr><td class="fn">derivation base</td><td>any class in the agreement</td><td>must be in the same book</td><td class="why">Each book has its own anchor; "110% of JL" must be unambiguous.</td></tr>
+      <tr><td class="fn">one row per covered local</td><td>production behavior today: the classification list is fanned out to one synchronized row per covered local ("lockstep" updates in the publish/edit code)</td><td>unchanged — and now a stated invariant: sibling rows are identical by construction; only the single write path may touch them; admins always edit one logical list</td><td class="why">Compatibility: every consumer looks rates up by (local, classification). Geographic pay variance is modeled by wage columns, never by diverging per-local copies — so entering the Virginia anchor once still populates every covered local automatically.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>UnionMappingOptionRate — the wage rate rows</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field / rule</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">period</td><td>— (start/end dates are <b>copies</b> of the period's dates, with no link back)</td><td><b>new</b> FK to AgreementPeriod; the date columns become derived from it</td><td class="why">Copied dates drift when periods change; and G2's period-splitting only works if rate rows follow their period. This is the prerequisite for "Add raise date."</td></tr>
+      <tr><td class="fn">wage_column</td><td>—</td><td><b>new</b> FK — one rate row per class × period × column</td><td class="why">C2. Single-column agreements have exactly as many rows as today.</td></tr>
+      <tr><td class="fn">value_status</td><td><code>tbd</code> boolean; empty vs zero ambiguous</td><td>SET / TBD / NOT_APPLICABLE enum replaces it</td><td class="why">Concept 4 — retires the GRI-1337 bug class at the source.</td></tr>
+      <tr><td class="fn">lookup rule</td><td><code>get_current_rate</code> ignores end dates; 5 call sites patched separately (GRI-1337), ~14 unpatched</td><td>one corrected model-level lookup; every caller routed through it</td><td class="why">H2 — the same date must never resolve to different rates by code path.</td></tr>
+      <tr><td class="fn">uniqueness</td><td>none — duplicate "active" rows possible; correctness rests on an is_active flag toggled in serializer code</td><td>database constraint: one active row per (class, period, column)</td><td class="why">Rules in the database survive every write path, including ones not written yet.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>UnionMappingOptPackageRate — the benefit rate rows</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field / rule</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">effective dates</td><td>copies of wage-period dates</td><td>own authoritative date windows — a fund's schedule is independent of the wage periods when it needs to be</td><td class="why">D1 — Local 53's January fund changes vs September wage changes.</td></tr>
+      <tr><td class="fn">value_status</td><td><code>tbd</code> boolean</td><td>SET / TBD / NOT_APPLICABLE (same enum as wages; no "contingent" — see Concept 4)</td><td class="why">One vocabulary for every value in the system.</td></tr>
+      <tr><td class="fn">linkage (no change — stated invariant)</td><td>each value row links to a specific classification (fund × class × period)</td><td>unchanged — and since every classification now belongs to a rate book, fund values are book-addressable through their class; Not applicable expresses "this fund never touches that book/class"</td><td class="why">D5 / H1 — mixed-trade agreements (fringes legal for one book, illegal for another) model without splitting the agreement. Book-level scoping in the UI is an entry shortcut that compiles to these same rows.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Fund configuration (today's UnionPackages.rate_type) — the basis fields</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">rate_type</td><td>one 5-value list (PERCENTAGE / PER_HOUR / PER_DAY / PER_MEAL / FLAT_MONTHLY)</td><td>replaced by decomposed fields below; each legacy value maps 1:1 onto a default combination (e.g. PER_HOUR → hours · worked-only · same rate)</td><td class="why">D2 — a single list can't express how funds are actually calculated, and every new discovery would mean a schema change.</td></tr>
+      <tr><td class="fn">base_type</td><td>—</td><td>HOURS / PAY / FLAT</td><td class="why">Question 1 of the picker.</td></tr>
+      <tr><td class="fn">hours_scope · ot_dt_treatment</td><td>—</td><td>worked-only / all-paid / single-type &nbsp;×&nbsp; SAME / AGREEMENT_PREMIUM / CUSTOM</td><td class="why">Questions 2–3. AGREEMENT_PREMIUM reads the agreement's own multipliers — never hardcoded 1.5/2 (California is 2×-only).</td></tr>
+      <tr><td class="fn">ot_rate_override · dt_rate_override</td><td>—</td><td>explicit $ rates when treatment = CUSTOM</td><td class="why">"$4.00 ST / $5.00 OT" is printed contract language; without these fields it's inexpressible and someone gets under- or over-paid.</td></tr>
+      <tr><td class="fn">pay_hours · pay_incl_benefits · pay_ot_as_straight</td><td>—</td><td>three independent flags for % funds</td><td class="why">Expresses every real "% of what" variant, including "% of working wages."</td></tr>
+      <tr><td class="fn">addon_per_hour</td><td>—</td><td>optional flat $ per worked hour on a % fund</td><td class="why">"5% of gross plus $1.25/hr."</td></tr>
+      <tr><td class="fn">flat_cadence · flat_trigger</td><td>—</td><td>DAILY / WEEKLY / MONTHLY / PER_PAY × any-hours / worked-hours</td><td class="why">Flat assessments and admin fees.</td></tr>
+      <tr><td class="fn">basis_other_text</td><td>—</td><td>verbatim contract wording + needs-review flag</td><td class="why">The escape hatch — never force a wrong approximation.</td></tr>
+      <tr><td class="fn">applies_scope · applies_book</td><td>applies_to: ALL / CLASS_SPECIFIC</td><td>EVERY_CLASS / RATE_BOOK (+ book FK) / SPECIFIC_CLASSES</td><td class="why">D5 — records the entry grain so the edit UI re-renders it; values always materialize as per-class rows either way.</td></tr>
+      <tr><td class="fn">shape rule</td><td>—</td><td>database check: only the chosen base_type's fields may be set</td><td class="why">Same pattern as the existing derivation constraint.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>AgreementDocument — uploaded files</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Field / rule</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">document_type</td><td>one value from CONTRACT / WAGES_BENEFITS / CONTRACT_AND_WAGES / OTHER — 3 of the 7 real combinations</td><td>replaced by four flags: covers_contract · covers_wages · covers_benefits · is_supporting. Legacy values map 1:1.</td><td class="why">A1 — a named-combination list always lags reality (a contract-that-defines-benefits had no value). Flags express all combinations, forever. All four false = "needs tagging" (unfinished), so silence never classifies a file.</td></tr>
+      <tr><td class="fn">one-file-per-type rule</td><td>enforced in the serializer</td><td>removed</td><td class="why">Multiple wage sheets are legal — LU 1002 has one per rate book.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>AgreementAmendment — becomes the edit history</h4>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Aspect</th><th>Before</th><th>After</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="fn">concept &amp; name</td><td>"Amendments," section-level JSON snapshots on V2 edits only</td><td><b>Edit history</b>: field-level entries (who, what, before → after, when, source screen; book &amp; column named when present), covering every flow in this PRD, append-only</td><td class="why">G6 / Concept 5. "Amendment" is a loaded contract term we may need for real MOUs someday; this table is a change log.</td></tr>
+      <tr><td class="fn">coverage</td><td>Django admin and management scripts write tables directly, unlogged</td><td>admin read-only by default; scripts call the service layer; a break-glass engineering role retains emergency admin write — mandatory reason, auto-logged with a distinct source tag, alert on use</td><td class="why">The invariant is "no unlogged writes," not "no admin writes" — a total ban would push 2 AM emergencies into raw SQL, the least logged path of all.</td></tr>
+    </tbody>
+  </table></div>
+
+  <!-- ============================================================ -->
+  <h2>5 · What we are deliberately NOT doing</h2>
+  <p>Each of these was considered and consciously deferred or rejected — so nobody re-litigates them mid-build.</p>
+  <ul>
+    <li><b>No locking or approval workflows.</b> Edits apply immediately; the edit history is the safety net. Locking tiers (e.g. freezing data used by a submitted bid) come later, when bids and payroll create real consumption to protect.</li>
+    <li><b>No "contingent" value status.</b> See Concept 4 — facts, not possibilities.</li>
+    <li><b>No standard classification taxonomy and no fund catalog codes.</b> Class and fund names mirror the printed page, deliberately. Cross-agreement canonical linking is future back-office curation.</li>
+    <li><b>No overtime <i>trigger</i> rules</b> (daily-8 vs weekly-40 etc.) — calculators and bids only need the multipliers; triggers become necessary with payroll and get their own design then.</li>
+    <li><b>No prevailing-wage / 401k-adjustment / annualization calculation types</b> — those are payroll-engine and job-context calculations, not facts printed in a collective bargaining agreement.</li>
+    <li><b>No changes to how per diems are entered</b>, beyond funds gaining honest value statuses.</li>
+  </ul>
+
+  <!-- ============================================================ -->
+  <h2>6 · Migration notes &amp; how we'll know it works</h2>
+  <h3>Migration in one pass, no data re-entry</h3>
+  <ul>
+    <li>Every existing agreement gets <b>one default RateBook</b>, and every book <b>one default WageColumn</b>; all existing classifications and rate rows attach to them. Single-book, single-column agreements are pixel-identical to today.</li>
+    <li>Rate rows gain their <b>period FK</b> by matching the dates they already carry; the date columns then become derived.</li>
+    <li><code>tbd=true</code> → status TBD; a real value → SET; the NULL/0 rows GRI-1337 fought get resolved to NOT_APPLICABLE or TBD during the migration (this is the one place human review of flagged rows may be needed).</li>
+    <li>Legacy <code>rate_type</code> and <code>document_type</code> values map 1:1 onto the new fields as tabled above.</li>
+    <li>A one-time constraint-preparation pass dedupes any conflicting "active" rate rows before the uniqueness constraints land.</li>
+  </ul>
+  <h3>Acceptance — five scenarios that must work end to end</h3>
+  <ol>
+    <li><b>Enter LU 1002 completely</b> — one agreement, three rate books, two wage columns on the Outside Line book, the standalone fringe sheet's own-dates fund changes, documents tagged from the real PDFs — no engineering help.</li>
+    <li><b>Enter LU 70's Virginia column</b> by typing one anchor and the few flat-rate classes; every derived row fills itself and matches the printed sheet ($44.44 × 115% = $51.11).</li>
+    <li><b>The annual raise:</b> on a published agreement, add a raise date, enter the new rates, done — and a raise date past the expiration requires typing the new expiration in the same form.</li>
+    <li><b>Let an agreement pass its expiration:</b> calculators keep pricing from it, clearly labeled "using last known rates"; publishing its successor with the supersede checkbox archives it.</li>
+    <li><b>Audit any change:</b> every edit made in scenarios 1–4 appears in the History tab as a readable sentence with before → after values, including the book and column names.</li>
+  </ol>
+
+  <footer>
+    Draft v1 · July 10, 2026 · Prepared from the page-by-page wizard review (Ben + Claude), the contract corpus (LU 53, 55, 66, 70, 876, 1002, 1186, CA, TN, MSECA), the HCM TradeSeal calculation-methods documentation, and the EPR Live technical guide. Visual companion: <a href="https://claude.ai/code/artifact/0fcdb2f2-a1c9-481d-89ad-e016d32ec35b">the wizard walkthrough</a> — a mockup exists there for every UI change in section 3.
+  </footer>
+</main>

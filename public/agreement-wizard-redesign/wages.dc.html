@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea,select{font-family:inherit;}
+  input::placeholder{color:#9aa0a8;}
+  input:focus,select:focus{outline:none;border-color:#2f6feb;box-shadow:0 0 0 3px rgba(47,111,235,0.15);}
+  a{color:#c2560f;text-decoration:none;}
+  a:hover{color:#a2450b;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;background:#ffffff;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="background:#f7f8fa;padding:15px 48px;display:flex;align-items:center;gap:10px;font-size:15px;">
+    <span style="color:#9096a0;">Data</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Unions</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Agreements</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#191c22;font-weight:600;">New agreement</span>
+  </div>
+
+  <div style="background:#ffffff;border-bottom:1px solid #ededf0;padding:18px 48px;display:flex;align-items:center;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Setup</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M4 8.3l2.6 2.6L12 5.2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span style="font-size:16px;font-weight:500;color:#191c22;">Classifications</span>
+      </div>
+      <div style="flex:1;height:1px;background:#c4c8ce;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">3</div>
+        <span style="font-size:16px;font-weight:600;color:#191c22;">Wages</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">4</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Benefits</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">5</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Mapping</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">6</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Review</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#9096a0;font-size:16px;margin-left:30px;cursor:pointer;flex:none;">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Cancel
+    </div>
+  </div>
+
+  <div style="flex:1;width:100%;display:flex;justify-content:center;padding:40px 24px 48px;" data-screen-label="Wages — New agreement">
+    <div style="width:100%;max-width:1040px;">
+
+      <p style="font-size:15px;color:#4b5563;line-height:1.6;margin:0 0 26px;">Straight-time (ST) rates per period. Anchor/absolute rows are editable (decimals OK); derived rows compute live. <b style="color:#191c22;font-weight:600;">Leave a cell empty for TBD</b> — an announced-but-unallocated period. Period columns come from <b style="color:#191c22;font-weight:600;">Step 1 · Setup</b>.</p>
+
+      <div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:10px;">
+          <span style="font-size:16px;font-weight:700;color:#191c22;">Overtime &amp; double time</span>
+          <span style="font-size:13.5px;color:#9096a0;">— applied to every straight-time rate below</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:22px;border:1px solid #e3e6ea;border-radius:12px;padding:14px 18px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:8px;flex:none;">
+            <span style="font-size:14px;font-weight:600;color:#3a404a;">OT ×</span>
+            <input value="{{ otMult }}" onChange="{{ onOt }}" style="width:58px;border:1px solid #dfe3e8;border-radius:8px;padding:6px 8px;font-size:14px;text-align:center;color:#191c22;background:#fff;">
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex:none;">
+            <span style="font-size:14px;font-weight:600;color:#3a404a;">DT ×</span>
+            <input value="{{ dtMult }}" onChange="{{ onDt }}" style="width:58px;border:1px solid #dfe3e8;border-radius:8px;padding:6px 8px;font-size:14px;text-align:center;color:#191c22;background:#fff;">
+          </div>
+          <div style="flex:1;min-width:240px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#f4f5f7;border-radius:10px;padding:9px 14px;font-size:13.5px;color:#3a404a;">
+            <span>{{ chipText }}</span>
+            <span style="color:#9096a0;">— recomputes as you type</span>
+          </div>
+        </div>
+        <sc-if value="{{ unusual }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:13px;color:#b45309;">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1.9l6.3 11H1.7L8 1.9Z" stroke="#e0951f" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 6.3v3.2" stroke="#b45309" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.3" r="0.7" fill="#b45309"/></svg>
+          unusual — double-check the contract
+        </div>
+        </sc-if>
+      </div>
+
+      <div style="margin-top:26px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span style="font-size:13.5px;color:#9096a0;">Wage column:</span>
+        <sc-if value="{{ showColumnSelector }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <sc-for list="{{ columnPills }}" as="p" hint-placeholder-count="2">
+            <sc-if value="{{ p.naming }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:6px;border:1px solid #2f6feb;box-shadow:0 0 0 3px rgba(47,111,235,0.15);border-radius:20px;padding:5px 9px 5px 14px;background:#fff;">
+              <input value="{{ p.name }}" onChange="{{ p.onName }}" onBlur="{{ p.onCommit }}" onKeyDown="{{ p.onKey }}" ref="{{ p.setRef }}" placeholder="Name this column…" style="border:none;outline:none;box-shadow:none;font-size:13.5px;font-weight:500;color:#191c22;background:transparent;width:132px;">
+              <span onClick="{{ p.onRemove }}" title="Cancel" style="cursor:pointer;display:flex;align-items:center;color:#9096a0;" style-hover="color:#e5484d;"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+            </div>
+            </sc-if>
+            <sc-if value="{{ p.notNaming }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:7px;border:1px solid {{ p.border }};background:{{ p.bg }};color:{{ p.color }};border-radius:20px;padding:6px 10px 6px 15px;font-size:13.5px;font-weight:500;">
+              <span onClick="{{ p.onSelect }}" onDoubleClick="{{ p.onRename }}" title="Double-click to rename" style="cursor:pointer;">{{ p.name }}</span>
+              <span onClick="{{ p.onRemove }}" title="Remove column" style="cursor:pointer;display:flex;align-items:center;opacity:0.55;" style-hover="opacity:1;"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+            </div>
+            </sc-if>
+          </sc-for>
+        </div>
+        </sc-if>
+        <button onClick="{{ addColumn }}" style="border:1px dashed #cfd3d9;background:#fff;color:#9096a0;border-radius:20px;padding:6px 16px;font-size:13.5px;font-weight:500;cursor:pointer;">+ Add wage column</button>
+      </div>
+
+      <div style="margin-top:26px;border:1px solid #e3e6ea;border-radius:12px;overflow:hidden;background:#fff;">
+        <div style="display:flex;align-items:center;gap:16px;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 18px;font-size:13px;font-weight:600;color:#6b7280;">
+          <span style="flex:1;min-width:0;">Classification</span>
+          <span style="width:150px;flex:none;text-align:right;">9/1/25–8/31/26</span>
+          <span style="width:150px;flex:none;text-align:right;">9/1/26–8/31/27</span>
+          <span style="width:210px;flex:none;">Derivation</span>
+        </div>
+
+        <sc-for list="{{ books }}" as="b" hint-placeholder-count="2">
+          <sc-if value="{{ showBookLayer }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#f4f5f7;padding:10px 18px;border-bottom:1px solid #eef0f2;font-weight:600;color:#191c22;font-size:14px;">Rate book: {{ b.name }}</div>
+          </sc-if>
+
+          <sc-for list="{{ b.rows }}" as="row" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:16px;padding:12px 18px;border-bottom:1px solid #eef0f2;background:{{ row.rowBg }};">
+            <div style="flex:1;min-width:0;font-size:14px;font-weight:{{ row.nameWeight }};color:{{ row.nameColor }};">{{ row.name }}</div>
+
+            <div style="width:150px;flex:none;display:flex;justify-content:flex-end;">
+              <sc-if value="{{ row.p1.isInput }}" hint-placeholder-val="{{ false }}">
+                <div style="display:inline-flex;align-items:center;border:1px solid #dfe3e8;border-radius:8px;padding:5px 9px;background:#fff;">
+                  <span style="color:#9096a0;font-size:13px;">$</span>
+                  <input value="{{ row.p1.value }}" onChange="{{ row.p1.onChange }}" onBlur="{{ row.p1.onBlur }}" ref="{{ row.p1.setRef }}" style="width:52px;border:none;outline:none;font-size:13.5px;text-align:right;color:#191c22;background:transparent;padding:0;">
+                </div>
+              </sc-if>
+              <sc-if value="{{ row.p1.isBlueTBD }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ row.p1.onEdit }}" style="border:none;background:#eaf1fd;color:#2f6feb;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:20px;cursor:pointer;">TBD</button>
+              </sc-if>
+              <sc-if value="{{ row.p1.isGrayTBD }}" hint-placeholder-val="{{ false }}">
+                <span style="background:#eef0f2;color:#9096a0;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:20px;">TBD</span>
+              </sc-if>
+              <sc-if value="{{ row.p1.isText }}" hint-placeholder-val="{{ true }}">
+                <span style="font-size:13.5px;color:#6b7280;">{{ row.p1.display }}</span>
+              </sc-if>
+            </div>
+
+            <div style="width:150px;flex:none;display:flex;justify-content:flex-end;">
+              <sc-if value="{{ row.p2.isInput }}" hint-placeholder-val="{{ false }}">
+                <div style="display:inline-flex;align-items:center;border:1px solid #dfe3e8;border-radius:8px;padding:5px 9px;background:#fff;">
+                  <span style="color:#9096a0;font-size:13px;">$</span>
+                  <input value="{{ row.p2.value }}" onChange="{{ row.p2.onChange }}" onBlur="{{ row.p2.onBlur }}" ref="{{ row.p2.setRef }}" style="width:52px;border:none;outline:none;font-size:13.5px;text-align:right;color:#191c22;background:transparent;padding:0;">
+                </div>
+              </sc-if>
+              <sc-if value="{{ row.p2.isBlueTBD }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ row.p2.onEdit }}" style="border:none;background:#eaf1fd;color:#2f6feb;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:20px;cursor:pointer;">TBD</button>
+              </sc-if>
+              <sc-if value="{{ row.p2.isGrayTBD }}" hint-placeholder-val="{{ false }}">
+                <span style="background:#eef0f2;color:#9096a0;font-size:11.5px;font-weight:600;padding:4px 11px;border-radius:20px;">TBD</span>
+              </sc-if>
+              <sc-if value="{{ row.p2.isText }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:13.5px;color:#6b7280;">{{ row.p2.display }}</span>
+              </sc-if>
+            </div>
+
+            <div style="width:210px;flex:none;font-size:13px;color:#9096a0;">{{ row.derivText }}</div>
+          </div>
+          </sc-for>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:12px;font-size:12.5px;color:#9096a0;line-height:1.5;">Empty cell = TBD (unallocated) · Derived cells: computed live from the anchor — edit the anchor row instead</div>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.28);z-index:100;">Wages saved — continuing to Benefits…</div>
+  </sc-if>
+
+  <div style="border-top:1px solid #ededf0;background:#fff;padding:20px 48px;display:flex;justify-content:flex-end;align-items:center;gap:14px;">
+    <button style="display:flex;align-items:center;gap:8px;background:transparent;border:none;color:#4b5563;font-weight:600;font-size:15px;padding:13px 18px;border-radius:10px;cursor:pointer;" style-hover="background:#f2f3f5;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 8h-10M7 4.5L3.5 8 7 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+    <sc-if value="{{ cannotContinue }}" hint-placeholder-val="{{ false }}">
+    <button disabled style="display:flex;align-items:center;gap:9px;background:#f8d3b8;background:color-mix(in srgb, var(--accent,#ee6b2d) 34%, #ffffff);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:not-allowed;">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+    <sc-if value="{{ canContinue }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ onContinue }}" style="display:flex;align-items:center;gap:9px;background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+  </div>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(17,23,41,0.28);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:130;width:410px;max-width:calc(100vw - 48px);max-height:78vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.26);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Wages — behavior spec</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">OVERTIME &amp; DOUBLE TIME</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">If OT is not 1.5 or 2.0, or DT is not 2.0, a soft inline warning — <b style="color:#191c22;font-weight:600;">"unusual — double-check the contract"</b> — appears below the bar and does not block. California agreements are legitimately OT × 2.0.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">PREMIUMS EXAMPLE CHIP</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Always uses the currently selected wage column's anchor. The multipliers in its ST → OT → DT math are <b style="color:#191c22;font-weight:600;">live data</b>, never hardcoded copy.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">WAGE COLUMNS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The table shows the selected column's values; derived rows recompute from that column's anchor. Entering Virginia means typing its anchor ($44.44) and the few absolute rates — every derived row fills itself. A new column must be named before Continue is enabled (double-click a pill to rename). With a single wage column, the selection pills are hidden — the "Wage column:" label and "+ Add wage column" stay.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">RATE BOOKS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">With a single rate book, no book-header rows appear. A simple agreement looks exactly like the current screenshot minus the footer premiums bar.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">ADVANCING TO STEP 4</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The user can't advance to Step 4 until every wage column is named and all wage data is entered — each rate cell must hold either a value or TBD. (In this prototype a left-blank editable cell already reads as TBD.)</div>
+      </div>
+
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;scenario&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Designed&quot;,&quot;options&quot;:[&quot;Designed&quot;,&quot;Simple agreement&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scenario&quot;},
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  cellRefs = {};
+  state = Object.assign({ otMult:'1.5', dtMult:'2', editing:{}, focusCell:null, toast:false, notesOpen:false, namingId:null }, this.seed(this.props.scenario));
+
+  seed(scenario){
+    var mkRows = function(){
+      return [
+        {id:'r1',name:'Lineman, Journeyman',type:'anchor',vals:{md:{p1:'45.87',p2:''},va:{p1:'44.44',p2:''}}},
+        {id:'r2',name:'General Foreman',type:'derived',pct:1.15,base:'r1',label:'115% of Lineman, Journeyman'},
+        {id:'r3',name:'Sub-Foreman',type:'derived',pct:1.05,base:'r1',label:'105% of Lineman, Journeyman'},
+        {id:'r4',name:'Equipment Mechanic',type:'absolute',vals:{md:{p1:'34.60',p2:''},va:{p1:'',p2:''}}}
+      ];
+    };
+    if (scenario === 'Simple agreement'){
+      return { books:[{ id:'bk1', name:'Outside Power', rows:mkRows() }], columns:[{id:'md',name:'Maryland'}], columnId:'md' };
+    }
+    return {
+      books:[
+        { id:'bk1', name:'Outside Power', rows:mkRows() },
+        { id:'bk2', name:'High Tension Cable', rows:[
+          {id:'r5',name:'Cable Splicer',type:'anchor',vals:{md:{p1:'48.06',p2:''},va:{p1:'',p2:''}}},
+          {id:'r6',name:'Cable Splicer Apprentice',type:'derived',pct:0.70,base:'r5',label:'70% of Cable Splicer'}
+        ]}
+      ],
+      columns:[{id:'md',name:'Maryland'},{id:'va',name:'Virginia'}], columnId:'md'
+    };
+  }
+
+  componentDidMount(){ this.applyAccent(); this.doFocus(); }
+  componentDidUpdate(prev){
+    this.applyAccent();
+    if (prev.scenario !== this.props.scenario) this.setState(Object.assign({ otMult:this.state.otMult, dtMult:this.state.dtMult, editing:{}, focusCell:null, toast:false, namingId:null }, this.seed(this.props.scenario)));
+    else this.doFocus();
+  }
+  applyAccent(){ var el=this.rootRef.current; if(el) el.style.setProperty('--accent', this.props.accent||'#ee6b2d'); }
+  doFocus(){ var k=this.state.focusCell; if(k && this.cellRefs[k]){ this.cellRefs[k].focus({ preventScroll:true }); this.setState({ focusCell:null }); } }
+
+  getRow(id){ var f=null; this.state.books.forEach(function(b){ b.rows.forEach(function(r){ if(r.id===id) f=r; }); }); return f; }
+
+  setOt = (e)=>{ this.setState({ otMult:e.target.value }); };
+  setDt = (e)=>{ this.setState({ dtMult:e.target.value }); };
+  setColumn(id){ this.setState({ columnId:id }); }
+  startNaming(id){ this.setState({ namingId:id, focusCell:'col|'+id }); }
+  setColumnName(id, v){ this.setState(s => ({ columns: s.columns.map(function(c){ return c.id===id ? Object.assign({},c,{ name:v }) : c; }) })); }
+  commitNaming(id){ var c=this.state.columns.filter(function(x){ return x.id===id; })[0]; if(c && c.name.trim()==='') return; this.setState({ namingId:null }); }
+  removeColumn(id){ var cols=this.state.columns.filter(function(c){ return c.id!==id; }); if(cols.length===0) return; var sel=this.state.columnId===id?cols[0].id:this.state.columnId; var nm=this.state.namingId===id?null:this.state.namingId; var books=this.state.books.map(function(bk){ return Object.assign({},bk,{ rows: bk.rows.map(function(r){ if(!r.vals) return r; var nr=Object.assign({},r); nr.vals=Object.assign({},r.vals); delete nr.vals[id]; return nr; }) }); }); this.setState({ columns:cols, columnId:sel, namingId:nm, books:books }); }
+  addColumn = ()=>{
+    var id = 'col' + Date.now();
+    var books = this.state.books.map(function(bk){ return Object.assign({},bk,{ rows: bk.rows.map(function(r){ if(r.type==='derived') return r; var nr=Object.assign({},r); nr.vals=Object.assign({},r.vals); nr.vals[id]={p1:'',p2:''}; return nr; }) }); });
+    this.setState({ columns:this.state.columns.concat([{ id:id, name:'' }]), books:books, columnId:id, namingId:id, focusCell:'col|'+id });
+  };
+  cellChange(rowId, period, value){
+    var col=this.state.columnId;
+    this.setState(s => ({ books: s.books.map(function(bk){ return Object.assign({},bk,{ rows: bk.rows.map(function(r){ if(r.id!==rowId) return r; var nr=Object.assign({},r); nr.vals=Object.assign({},r.vals); nr.vals[col]=Object.assign({}, r.vals[col]); nr.vals[col][period]=value; return nr; }) }); }) }));
+  }
+  editCell(rowId, period){ var key=rowId+'|'+period; var e=Object.assign({},this.state.editing); e[key]=true; this.setState({ editing:e, focusCell:key }); }
+  cellBlur(rowId, period){ var col=this.state.columnId; var key=rowId+'|'+period; var row=this.getRow(rowId); if(row && row.vals[col] && row.vals[col][period]===''){ var e=Object.assign({},this.state.editing); delete e[key]; this.setState({ editing:e }); } }
+  onContinue = ()=>{ var self=this; this.setState({ toast:true }); setTimeout(function(){ self.setState({ toast:false }); }, 2400); };
+  toggleNotes = ()=>{ this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var self=this, S=this.state, col=S.columnId, books=S.books;
+    var selCol = S.columns.filter(function(c){ return c.id===col; })[0] || S.columns[0];
+    var colName = selCol ? selCol.name : '';
+    var getRow=function(id){ var f=null; books.forEach(function(b){ b.rows.forEach(function(r){ if(r.id===id) f=r; }); }); return f; };
+    var raw=function(r, period){
+      if(!r) return NaN;
+      if(r.type==='derived'){ var b=getRow(r.base); var bv=raw(b,period); if(isNaN(bv)) return NaN; return Math.round(Math.round(bv*100)*r.pct)/100; }
+      var vv=(r.vals[col]||{})[period]; return (vv===''||vv==null)? NaN : parseFloat(vv);
+    };
+
+    var booksVM = books.map(function(b){
+      var rowsVM = b.rows.map(function(r){
+        var editable = (r.type!=='derived');
+        var cell = function(period){
+          var key=r.id+'|'+period;
+          if(!editable){ var c=raw(r,period); if(isNaN(c)) return { isGrayTBD:true }; return { isText:true, display:'$'+c.toFixed(2) }; }
+          var val=(r.vals[col]||{})[period]||'';
+          var editing=!!S.editing[key];
+          if(val!=='' || editing){
+            return { isInput:true, value:val,
+              onChange:function(e){ self.cellChange(r.id,period,e.target.value); },
+              onBlur:function(){ self.cellBlur(r.id,period); },
+              setRef:function(el){ if(el) self.cellRefs[key]=el; } };
+          }
+          return { isBlueTBD:true, onEdit:function(){ self.editCell(r.id,period); } };
+        };
+        return {
+          id:r.id, name:r.name,
+          nameColor: editable?'#191c22':'#9096a0',
+          nameWeight: editable?'600':'500',
+          rowBg: editable?'#ffffff':'#fafbfc',
+          derivText: r.type==='anchor'?'anchor':(r.type==='absolute'?'absolute':r.label),
+          p1: cell('p1'), p2: cell('p2')
+        };
+      });
+      return { id:b.id, name:b.name, rows:rowsVM };
+    });
+
+    var anchorRow=books[0].rows[0];
+    var av=parseFloat((anchorRow.vals[col]||{}).p1);
+    var ot=parseFloat(S.otMult), dt=parseFloat(S.dtMult);
+    var chipText;
+    if(isFinite(av)){
+      var money=function(d,m){ return (Math.round(Math.round(d*100)*m)/100).toFixed(2); };
+      var otp=isFinite(ot)?money(av,ot):'—';
+      var dtp=isFinite(dt)?money(av,dt):'—';
+      chipText = anchorRow.name+' P1 ('+(colName||'—')+'): $'+money(av,1)+' ST → $'+otp+' OT → $'+dtp+' DT';
+    } else {
+      chipText = anchorRow.name+' P1 ('+(colName||'this column')+'): set the anchor to preview';
+    }
+    var unusual = !(ot===1.5 || ot===2.0) || dt!==2.0;
+
+    var columnPills = S.columns.map(function(c){
+      var sel = c.id===col;
+      var naming = (c.id===S.namingId) || (c.name.trim()==='');
+      return { id:c.id, name:c.name, sel:sel, naming:naming, notNaming:!naming,
+        bg: sel?'#101728':'#ffffff', color: sel?'#ffffff':'#4b5563', border: sel?'#101728':'#dfe3e8',
+        onSelect:function(){ self.setColumn(c.id); }, onRemove:function(){ self.removeColumn(c.id); },
+        onRename:function(){ self.startNaming(c.id); }, onName:function(e){ self.setColumnName(c.id, e.target.value); },
+        onCommit:function(){ self.commitNaming(c.id); }, onKey:function(e){ if(e.key==='Enter' && e.target){ e.target.blur(); } },
+        setRef:function(el){ if(el) self.cellRefs['col|'+c.id]=el; } };
+    });
+    var blocked = S.columns.some(function(c){ return c.name.trim()===''; });
+
+    return {
+      rootRef:this.rootRef,
+      otMult:S.otMult, dtMult:S.dtMult, onOt:this.setOt, onDt:this.setDt,
+      chipText:chipText, unusual:unusual,
+      showColumnSelector: S.columns.length>1 || S.columns.some(function(c){ return c.name.trim()===''; }),
+      showBookLayer: books.length>1,
+      columnPills:columnPills, addColumn:this.addColumn,
+      books:booksVM,
+      onContinue:this.onContinue, toast:S.toast,
+      notesOpen:S.notesOpen, toggleNotes:this.toggleNotes,
+      canContinue:!blocked, cannotContinue:blocked
+    };
+  }
+}
+</script>
+</body>
+</html>

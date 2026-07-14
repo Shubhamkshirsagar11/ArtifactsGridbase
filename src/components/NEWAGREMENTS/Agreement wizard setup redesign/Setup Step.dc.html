@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#ffffff;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  input,button,textarea{font-family:inherit;}
+  input::placeholder,textarea::placeholder{color:#9aa0a8;}
+  a{color:#c2560f;text-decoration:none;}
+  a:hover{color:#a2450b;}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#191c22;background:#ffffff;min-height:100vh;display:flex;flex-direction:column;">
+
+  <div style="background:#f7f8fa;padding:15px 48px;display:flex;align-items:center;gap:10px;font-size:15px;">
+    <span style="color:#9096a0;">Data</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Unions</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#9096a0;">Agreements</span>
+    <svg width="7" height="12" viewBox="0 0 7 12" fill="none" style="flex:none;"><path d="M1 1l5 5-5 5" stroke="#c4c8ce" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span style="color:#191c22;font-weight:600;">New agreement</span>
+  </div>
+
+  <div style="background:#ffffff;border-bottom:1px solid #ededf0;padding:18px 48px;display:flex;align-items:center;">
+    <div style="flex:1;display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#101728;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">1</div>
+        <span style="font-size:16px;font-weight:600;color:#191c22;">Setup</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">2</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Classifications</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">3</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Wages</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">4</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Benefits</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">5</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Mapping</span>
+      </div>
+      <div style="flex:1;height:1px;background:#e4e6ea;margin:0 18px;"></div>
+      <div style="display:flex;align-items:center;gap:11px;flex:none;">
+        <div style="width:30px;height:30px;border-radius:50%;background:#eceef1;color:#9096a0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;">6</div>
+        <span style="font-size:16px;font-weight:500;color:#9096a0;">Review</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;color:#9096a0;font-size:16px;margin-left:30px;cursor:pointer;flex:none;">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Cancel
+    </div>
+  </div>
+
+  <div style="flex:1;width:100%;display:flex;justify-content:center;padding:56px 24px 48px;" data-screen-label="Setup — New agreement">
+    <div style="width:100%;max-width:640px;">
+
+      <h2 style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;margin:0 0 20px;">Identity</h2>
+
+      <div style="margin-bottom:26px;">
+        <label style="display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:#3a404a;margin:0 0 8px;">Agreement name <span style="color:#e5484d;">*</span></label>
+        <input style="width:100%;border:1px solid #e3e6ea;border-radius:10px;background:#fff;padding:13px 16px;font-size:15px;color:#191c22;" placeholder="e.g. California Outside Line">
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <label style="display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:#3a404a;margin:0 0 8px;">Covered locals <span style="color:#e5484d;">*</span></label>
+        <div style="border:1px solid #e3e6ea;border-radius:10px;background:#fff;">
+          <div style="padding:14px 16px;color:#9aa0a8;font-size:15px;border-bottom:1px solid #eef0f2;">No locals yet — add one below.</div>
+          <div style="padding:13px 16px;display:flex;align-items:center;justify-content:space-between;color:#9aa0a8;font-size:15px;">
+            <span>+ Add local — search number or city...</span>
+            <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style="color:#b6bbc2;"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div style="font-size:13.5px;color:#8d939c;margin-top:8px;">Search by local number or city. Two or more = a joint agreement.</div>
+      </div>
+
+      <h2 style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;margin:44px 0 20px;">Term</h2>
+
+      <div style="display:flex;gap:22px;margin-bottom:28px;">
+        <div style="flex:1;">
+          <label style="display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:#3a404a;margin:0 0 8px;">Effective start <span style="color:#e5484d;">*</span></label>
+          <div style="border:1px solid #e3e6ea;border-radius:10px;background:#fff;padding:13px 16px;display:flex;align-items:center;gap:11px;">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;"><rect x="2.2" y="3.2" width="13.6" height="12.6" rx="2.2" stroke="#9aa0a8" stroke-width="1.4"/><path d="M2.2 6.6h13.6M6 1.8v2.6M12 1.8v2.6" stroke="#9aa0a8" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <span style="color:#9aa0a8;font-size:15px;">Select start date</span>
+          </div>
+        </div>
+        <div style="flex:1;">
+          <label style="display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:#3a404a;margin:0 0 8px;">Expires <span style="color:#e5484d;">*</span></label>
+          <div style="border:1px solid #e3e6ea;border-radius:10px;background:#fff;padding:13px 16px;display:flex;align-items:center;gap:11px;">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="flex:none;"><rect x="2.2" y="3.2" width="13.6" height="12.6" rx="2.2" stroke="#9aa0a8" stroke-width="1.4"/><path d="M2.2 6.6h13.6M6 1.8v2.6M12 1.8v2.6" stroke="#9aa0a8" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <span style="color:#9aa0a8;font-size:15px;">Select expiry date</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-size:14px;">
+            <span style="font-weight:600;color:#3a404a;">Wage periods <span style="color:#e5484d;">*</span></span>
+            <span style="color:#9096a0;"> · type each raise date (start); ends are derived</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:11px;font-size:13px;color:#8d939c;">
+            <span>Periods</span>
+            <span style="border:1px solid #e3e6ea;border-radius:7px;padding:4px 14px;color:#191c22;font-weight:600;font-size:14px;">0</span>
+            <span>1–1</span>
+          </div>
+        </div>
+        <div style="border:1px solid #e3e6ea;border-radius:10px;overflow:hidden;">
+          <div style="display:flex;align-items:center;background:#f7f8fa;border-bottom:1px solid #eef0f2;padding:11px 16px;font-size:12px;font-weight:600;letter-spacing:0.04em;color:#9096a0;">
+            <span style="width:44px;">#</span>
+            <span style="flex:1;">START · RAISE DATE</span>
+            <span style="flex:1;">END · derived</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px;padding:14px 16px;">
+            <button style="border:1px solid #e3e6ea;border-radius:8px;padding:9px 15px;display:flex;align-items:center;gap:8px;font-size:14px;color:#3a404a;background:#fff;cursor:pointer;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2.5v9M2.5 7h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Add period
+            </button>
+            <span style="color:#9096a0;font-size:14px;">Set an effective start date first.</span>
+          </div>
+        </div>
+        <div style="font-size:13.5px;color:#8d939c;margin-top:10px;line-height:1.5;">Period 1 starts on the Effective start; the final period ends on Expires. Each end fills to the next start – 1 day — gap-free. You type only the interior raise dates.</div>
+      </div>
+
+      <h2 style="font-size:18px;font-weight:700;color:#191c22;letter-spacing:-0.01em;margin:44px 0 6px;display:flex;align-items:center;gap:4px;">Documents <span style="color:#e5484d;">*</span></h2>
+      <p style="margin:0 0 16px;font-size:14px;color:#8d939c;line-height:1.55;max-width:580px;">Attach the source PDFs and mark what each contains. They'll appear on the agreement's Documents tab and on each covered local.</p>
+
+      <div onDragEnter="{{ onDragEnter }}" onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="position:relative;">
+
+        <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ true }}">
+        <div style="border:1px solid {{ listBorder }};border-radius:12px;background:#fff;transition:border-color .15s ease;">
+          <sc-for list="{{ files }}" as="f" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:14px;padding:13px 16px 13px 13px;border-bottom:1px solid #eef0f2;border-left:3px solid {{ f.leftColor }};background:{{ f.rowBg }};position:relative;">
+            <svg width="30" height="36" viewBox="0 0 30 36" fill="none" style="flex:none;"><path d="M4.5 1.5H17.2L26 10.3V32a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 2 32V4a2.5 2.5 0 0 1 2.5-2.5Z" fill="#fff" stroke="#dfe3e8" stroke-width="1.4"/><path d="M17.2 1.8V8.5a2 2 0 0 0 2 2H25.6" stroke="#dfe3e8" stroke-width="1.4" fill="none"/><rect x="4.5" y="19" width="21" height="10.6" rx="2" fill="#e5484d"/><text x="15" y="26.8" font-family="Inter, sans-serif" font-size="7.2" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="0.3">PDF</text></svg>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:9px;">
+                <span style="font-size:14.5px;font-weight:600;color:#191c22;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ f.filename }}</span>
+                <sc-if value="{{ f.needsTag }}" hint-placeholder-val="{{ false }}"><span style="flex:none;display:inline-flex;align-items:center;background:#fbe6c4;color:#97650a;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;">needs tagging</span></sc-if>
+              </div>
+              <input value="{{ f.label }}" onChange="{{ f.onLabel }}" placeholder="Label…" style="margin-top:7px;border:1px solid #e3e6ea;border-radius:7px;padding:5px 10px;font-size:12.5px;color:#3a404a;width:230px;max-width:100%;background:#fff;">
+            </div>
+            <div data-menuwrap="1" style="position:relative;flex:none;">
+              <div onClick="{{ f.onToggle }}" style="display:flex;align-items:center;gap:9px;border:1px solid {{ f.pillBorder }};border-radius:9px;padding:7px 12px;font-size:13px;white-space:nowrap;background:{{ f.pillBg }};color:{{ f.pillColor }};cursor:pointer;">
+                <span style="font-weight:500;">{{ f.controlText }}</span>
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3.5 5.5L7 9l3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <sc-if value="{{ f.menuOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:calc(100% + 6px);right:0;width:250px;background:#fff;border:1px solid #e3e6ea;border-radius:11px;box-shadow:0 12px 34px rgba(17,23,41,0.15);padding:6px;z-index:40;">
+                <div onClick="{{ f.togContract }}" style="display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px;font-size:14px;color:#2f3640;cursor:pointer;" style-hover="background:#f6f7f9;">
+                  <span style="width:16px;height:16px;border:1.5px solid {{ f.bcBorder }};background:{{ f.bcBg }};border-radius:4px;flex:none;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ f.contract }}" hint-placeholder-val="{{ false }}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2L5 8.5 9.5 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if></span>Contract
+                </div>
+                <div onClick="{{ f.togWages }}" style="display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px;font-size:14px;color:#2f3640;cursor:pointer;" style-hover="background:#f6f7f9;">
+                  <span style="width:16px;height:16px;border:1.5px solid {{ f.bwBorder }};background:{{ f.bwBg }};border-radius:4px;flex:none;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ f.wages }}" hint-placeholder-val="{{ false }}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2L5 8.5 9.5 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if></span>Wages
+                </div>
+                <div onClick="{{ f.togBenefits }}" style="display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px;font-size:14px;color:#2f3640;cursor:pointer;" style-hover="background:#f6f7f9;">
+                  <span style="width:16px;height:16px;border:1.5px solid {{ f.bbBorder }};background:{{ f.bbBg }};border-radius:4px;flex:none;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ f.benefits }}" hint-placeholder-val="{{ false }}"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2L5 8.5 9.5 3.5" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></sc-if></span>Benefits
+                </div>
+                <div style="height:1px;background:#eef0f2;margin:5px 6px;"></div>
+                <div onClick="{{ f.setSupp }}" style="display:flex;align-items:flex-start;gap:11px;padding:9px 10px;border-radius:8px;cursor:pointer;" style-hover="background:#f6f7f9;">
+                  <span style="width:16px;height:16px;border:1.5px solid {{ f.rBorder }};border-radius:50%;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;"><sc-if value="{{ f.supporting }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:50%;background:#101728;"></span></sc-if></span>
+                  <div><div style="font-size:14px;color:#2f3640;">Supporting document</div><div style="font-size:12px;color:#9096a0;margin-top:2px;">selecting clears the others</div></div>
+                </div>
+              </div>
+              </sc-if>
+            </div>
+            <button onClick="{{ f.onRemove }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border:none;background:transparent;color:#b6bbc2;cursor:pointer;border-radius:7px;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+          </div>
+          </sc-for>
+          <div onClick="{{ onAdd }}" style="display:flex;align-items:center;gap:6px;padding:15px 16px;font-size:14px;cursor:pointer;border-bottom-left-radius:12px;border-bottom-right-radius:12px;" style-hover="background:#fafbfc;">
+            <span style="color:#4b5563;font-weight:500;">+ Add document</span>
+            <span style="color:#9aa0a8;">— or drag files anywhere onto this list</span>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ onAdd }}" style="border:2px dashed {{ dropBorder }};border-radius:12px;padding:46px 24px;text-align:center;background:#fbfcfd;cursor:pointer;transition:border-color .15s ease;">
+          <div style="font-size:16px;font-weight:600;color:#3a404a;display:flex;align-items:center;justify-content:center;gap:9px;">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 13V4M6.5 7L10 3.5 13.5 7M4 14.5v1A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5v-1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Drag PDFs here, or click to upload
+          </div>
+          <div style="font-size:13.5px;color:#9096a0;margin-top:9px;">You can drop several at once — you'll tag each file after it uploads</div>
+        </div>
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ covAmber }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:14px;background:#fdf4e3;border:1px solid #f3d9a6;border-radius:10px;padding:13px 16px;font-size:13.5px;color:#9a6207;line-height:1.55;">{{ coverageText }}</div>
+      </sc-if>
+      <sc-if value="{{ covGreen }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:14px;background:#e9f9ef;border:1px solid #b7e6c8;border-radius:10px;padding:13px 16px;font-size:13.5px;color:#0f7a43;line-height:1.55;">{{ coverageText }}</div>
+      </sc-if>
+      <sc-if value="{{ covNeutral }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:14px;background:#f4f5f7;border:1px solid #e6e8ec;border-radius:10px;padding:13px 16px;font-size:13.5px;color:#8d939c;line-height:1.55;">{{ coverageText }}</div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:50%;bottom:98px;transform:translateX(-50%);background:#101728;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;font-weight:500;box-shadow:0 12px 34px rgba(17,23,41,0.28);z-index:100;">Setup saved — continuing to Classifications…</div>
+  </sc-if>
+
+  <div style="border-top:1px solid #ededf0;background:#fff;padding:20px 48px;display:flex;justify-content:flex-end;align-items:center;">
+    <sc-if value="{{ cannotContinue }}" hint-placeholder-val="{{ true }}">
+    <button disabled style="display:flex;align-items:center;gap:9px;background:#f8d3b8;background:color-mix(in srgb, var(--accent,#ee6b2d) 34%, #ffffff);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:not-allowed;">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+    <sc-if value="{{ canContinue }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ onContinue }}" style="display:flex;align-items:center;gap:9px;background:var(--accent,#ee6b2d);color:#fff;border:none;border-radius:10px;padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(238,107,45,0.35);" style-hover="filter:brightness(0.96);">Continue <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8h10M9 4.5L12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </sc-if>
+  </div>
+
+  <div onClick="{{ toggleNotes }}" style="position:fixed;left:24px;bottom:24px;z-index:130;display:flex;align-items:center;gap:8px;background:#101728;color:#fff;padding:10px 16px;border-radius:22px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(17,23,41,0.28);" style-hover="background:#1c2740;">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.6" stroke="currentColor" stroke-width="1.4"/><path d="M8 7.1v4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="currentColor"/></svg>
+    Dev notes
+  </div>
+
+  <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:24px;bottom:76px;z-index:130;width:400px;max-width:calc(100vw - 48px);max-height:76vh;display:flex;flex-direction:column;background:#fff;border:1px solid #e3e6ea;border-radius:14px;box-shadow:0 22px 64px rgba(17,23,41,0.26);overflow:hidden;">
+    <div style="padding:16px 18px 13px;border-bottom:1px solid #eef0f2;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex:none;">
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#191c22;">Developer notes</div>
+        <div style="font-size:12.5px;color:#8d939c;margin-top:2px;">Documents section — behavior spec</div>
+      </div>
+      <div onClick="{{ toggleNotes }}" style="flex:none;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:7px;cursor:pointer;color:#9096a0;" style-hover="background:#f2f3f5;color:#6b7280;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>
+    <div style="padding:14px 18px 18px;overflow-y:auto;">
+
+      <div style="display:inline-flex;align-items:center;background:#fdf4e3;color:#9a6207;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">Prototype annotation — not part of the product UI</div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">LABEL FIELD — OPTIONAL</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Display-only name shown on the agreement's Documents tab and on each covered local. Empty is valid — fall back to the filename. It never affects whether Continue is enabled.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">DEFAULT STATE OF A NEW FILE</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Every freshly uploaded file enters as <b style="color:#191c22;font-weight:600;">needs tagging</b> — amber row, "needs tagging" pill, control reads <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">What's in this file? ▾</span>. The system never auto-classifies a file.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">TAG CONTROL</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;"><b style="color:#191c22;font-weight:600;">Contract / Wages / Benefits</b> are multi-select checkboxes. <b style="color:#191c22;font-weight:600;">Supporting document</b> is an exclusive radio: choosing it clears the three content tags, and choosing any content tag clears Supporting. The closed control always lists the chosen tags as text — e.g. <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">Contract · Benefits ▾</span> — never a count like "2 selected".</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">COVERAGE BAR · recomputes live</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;margin-bottom:9px;">Sits directly below the list. Three tones:</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="font-size:12.5px;color:#4b5563;line-height:1.55;"><span style="display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:5px;margin-right:6px;background:#eef0f2;color:#6b7280;">GRAY</span>list empty — <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">Coverage: Contract — · Wages — · Benefits — · upload the agreement paperwork to continue</span></div>
+          <div style="font-size:12.5px;color:#4b5563;line-height:1.55;"><span style="display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:5px;margin-right:6px;background:#fdf4e3;color:#9a6207;">AMBER</span>any file untagged, or a content type uncovered — shows ✓/— per type plus the blocker, e.g. <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">… · 1 file needs tagging — tell us what Scan_04-22.pdf contains to continue.</span></div>
+          <div style="font-size:12.5px;color:#4b5563;line-height:1.55;"><span style="display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:5px;margin-right:6px;background:#e9f9ef;color:#0f7a43;">GREEN</span>all files tagged and all three types covered — <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">… — all files tagged; ready to continue.</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">CONTINUE BUTTON</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">Enabled only when there is at least one file, no file is untagged, and Contract + Wages + Benefits are each covered by ≥1 file. <b style="color:#191c22;font-weight:600;">Label values are not part of this check.</b></div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">EMPTY LIST</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">The whole section collapses to one dashed dropzone: <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">⬆ Drag PDFs here, or click to upload</span> with the sub-line <span style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;background:#f4f5f7;color:#374151;padding:1px 5px;border-radius:4px;">You can drop several at once — you'll tag each file after it uploads</span>.</div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.05em;color:#ee6b2d;margin-bottom:5px;">UPLOAD ENTRY POINTS</div>
+        <div style="font-size:13px;color:#4b5563;line-height:1.6;">"+ Add document", clicking the dropzone, or dragging files anywhere onto the list. All new files arrive as needs tagging.</div>
+      </div>
+
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;docState&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Example (1 untagged)&quot;,&quot;options&quot;:[&quot;Example (1 untagged)&quot;,&quot;All tagged&quot;,&quot;Empty (dropzone)&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Start scenario&quot;},
+  &quot;accent&quot;: {&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#ee6b2d&quot;,&quot;options&quot;:[&quot;#ee6b2d&quot;,&quot;#f0651f&quot;,&quot;#d9480f&quot;,&quot;#e8590c&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}
+}">
+class Component extends DCLogic {
+  rootRef = React.createRef();
+  _pool = ['Scan_04-22.pdf','Local_302_Rates.pdf','MOU_Side_Letter.pdf','Benefits_Trust_2025.pdf','Ratification_Vote.pdf'];
+  _poolI = 0;
+  _dc = 0;
+  state = { files: this.seed(this.props.docState), openRow: null, dragging: false, toast: false, notesOpen: false };
+
+  seed(docState){
+    var st = docState || 'Example (1 untagged)';
+    if (st === 'Empty (dropzone)') return [];
+    var base = [
+      {id:'f1',filename:'1002_Agreement_2025.pdf',label:'Union contract',contract:true,wages:false,benefits:true,supporting:false},
+      {id:'f2',filename:'1002_OutsideLine_Wages.pdf',label:'Outside Line wage sheet',contract:false,wages:true,benefits:false,supporting:false},
+      {id:'f3',filename:'1002_Transmission_Wages.pdf',label:'Transmission wage sheet',contract:false,wages:true,benefits:false,supporting:false},
+      {id:'f4',filename:'Signature_page_scan.pdf',label:'Signed signature page',contract:false,wages:false,benefits:false,supporting:true}
+    ];
+    if (st === 'All tagged') base.push({id:'f5',filename:'Scan_04-22.pdf',label:'Signed amendment',contract:false,wages:false,benefits:false,supporting:true});
+    else base.push({id:'f5',filename:'Scan_04-22.pdf',label:'',contract:false,wages:false,benefits:false,supporting:false});
+    return base;
+  }
+
+  componentDidMount(){ this.applyAccent(); document.addEventListener('mousedown', this._onDocDown); }
+  componentWillUnmount(){ document.removeEventListener('mousedown', this._onDocDown); }
+  componentDidUpdate(prev){
+    this.applyAccent();
+    if (prev.docState !== this.props.docState) this.setState({ files: this.seed(this.props.docState), openRow: null });
+  }
+  applyAccent(){ var el = this.rootRef.current; if (el) el.style.setProperty('--accent', this.props.accent || '#ee6b2d'); }
+
+  _onDocDown = (e) => {
+    if (this.state.openRow && e.target && e.target.closest && !e.target.closest('[data-menuwrap]')) this.setState({ openRow: null });
+  };
+
+  update(id, fn){ this.setState(s => ({ files: s.files.map(f => f.id === id ? fn(Object.assign({}, f)) : f) })); }
+  toggleTag(id, key){ this.update(id, f => { f[key] = !f[key]; if (f[key]) f.supporting = false; return f; }); }
+  setSupporting(id){ this.update(id, f => { f.supporting = true; f.contract = false; f.wages = false; f.benefits = false; return f; }); }
+  setLabel(id, v){ this.update(id, f => { f.label = v; return f; }); }
+  removeRow(id){ this.setState(s => ({ files: s.files.filter(f => f.id !== id), openRow: s.openRow === id ? null : s.openRow })); }
+  toggleMenu(id){ this.setState(s => ({ openRow: s.openRow === id ? null : id })); }
+  nextName(){ var n = this._pool[this._poolI % this._pool.length]; this._poolI++; return n; }
+  addFiles(names){
+    var self = this;
+    this.setState(s => {
+      var list = (names && names.length ? names : [self.nextName()]).map(function(n, i){
+        return { id: 'u' + Date.now() + '_' + i, filename: n, label: '', contract: false, wages: false, benefits: false, supporting: false };
+      });
+      return { files: s.files.concat(list) };
+    });
+  }
+
+  onAdd = () => { this.addFiles(null); };
+  onDragEnter = (e) => { e.preventDefault(); this._dc++; if (this._dc === 1) this.setState({ dragging: true }); };
+  onDragOver = (e) => { e.preventDefault(); };
+  onDragLeave = (e) => { e.preventDefault(); this._dc = Math.max(0, this._dc - 1); if (this._dc === 0) this.setState({ dragging: false }); };
+  onDrop = (e) => {
+    e.preventDefault(); this._dc = 0;
+    var names = [];
+    if (e.dataTransfer && e.dataTransfer.files) for (var i = 0; i < e.dataTransfer.files.length; i++) names.push(e.dataTransfer.files[i].name);
+    this.setState({ dragging: false });
+    this.addFiles(names.length ? names : null);
+  };
+  onContinue = () => { var self = this; this.setState({ toast: true }); setTimeout(function(){ self.setState({ toast: false }); }, 2400); };
+  toggleNotes = () => { this.setState(s => ({ notesOpen: !s.notesOpen })); };
+
+  renderVals(){
+    var self = this;
+    var files = this.state.files;
+    var ON = '#101728', OFF = '#c4c8ce';
+    var vms = files.map(function(f){
+      var tagged = f.supporting || f.contract || f.wages || f.benefits;
+      var needsTag = !tagged;
+      var text = needsTag ? "What's in this file?" : (f.supporting ? 'Supporting document'
+        : [f.contract && 'Contract', f.wages && 'Wages', f.benefits && 'Benefits'].filter(Boolean).join(' · '));
+      return {
+        id: f.id, filename: f.filename, label: f.label, needsTag: needsTag, controlText: text,
+        pillBorder: needsTag ? '#eab765' : '#dfe3e8',
+        pillBg: needsTag ? '#fffaf0' : '#ffffff',
+        pillColor: needsTag ? '#b4740c' : (f.supporting ? '#9096a0' : '#3f4652'),
+        leftColor: needsTag ? '#eda52f' : 'transparent',
+        rowBg: needsTag ? '#fdf4e3' : '#ffffff',
+        menuOpen: self.state.openRow === f.id,
+        contract: f.contract, wages: f.wages, benefits: f.benefits, supporting: f.supporting,
+        bcBorder: f.contract ? ON : OFF, bcBg: f.contract ? ON : 'transparent',
+        bwBorder: f.wages ? ON : OFF, bwBg: f.wages ? ON : 'transparent',
+        bbBorder: f.benefits ? ON : OFF, bbBg: f.benefits ? ON : 'transparent',
+        rBorder: f.supporting ? ON : OFF,
+        onLabel: function(e){ self.setLabel(f.id, e.target.value); },
+        onToggle: function(){ self.toggleMenu(f.id); },
+        onRemove: function(){ self.removeRow(f.id); },
+        togContract: function(){ self.toggleTag(f.id, 'contract'); },
+        togWages: function(){ self.toggleTag(f.id, 'wages'); },
+        togBenefits: function(){ self.toggleTag(f.id, 'benefits'); },
+        setSupp: function(){ self.setSupporting(f.id); }
+      };
+    });
+
+    var contractCov = files.some(function(f){ return f.contract; });
+    var wagesCov = files.some(function(f){ return f.wages; });
+    var benefitsCov = files.some(function(f){ return f.benefits; });
+    var untagged = files.filter(function(f){ return !(f.supporting || f.contract || f.wages || f.benefits); });
+    var hasFiles = files.length > 0;
+    var allCovered = contractCov && wagesCov && benefitsCov;
+    var canContinue = hasFiles && untagged.length === 0 && allCovered;
+    var mark = function(x){ return x ? '✓' : '—'; };
+    var prefix = 'Coverage: Contract ' + mark(contractCov) + ' · Wages ' + mark(wagesCov) + ' · Benefits ' + mark(benefitsCov);
+
+    var tone, text;
+    if (!hasFiles){ tone = 'neutral'; text = 'Coverage: Contract — · Wages — · Benefits — · upload the agreement paperwork to continue'; }
+    else if (untagged.length > 0){
+      tone = 'amber';
+      text = untagged.length === 1
+        ? prefix + ' · 1 file needs tagging — tell us what ' + untagged[0].filename + ' contains to continue.'
+        : prefix + ' · ' + untagged.length + ' files need tagging — tell us what each contains to continue.';
+    } else if (!allCovered){
+      tone = 'amber';
+      var miss = [!contractCov && 'Contract', !wagesCov && 'Wages', !benefitsCov && 'Benefits'].filter(Boolean).join(' & ');
+      text = prefix + ' · no document covers ' + miss + ' yet — add or tag one to continue.';
+    } else { tone = 'green'; text = prefix + ' — all files tagged; ready to continue.'; }
+
+    return {
+      rootRef: this.rootRef,
+      files: vms,
+      hasFiles: hasFiles,
+      isEmpty: !hasFiles,
+      listBorder: this.state.dragging ? (this.props.accent || '#ee6b2d') : '#e3e6ea',
+      dropBorder: this.state.dragging ? (this.props.accent || '#ee6b2d') : '#d3d7dd',
+      coverageText: text,
+      covAmber: tone === 'amber', covGreen: tone === 'green', covNeutral: tone === 'neutral',
+      canContinue: canContinue, cannotContinue: !canContinue,
+      toast: this.state.toast,
+      onAdd: this.onAdd, onDragEnter: this.onDragEnter, onDragOver: this.onDragOver, onDragLeave: this.onDragLeave, onDrop: this.onDrop,
+      onContinue: this.onContinue,
+      notesOpen: this.state.notesOpen, toggleNotes: this.toggleNotes
+    };
+  }
+}
+</script>
+</body>
+</html>
