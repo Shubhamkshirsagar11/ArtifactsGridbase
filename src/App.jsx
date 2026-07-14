@@ -63,7 +63,7 @@ const PAGES = [
 ]
 
 function App() {
-  const [activePage, setActivePage] = useState('agreement-wizard-redesign')
+  const [activePage, setActivePage] = useState('invoicing-tab')
   const ActiveComponent = PAGES.find(p => p.key === activePage)?.component
 
   return (
